@@ -111,7 +111,7 @@ class BroadcastReceiverService : Service() {
 
 		// Build notification
 		return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-			.setContentTitle(getString(R.string.notification_service_running))
+			.setContentTitle(getString(R.string.message_notification_service_running))
 			.setCategory(Notification.CATEGORY_SERVICE)
 			.setSmallIcon(R.drawable.ic_launcher_foreground)
 			.setContentIntent(pendingIntent)
@@ -122,7 +122,7 @@ class BroadcastReceiverService : Service() {
 	private fun createNotificationChannel() {
 		val serviceChannel = NotificationChannel(
 			"ForegroundServiceChannel",
-			getString(R.string.notification_channel_service),
+			getString(R.string.title_notification_channel_service),
 			NotificationManager.IMPORTANCE_DEFAULT,
 
 			)
