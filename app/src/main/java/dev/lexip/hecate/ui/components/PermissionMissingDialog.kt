@@ -29,7 +29,6 @@ fun PermissionMissingDialog(
 	show: Boolean,
 	adbCommand: String,
 	onCopy: (String) -> Unit,
-	onCloseApp: () -> Unit,
 	onDismiss: () -> Unit
 ) {
 	if (!show) return
@@ -60,8 +59,8 @@ fun PermissionMissingDialog(
 			}
 		},
 		dismissButton = {
-			TextButton(onClick = onCloseApp) {
-				Text(text = stringResource(id = R.string.action_close_app))
+			TextButton(onClick = onDismiss) {
+				Text(text = stringResource(id = R.string.action_close))
 			}
 		}
 	)
