@@ -33,8 +33,10 @@ android {
 		sourceCompatibility = VERSION_23
 		targetCompatibility = VERSION_23
 	}
-	kotlinOptions {
-		jvmTarget = "23"
+	kotlin {
+		compilerOptions {
+			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_23)
+		}
 	}
 	buildFeatures {
 		compose = true
@@ -65,6 +67,7 @@ dependencies {
 	implementation(libs.androidx.ui.tooling.preview)
 	implementation(libs.material)
 	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.material.icons.extended)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
