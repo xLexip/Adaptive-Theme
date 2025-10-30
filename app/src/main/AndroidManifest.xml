@@ -19,6 +19,7 @@
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 
 	<application
 		android:name="dev.lexip.hecate.HecateApplication"

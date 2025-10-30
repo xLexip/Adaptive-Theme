@@ -12,6 +12,7 @@
 
 package dev.lexip.hecate.ui
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -31,13 +32,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.SwitchPreferenceCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 
@@ -45,11 +52,19 @@ import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 @Composable
 fun AdaptiveThemeScreen(
 	uiState: AdaptiveThemeUiState,
-	updateAdaptiveThemeEnabled: (Boolean) -> Unit
+	updateAdaptiveThemeEnabled: (Boolean) -> Unit,
+	hasWriteSecureSettingsPermission: Boolean,
+	copyAdbCommand: (String) -> Unit
 ) {
 	val scrollBehavior =
 		TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 	val horizontalOffsetPadding = 8.dp
+	var showMissingPermissionDialog by remember { mutableStateOf(false) }
+	var pendingAdbCommand by remember { mutableStateOf("") }
+
+	val context = LocalContext.current
+	val packageName = context.packageName
+
 	Scaffold(
 		modifier = Modifier
 			.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -90,9 +105,32 @@ fun AdaptiveThemeScreen(
 					id = R.string.action_use_adaptive_theme
 				),
 				isChecked = uiState.adaptiveThemeEnabled,
-				onCheckedChange = { checked -> updateAdaptiveThemeEnabled(checked) }
+				onCheckedChange = { checked ->
+					if (checked && !hasWriteSecureSettingsPermission) {
+			)
+						pendingAdbCommand =
+							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
+						showMissingPermissionDialog = true
+					} else {
+						updateAdaptiveThemeEnabled(checked)
+					}
+				}
 
 			)
 		}
 	}
+
+	PermissionMissingDialog(
+		show = showMissingPermissionDialog,
+		adbCommand = pendingAdbCommand,
+		onCopy = { cmd ->
+			copyAdbCommand(cmd)
+			// keep dialog open
+		},
+		onCloseApp = {
+			val activity = (context as? Activity)
+			activity?.finishAffinity()
+		},
+		onDismiss = { showMissingPermissionDialog = false }
+	)
 }
