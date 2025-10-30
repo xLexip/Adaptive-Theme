@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
 			)
 			val state by adaptiveThemeViewModel.uiState.collectAsState()
 
-			val hasPermission = hasWriteSecureSettingsPermission()
 			val copyAdbCommand: (String) -> Unit =
 				{ adbCommand -> copyToClipboard("ADB Command", adbCommand) }
 
@@ -56,7 +55,6 @@ class MainActivity : ComponentActivity() {
 				AdaptiveThemeScreen(
 					state,
 					adaptiveThemeViewModel::updateAdaptiveThemeEnabled,
-					hasPermission,
 					copyAdbCommand
 				)
 			}

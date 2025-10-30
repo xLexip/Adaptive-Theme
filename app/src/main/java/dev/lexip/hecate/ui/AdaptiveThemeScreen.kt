@@ -12,7 +12,8 @@
 
 package dev.lexip.hecate.ui
 
-import android.app.Activity
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -45,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.SwitchPreferenceCard
@@ -55,7 +57,6 @@ import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 fun AdaptiveThemeScreen(
 	uiState: AdaptiveThemeUiState,
 	updateAdaptiveThemeEnabled: (Boolean) -> Unit,
-	hasWriteSecureSettingsPermission: Boolean,
 	copyAdbCommand: (String) -> Unit
 ) {
 	val scrollBehavior =
@@ -109,7 +110,13 @@ fun AdaptiveThemeScreen(
 				),
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
-					if (checked && !hasWriteSecureSettingsPermission) {
+					// Re-check the permission at the moment the user toggles the switch.
+					val currentHasPermission = ContextCompat.checkSelfPermission(
+						context,
+						Manifest.permission.WRITE_SECURE_SETTINGS
+					) == PackageManager.PERMISSION_GRANTED
+
+					if (checked && !currentHasPermission) {
 						pendingAdbCommand =
 							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 						showMissingPermissionDialog = true
@@ -133,10 +140,6 @@ fun AdaptiveThemeScreen(
 		onCopy = { cmd ->
 			copyAdbCommand(cmd)
 			// keep dialog open
-		},
-		onCloseApp = {
-			val activity = (context as? Activity)
-			activity?.finishAffinity()
 		},
 		onDismiss = { showMissingPermissionDialog = false }
 	)
