@@ -8,6 +8,9 @@
 	"develop"
   ],
   "dependencyDashboard": true,
+  "labels": [
+	"renovate"
+  ],
   "packageRules": [
 	{
 	  "groupName": "Patched Dependencies",
