@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 xLexip <https://lexip.dev>
+ * Copyright (C) 2024-2025 xLexip <https://lexip.dev>
  *
  * Licensed under the GNU General Public License, Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,16 @@
 package dev.lexip.hecate.ui.theme
 
 import android.content.Context
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
@@ -29,8 +32,12 @@ fun HecateTheme(
 	context: Context = LocalContext.current,
 	content: @Composable () -> Unit
 ) {
-	val colorScheme =
-		if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+	val colorScheme = when {
+		Build.VERSION.SDK_INT >= 31 && darkTheme -> dynamicDarkColorScheme(context)
+		Build.VERSION.SDK_INT >= 31 -> dynamicLightColorScheme(context)
+		darkTheme -> darkColorScheme()
+		else -> lightColorScheme()
+	}
 
 	MaterialTheme(
 		colorScheme = colorScheme,
@@ -40,7 +47,7 @@ fun HecateTheme(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun hecateTopAppBarColors(): TopAppBarColors = TopAppBarDefaults.largeTopAppBarColors(
+fun hecateTopAppBarColors(): TopAppBarColors = TopAppBarDefaults.topAppBarColors(
 	// This represents the top app bar style of the android system settings app in Android 15.
 	containerColor = MaterialTheme.colorScheme.surfaceContainer,
 	scrolledContainerColor = MaterialTheme.colorScheme.surfaceVariant,

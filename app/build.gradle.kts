@@ -12,7 +12,7 @@ android {
 
 	defaultConfig {
 		applicationId = "dev.lexip.hecate"
-		minSdk = 31
+		minSdk = 29
 		targetSdk = 36
 		versionCode = 1
 		versionName = "0.1.0"
@@ -33,8 +33,10 @@ android {
 		sourceCompatibility = VERSION_23
 		targetCompatibility = VERSION_23
 	}
-	kotlinOptions {
-		jvmTarget = "23"
+	kotlin {
+		compilerOptions {
+			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_23)
+		}
 	}
 	buildFeatures {
 		compose = true
@@ -65,6 +67,8 @@ dependencies {
 	implementation(libs.androidx.ui.tooling.preview)
 	implementation(libs.material)
 	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.material)
+	implementation("androidx.compose.material:material-icons-extended")
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
