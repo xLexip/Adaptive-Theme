@@ -1,8 +1,16 @@
 <resources>
 	<string name="app_name">Adaptive theme</string>
+
+	<string name="action_close_app">Close App</string>
+	<string name="action_copy_adb_command">Copy ADB Command</string>
 	<string name="action_disable_notification">Disable notification</string>
 	<string name="action_use_adaptive_theme">Use adaptive theme</string>
-	<string name="description_adaptive_theme">Adaptive Theme automatically adjusts the device theme based on ambient brightness.\nIt enhances visibility in bright conditions while optimizing battery life.</string>
-	<string name="notification_channel_service">Background Activity</string>
-	<string name="notification_service_running">Adaptive theme is active</string>
+
+	<string name="description_adaptive_theme">Adaptive Theme automatically adjusts the device theme based on ambient brightness.\nIt enhances visibility in bright conditions while optimizing battery life in darker ones.</string>
+	<string name="description_missing_secure_settings_permission">This app needs the WRITE_SECURE_SETTINGS permission to modify the device theme. It is a system-level permission that cannot be granted from app settings.\n\nTo grant it you can run the following ADB command from a computer connected to your device:\n\n%1$s</string>
+
+	<string name="message_notification_service_running">Adaptive theme is active</string>
+
+	<string name="title_missing_permission">Missing permission</string>
+	<string name="title_notification_channel_service">Background Activity</string>
 </resources>
