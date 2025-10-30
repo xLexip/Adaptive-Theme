@@ -37,8 +37,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -64,6 +66,7 @@ fun AdaptiveThemeScreen(
 
 	val context = LocalContext.current
 	val packageName = context.packageName
+	val haptic = LocalHapticFeedback.current
 
 	Scaffold(
 		modifier = Modifier
@@ -107,11 +110,15 @@ fun AdaptiveThemeScreen(
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
 					if (checked && !hasWriteSecureSettingsPermission) {
-			)
 						pendingAdbCommand =
 							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 						showMissingPermissionDialog = true
 					} else {
+						val hapticType =
+							if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+						if (!showMissingPermissionDialog) {
+							haptic.performHapticFeedback(hapticType)
+						}
 						updateAdaptiveThemeEnabled(checked)
 					}
 				}
