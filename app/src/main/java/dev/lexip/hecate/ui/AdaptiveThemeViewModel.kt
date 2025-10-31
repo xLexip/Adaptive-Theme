@@ -51,7 +51,6 @@ class AdaptiveThemeViewModel(
 	}
 
 	fun updateAdaptiveThemeEnabled(enable: Boolean) {
-		// TODO #30: Check for android.permission.WRITE_SECURE_SETTINGS
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) startBroadcastReceiverService() else stopBroadcastReceiverService()
@@ -68,7 +67,7 @@ class AdaptiveThemeViewModel(
 		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
 		application.applicationContext.stopService(intent)
 	}
-	
+
 	private suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
 		userPreferencesRepository.updateAdaptiveThemeThresholdLux(lux)
 	}
