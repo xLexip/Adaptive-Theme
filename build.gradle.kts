@@ -4,6 +4,8 @@ plugins {
 	alias(libs.plugins.kotlin.android) apply false
 	alias(libs.plugins.kotlin.compose) apply false
 	id("org.sonarqube") version "7.0.1.6134"
+	id("com.google.gms.google-services") version "4.4.4" apply false
+	alias(libs.plugins.google.firebase.crashlytics) apply false
 }
 
 sonar {
