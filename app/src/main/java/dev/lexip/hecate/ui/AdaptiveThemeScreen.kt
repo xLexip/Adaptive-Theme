@@ -105,31 +105,24 @@ fun AdaptiveThemeScreen(
 				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp)
 			)
 			SwitchPreferenceCard(
-				text = stringResource(
-					id = R.string.action_use_adaptive_theme
-				),
+				text = stringResource(id = R.string.action_use_adaptive_theme),
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
-					// Re-check the permission at the moment the user toggles the switch.
-					val currentHasPermission = ContextCompat.checkSelfPermission(
-						context,
-						Manifest.permission.WRITE_SECURE_SETTINGS
+					val hasPermission = ContextCompat.checkSelfPermission(
+						context, Manifest.permission.WRITE_SECURE_SETTINGS
 					) == PackageManager.PERMISSION_GRANTED
 
-					if (checked && !currentHasPermission) {
+					if (checked && !hasPermission) {
 						pendingAdbCommand =
 							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 						showMissingPermissionDialog = true
-					} else {
-						val hapticType =
+					} else if (!showMissingPermissionDialog) {
+						haptic.performHapticFeedback(
 							if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
-						if (!showMissingPermissionDialog) {
-							haptic.performHapticFeedback(hapticType)
-						}
+						)
 						updateAdaptiveThemeEnabled(checked)
 					}
 				}
-
 			)
 		}
 	}
