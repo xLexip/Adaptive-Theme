@@ -12,6 +12,8 @@
 
 package dev.lexip.hecate.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -31,13 +33,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.SwitchPreferenceCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 
@@ -45,11 +56,19 @@ import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 @Composable
 fun AdaptiveThemeScreen(
 	uiState: AdaptiveThemeUiState,
-	updateAdaptiveThemeEnabled: (Boolean) -> Unit
+	updateAdaptiveThemeEnabled: (Boolean) -> Unit,
+	copyAdbCommand: (String) -> Unit
 ) {
 	val scrollBehavior =
 		TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 	val horizontalOffsetPadding = 8.dp
+	var showMissingPermissionDialog by remember { mutableStateOf(false) }
+	var pendingAdbCommand by remember { mutableStateOf("") }
+
+	val context = LocalContext.current
+	val packageName = context.packageName
+	val haptic = LocalHapticFeedback.current
+
 	Scaffold(
 		modifier = Modifier
 			.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -86,13 +105,35 @@ fun AdaptiveThemeScreen(
 				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp)
 			)
 			SwitchPreferenceCard(
-				text = stringResource(
-					id = R.string.action_use_adaptive_theme
-				),
+				text = stringResource(id = R.string.action_use_adaptive_theme),
 				isChecked = uiState.adaptiveThemeEnabled,
-				onCheckedChange = { checked -> updateAdaptiveThemeEnabled(checked) }
+				onCheckedChange = { checked ->
+					val hasPermission = ContextCompat.checkSelfPermission(
+						context, Manifest.permission.WRITE_SECURE_SETTINGS
+					) == PackageManager.PERMISSION_GRANTED
 
+					if (checked && !hasPermission) {
+						pendingAdbCommand =
+							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
+						showMissingPermissionDialog = true
+					} else if (!showMissingPermissionDialog) {
+						haptic.performHapticFeedback(
+							if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+						)
+						updateAdaptiveThemeEnabled(checked)
+					}
+				}
 			)
 		}
 	}
+
+	PermissionMissingDialog(
+		show = showMissingPermissionDialog,
+		adbCommand = pendingAdbCommand,
+		onCopy = { cmd ->
+			copyAdbCommand(cmd)
+			// keep dialog open
+		},
+		onDismiss = { showMissingPermissionDialog = false }
+	)
 }
