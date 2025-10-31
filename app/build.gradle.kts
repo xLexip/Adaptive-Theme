@@ -1,9 +1,11 @@
 import org.gradle.api.JavaVersion.VERSION_23
 
 plugins {
+	id("com.google.gms.google-services")
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
+	alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -52,6 +54,9 @@ android {
 }
 
 dependencies {
+	implementation(platform(libs.firebase.bom))
+	implementation(libs.firebase.crashlytics)
+
 	implementation(libs.androidx.localbroadcastmanager)
 	implementation(libs.androidx.core.splashscreen.v100)
 	implementation(libs.androidx.activity.compose)
