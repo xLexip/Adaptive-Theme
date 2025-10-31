@@ -1,31 +1,31 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-	"config:recommended",
-	":semanticCommits"
-  ],
-  "baseBranches": [
-	"develop"
-  ],
-  "dependencyDashboard": true,
-  "labels": [
-	"renovate"
-  ],
-  "packageRules": [
-	{
-	  "groupName": "Patched Dependencies",
-	  "groupSlug": "patch-updates",
-	  "matchUpdateTypes": [
-		"patch"
-	  ]
-	},
-	{
-	  "commitMessageAction": "Apply",
-	  "groupName": "Minor Dependency Updates",
-	  "groupSlug": "minor-updates",
-	  "matchUpdateTypes": [
-		"minor"
-	  ]
-	}
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended",
+		":semanticCommits"
+	],
+	"baseBranchPatterns": [
+		"develop"
+	],
+	"dependencyDashboard": true,
+	"labels": [
+		"renovate"
+	],
+	"packageRules": [
+		{
+			"groupName": "Patched Dependencies",
+			"groupSlug": "patch-updates",
+			"matchUpdateTypes": [
+				"patch"
+			]
+		},
+		{
+			"commitMessageAction": "Apply",
+			"groupName": "Minor Dependency Updates",
+			"groupSlug": "minor-updates",
+			"matchUpdateTypes": [
+				"minor"
+			]
+		}
+	]
 }
