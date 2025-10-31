@@ -12,7 +12,6 @@
 
 package dev.lexip.hecate.ui
 
-import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Bundle
@@ -21,8 +20,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.HecateApplication
@@ -60,11 +57,6 @@ class MainActivity : ComponentActivity() {
 			}
 		}
 
-	}
-
-	private fun hasWriteSecureSettingsPermission(): Boolean {
-		val permission = Manifest.permission.WRITE_SECURE_SETTINGS
-		return ContextCompat.checkSelfPermission(this, permission) == PERMISSION_GRANTED
 	}
 
 	private fun copyToClipboard(label: String, text: String) {
