@@ -12,8 +12,6 @@
 
 package dev.lexip.hecate.ui
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,24 +43,13 @@ class MainActivity : ComponentActivity() {
 			)
 			val state by adaptiveThemeViewModel.uiState.collectAsState()
 
-			val copyAdbCommand: (String) -> Unit =
-				{ adbCommand -> copyToClipboard("ADB Command", adbCommand) }
-
 			HecateTheme {
 				AdaptiveThemeScreen(
-					state,
-					adaptiveThemeViewModel::updateAdaptiveThemeEnabled,
-					copyAdbCommand
+					state
 				)
 			}
 		}
 
-	}
-
-	private fun copyToClipboard(label: String, text: String) {
-		val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-		val clip = ClipData.newPlainText(label, text)
-		clipboard.setPrimaryClip(clip)
 	}
 
 }

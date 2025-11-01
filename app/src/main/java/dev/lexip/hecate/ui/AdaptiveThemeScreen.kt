@@ -13,6 +13,8 @@
 package dev.lexip.hecate.ui
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,10 +35,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -47,6 +48,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.SwitchPreferenceCard
@@ -55,19 +57,38 @@ import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdaptiveThemeScreen(
-	uiState: AdaptiveThemeUiState,
-	updateAdaptiveThemeEnabled: (Boolean) -> Unit,
-	copyAdbCommand: (String) -> Unit
+	uiState: AdaptiveThemeUiState
 ) {
 	val scrollBehavior =
 		TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 	val horizontalOffsetPadding = 8.dp
-	var showMissingPermissionDialog by remember { mutableStateOf(false) }
-	var pendingAdbCommand by remember { mutableStateOf("") }
 
 	val context = LocalContext.current
-	val packageName = context.packageName
 	val haptic = LocalHapticFeedback.current
+	val packageName = context.packageName
+
+	val adaptiveThemeViewModel: AdaptiveThemeViewModel = viewModel(
+		factory = AdaptiveThemeViewModelFactory(
+			context.applicationContext as dev.lexip.hecate.HecateApplication,
+			dev.lexip.hecate.data.UserPreferencesRepository((context.applicationContext as dev.lexip.hecate.HecateApplication).userPreferencesDataStore),
+			dev.lexip.hecate.util.DarkThemeHandler(context)
+		)
+	)
+
+	val showMissingPermissionDialog by adaptiveThemeViewModel.showMissingPermissionDialog.collectAsState()
+	val pendingAdbCommand by adaptiveThemeViewModel.pendingAdbCommand.collectAsState()
+
+	LaunchedEffect(adaptiveThemeViewModel) {
+		adaptiveThemeViewModel.uiEvents.collect { event ->
+			when (event) {
+				is UiEvent.CopyToClipboard -> {
+					val clipboard = context.getSystemService(ClipboardManager::class.java)
+					val clip = ClipData.newPlainText("ADB Command", event.text)
+					clipboard?.setPrimaryClip(clip)
+				}
+			}
+		}
+	}
 
 	Scaffold(
 		modifier = Modifier
@@ -112,16 +133,19 @@ fun AdaptiveThemeScreen(
 						context, Manifest.permission.WRITE_SECURE_SETTINGS
 					) == PackageManager.PERMISSION_GRANTED
 
-					if (checked && !hasPermission) {
-						pendingAdbCommand =
-							"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-						showMissingPermissionDialog = true
-					} else if (!showMissingPermissionDialog) {
-						haptic.performHapticFeedback(
-							if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
-						)
-						updateAdaptiveThemeEnabled(checked)
+					adaptiveThemeViewModel.onServiceToggleRequested(
+						checked,
+						hasPermission,
+						packageName
+					).also { wasToggled ->
+						if (wasToggled)
+							haptic.performHapticFeedback(
+								if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+							)
+						else
+							haptic.performHapticFeedback(HapticFeedbackType.Reject)
 					}
+
 				}
 			)
 		}
@@ -130,10 +154,7 @@ fun AdaptiveThemeScreen(
 	PermissionMissingDialog(
 		show = showMissingPermissionDialog,
 		adbCommand = pendingAdbCommand,
-		onCopy = { cmd ->
-			copyAdbCommand(cmd)
-			// keep dialog open
-		},
-		onDismiss = { showMissingPermissionDialog = false }
+		onCopy = { adaptiveThemeViewModel.requestCopyAdbCommand() },
+		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
 	)
 }
