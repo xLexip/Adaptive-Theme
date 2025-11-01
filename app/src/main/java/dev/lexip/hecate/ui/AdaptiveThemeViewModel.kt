@@ -20,12 +20,17 @@ import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-private const val TAG = "AdaptiveThemeViewModel"
+sealed interface UiEvent {
+	data class CopyToClipboard(val text: String) : UiEvent
+}
 
 data class AdaptiveThemeUiState(
 	val adaptiveThemeEnabled: Boolean = false
@@ -34,11 +39,28 @@ data class AdaptiveThemeUiState(
 class AdaptiveThemeViewModel(
 	private val application: HecateApplication,
 	private val userPreferencesRepository: UserPreferencesRepository,
-	private var darkThemeHandler: DarkThemeHandler
+	@Suppress("unused")
+	private var _darkThemeHandler: DarkThemeHandler
 ) : ViewModel() {
 
+	// UI state
 	private val _uiState = MutableStateFlow(AdaptiveThemeUiState())
 	val uiState: StateFlow<AdaptiveThemeUiState> = _uiState.asStateFlow()
+
+	// One-shot UI events (copy to clipboard, etc.)
+	private val _uiEvents = MutableSharedFlow<UiEvent>(
+		replay = 0,
+		extraBufferCapacity = 1,
+		onBufferOverflow = BufferOverflow.DROP_OLDEST
+	)
+	val uiEvents = _uiEvents.asSharedFlow()
+
+	// Permission error dialog
+	private val _showMissingPermissionDialog = MutableStateFlow(false)
+	val showMissingPermissionDialog: StateFlow<Boolean> = _showMissingPermissionDialog.asStateFlow()
+	private val _pendingAdbCommand = MutableStateFlow("")
+	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
+
 
 	init {
 		viewModelScope.launch {
@@ -50,7 +72,39 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
-	fun updateAdaptiveThemeEnabled(enable: Boolean) {
+	/**
+	 * Toggle adaptive theme service or show permission dialog.
+	 * @return true if service was toggled, false if permission dialog is shown.
+	 */
+	fun onServiceToggleRequested(
+		checked: Boolean,
+		hasPermission: Boolean,
+		packageName: String
+	): Boolean {
+		if (checked && !hasPermission) {
+			_pendingAdbCommand.value =
+				"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
+			_showMissingPermissionDialog.value = true
+			return false
+		} else {
+			_showMissingPermissionDialog.value = false
+			updateAdaptiveThemeEnabled(checked)
+			return true
+		}
+	}
+
+	fun dismissDialog() {
+		_showMissingPermissionDialog.value = false
+	}
+
+	fun requestCopyAdbCommand() {
+		val cmd = _pendingAdbCommand.value
+		viewModelScope.launch {
+			_uiEvents.emit(UiEvent.CopyToClipboard(cmd))
+		}
+	}
+
+	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) startBroadcastReceiverService() else stopBroadcastReceiverService()
