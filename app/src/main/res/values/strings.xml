@@ -11,6 +11,15 @@
 
 	<string name="message_notification_service_running">Adaptive theme is active</string>
 
+	<string name="title_brightness_threshold">Brightness Threshold</string>
 	<string name="title_missing_permission">Missing permission</string>
 	<string name="title_notification_channel_service">Background Activity</string>
+
+	<!-- Adaptive threshold labels -->
+	<string name="adaptive_threshold_dark_room">Dark Room</string>
+	<string name="adaptive_threshold_dim_room">Dim Room</string>
+	<string name="adaptive_threshold_indoor">Indoor</string>
+	<string name="adaptive_threshold_bright_indoor">Bright Indoor</string>
+	<string name="adaptive_threshold_daylight">Daylight</string>
+	<string name="adaptive_threshold_sunlight">Sunlight</string>
 </resources>
