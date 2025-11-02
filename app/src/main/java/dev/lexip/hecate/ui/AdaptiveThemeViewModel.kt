@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
@@ -33,7 +34,8 @@ sealed interface UiEvent {
 }
 
 data class AdaptiveThemeUiState(
-	val adaptiveThemeEnabled: Boolean = false
+	val adaptiveThemeEnabled: Boolean = false,
+	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT_INDOOR.lux
 )
 
 class AdaptiveThemeViewModel(
@@ -61,12 +63,12 @@ class AdaptiveThemeViewModel(
 	private val _pendingAdbCommand = MutableStateFlow("")
 	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
 
-
 	init {
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
 				_uiState.value = AdaptiveThemeUiState(
-					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled
+					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
+					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux
 				)
 			}
 		}
@@ -86,11 +88,10 @@ class AdaptiveThemeViewModel(
 				"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 			_showMissingPermissionDialog.value = true
 			return false
-		} else {
-			_showMissingPermissionDialog.value = false
-			updateAdaptiveThemeEnabled(checked)
-			return true
 		}
+		_showMissingPermissionDialog.value = false
+		updateAdaptiveThemeEnabled(checked)
+		return true
 	}
 
 	fun dismissDialog() {
@@ -107,9 +108,22 @@ class AdaptiveThemeViewModel(
 	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
-			if (enable) startBroadcastReceiverService() else stopBroadcastReceiverService()
-			updateAdaptiveThemeThresholdLux(500f)
+			if (enable) {
+				startBroadcastReceiverService()
+				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault(AdaptiveThreshold.BRIGHT_INDOOR.lux)
+			} else stopBroadcastReceiverService()
 		}
+	}
+
+	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
+		val threshold = AdaptiveThreshold.fromIndex(index)
+		viewModelScope.launch {
+			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
+		}
+	}
+
+	fun getIndexForCurrentLux(): Int {
+		return AdaptiveThreshold.fromLux(_uiState.value.adaptiveThemeThresholdLux).ordinal
 	}
 
 	private fun startBroadcastReceiverService() {
@@ -121,11 +135,6 @@ class AdaptiveThemeViewModel(
 		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
 		application.applicationContext.stopService(intent)
 	}
-
-	private suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
-		userPreferencesRepository.updateAdaptiveThemeThresholdLux(lux)
-	}
-
 }
 
 class AdaptiveThemeViewModelFactory(
