@@ -50,8 +50,10 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.R
+import dev.lexip.hecate.data.AdaptiveThreshold
+import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
-import dev.lexip.hecate.ui.components.SwitchPreferenceCard
+import dev.lexip.hecate.ui.components.SliderPreferenceCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,7 +127,7 @@ fun AdaptiveThemeScreen(
 				text = stringResource(id = R.string.description_adaptive_theme),
 				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp)
 			)
-			SwitchPreferenceCard(
+			MainSwitchPreferenceCard(
 				text = stringResource(id = R.string.action_use_adaptive_theme),
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
@@ -148,6 +150,31 @@ fun AdaptiveThemeScreen(
 
 				}
 			)
+
+			val currentIndex = adaptiveThemeViewModel.getIndexForCurrentLux()
+			val labels = AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) }
+			val lux = AdaptiveThreshold.entries.map { it.lux }
+
+			Column(
+				verticalArrangement = Arrangement.spacedBy(2.dp)
+			) {
+				SliderPreferenceCard(
+					title = stringResource(id = R.string.title_brightness_threshold),
+					valueIndex = currentIndex,
+					steps = labels.size,
+					labels = labels,
+					lux = lux,
+					onValueChange = { index ->
+						adaptiveThemeViewModel.updateAdaptiveThemeThresholdByIndex(
+							index
+						)
+					},
+					enabled = uiState.adaptiveThemeEnabled,
+					topRounded = true,
+					bottomRounded = true
+				)
+
+			}
 		}
 	}
 
