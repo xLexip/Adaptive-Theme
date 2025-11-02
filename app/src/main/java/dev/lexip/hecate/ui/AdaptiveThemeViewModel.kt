@@ -90,7 +90,7 @@ class AdaptiveThemeViewModel(
 			return false
 		}
 		_showMissingPermissionDialog.value = false
-		_updateAdaptiveThemeEnabled(checked)
+		updateAdaptiveThemeEnabled(checked)
 		return true
 	}
 
@@ -105,7 +105,7 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
-	private fun _updateAdaptiveThemeEnabled(enable: Boolean) {
+	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) {

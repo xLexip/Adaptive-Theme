@@ -27,7 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -95,8 +96,8 @@ private fun LabeledSlider(
 	enabled: Boolean = true
 ) {
 	val haptic = LocalHapticFeedback.current
-	var sliderPosition by remember { mutableStateOf(valueIndex.toFloat()) }
-	var lastLiveIndex by remember { mutableStateOf(valueIndex) }
+	var sliderPosition by remember { mutableFloatStateOf(valueIndex.toFloat()) }
+	var lastLiveIndex by remember { mutableIntStateOf(valueIndex) }
 
 	LaunchedEffect(valueIndex) { sliderPosition = valueIndex.toFloat() }
 
