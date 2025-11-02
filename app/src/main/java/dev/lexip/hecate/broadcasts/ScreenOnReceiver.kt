@@ -30,7 +30,7 @@ class ScreenOnReceiver(
 	private val proximitySensorManager: ProximitySensorManager,
 	private val lightSensorManager: LightSensorManager,
 	private val darkThemeHandler: DarkThemeHandler,
-	private val adaptiveThemeThresholdLux: Float
+	var adaptiveThemeThresholdLux: Float
 ) : BroadcastReceiver() {
 
 	override fun onReceive(context: Context, intent: Intent) {

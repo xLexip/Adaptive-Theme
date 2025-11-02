@@ -50,6 +50,7 @@ class BroadcastReceiverService : Service() {
 	private lateinit var proximitySensorManager: ProximitySensorManager
 
 	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+		super.onStartCommand(intent, flags, startId)
 		Log.i(TAG, "Service starting...")
 		initializeUtils()
 
@@ -75,6 +76,14 @@ class BroadcastReceiverService : Service() {
 
 				// Start the service in the foreground
 				startForeground(1, notification)
+			}
+		}
+
+		// Collect preference updates and update the receiver's threshold while service runs
+		applicationScope.launch {
+			val userPreferencesRepository = UserPreferencesRepository(dataStore)
+			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
+				screenOnReceiver?.adaptiveThemeThresholdLux = prefs.adaptiveThemeThresholdLux
 			}
 		}
 

@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SwitchPreferenceCard(text: String, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+fun MainSwitchPreferenceCard(text: String, isChecked: Boolean, onCheckedChange: (Boolean) -> Unit) {
 	Card(
 		modifier = Modifier
 			.fillMaxWidth(),
