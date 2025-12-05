@@ -6,7 +6,7 @@
 	<string name="action_disable_notification">Disable notification</string>
 	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
 
-	<string name="description_adaptive_theme">Adaptive Theme automatically adjusts the device theme based on ambient brightness.\nIt enhances visibility in bright conditions while optimizing battery life in darker ones.</string>
+	<string name="description_adaptive_theme">Automatically switches between light and dark mode based on ambient brightness to improve visibility and help save battery. Changes only occur right after the screen turns on and when the device is uncovered.</string>
 	<string name="description_missing_secure_settings_permission">This app needs the WRITE_SECURE_SETTINGS permission to modify the device theme. It is a system-level permission that cannot be granted from app settings.\n\nTo grant it you can run the following ADB command from a computer connected to your device:\n\n%1$s</string>
 
 	<string name="message_notification_service_running">Adaptive theme is active</string>
@@ -15,11 +15,11 @@
 	<string name="title_missing_permission">Missing permission</string>
 	<string name="title_notification_channel_service">Background Activity</string>
 	<string name="title_current_brightness">Current Brightness</string>
-	<!-- Adaptive threshold labels -->
-	<string name="adaptive_threshold_dark_room">Dark Room</string>
-	<string name="adaptive_threshold_dim_room">Dim Room</string>
-	<string name="adaptive_threshold_indoor">Indoor</string>
-	<string name="adaptive_threshold_bright_indoor">Bright Indoor</string>
+
+	<string name="adaptive_threshold_dark">Dark</string>
+	<string name="adaptive_threshold_dim">Dim</string>
+	<string name="adaptive_threshold_soft">Soft</string>
+	<string name="adaptive_threshold_bright">Bright</string>
 	<string name="adaptive_threshold_daylight">Daylight</string>
 	<string name="adaptive_threshold_sunlight">Sunlight</string>
 </resources>

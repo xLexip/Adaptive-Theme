@@ -15,11 +15,11 @@ package dev.lexip.hecate.data
 import dev.lexip.hecate.R
 
 enum class AdaptiveThreshold(val labelRes: Int, val lux: Float) {
-	DARK_ROOM(R.string.adaptive_threshold_dark_room, 5f),
-	DIM_ROOM(R.string.adaptive_threshold_dim_room, 50f),
-	INDOOR(R.string.adaptive_threshold_indoor, 150f),
-	BRIGHT_INDOOR(R.string.adaptive_threshold_bright_indoor, 500f),
-	DAYLIGHT(R.string.adaptive_threshold_daylight, 2_000f),
+	DARK(R.string.adaptive_threshold_dark, 0f),
+	DIM(R.string.adaptive_threshold_dim, 1f),
+	SOFT(R.string.adaptive_threshold_soft, 10f),
+	BRIGHT(R.string.adaptive_threshold_bright, 100f),
+	DAYLIGHT(R.string.adaptive_threshold_daylight, 1_000f),
 	SUNLIGHT(R.string.adaptive_threshold_sunlight, 10_000f);
 
 	companion object {
@@ -31,7 +31,7 @@ enum class AdaptiveThreshold(val labelRes: Int, val lux: Float) {
 		fun fromLux(lux: Float): AdaptiveThreshold {
 			val exact = entries.firstOrNull { it.lux == lux }
 			if (exact != null) return exact
-			return entries.minByOrNull { kotlin.math.abs(it.lux - lux) } ?: INDOOR
+			return entries.minByOrNull { kotlin.math.abs(it.lux - lux) } ?: SOFT
 		}
 	}
 }
