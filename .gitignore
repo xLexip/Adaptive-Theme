@@ -30,6 +30,9 @@ render.experimental.xml
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
+# Trade secret
+app/src/main/java/dev/lexip/hecate/util/DarkThemeHandler.kt
+
 # Android Profiling
 *.hprof
 
