@@ -1,5 +1,3 @@
-import org.gradle.api.JavaVersion.VERSION_23
-
 plugins {
 	id("com.google.gms.google-services")
 	alias(libs.plugins.android.application)
@@ -16,8 +14,8 @@ android {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 31
 		targetSdk = 36
-		versionCode = 3
-		versionName = "0.2.0"
+		versionCode = 7
+		versionName = "0.3.0"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
@@ -33,21 +31,24 @@ android {
 				debugSymbolLevel = "SYMBOL_TABLE"
 			}
 		}
+		debug {
+			versionNameSuffix = "-beta"
+		}
 	}
 	compileOptions {
-		sourceCompatibility = VERSION_23
-		targetCompatibility = VERSION_23
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlin {
 		compilerOptions {
-			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_23)
+			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
 		}
 	}
 	buildFeatures {
 		compose = true
 		buildConfig = true
 	}
-	buildToolsVersion = "35.0.0"
+	buildToolsVersion = "36.0.0"
 	sourceSets {
 		getByName("main") {
 			resources {
