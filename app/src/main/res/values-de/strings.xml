@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Adaptive Theme</string>
+
+	<string name="action_close">Schließen</string>
+	<string name="action_copy_adb_command">ADB-Command kopieren</string>
+	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
+	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
+	<string name="action_stop_service">Dienst stoppen</string>
+
+	<string name="description_adaptive_theme">
+        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Der Wechsel erfolgt nur beim Einschalten des Bildschirms und nur, wenn das Gerät nicht abgedeckt ist.
+    </string>
+
+	<string name="description_missing_secure_settings_permission">
+        Diese App benötigt die Berechtigung WRITE_SECURE_SETTINGS, um das Systemtheme zu ändern. Es handelt sich um eine Systemberechtigung, die nicht über die Geräteeinstellungen erteilt werden kann.\n\nUm sie zu vergeben, führe den folgenden ADB-Command auf einem mit deinem Gerät verbundenen Computer aus:\n\n%1$s
+    </string>
+
+	<string name="description_notification_service_running">
+        Systemtheme wird anhand der Umgebungshelligkeit angepasst.
+    </string>
+
+	<string name="error_no_email_client">Keine E-Mail-App gefunden.</string>
+	<string name="error_invalid_lux_value">Ungültiger Lux-Wert.</string>
+	<string name="error_negative_lux_value">Der Lux-Wert darf nicht negativ sein.</string>
+	<string name="error_lux_value_too_large">Der Lux-Wert kann maximal 100.000 sein.</string>
+
+	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
+	<string name="title_current_brightness">Aktuelle Helligkeit</string>
+	<string name="title_missing_permission">Fehlende Berechtigung</string>
+	<string name="title_more">Mehr</string>
+	<string name="title_notification_channel_service">Hintergrundaktivität</string>
+	<string name="title_about">Info</string>
+	<string name="title_send_feedback">Feedback senden</string>
+	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
+
+	<string name="adaptive_threshold_dark">Dunkel</string>
+	<string name="adaptive_threshold_dim">Schwach</string>
+	<string name="adaptive_threshold_soft">Leicht</string>
+	<string name="adaptive_threshold_bright">Hell</string>
+	<string name="adaptive_threshold_daylight">Tageslicht</string>
+	<string name="adaptive_threshold_sunlight">Sonnenlicht</string>
+	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
+
+	<string name="hint_custom_threshold_value">Lux-Wert</string>
+	<string name="action_set">Festlegen</string>
+	<string name="action_cancel">Abbrechen</string>
+</resources>
