@@ -1,42 +1,42 @@
 [![GooglePlay](https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg)](https://lexip.dev/hecate/play)
 
-**Adaptive Theme** automatically switches your device between light and dark mode based on ambient  
-brightness — bright and readable in sunlight, easy on the eyes (and battery) in the dark.
+![feature_graphic](https://i.ibb.co/G38P9b9V/adaptive-theme.jpg)
 
-Theme changes only happen right after the screen turns on and only when the device is uncovered to  
-avoid flicker and unnecessary sensor usage.
+## Adaptive Theme
 
-**Package:** dev.lexip.hecate
-  
----  
+Adaptive Theme intelligently switches your device between Light and Dark mode based on your
+environment.
+
+Get the readability of Light mode in bright daylight and the comfort of Dark mode in low light —
+going easy on your eyes and your battery.
+
+---
 
 ### Highlights
 
-- Smart automatic light/dark theme switching
-- Customizable brightness threshold
-- Quick Settings tile for quick service toggling
-- Lightweight and battery-friendly
-- System-wide theme control
-- No root required
-- Modern Jetpack Compose app with native Material You design
-- Only switches when the device is uncovered
+🌤️ **Smart Detection**: Uses your ambient light sensor to switch themes automatically.
 
----  
+⚙️ **Full Control**: Fully customizable brightness threshold and a Quick Settings tile to
+pause/resume the service.
 
-### One-time setup
+🔒 **Free & Open**: Free to use, no ads and open source.
 
-To change the system theme, the app needs the WRITE_SECURE_SETTINGS permission. Because this is a  
-system-level permission, you have to grant it via ADB:
+🚀 **Native Design**: Modern architecture, built with Jetpack Compose and Material You for a seamless
+Android experience.
 
-- Enable developer options and USB debugging on your phone.
-- Connect your phone to a computer with ADB installed.
-- Run this command:  
-  *adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS*
+🚫 **No Flickering**: The theme only changes when you turn on screen and the device is uncovered.
 
-The app doesn’t need any special access beyond this permission. It is used only for theme switching.
-  
----  
+---
 
-That’s it — open the app, set your threshold, and you’re done.
+### One-Time Setup
+
+To toggle the system theme, Android requires the permission  `WRITE_SECURE_SETTINGS`. This is safe,
+transparent and fully reversible. The app will guide you through the setup process.
+
+---
+
+That’s it! Set your preference, and never worry about your light/dark mode again.
+
+🇩🇪 Made with 🥨 🍺 in Germany.
 
 [![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?project=xLexip_Hecate)](https://sonarcloud.io/summary/new_code?id=xLexip_Hecate)
