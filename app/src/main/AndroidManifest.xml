@@ -32,7 +32,8 @@
 		android:supportsRtl="true"
 		android:theme="@style/Theme.App.Starting"
 		android:usesCleartextTraffic="false"
-		android:windowSoftInputMode="adjustResize">
+		android:windowSoftInputMode="adjustResize"
+		android:localeConfig="@xml/locales_config">
 
 		<!-- Explicitly disable AdID collection for Firebase Analytics -->
 		<meta-data
