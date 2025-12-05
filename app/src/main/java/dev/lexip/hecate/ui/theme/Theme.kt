@@ -57,7 +57,7 @@ fun HecateTheme(
 	val appTypography = Typography(
 		displaySmall = TextStyle(
 			fontFamily = nunitoFontFamily,
-			fontWeight = FontWeight.Black,
+			fontWeight = FontWeight.Bold,
 			fontSize = 36.sp
 		),
 		titleMedium = TextStyle(
