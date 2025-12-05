@@ -130,7 +130,7 @@ fun AdaptiveThemeScreen(
 					)
 				},
 				actions = {
-					val noEmailClientMessage = stringResource(id = R.string.error_no_email_client)
+					stringResource(id = R.string.error_no_email_client)
 					var menuExpanded by remember { mutableStateOf(false) }
 					androidx.compose.foundation.layout.Box {
 						IconButton(onClick = { menuExpanded = true }) {
@@ -199,7 +199,6 @@ fun AdaptiveThemeScreen(
 										context,
 										"send_feedback"
 									)
-									onFeedbackClick()
 									val encodedSubject = URLEncoder.encode(
 										feedbackSubject,
 										StandardCharsets.UTF_8.toString()
@@ -207,17 +206,28 @@ fun AdaptiveThemeScreen(
 									val feedbackUri =
 										"https://lexip.dev/hecate/feedback?subject=$encodedSubject".toUri()
 									val feedbackIntent = Intent(Intent.ACTION_VIEW, feedbackUri)
-									try {
-										context.startActivity(feedbackIntent)
-									} catch (_: ActivityNotFoundException) {
-										Toast.makeText(
-											context,
-											noEmailClientMessage,
-											Toast.LENGTH_SHORT
-										).show()
-									}
+									context.startActivity(feedbackIntent)
+
 								}
 							)
+
+							// 3) Beta Feedback (only on beta builds)
+							if (BuildConfig.VERSION_NAME.contains("-beta")) {
+								DropdownMenuItem(
+									text = { Text(text = "Beta Feedback") },
+									onClick = {
+										menuExpanded = false
+										AnalyticsLogger.logOverflowMenuItemClicked(
+											context,
+											"beta_feedback"
+										)
+										val betaUri =
+											"https://play.google.com/store/apps/details?id=dev.lexip.hecate".toUri()
+										val betaIntent = Intent(Intent.ACTION_VIEW, betaUri)
+										context.startActivity(betaIntent)
+									}
+								)
+							}
 
 							// 4) About
 							DropdownMenuItem(
