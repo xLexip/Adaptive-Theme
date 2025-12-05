@@ -62,10 +62,11 @@ import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
-import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
+import dev.lexip.hecate.ui.setup.PermissionSetupWizardScreen
+import dev.lexip.hecate.ui.setup.PermissionWizardStep
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -116,7 +117,7 @@ fun AdaptiveThemeScreen(
 		)
 	)
 
-	val showMissingPermissionDialog by adaptiveThemeViewModel.showMissingPermissionDialog.collectAsState()
+	val internalUiState by adaptiveThemeViewModel.uiState.collectAsState()
 
 	val showCustomDialog = remember { mutableStateOf(false) }
 
@@ -291,7 +292,6 @@ fun AdaptiveThemeScreen(
 			modifier = Modifier
 				.fillMaxSize()
 				.padding(innerPadding)
-				.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(rememberScrollState()),
 			verticalArrangement = Arrangement.spacedBy(32.dp)
@@ -366,26 +366,212 @@ fun AdaptiveThemeScreen(
 		}
 	}
 
+	// Show permission wizard if needed
+	if (internalUiState.showPermissionWizard) {
+		var isDeveloperOptionsEnabled by remember { mutableStateOf(false) }
+		var isUsbDebuggingEnabled by remember { mutableStateOf(false) }
+		var isUsbConnected by remember { mutableStateOf(false) }
+		var hasPermission by remember { mutableStateOf(false) }
 
-	PermissionMissingDialog(
-		show = showMissingPermissionDialog,
-		setupUrl = "https://lexip.dev/setup",
-		onOpenSetup = {
-			AnalyticsLogger.logViewWebsiteClicked(context, "permission_dialog")
-			val setupUri = "https://lexip.dev/setup".toUri()
-			val intent = Intent(Intent.ACTION_VIEW, setupUri)
-			try {
-				context.startActivity(intent)
+		// Periodically check developer settings and permission status
+		LaunchedEffect(Unit) {
+			var previousDevOptionsState = try {
+				Settings.Global.getInt(
+					context.contentResolver,
+					Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
+					0
+				) == 1
 			} catch (_: Exception) {
-				context.startActivity(Intent(Intent.ACTION_VIEW, setupUri))
+				false
 			}
-		},
-		onShareSetupUrl = { url ->
-			AnalyticsLogger.logShareLinkClicked(context, "permission_dialog")
-			context.shareSetupUrl(url)
-		},
-		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
-	)
+
+			var previousUsbDebuggingState = try {
+				Settings.Global.getInt(
+					context.contentResolver,
+					Settings.Global.ADB_ENABLED,
+					0
+				) == 1
+			} catch (_: Exception) {
+				false
+			}
+
+			var previousUsbConnected = false
+
+			// Observe USB state via sticky broadcast and runtime receiver
+			val usbFilter =
+				android.content.IntentFilter("android.hardware.usb.action.USB_STATE")
+			val sticky = context.registerReceiver(null, usbFilter)
+			fun parseUsbIntent(intent: Intent?): Boolean {
+				if (intent == null) return false
+				val extras = intent.extras ?: return false
+				val connected = extras.getBoolean("connected", false)
+				val configured = extras.getBoolean("configured", false)
+				val dataConnected = extras.getBoolean("data_connected", false)
+				val adb = extras.getBoolean("adb", false)
+				val hostConnected = extras.getBoolean("host_connected", false)
+				return connected && (configured || dataConnected || adb || hostConnected)
+			}
+			isUsbConnected = parseUsbIntent(sticky)
+			previousUsbConnected = isUsbConnected
+
+			val runtimeReceiver = object : android.content.BroadcastReceiver() {
+				override fun onReceive(
+					ctx: android.content.Context?,
+					intent: Intent?
+				) {
+					val nowConnected = parseUsbIntent(intent)
+					if (!previousUsbConnected && nowConnected) {
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					}
+					isUsbConnected = nowConnected
+					previousUsbConnected = nowConnected
+				}
+			}
+			context.registerReceiver(runtimeReceiver, usbFilter)
+
+			try {
+				// Fallback: check attached USB devices via UsbManager
+				val usbManager =
+					context.getSystemService(android.content.Context.USB_SERVICE) as? android.hardware.usb.UsbManager
+				val nowConnected = (usbManager?.deviceList?.isNotEmpty() == true)
+				if (!previousUsbConnected && nowConnected) {
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+				}
+				isUsbConnected = isUsbConnected || nowConnected
+				previousUsbConnected = isUsbConnected
+			} catch (_: Exception) { /* ignore */
+			}
+
+			try {
+				while (true) {
+					isDeveloperOptionsEnabled = try {
+						Settings.Global.getInt(
+							context.contentResolver,
+							Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
+							0
+						) == 1
+					} catch (_: Exception) {
+						false
+					}
+
+					isUsbDebuggingEnabled = try {
+						Settings.Global.getInt(
+							context.contentResolver,
+							Settings.Global.ADB_ENABLED,
+							0
+						) == 1
+					} catch (_: Exception) {
+						false
+					}
+
+					hasPermission = ContextCompat.checkSelfPermission(
+						context, Manifest.permission.WRITE_SECURE_SETTINGS
+					) == PackageManager.PERMISSION_GRANTED
+
+					if (!previousDevOptionsState && isDeveloperOptionsEnabled) {
+						Toast.makeText(
+							context,
+							context.getString(R.string.permission_wizard_dev_options_enabled_toast),
+							Toast.LENGTH_LONG
+						).show()
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					}
+
+					if (!previousUsbDebuggingState && isUsbDebuggingEnabled) {
+						Toast.makeText(
+							context,
+							context.getString(R.string.permission_wizard_usb_debugging_enabled_toast),
+							Toast.LENGTH_LONG
+						).show()
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					}
+
+					previousDevOptionsState = isDeveloperOptionsEnabled
+					previousUsbDebuggingState = isUsbDebuggingEnabled
+
+					// Fallback refresh: if sticky broadcast wasn’t conclusive, re-check UsbManager
+					if (!isUsbConnected) {
+						val usbManager =
+							context.getSystemService(android.content.Context.USB_SERVICE) as? android.hardware.usb.UsbManager
+						val nowConnected = usbManager?.deviceList?.isNotEmpty() == true
+						if (!previousUsbConnected && nowConnected) {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+						}
+						isUsbConnected = nowConnected
+						previousUsbConnected = nowConnected
+					}
+
+					// If permission becomes granted, auto-complete wizard and enable service
+					if (hasPermission) {
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+						adaptiveThemeViewModel.completePermissionWizardAndEnableService()
+						break
+					}
+
+					// Check every second
+					kotlinx.coroutines.delay(1000)
+				}
+			} finally {
+				context.unregisterReceiver(runtimeReceiver)
+			}
+		}
+
+		val adbCommand by adaptiveThemeViewModel.pendingAdbCommand.collectAsState()
+
+		PermissionSetupWizardScreen(
+			step = internalUiState.permissionWizardStep,
+			adbCommand = adbCommand,
+			isUsbConnected = isUsbConnected,
+			hasWriteSecureSettings = hasPermission,
+			isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
+			isUsbDebuggingEnabled = isUsbDebuggingEnabled,
+			onNext = {
+				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+				if (internalUiState.permissionWizardStep == PermissionWizardStep.GRANT_PERMISSION && hasPermission) {
+					adaptiveThemeViewModel.completePermissionWizardAndEnableService()
+				} else {
+					adaptiveThemeViewModel.goToNextPermissionWizardStep()
+				}
+			},
+			onExit = { adaptiveThemeViewModel.dismissPermissionWizard() },
+			onOpenSettings = {
+				val intent = Intent(Settings.ACTION_DEVICE_INFO_SETTINGS)
+				try {
+					context.startActivity(intent)
+				} catch (_: Exception) {
+					context.startActivity(Intent(Settings.ACTION_SETTINGS))
+				}
+			},
+			onOpenDeveloperSettings = {
+				val intent = Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
+				try {
+					context.startActivity(intent)
+				} catch (_: Exception) {
+					context.startActivity(Intent(Settings.ACTION_SETTINGS))
+				}
+			},
+			onShareSetupUrl = {
+				AnalyticsLogger.logShareLinkClicked(context, "permission_wizard")
+				context.shareSetupUrl("https://lexip.dev/setup")
+			},
+			onCopyAdbCommand = { adaptiveThemeViewModel.requestCopyAdbCommand() },
+			onShareExpertCommand = {
+				context.shareSetupUrl(adbCommand)
+			},
+			onCheckPermission = {
+				val nowGranted =
+					ContextCompat.checkSelfPermission(
+						context, Manifest.permission.WRITE_SECURE_SETTINGS
+					) == PackageManager.PERMISSION_GRANTED
+				adaptiveThemeViewModel.recheckWriteSecureSettingsPermission(nowGranted)
+				if (nowGranted) {
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					adaptiveThemeViewModel.completePermissionWizardAndEnableService()
+				}
+			}
+		)
+		return
+	}
 
 	CustomThresholdDialog(
 		show = showCustomDialog.value,

@@ -1,54 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Adaptive Theme</string>
+	<string name="app_name" translatable="false">Adaptive Theme</string>
 
+	<!-- Generic actions -->
+	<string name="action_back">Zurück</string>
+	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
+	<string name="action_continue">Weiter</string>
+	<string name="action_copy">Kopieren</string>
 	<string name="action_copy_adb_command">ADB-Command kopieren</string>
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
-	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
-	<string name="action_stop_service">Dienst stoppen</string>
+	<string name="action_finish">Fertig</string>
 	<string name="action_open">Öffnen</string>
+	<string name="action_set">Festlegen</string>
+	<string name="action_share">Teilen</string>
 	<string name="action_share_setup_url">Link teilen</string>
+	<string name="action_stop_service">Dienst stoppen</string>
+	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
 	<string name="action_view_website">Website öffnen</string>
 
 
 	<string name="description_adaptive_theme">
         Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Der Wechsel erfolgt nur beim Einschalten des Bildschirms und nur, wenn das Gerät nicht abgedeckt ist.
     </string>
-	<string name="description_missing_permission">
-Diese App benötigt die Berechtigung WRITE_SECURE_SETTINGS, um das System-Theme ändern zu können. Diese Berechtigung kann leider nicht über die Geräteeinstellungen erteilt werden. \n\nUm sie zu erteilen, öffnen Sie einfach die Website lexip.dev/setup auf einem anderen Gerät und folgen Sie den Anweisungen.
-	</string>
 
 	<string name="description_notification_service_running">
         Systemtheme wird anhand der Umgebungshelligkeit angepasst.
     </string>
 
-	<string name="error_no_email_client">Keine E-Mail-App gefunden.</string>
 	<string name="error_invalid_lux_value">Ungültiger Lux-Wert.</string>
-	<string name="error_negative_lux_value">Der Lux-Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Der Lux-Wert kann maximal 100.000 sein.</string>
-	<string name="error_no_app_language_settings">Per-App Spracheneinstellungen sind auf diesem Gerät nicht verfügbar.</string>
+	<string name="error_negative_lux_value">Der Lux-Wert darf nicht negativ sein.</string>
+	<string name="error_no_app_language_settings">Per-App-Spracheneinstellungen sind auf diesem Gerät nicht verfügbar.</string>
+	<string name="error_no_email_client">Keine E-Mail-App gefunden.</string>
 
+	<string name="title_about">Info</string>
+	<string name="title_beta_feedback">Beta-Feedback</string>
 	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
+	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_current_brightness">Aktuelle Helligkeit</string>
-	<string name="title_missing_permission">Fehlende Berechtigung</string>
+	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
 	<string name="title_more">Mehr</string>
 	<string name="title_notification_channel_service">Hintergrundaktivität</string>
-	<string name="title_about">Info</string>
-	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_send_feedback">Feedback senden</string>
-	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
-	<string name="title_beta_feedback">Beta Feedback</string>
 
+	<string name="adaptive_threshold_bright">Hell</string>
+	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
 	<string name="adaptive_threshold_dark">Dunkel</string>
+	<string name="adaptive_threshold_daylight">Tageslicht</string>
 	<string name="adaptive_threshold_dim">Schwach</string>
 	<string name="adaptive_threshold_soft">Leicht</string>
-	<string name="adaptive_threshold_bright">Hell</string>
-	<string name="adaptive_threshold_daylight">Tageslicht</string>
 	<string name="adaptive_threshold_sunlight">Sonnenlicht</string>
-	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
-	<string name="action_set">Festlegen</string>
-	<string name="action_cancel">Abbrechen</string>
+
+	<!-- Permission Wizard -->
+	<string name="permission_wizard_action_check_permission">Berechtigung prüfen</string>
+	<string name="permission_wizard_action_open_developer_settings">Einstellungen öffnen</string>
+	<string name="permission_wizard_action_open_settings">Einstellungen öffnen</string>
+	<string name="permission_wizard_adb_command_label">ADB-Command</string>
+	<string name="permission_wizard_connect_body">Um die Berechtigung zu erteilen, benötigen Sie ein weiteres Gerät (vorzugsweise einen Computer) mit Webbrowser. Verbinden Sie dieses Gerät per USB-Kabel damit.</string>
+	<string name="permission_wizard_connect_title">Mit einem anderen Gerät verbinden</string>
+	<string name="permission_wizard_copied">In die Zwischenablage kopiert.</string>
+	<string name="permission_wizard_developer_mode_body">Tippen Sie einfach mehrmals auf die Build-Nummer, um die Entwickleroptionen freizuschalten, und aktivieren Sie dort USB-Debugging.</string>
+	<string name="permission_wizard_developer_mode_title">Entwicklermodus aktivieren</string>
+	<string name="permission_wizard_developer_options_disabled">Entwickleroptionen noch nicht aktiviert</string>
+	<string name="permission_wizard_developer_options_enabled">Entwickleroptionen aktiviert</string>
+	<string name="permission_wizard_developer_options_title">Entwickleroptionen aktivieren</string>
+	<string name="permission_wizard_dev_options_enabled_toast">Entwickleroptionen aktiviert! Sie können nun mit der Einrichtung fortfahren.</string>
+	<string name="permission_wizard_dev_options_toast">Mehrfach auf die Build-Nummer tippen, um die Entwickleroptionen zu aktivieren.</string>
+	<string name="permission_wizard_explanation_body">Damit das System-Theme automatisch geändert werden kann, benötigt diese App die spezielle Berechtigung WRITE_SECURE_SETTINGS. Sie kann nicht über die normalen Systemeinstellungen erteilt werden, daher führen wir Sie durch eine einmalige Einrichtung mit Entwickleroptionen und einem Computer.</string>
+	<string name="permission_wizard_explanation_title">Berechtigung erforderlich</string>
+	<string name="permission_wizard_for_experts">Alternative für Experten</string>
+	<string name="permission_wizard_grant_body">Öffne diese Website auf einem anderen Gerät und folge den Anweisungen dort:</string>
+	<string name="permission_wizard_grant_title">Berechtigung erteilen</string>
+	<string name="permission_wizard_manual_command">Falls ADB auf dem anderen Gerät installiert ist, kannst du dort stattdessen diesen Command ausführen:</string>
+	<string name="permission_wizard_permission_granted">Berechtigung erfolgreich erteilt!</string>
+	<string name="permission_wizard_permission_not_granted">Berechtigung noch nicht erteilt. Schließen Sie die Einrichtung auf dem anderen Gerät ab.</string>
+	<string name="permission_wizard_step_counter">Schritt %1$d von %2$d</string>
+	<string name="permission_wizard_usb_connected">USB verbunden</string>
+	<string name="permission_wizard_usb_debugging_disabled">USB-Debugging aktivieren</string>
+	<string name="permission_wizard_usb_debugging_enabled">USB-Debugging aktiviert</string>
+	<string name="permission_wizard_usb_debugging_enabled_toast">USB-Debugging aktiviert! Sie können nun mit der Einrichtung fortfahren.</string>
+	<string name="permission_wizard_usb_debugging_toast">USB-Debugging aktivieren</string>
+	<string name="permission_wizard_usb_not_connected">Warten auf USB-Verbindung …</string>
+	<string name="permission_wizard_why_other_device">Die Berechtigung kann nur über ADB erteilt werden, wofür ein anderes Gerät mit einem Webbrowser oder ADB erforderlich ist.</string>
+	<string name="permission_wizard_why_other_device_title">Warum wird ein anderes Gerät benötigt?</string>
 </resources>
