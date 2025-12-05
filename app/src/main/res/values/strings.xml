@@ -30,7 +30,6 @@
 	<string name="error_invalid_lux_value">Invalid lux value.</string>
 	<string name="error_negative_lux_value">Lux value cannot be negative.</string>
 	<string name="error_lux_value_too_large">Lux value cannot exceed 100,000.</string>
-	<string name="error_no_app_language_settings">Per-app language preferences are unavailable on this device.</string>
 
 	<string name="title_about">About</string>
 	<string name="title_beta_feedback">Beta Feedback</string>
@@ -65,7 +64,6 @@
 	<string name="permission_wizard_developer_options_disabled">Developer options not enabled yet</string>
 	<string name="permission_wizard_developer_options_enabled">Developer options enabled</string>
 	<string name="permission_wizard_developer_options_title">Enable developer options</string>
-	<string name="permission_wizard_dev_options_enabled_toast">Developer options enabled! You can now continue with the setup.</string>
 	<string name="permission_wizard_dev_options_toast">Look for the build number and tap it 7 times to enable the developer settings. You\'ll see a message confirming it\'s enabled.</string>
 	<string name="permission_wizard_explanation_body">To change the system theme automatically, this app needs the special WRITE_SECURE_SETTINGS permission. It can\'t be granted from the normal system settings, so you will be guided through a one-time setup using Developer options and a computer.</string>
 	<string name="permission_wizard_explanation_title">Permission required</string>
@@ -79,7 +77,6 @@
 	<string name="permission_wizard_usb_connected">USB connected</string>
 	<string name="permission_wizard_usb_debugging_disabled">Enable USB debugging</string>
 	<string name="permission_wizard_usb_debugging_enabled">USB debugging enabled</string>
-	<string name="permission_wizard_usb_debugging_enabled_toast">USB debugging enabled! You can now continue with the setup.</string>
 	<string name="permission_wizard_usb_debugging_toast">Enable USB debugging</string>
 	<string name="permission_wizard_usb_not_connected">Waiting for USB connection</string>
 	<string name="permission_wizard_why_other_device">The permission can only be granted via ADB, which requires another device with either a web browser or ADB installed.</string>

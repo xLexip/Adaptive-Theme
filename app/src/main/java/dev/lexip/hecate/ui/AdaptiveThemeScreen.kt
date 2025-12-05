@@ -208,15 +208,7 @@ fun AdaptiveThemeScreen(
 											Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
 												data = "package:$packageName".toUri()
 											}
-										try {
-											context.startActivity(intent)
-										} catch (_: ActivityNotFoundException) {
-											Toast.makeText(
-												context,
-												context.getString(R.string.error_no_app_language_settings),
-												Toast.LENGTH_SHORT
-											).show()
-										}
+										context.startActivity(intent)
 									}
 								)
 							}
@@ -469,20 +461,10 @@ fun AdaptiveThemeScreen(
 					) == PackageManager.PERMISSION_GRANTED
 
 					if (!previousDevOptionsState && isDeveloperOptionsEnabled) {
-						Toast.makeText(
-							context,
-							context.getString(R.string.permission_wizard_dev_options_enabled_toast),
-							Toast.LENGTH_LONG
-						).show()
 						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					}
 
 					if (!previousUsbDebuggingState && isUsbDebuggingEnabled) {
-						Toast.makeText(
-							context,
-							context.getString(R.string.permission_wizard_usb_debugging_enabled_toast),
-							Toast.LENGTH_LONG
-						).show()
 						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					}
 
