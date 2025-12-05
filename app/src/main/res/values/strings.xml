@@ -14,7 +14,7 @@
 	<string name="title_brightness_threshold">Brightness Threshold</string>
 	<string name="title_missing_permission">Missing permission</string>
 	<string name="title_notification_channel_service">Background Activity</string>
-
+	<string name="title_current_brightness">Current Brightness</string>
 	<!-- Adaptive threshold labels -->
 	<string name="adaptive_threshold_dark_room">Dark Room</string>
 	<string name="adaptive_threshold_dim_room">Dim Room</string>
