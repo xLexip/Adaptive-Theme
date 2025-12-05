@@ -22,6 +22,7 @@ import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
+import dev.lexip.hecate.ui.setup.PermissionWizardStep
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import kotlinx.coroutines.channels.BufferOverflow
@@ -38,8 +39,13 @@ sealed interface UiEvent {
 
 data class AdaptiveThemeUiState(
 	val adaptiveThemeEnabled: Boolean = false,
-	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT.lux,
-	val customAdaptiveThemeThresholdLux: Float? = null
+	val adaptiveThemeThresholdLux: Float = 1000f,
+	val customAdaptiveThemeThresholdLux: Float? = null,
+	val showPermissionWizard: Boolean = false,
+	val permissionWizardStep: PermissionWizardStep = PermissionWizardStep.ENABLE_DEVELOPER_MODE,
+	val permissionWizardCompleted: Boolean = false,
+	val hasAutoAdvancedFromDeveloperMode: Boolean = false,
+	val hasAutoAdvancedFromConnectUsb: Boolean = false
 )
 
 class AdaptiveThemeViewModel(
@@ -60,9 +66,7 @@ class AdaptiveThemeViewModel(
 	)
 	val uiEvents = _uiEvents.asSharedFlow()
 
-	// Permission Error Dialog
-	private val _showMissingPermissionDialog = MutableStateFlow(false)
-	val showMissingPermissionDialog: StateFlow<Boolean> = _showMissingPermissionDialog.asStateFlow()
+	// Wizard + pending ADB command
 	private val _pendingAdbCommand = MutableStateFlow("")
 	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
 
@@ -87,7 +91,8 @@ class AdaptiveThemeViewModel(
 				_uiState.value = AdaptiveThemeUiState(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
-					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux
+					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux,
+					permissionWizardCompleted = userPreferences.permissionWizardCompleted
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) startLightSensorListening()
@@ -118,8 +123,8 @@ class AdaptiveThemeViewModel(
 	}
 
 	/**
-	 * Toggle adaptive theme service or show permission dialog.
-	 * @return true if service was toggled, false if permission dialog is shown.
+	 * Toggle adaptive theme service or show permission wizard.
+	 * @return true if service was toggled, false if permission wizard is shown.
 	 */
 	fun onServiceToggleRequested(
 		checked: Boolean,
@@ -127,10 +132,7 @@ class AdaptiveThemeViewModel(
 		packageName: String
 	): Boolean {
 		if (checked && !hasPermission) {
-			_pendingAdbCommand.value =
-				"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-			_showMissingPermissionDialog.value = true
-			// Log permission error shown
+			startPermissionWizard(packageName)
 			AnalyticsLogger.logPermissionErrorShown(
 				application.applicationContext,
 				reason = "missing_write_secure_settings",
@@ -138,13 +140,54 @@ class AdaptiveThemeViewModel(
 			)
 			return false
 		}
-		_showMissingPermissionDialog.value = false
 		updateAdaptiveThemeEnabled(checked)
 		return true
 	}
 
-	fun dismissDialog() {
-		_showMissingPermissionDialog.value = false
+	private fun startPermissionWizard(packageName: String) {
+		_pendingAdbCommand.value =
+			"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
+		_uiState.value = _uiState.value.copy(
+			showPermissionWizard = true,
+			permissionWizardStep = PermissionWizardStep.ENABLE_DEVELOPER_MODE
+		)
+	}
+
+	fun goToNextPermissionWizardStep() {
+		val next = when (_uiState.value.permissionWizardStep) {
+			PermissionWizardStep.ENABLE_DEVELOPER_MODE -> PermissionWizardStep.CONNECT_USB
+			PermissionWizardStep.CONNECT_USB -> PermissionWizardStep.GRANT_PERMISSION
+			PermissionWizardStep.GRANT_PERMISSION -> PermissionWizardStep.GRANT_PERMISSION
+		}
+		_uiState.value = _uiState.value.copy(permissionWizardStep = next)
+	}
+
+	fun goToPreviousPermissionWizardStep() {
+		val prev = when (_uiState.value.permissionWizardStep) {
+			PermissionWizardStep.ENABLE_DEVELOPER_MODE -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
+			PermissionWizardStep.CONNECT_USB -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
+			PermissionWizardStep.GRANT_PERMISSION -> PermissionWizardStep.CONNECT_USB
+		}
+		_uiState.value = _uiState.value.copy(permissionWizardStep = prev)
+	}
+
+	fun dismissPermissionWizard() {
+		_uiState.value = _uiState.value.copy(showPermissionWizard = false)
+	}
+
+	fun recheckWriteSecureSettingsPermission(granted: Boolean) {
+		if (granted) {
+			_uiState.value =
+				_uiState.value.copy(permissionWizardStep = PermissionWizardStep.GRANT_PERMISSION)
+		}
+	}
+
+	fun completePermissionWizardAndEnableService() {
+		viewModelScope.launch {
+			userPreferencesRepository.updatePermissionWizardCompleted(true)
+			dismissPermissionWizard()
+			updateAdaptiveThemeEnabled(true)
+		}
 	}
 
 	fun requestCopyAdbCommand() {
