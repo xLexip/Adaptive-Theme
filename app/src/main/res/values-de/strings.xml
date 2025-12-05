@@ -7,14 +7,17 @@
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
 	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
 	<string name="action_stop_service">Dienst stoppen</string>
+	<string name="action_open">Öffnen</string>
+	<string name="action_share_setup_url">Link teilen</string>
+	<string name="action_view_website">Website öffnen</string>
+
 
 	<string name="description_adaptive_theme">
         Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Der Wechsel erfolgt nur beim Einschalten des Bildschirms und nur, wenn das Gerät nicht abgedeckt ist.
     </string>
-
-	<string name="description_missing_secure_settings_permission">
-        Diese App benötigt die Berechtigung WRITE_SECURE_SETTINGS, um das Systemtheme zu ändern. Es handelt sich um eine Systemberechtigung, die nicht über die Geräteeinstellungen erteilt werden kann.\n\nUm sie zu vergeben, führe den folgenden ADB-Command auf einem mit deinem Gerät verbundenen Computer aus:\n\n%1$s
-    </string>
+	<string name="description_missing_permission">
+Diese App benötigt die Berechtigung WRITE_SECURE_SETTINGS, um das System-Theme ändern zu können. Diese Berechtigung kann leider nicht über die Geräteeinstellungen erteilt werden. \n\nUm sie zu erteilen, öffnen Sie einfach die Website lexip.dev/setup auf einem anderen Gerät und folgen Sie den Anweisungen.
+	</string>
 
 	<string name="description_notification_service_running">
         Systemtheme wird anhand der Umgebungshelligkeit angepasst.
