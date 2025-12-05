@@ -24,6 +24,7 @@
 	<string name="error_invalid_lux_value">Ungültiger Lux-Wert.</string>
 	<string name="error_negative_lux_value">Der Lux-Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Der Lux-Wert kann maximal 100.000 sein.</string>
+	<string name="error_no_app_language_settings">Per-App Spracheneinstellungen sind auf diesem Gerät nicht verfügbar.</string>
 
 	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
 	<string name="title_current_brightness">Aktuelle Helligkeit</string>
@@ -31,6 +32,7 @@
 	<string name="title_more">Mehr</string>
 	<string name="title_notification_channel_service">Hintergrundaktivität</string>
 	<string name="title_about">Info</string>
+	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_send_feedback">Feedback senden</string>
 	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
 
