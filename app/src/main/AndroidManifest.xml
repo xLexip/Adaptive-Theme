@@ -21,6 +21,14 @@
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 
+	<supports-screens
+		android:smallScreens="true"
+		android:normalScreens="true"
+		android:largeScreens="false"
+		android:xlargeScreens="false"
+		android:resizeable="true"
+		android:anyDensity="true" />
+
 	<application
 		android:name="dev.lexip.hecate.HecateApplication"
 		android:allowBackup="false"
