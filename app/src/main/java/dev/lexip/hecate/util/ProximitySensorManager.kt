@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 xLexip <https://lexip.dev>
+ * Copyright (C) 2024-2025 xLexip <https://lexip.dev>
  *
  * Licensed under the GNU General Public License, Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class ProximitySensorManager(private val context: Context) : SensorEventListener
 	fun startListening(callback: (Float) -> Unit) {
 		this.callback = callback
 		proximitySensor?.let {
-			sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+			sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
 		}
 	}
 
