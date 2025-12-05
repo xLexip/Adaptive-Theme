@@ -56,7 +56,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
 
-	suspend fun ensureAdaptiveThemeThresholdDefault(default: Float) {
+	suspend fun ensureAdaptiveThemeThresholdDefault(default: Float = AdaptiveThreshold.BRIGHT.lux) {
 		dataStore.edit { preferences ->
 			if (preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] == null) {
 				preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = default

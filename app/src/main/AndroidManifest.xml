@@ -42,11 +42,11 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
 		</activity>
-
-		<service
-			android:name=".services.BroadcastReceiverService"
-			android:foregroundServiceType="specialUse" />
 
 		<receiver
 			android:name=".broadcasts.BootCompletedReceiver"
@@ -55,6 +55,27 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
+
+		<service
+			android:name=".services.BroadcastReceiverService"
+			android:foregroundServiceType="specialUse" />
+
+		<service
+			android:name=".services.QuickSettingsTileService"
+			android:exported="true"
+			android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+			android:icon="@drawable/ic_qs_app">
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.service.quicksettings.ACTIVITY"
+				android:value="dev.lexip.hecate.ui.MainActivity" />
+			<meta-data
+				android:name="android.service.quicksettings.TILE_CATEGORY"
+				android:value="android.service.quicksettings.CATEGORY_DISPLAY" />
+		</service>
 
 	</application>
 
