@@ -33,6 +33,7 @@ google-services.json
 # Android Profiling
 *.hprof
 
-app/release/*
-
+# Builds
+app/release/
 app/debug/
+app/beta/

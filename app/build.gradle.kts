@@ -32,7 +32,13 @@ android {
 			}
 		}
 		debug {
+			versionNameSuffix = "-debug"
+			isDebuggable = true
+		}
+		create("beta") {
+			initWith(getByName("release"))
 			versionNameSuffix = "-beta"
+			isDebuggable = false
 		}
 	}
 	compileOptions {
