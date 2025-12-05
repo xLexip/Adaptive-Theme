@@ -174,7 +174,6 @@ class BroadcastReceiverService : Service() {
 			.addAction(disableAction)
 			.addAction(stopAction)
 			.setOngoing(true)
-			.setPriority(NotificationCompat.PRIORITY_MIN)
 
 
 		val notification = builder.build()
@@ -188,7 +187,7 @@ class BroadcastReceiverService : Service() {
 		val serviceChannel = NotificationChannel(
 			NOTIFICATION_CHANNEL_ID,
 			getString(R.string.title_notification_channel_service),
-			NotificationManager.IMPORTANCE_MIN
+			NotificationManager.IMPORTANCE_DEFAULT
 		)
 
 		serviceChannel.setSound(null, null) // Silent

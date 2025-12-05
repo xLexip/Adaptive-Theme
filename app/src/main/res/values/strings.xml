@@ -3,16 +3,16 @@
 
 	<string name="action_close">Close</string>
 	<string name="action_copy_adb_command">Copy ADB Command</string>
-	<string name="action_disable_notification">Hide notification</string>
+	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
-	<string name="action_stop_service">Disable service</string>
+	<string name="action_stop_service">Disable Service</string>
 
 	<string name="description_adaptive_theme">Automatically switches between light and dark mode based on ambient brightness to improve visibility and help save battery. Changes only occur right after the screen turns on and when the device is uncovered.</string>
-	<string name="description_missing_secure_settings_permission">This app needs the WRITE_SECURE_SETTINGS permission to modify the device theme. It is a system-level permission that cannot be granted from app settings.\n\nTo grant it you can run the following ADB command from a computer connected to your device:\n\n%1$s</string>
+	<string name="description_missing_secure_settings_permission">This app needs the WRITE_SECURE_SETTINGS permission to modify the device theme. It is a system-level permission that cannot be granted from the device settings.\n\nTo grant it you can run the following ADB command from a computer connected to your device:\n\n%1$s</string>
 	<string name="description_notification_service_running">Auto-switching the device theme based on ambient brightness.</string>
 
 	<string name="title_brightness_threshold">Brightness Threshold</string>
-	<string name="title_missing_permission">Missing permission</string>
+	<string name="title_missing_permission">Missing Permission</string>
 	<string name="title_notification_channel_service">Background Activity</string>
 	<string name="title_current_brightness">Current Brightness</string>
 
