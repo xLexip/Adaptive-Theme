@@ -67,7 +67,8 @@ android {
 		}
 	}
 	androidResources {
-		generateLocaleConfig = true
+		generateLocaleConfig = false
+		localeFilters.addAll(listOf("ar", "bn", "bg", "ca", "zh-rCN", "hr", "cs", "da", "nl", "en", "et", "fi", "fr", "de", "el", "gu", "he", "hi", "hu", "is", "id", "it", "ja", "kn", "ko", "lv", "lt", "ml", "mr", "no", "fa", "pl", "pt", "pa", "ro", "ru", "sk", "sl", "es", "sw", "sv", "ta", "te", "th", "tr", "uk", "ur", "vi", "zu"))
 	}
 }
 
