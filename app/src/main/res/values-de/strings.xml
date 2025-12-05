@@ -31,7 +31,6 @@
 	<string name="error_invalid_lux_value">Ungültiger Lux-Wert.</string>
 	<string name="error_lux_value_too_large">Der Lux-Wert kann maximal 100.000 sein.</string>
 	<string name="error_negative_lux_value">Der Lux-Wert darf nicht negativ sein.</string>
-	<string name="error_no_app_language_settings">Per-App-Spracheneinstellungen sind auf diesem Gerät nicht verfügbar.</string>
 	<string name="error_no_email_client">Keine E-Mail-App gefunden.</string>
 
 	<string name="title_about">Info</string>
@@ -67,7 +66,6 @@
 	<string name="permission_wizard_developer_options_disabled">Entwickleroptionen noch nicht aktiviert</string>
 	<string name="permission_wizard_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="permission_wizard_developer_options_title">Entwickleroptionen aktivieren</string>
-	<string name="permission_wizard_dev_options_enabled_toast">Entwickleroptionen aktiviert! Sie können nun mit der Einrichtung fortfahren.</string>
 	<string name="permission_wizard_dev_options_toast">Mehrfach auf die Build-Nummer tippen, um die Entwickleroptionen zu aktivieren.</string>
 	<string name="permission_wizard_explanation_body">Damit das System-Theme automatisch geändert werden kann, benötigt diese App die spezielle Berechtigung WRITE_SECURE_SETTINGS. Sie kann nicht über die normalen Systemeinstellungen erteilt werden, daher führen wir Sie durch eine einmalige Einrichtung mit Entwickleroptionen und einem Computer.</string>
 	<string name="permission_wizard_explanation_title">Berechtigung erforderlich</string>
@@ -81,7 +79,6 @@
 	<string name="permission_wizard_usb_connected">USB verbunden</string>
 	<string name="permission_wizard_usb_debugging_disabled">USB-Debugging aktivieren</string>
 	<string name="permission_wizard_usb_debugging_enabled">USB-Debugging aktiviert</string>
-	<string name="permission_wizard_usb_debugging_enabled_toast">USB-Debugging aktiviert! Sie können nun mit der Einrichtung fortfahren.</string>
 	<string name="permission_wizard_usb_debugging_toast">USB-Debugging aktivieren</string>
 	<string name="permission_wizard_usb_not_connected">Warten auf USB-Verbindung …</string>
 	<string name="permission_wizard_why_other_device">Die Berechtigung kann nur über ADB erteilt werden, wofür ein anderes Gerät mit einem Webbrowser oder ADB erforderlich ist.</string>
