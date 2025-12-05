@@ -126,7 +126,7 @@ fun AdaptiveThemeScreen(
 			Text(
 				modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
 				text = stringResource(id = R.string.description_adaptive_theme),
-				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 22.sp)
+				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
 			)
 			MainSwitchPreferenceCard(
 				text = stringResource(id = R.string.action_use_adaptive_theme),

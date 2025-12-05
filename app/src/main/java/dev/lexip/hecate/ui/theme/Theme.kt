@@ -13,18 +13,23 @@
 package dev.lexip.hecate.ui.theme
 
 import android.content.Context
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import dev.lexip.hecate.R
 
 @Composable
 fun HecateTheme(
@@ -33,14 +38,47 @@ fun HecateTheme(
 	content: @Composable () -> Unit
 ) {
 	val colorScheme = when {
-		Build.VERSION.SDK_INT >= 31 && darkTheme -> dynamicDarkColorScheme(context)
-		Build.VERSION.SDK_INT >= 31 -> dynamicLightColorScheme(context)
-		darkTheme -> darkColorScheme()
-		else -> lightColorScheme()
+		darkTheme -> dynamicDarkColorScheme(context)
+		else -> dynamicLightColorScheme(context)
 	}
+
+	// Bundle Nunito Font to match system settings design
+	val nunitoFontFamily = FontFamily(
+		Font(R.font.nunito_black, weight = FontWeight.Black),
+		Font(R.font.nunito_extrabold, weight = FontWeight.ExtraBold),
+		Font(R.font.nunito_bold, weight = FontWeight.Bold),
+		Font(R.font.nunito_semibold, weight = FontWeight.SemiBold),
+		Font(R.font.nunito_medium, weight = FontWeight.Medium),
+		Font(R.font.nunito_regular, weight = FontWeight.Normal),
+		Font(R.font.nunito_light, weight = FontWeight.Light),
+		Font(R.font.nunito_italic, weight = FontWeight.Normal, style = FontStyle.Italic)
+	)
+
+	val appTypography = Typography(
+		displaySmall = TextStyle(
+			fontFamily = nunitoFontFamily,
+			fontWeight = FontWeight.Black,
+			fontSize = 36.sp
+		),
+		titleMedium = TextStyle(
+			fontFamily = nunitoFontFamily,
+			fontWeight = FontWeight.Bold,
+			fontSize = 16.sp
+		),
+		bodyLarge = TextStyle(
+			fontFamily = nunitoFontFamily,
+			fontSize = 17.sp
+		),
+		bodySmall = TextStyle(
+			fontFamily = nunitoFontFamily,
+			fontWeight = FontWeight.SemiBold,
+			fontSize = 12.sp
+		)
+	)
 
 	MaterialTheme(
 		colorScheme = colorScheme,
+		typography = appTypography,
 		content = content
 	)
 }
