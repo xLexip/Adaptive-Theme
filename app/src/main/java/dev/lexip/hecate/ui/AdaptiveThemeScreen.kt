@@ -13,9 +13,12 @@
 package dev.lexip.hecate.ui
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -56,7 +59,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.AboutDialog
@@ -65,6 +70,8 @@ import dev.lexip.hecate.ui.components.PermissionMissingDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,6 +129,7 @@ fun AdaptiveThemeScreen(
 					)
 				},
 				actions = {
+					val noEmailClientMessage = stringResource(id = R.string.error_no_email_client)
 					var menuExpanded by remember { mutableStateOf(false) }
 					androidx.compose.foundation.layout.Box {
 						IconButton(onClick = { menuExpanded = true }) {
@@ -134,6 +142,30 @@ fun AdaptiveThemeScreen(
 							expanded = menuExpanded,
 							onDismissRequest = { menuExpanded = false }
 						) {
+							val feedbackSubject =
+								"Adaptive Theme Feedback (v${BuildConfig.VERSION_NAME})"
+							DropdownMenuItem(
+								text = { Text(text = stringResource(id = R.string.title_send_feedback)) },
+								onClick = {
+									menuExpanded = false
+									val encodedSubject = URLEncoder.encode(
+										feedbackSubject,
+										StandardCharsets.UTF_8.toString()
+									)
+									val feedbackUri =
+										"https://lexip.dev/hecate/feedback?subject=$encodedSubject".toUri()
+									val feedbackIntent = Intent(Intent.ACTION_VIEW, feedbackUri)
+									try {
+										context.startActivity(feedbackIntent)
+									} catch (_: ActivityNotFoundException) {
+										Toast.makeText(
+											context,
+											noEmailClientMessage,
+											Toast.LENGTH_SHORT
+										).show()
+									}
+								}
+							)
 							DropdownMenuItem(
 								text = { Text(text = stringResource(id = R.string.title_about)) },
 								onClick = {
