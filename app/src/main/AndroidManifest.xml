@@ -34,6 +34,11 @@
 		android:usesCleartextTraffic="false"
 		android:windowSoftInputMode="adjustResize">
 
+		<!-- Explicitly disable AdID collection for Firebase Analytics -->
+		<meta-data
+			android:name="google_analytics_adid_collection_enabled"
+			android:value="false" />
+
 		<activity
 			android:name=".ui.MainActivity"
 			android:exported="true"
