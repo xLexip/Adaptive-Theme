@@ -75,6 +75,22 @@ import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+// Helper to share via Android Sharesheet
+private fun android.content.Context.shareSetupUrl(url: String) {
+	if (url.isBlank()) return
+
+	val sendIntent = Intent().apply {
+		action = Intent.ACTION_SEND
+		putExtra(Intent.EXTRA_TEXT, url)
+		putExtra(Intent.EXTRA_TITLE, "Setup - Adaptive Theme")
+		type = "text/plain"
+	}
+
+	val shareIntent = Intent.createChooser(sendIntent, null)
+	startActivity(shareIntent)
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdaptiveThemeScreen(
@@ -349,17 +365,7 @@ fun AdaptiveThemeScreen(
 			}
 		},
 		onShareSetupUrl = { url ->
-			val shareIntent = Intent().apply {
-				action = Intent.ACTION_SEND
-				putExtra(Intent.EXTRA_TEXT, url)
-				type = "text/plain"
-			}
-			val chooser = Intent.createChooser(shareIntent, null)
-			try {
-				context.startActivity(chooser)
-			} catch (_: Exception) {
-				// ignore if no activity can handle share
-			}
+			context.shareSetupUrl(url)
 		},
 		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
 	)
