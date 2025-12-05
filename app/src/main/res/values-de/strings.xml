@@ -38,6 +38,7 @@ Diese App benötigt die Berechtigung WRITE_SECURE_SETTINGS, um das System-Theme 
 	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_send_feedback">Feedback senden</string>
 	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
+	<string name="title_beta_feedback">Beta Feedback</string>
 
 	<string name="adaptive_threshold_dark">Dunkel</string>
 	<string name="adaptive_threshold_dim">Schwach</string>
