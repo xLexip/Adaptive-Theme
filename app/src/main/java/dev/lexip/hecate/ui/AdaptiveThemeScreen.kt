@@ -98,7 +98,6 @@ fun AdaptiveThemeScreen(
 	)
 
 	val showMissingPermissionDialog by adaptiveThemeViewModel.showMissingPermissionDialog.collectAsState()
-	val pendingAdbCommand by adaptiveThemeViewModel.pendingAdbCommand.collectAsState()
 
 	val showCustomDialog = remember { mutableStateOf(false) }
 
@@ -329,8 +328,29 @@ fun AdaptiveThemeScreen(
 
 	PermissionMissingDialog(
 		show = showMissingPermissionDialog,
-		adbCommand = pendingAdbCommand,
-		onCopy = { adaptiveThemeViewModel.requestCopyAdbCommand() },
+		setupUrl = "https://lexip.dev/setup",
+		onOpenSetup = {
+			val setupUri = "https://lexip.dev/setup".toUri()
+			val intent = Intent(Intent.ACTION_VIEW, setupUri)
+			try {
+				context.startActivity(intent)
+			} catch (_: Exception) {
+				context.startActivity(Intent(Intent.ACTION_VIEW, setupUri))
+			}
+		},
+		onShareSetupUrl = { url ->
+			val shareIntent = Intent().apply {
+				action = Intent.ACTION_SEND
+				putExtra(Intent.EXTRA_TEXT, url)
+				type = "text/plain"
+			}
+			val chooser = Intent.createChooser(shareIntent, null)
+			try {
+				context.startActivity(chooser)
+			} catch (_: Exception) {
+				// ignore if no activity can handle share
+			}
+		},
 		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
 	)
 
