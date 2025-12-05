@@ -19,5 +19,5 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "Hecate"
+rootProject.name = "Adaptive Theme"
 include(":app")

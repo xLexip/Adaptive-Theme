@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 xLexip <https://lexip.dev>
+ * Copyright (C) 2024-2025 xLexip <https://lexip.dev>
  *
  * Licensed under the GNU General Public License, Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import dev.lexip.hecate.analytics.AnalyticsGate
 
 const val USER_PREFERENCES_NAME = "user_preferences"
 private val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
@@ -28,4 +29,9 @@ class HecateApplication : Application() {
 	 */
 	val userPreferencesDataStore: DataStore<Preferences>
 		get() = this.dataStore
+
+	override fun onCreate() {
+		super.onCreate()
+		AnalyticsGate.init(this)
+	}
 }

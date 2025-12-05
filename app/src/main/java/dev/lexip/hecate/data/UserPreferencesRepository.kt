@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 xLexip <https://lexip.dev>
+ * Copyright (C) 2024-2025 xLexip <https://lexip.dev>
  *
  * Licensed under the GNU General Public License, Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ private const val TAG = "UserPreferencesRepository"
 
 data class UserPreferences(
 	val adaptiveThemeEnabled: Boolean,
-	val adaptiveThemeThresholdLux: Float
+	val adaptiveThemeThresholdLux: Float,
+	val customAdaptiveThemeThresholdLux: Float? = null,
+	val permissionWizardCompleted: Boolean = false
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -37,6 +39,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private object PreferencesKeys {
 		val ADAPTIVE_THEME_ENABLED = booleanPreferencesKey("adaptive_theme_enabled")
 		val ADAPTIVE_THEME_THRESHOLD_LUX = floatPreferencesKey("adaptive_theme_threshold_lux")
+		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
+			floatPreferencesKey("custom_adaptive_theme_threshold_lux")
+		val PERMISSION_WIZARD_COMPLETED = booleanPreferencesKey("permission_wizard_completed")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -55,13 +60,30 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun fetchInitialPreferences() =
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
+
+	suspend fun ensureAdaptiveThemeThresholdDefault(default: Float = AdaptiveThreshold.DAYLIGHT.lux) {
+		dataStore.edit { preferences ->
+			if (preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] == null) {
+				preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = default
+			}
+		}
+	}
+
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		// Get our show completed value, defaulting to false if not set:
-		preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] == true
 		val adaptiveThemeEnabled = preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] == true
 		val adaptiveThemeThresholdLux =
-			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] ?: 100f
-		return UserPreferences(adaptiveThemeEnabled, adaptiveThemeThresholdLux)
+			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX]
+				?: AdaptiveThreshold.DAYLIGHT.lux
+		val customAdaptiveThemeThresholdLux =
+			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX]
+		val permissionWizardCompleted =
+			preferences[PreferencesKeys.PERMISSION_WIZARD_COMPLETED] == true
+		return UserPreferences(
+			adaptiveThemeEnabled = adaptiveThemeEnabled,
+			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
+			customAdaptiveThemeThresholdLux = customAdaptiveThemeThresholdLux,
+			permissionWizardCompleted = permissionWizardCompleted
+		)
 	}
 
 	suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {
@@ -73,6 +95,26 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
+		}
+	}
+
+	suspend fun updateCustomAdaptiveThemeThresholdLux(lux: Float) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+		}
+	}
+
+	suspend fun clearCustomAdaptiveThemeThreshold() {
+		dataStore.edit { preferences ->
+			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
+		}
+	}
+
+	suspend fun updatePermissionWizardCompleted(completed: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.PERMISSION_WIZARD_COMPLETED] = completed
 		}
 	}
 

@@ -14,24 +14,42 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	tools:ignore="ProtectedPermissions">
 
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission
+		android:name="android.permission.FOREGROUND_SERVICE"
+		tools:ignore="ForegroundServicesPolicy" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+
+	<supports-screens
+		android:smallScreens="true"
+		android:normalScreens="true"
+		android:largeScreens="false"
+		android:xlargeScreens="false"
+		android:resizeable="true"
+		android:anyDensity="true" />
 
 	<application
 		android:name="dev.lexip.hecate.HecateApplication"
-		android:allowBackup="true"
+		android:allowBackup="false"
 		android:dataExtractionRules="@xml/data_extraction_rules"
 		android:fullBackupContent="@xml/backup_rules"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
-		android:roundIcon="@mipmap/ic_launcher_round"
+		android:roundIcon="@mipmap/ic_launcher"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.App.Starting"
 		android:usesCleartextTraffic="false"
-		android:windowSoftInputMode="adjustResize">
+		android:windowSoftInputMode="adjustResize"
+		android:localeConfig="@xml/locales_config"
+		tools:targetApi="33">
+
+		<!-- Explicitly disable AdID collection for Firebase Analytics -->
+		<meta-data
+			android:name="google_analytics_adid_collection_enabled"
+			android:value="false" />
 
 		<activity
 			android:name=".ui.MainActivity"
@@ -41,11 +59,11 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
 		</activity>
-
-		<service
-			android:name=".services.BroadcastReceiverService"
-			android:foregroundServiceType="specialUse" />
 
 		<receiver
 			android:name=".broadcasts.BootCompletedReceiver"
@@ -54,6 +72,31 @@
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>
 		</receiver>
+
+		<service
+			android:name=".services.BroadcastReceiverService"
+			android:foregroundServiceType="specialUse">
+			<property
+				android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+				android:value="lightweight_screen_on_brightness_based_theme_switch_special_use_fgs" />
+		</service>
+
+		<service
+			android:name=".services.QuickSettingsTileService"
+			android:exported="true"
+			android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+			android:icon="@drawable/ic_app">
+			<intent-filter>
+				<action android:name="android.service.quicksettings.action.QS_TILE" />
+			</intent-filter>
+
+			<meta-data
+				android:name="android.service.quicksettings.ACTIVITY"
+				android:value="dev.lexip.hecate.ui.MainActivity" />
+			<meta-data
+				android:name="android.service.quicksettings.TILE_CATEGORY"
+				android:value="android.service.quicksettings.CATEGORY_DISPLAY" />
+		</service>
 
 	</application>
 

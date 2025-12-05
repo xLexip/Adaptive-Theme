@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 xLexip <https://lexip.dev>
+ * Copyright (C) 2024-2025 xLexip <https://lexip.dev>
  *
  * Licensed under the GNU General Public License, Version 3.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,7 +12,10 @@
 
 package dev.lexip.hecate.ui
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -27,10 +30,28 @@ import dev.lexip.hecate.util.DarkThemeHandler
 
 class MainActivity : ComponentActivity() {
 
+	private lateinit var inAppUpdateManager: InAppUpdateManager
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		// Catch mysterious unsupported SDK versions despite minSDK 31
+		@SuppressLint("ObsoleteSdkInt")
+		if (Build.VERSION.SDK_INT < 31) {
+			Toast.makeText(
+				this,
+				"Unsupported Android version, please uninstall the app.",
+				Toast.LENGTH_LONG
+			).show()
+			finish()
+			return
+		}
+
 		installSplashScreen()
 		enableEdgeToEdge()
+
+		inAppUpdateManager = InAppUpdateManager(this)
+		inAppUpdateManager.registerUpdateLauncher(this)
 
 		setContent {
 			val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
@@ -42,11 +63,21 @@ class MainActivity : ComponentActivity() {
 				)
 			)
 			val state by adaptiveThemeViewModel.uiState.collectAsState()
+
 			HecateTheme {
-				AdaptiveThemeScreen(state, adaptiveThemeViewModel::updateAdaptiveThemeEnabled)
+				AdaptiveThemeScreen(
+					state
+				)
 			}
 		}
 
+		inAppUpdateManager.checkForImmediateUpdate()
+	}
+
+	override fun onResume() {
+		super.onResume()
+		if (::inAppUpdateManager.isInitialized) {
+			inAppUpdateManager.resumeImmediateUpdateIfNeeded()
+		}
 	}
 }
-

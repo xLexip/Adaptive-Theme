@@ -1,21 +1,22 @@
-import org.gradle.api.JavaVersion.VERSION_23
-
 plugins {
+	id("com.google.gms.google-services")
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
+	alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
 	namespace = "dev.lexip.hecate"
 	compileSdk = 36
+	buildToolsVersion = "36.0.0"
 
 	defaultConfig {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 31
 		targetSdk = 36
-		versionCode = 1
-		versionName = "0.1.0"
+		versionCode = 36
+		versionName = "0.7.0"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
@@ -27,19 +28,48 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
+			ndk {
+				debugSymbolLevel = "FULL"
+			}
+		}
+		debug {
+			versionNameSuffix = "-debug"
+			isDebuggable = true
+			ndk {
+				debugSymbolLevel = "FULL"
+			}
+		}
+		create("beta") {
+			initWith(getByName("release"))
+			versionNameSuffix = "-beta"
+			isDebuggable = false
+		}
+
+	}
+
+	compileOptions {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
+
+	kotlin {
+		compilerOptions {
+			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
 		}
 	}
-	compileOptions {
-		sourceCompatibility = VERSION_23
-		targetCompatibility = VERSION_23
+
+	bundle {
+		language {
+			@Suppress("UnstableApiUsage")
+			enableSplit = false
+		}
 	}
-	kotlinOptions {
-		jvmTarget = "23"
-	}
+
 	buildFeatures {
 		compose = true
+		buildConfig = true
 	}
-	buildToolsVersion = "35.0.0"
+
 	sourceSets {
 		getByName("main") {
 			resources {
@@ -50,6 +80,9 @@ android {
 }
 
 dependencies {
+	implementation(platform(libs.firebase.bom))
+	implementation(libs.firebase.analytics)
+	implementation(libs.firebase.crashlytics)
 	implementation(libs.androidx.localbroadcastmanager)
 	implementation(libs.androidx.core.splashscreen.v100)
 	implementation(libs.androidx.activity.compose)
@@ -65,6 +98,8 @@ dependencies {
 	implementation(libs.androidx.ui.tooling.preview)
 	implementation(libs.material)
 	implementation(platform(libs.androidx.compose.bom))
+	implementation(libs.androidx.compose.material.icons.extended)
+	implementation(libs.app.update.ktx)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
