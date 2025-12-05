@@ -146,7 +146,7 @@ class AdaptiveThemeViewModel(
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) {
 				startBroadcastReceiverService()
-				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault(AdaptiveThreshold.BRIGHT.lux)
+				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault()
 			} else stopBroadcastReceiverService()
 		}
 	}
