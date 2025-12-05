@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
@@ -123,6 +124,12 @@ class AdaptiveThemeViewModel(
 			_pendingAdbCommand.value =
 				"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 			_showMissingPermissionDialog.value = true
+			// Log permission error shown
+			AnalyticsLogger.logPermissionErrorShown(
+				application.applicationContext,
+				reason = "missing_write_secure_settings",
+				attemptedAction = "enable_adaptive_theme"
+			)
 			return false
 		}
 		_showMissingPermissionDialog.value = false
@@ -142,19 +149,37 @@ class AdaptiveThemeViewModel(
 	}
 
 	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
+		val wasEnabled = _uiState.value.adaptiveThemeEnabled
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) {
 				startBroadcastReceiverService()
 				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault()
-			} else stopBroadcastReceiverService()
+				AnalyticsLogger.logServiceEnabled(
+					application.applicationContext,
+					source = if (wasEnabled) "state_restore" else "ui_toggle"
+				)
+			} else {
+				stopBroadcastReceiverService()
+				AnalyticsLogger.logServiceDisabled(
+					application.applicationContext,
+					source = if (wasEnabled) "ui_toggle" else "state_restore"
+				)
+			}
 		}
 	}
 
 	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
 		val threshold = AdaptiveThreshold.fromIndex(index)
+		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
+			// Log threshold change
+			AnalyticsLogger.logBrightnessThresholdChanged(
+				application.applicationContext,
+				oldLux = oldLux,
+				newLux = threshold.lux
+			)
 		}
 	}
 

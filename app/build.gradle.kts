@@ -58,8 +58,8 @@ android {
 
 dependencies {
 	implementation(platform(libs.firebase.bom))
+	implementation(libs.firebase.analytics)
 	implementation(libs.firebase.crashlytics)
-
 	implementation(libs.androidx.localbroadcastmanager)
 	implementation(libs.androidx.core.splashscreen.v100)
 	implementation(libs.androidx.activity.compose)

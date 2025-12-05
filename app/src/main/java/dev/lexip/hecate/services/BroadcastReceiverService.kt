@@ -25,6 +25,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.R
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.util.DarkThemeHandler
@@ -67,6 +68,10 @@ class BroadcastReceiverService : Service() {
 					val userPreferencesRepository = UserPreferencesRepository(dataStore)
 					userPreferencesRepository.updateAdaptiveThemeEnabled(false)
 					Log.i(TAG, "Adaptive theme disabled via notification action.")
+					AnalyticsLogger.logServiceDisabled(
+						applicationContext,
+						source = "notification_action"
+					)
 				} catch (e: Exception) {
 					Log.e(TAG, "Failed to update adaptive theme preference", e)
 				}

@@ -8,6 +8,9 @@ coreSplashscreenVersion = "1.0.1"
 datastorePreferencesCore = "1.1.7"
 espressoCore = "3.7.0"
 firebaseBom = "34.5.0"
+firebaseAnalytics = "23.0.0"
+firebaseCrashlytics = "20.0.3"
+googleFirebaseCrashlytics = "3.0.6"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 kotlin = "2.2.21"
@@ -16,8 +19,6 @@ lifecycleViewmodelCompose = "2.9.4"
 localbroadcastmanager = "1.1.0"
 material = "1.13.0"
 preference = "1.2.1"
-firebaseCrashlytics = "20.0.3"
-googleFirebaseCrashlytics = "3.0.6"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -43,6 +44,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 
 [plugins]

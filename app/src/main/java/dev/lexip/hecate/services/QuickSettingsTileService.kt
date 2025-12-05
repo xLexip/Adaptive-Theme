@@ -18,6 +18,7 @@ import android.content.pm.PackageManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +34,11 @@ class QuickSettingsTileService : TileService() {
 			Manifest.permission.WRITE_SECURE_SETTINGS,
 			packageName
 		) == PackageManager.PERMISSION_GRANTED
+	}
+
+	override fun onTileAdded() {
+		super.onTileAdded()
+		AnalyticsLogger.logQuickSettingsTileAdded(applicationContext)
 	}
 
 	override fun onStartListening() {
@@ -83,8 +89,16 @@ class QuickSettingsTileService : TileService() {
 			if (newEnabled) {
 				repo.ensureAdaptiveThemeThresholdDefault()
 				applicationContext.startService(intent)
+				AnalyticsLogger.logServiceEnabled(
+					applicationContext,
+					source = "quick_settings_tile"
+				)
 			} else {
 				applicationContext.stopService(intent)
+				AnalyticsLogger.logServiceDisabled(
+					applicationContext,
+					source = "quick_settings_tile"
+				)
 			}
 
 			// Update tile UI
@@ -94,4 +108,3 @@ class QuickSettingsTileService : TileService() {
 	}
 
 }
-
