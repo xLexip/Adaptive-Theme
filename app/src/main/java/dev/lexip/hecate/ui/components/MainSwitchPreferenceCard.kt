@@ -31,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -50,9 +51,12 @@ fun MainSwitchPreferenceCard(text: String, isChecked: Boolean, onCheckedChange: 
 			horizontalArrangement = Arrangement.SpaceBetween
 		) {
 			Text(
+				modifier = Modifier
+					.fillMaxWidth(0.75f),
 				style = MaterialTheme.typography.titleMedium,
 				color = MaterialTheme.colorScheme.onPrimaryContainer,
-				text = text
+				text = text,
+				overflow = TextOverflow.Ellipsis
 			)
 			Switch(
 				checked = isChecked,
