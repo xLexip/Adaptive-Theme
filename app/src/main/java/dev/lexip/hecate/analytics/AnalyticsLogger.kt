@@ -90,4 +90,20 @@ object AnalyticsLogger {
 			}
 		}
 	}
+
+	fun logViewWebsiteClicked(context: Context, source: String) {
+		ifAllowed {
+			analytics(context).logEvent("view_website_clicked") {
+				param("source", source)
+			}
+		}
+	}
+
+	fun logShareLinkClicked(context: Context, source: String) {
+		ifAllowed {
+			analytics(context).logEvent("share_link_clicked") {
+				param("source", source)
+			}
+		}
+	}
 }

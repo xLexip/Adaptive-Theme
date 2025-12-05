@@ -356,6 +356,7 @@ fun AdaptiveThemeScreen(
 		show = showMissingPermissionDialog,
 		setupUrl = "https://lexip.dev/setup",
 		onOpenSetup = {
+			AnalyticsLogger.logViewWebsiteClicked(context, "permission_dialog")
 			val setupUri = "https://lexip.dev/setup".toUri()
 			val intent = Intent(Intent.ACTION_VIEW, setupUri)
 			try {
@@ -365,6 +366,7 @@ fun AdaptiveThemeScreen(
 			}
 		},
 		onShareSetupUrl = { url ->
+			AnalyticsLogger.logShareLinkClicked(context, "permission_dialog")
 			context.shareSetupUrl(url)
 		},
 		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
