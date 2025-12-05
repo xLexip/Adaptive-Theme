@@ -21,22 +21,32 @@ object AnalyticsLogger {
 	private fun analytics(context: Context): FirebaseAnalytics =
 		FirebaseAnalytics.getInstance(context)
 
+	private inline fun ifAllowed(block: () -> Unit) {
+		if (AnalyticsGate.allowed()) block()
+	}
+
 	fun logPermissionErrorShown(context: Context, reason: String, attemptedAction: String) {
-		analytics(context).logEvent("permission_error_shown") {
-			param("reason", reason)
-			param("attempted_action", attemptedAction)
+		ifAllowed {
+			analytics(context).logEvent("permission_error_shown") {
+				param("reason", reason)
+				param("attempted_action", attemptedAction)
+			}
 		}
 	}
 
 	fun logServiceEnabled(context: Context, source: String) {
-		analytics(context).logEvent("adaptive_service_enabled") {
-			param("source", source)
+		ifAllowed {
+			analytics(context).logEvent("adaptive_service_enabled") {
+				param("source", source)
+			}
 		}
 	}
 
 	fun logServiceDisabled(context: Context, source: String) {
-		analytics(context).logEvent("adaptive_service_disabled") {
-			param("source", source)
+		ifAllowed {
+			analytics(context).logEvent("adaptive_service_disabled") {
+				param("source", source)
+			}
 		}
 	}
 
@@ -46,15 +56,17 @@ object AnalyticsLogger {
 		newLux: Float
 	) {
 		if (oldLux == newLux) return
-		analytics(context).logEvent("brightness_threshold_changed") {
-			param("old_lux", oldLux.toLong())
-			param("new_lux", newLux.toLong())
+		ifAllowed {
+			analytics(context).logEvent("brightness_threshold_changed") {
+				param("old_lux", oldLux.toLong())
+				param("new_lux", newLux.toLong())
+			}
 		}
 	}
 
-	fun logQuickSettingsTileAdded(context: Context, active: Boolean) {
-		analytics(context).logEvent("qs_tile_added") {
-			param("active", if (active) 1L else 0L)
+	fun logQuickSettingsTileAdded(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("qs_tile_added") { }
 		}
 	}
 }
