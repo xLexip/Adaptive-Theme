@@ -10,16 +10,13 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.ui.components
+package dev.lexip.hecate.ui.components.preferences
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -32,15 +29,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.lexip.hecate.util.formatLux
 import kotlin.math.roundToInt
 
 @Composable
-fun SliderPreferenceCard(
+fun SliderDetailCard(
 	title: String,
 	valueIndex: Int,
 	steps: Int,
@@ -48,32 +45,19 @@ fun SliderPreferenceCard(
 	lux: List<Float>? = null,
 	onValueChange: (Int) -> Unit,
 	enabled: Boolean = true,
-	topRounded: Boolean = false,
-	bottomRounded: Boolean = false,
+	firstCard: Boolean = false,
+	lastCard: Boolean = false,
 ) {
-	val largeRadius = 20.dp
-	val smallRadius = 4.dp
-	val shape = RoundedCornerShape(
-		topStart = if (topRounded) largeRadius else smallRadius,
-		topEnd = if (topRounded) largeRadius else smallRadius,
-		bottomStart = if (bottomRounded) largeRadius else smallRadius,
-		bottomEnd = if (bottomRounded) largeRadius else smallRadius,
-	)
-
-	Card(
-		shape = shape,
-		colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright)
+	DetailPreferenceCard(
+		title = title,
+		enabled = enabled,
+		firstCard = firstCard,
+		lastCard = lastCard
 	) {
 		Column(
-			modifier = Modifier.padding(14.dp),
+			modifier = Modifier.padding(horizontal = 12.dp),
 			verticalArrangement = Arrangement.spacedBy(0.dp)
 		) {
-			Text(
-				modifier = Modifier.alpha(if (enabled) 1f else 0.38f),
-				text = title,
-				style = MaterialTheme.typography.titleMedium,
-				color = MaterialTheme.colorScheme.onSurface,
-			)
 			LabeledSlider(
 				valueIndex = valueIndex,
 				steps = steps,
@@ -104,7 +88,6 @@ private fun LabeledSlider(
 	Column(
 		modifier = Modifier
 			.fillMaxWidth()
-			.padding(horizontal = 12.dp)
 	) {
 		Slider(
 			value = sliderPosition,
@@ -132,11 +115,11 @@ private fun LabeledSlider(
 				Text(
 					text = labels.getOrNull(liveIndex) ?: liveIndex.toString(),
 					fontSize = MaterialTheme.typography.bodySmall.fontSize,
-					color = MaterialTheme.colorScheme.primary,
+					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					modifier = Modifier.weight(1f)
 				)
 				Text(
-					text = lux?.getOrNull(liveIndex)?.toInt()?.let { "$it lux" } ?: "",
+					text = lux?.getOrNull(liveIndex)?.toInt()?.let { "${it.formatLux()} lx" } ?: "",
 					fontSize = MaterialTheme.typography.bodySmall.fontSize,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					textAlign = TextAlign.End

@@ -53,7 +53,8 @@ import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
-import dev.lexip.hecate.ui.components.SliderPreferenceCard
+import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
+import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -154,11 +155,12 @@ fun AdaptiveThemeScreen(
 			val currentIndex = adaptiveThemeViewModel.getIndexForCurrentLux()
 			val labels = AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) }
 			val lux = AdaptiveThreshold.entries.map { it.lux }
+			val currentLux by adaptiveThemeViewModel.currentSensorLuxFlow.collectAsState(initial = adaptiveThemeViewModel.currentSensorLux)
 
 			Column(
 				verticalArrangement = Arrangement.spacedBy(2.dp)
 			) {
-				SliderPreferenceCard(
+				SliderDetailCard(
 					title = stringResource(id = R.string.title_brightness_threshold),
 					valueIndex = currentIndex,
 					steps = labels.size,
@@ -170,8 +172,17 @@ fun AdaptiveThemeScreen(
 						)
 					},
 					enabled = uiState.adaptiveThemeEnabled,
-					topRounded = true,
-					bottomRounded = true
+					firstCard = true,
+					lastCard = false
+				)
+
+				ProgressDetailCard(
+					title = stringResource(id = R.string.title_current_brightness),
+					currentLux = currentLux,
+					luxSteps = lux,
+					enabled = uiState.adaptiveThemeEnabled,
+					firstCard = false,
+					lastCard = true
 				)
 
 			}

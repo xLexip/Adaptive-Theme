@@ -21,6 +21,7 @@ import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.LightSensorManager
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +36,7 @@ sealed interface UiEvent {
 
 data class AdaptiveThemeUiState(
 	val adaptiveThemeEnabled: Boolean = false,
-	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT_INDOOR.lux
+	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT.lux
 )
 
 class AdaptiveThemeViewModel(
@@ -45,11 +46,10 @@ class AdaptiveThemeViewModel(
 	private var _darkThemeHandler: DarkThemeHandler
 ) : ViewModel() {
 
-	// UI state
 	private val _uiState = MutableStateFlow(AdaptiveThemeUiState())
 	val uiState: StateFlow<AdaptiveThemeUiState> = _uiState.asStateFlow()
 
-	// One-shot UI events (copy to clipboard, etc.)
+	// One-shot UI events
 	private val _uiEvents = MutableSharedFlow<UiEvent>(
 		replay = 0,
 		extraBufferCapacity = 1,
@@ -57,11 +57,23 @@ class AdaptiveThemeViewModel(
 	)
 	val uiEvents = _uiEvents.asSharedFlow()
 
-	// Permission error dialog
+	// Permission Error Dialog
 	private val _showMissingPermissionDialog = MutableStateFlow(false)
 	val showMissingPermissionDialog: StateFlow<Boolean> = _showMissingPermissionDialog.asStateFlow()
 	private val _pendingAdbCommand = MutableStateFlow("")
 	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
+
+	// Light Sensor
+	private val lightSensorManager = LightSensorManager(application.applicationContext)
+	private var isListeningToSensor = false
+
+	private val _currentSensorLux = MutableStateFlow(0f)
+	val currentSensorLuxFlow: StateFlow<Float> = _currentSensorLux.asStateFlow()
+	val currentSensorLux: Float get() = _currentSensorLux.value
+
+	fun updateCurrentSensorLux(lux: Float) {
+		_currentSensorLux.value = lux
+	}
 
 	init {
 		viewModelScope.launch {
@@ -70,8 +82,32 @@ class AdaptiveThemeViewModel(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux
 				)
+
+				if (userPreferences.adaptiveThemeEnabled) startLightSensorListening()
+				else stopLightSensorListening()
 			}
 		}
+	}
+
+	private fun startLightSensorListening() {
+		if (isListeningToSensor) return
+		isListeningToSensor = true
+		lightSensorManager.startListening { lux ->
+			viewModelScope.launch {
+				updateCurrentSensorLux(lux)
+			}
+		}
+	}
+
+	private fun stopLightSensorListening() {
+		if (!isListeningToSensor) return
+		isListeningToSensor = false
+		lightSensorManager.stopListening()
+	}
+
+	override fun onCleared() {
+		stopLightSensorListening()
+		super.onCleared()
 	}
 
 	/**
@@ -110,7 +146,7 @@ class AdaptiveThemeViewModel(
 			userPreferencesRepository.updateAdaptiveThemeEnabled(enable)
 			if (enable) {
 				startBroadcastReceiverService()
-				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault(AdaptiveThreshold.BRIGHT_INDOOR.lux)
+				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault(AdaptiveThreshold.BRIGHT.lux)
 			} else stopBroadcastReceiverService()
 		}
 	}
