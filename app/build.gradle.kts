@@ -9,13 +9,14 @@ plugins {
 android {
 	namespace = "dev.lexip.hecate"
 	compileSdk = 36
+	buildToolsVersion = "36.0.0"
 
 	defaultConfig {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 31
 		targetSdk = 36
-		versionCode = 8
-		versionName = "0.3.1"
+		versionCode = 27
+		versionName = "0.6.3"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
@@ -45,58 +46,59 @@ android {
 		}
 
 	}
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin {
-		compilerOptions {
-			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+
+	bundle {
+		compileOptions {
+			sourceCompatibility = JavaVersion.VERSION_17
+			targetCompatibility = JavaVersion.VERSION_17
 		}
-	}
-	buildFeatures {
-		compose = true
-		buildConfig = true
-	}
-	buildToolsVersion = "36.0.0"
-	sourceSets {
-		getByName("main") {
-			resources {
-				srcDirs("src/main/resources", "src/main/java/components")
+
+		kotlin {
+			compilerOptions {
+				jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+			}
+		}
+
+		buildFeatures {
+			compose = true
+			buildConfig = true
+		}
+
+		sourceSets {
+			getByName("main") {
+				resources {
+					srcDirs("src/main/resources", "src/main/java/components")
+				}
 			}
 		}
 	}
-	androidResources {
-		generateLocaleConfig = false
-		localeFilters.addAll(listOf("ar", "bn", "bg", "ca", "zh-rCN", "hr", "cs", "da", "nl", "en", "et", "fi", "fr", "de", "el", "gu", "he", "hi", "hu", "is", "id", "it", "ja", "kn", "ko", "lv", "lt", "ml", "mr", "no", "fa", "pl", "pt", "pa", "ro", "ru", "sk", "sl", "es", "sw", "sv", "ta", "te", "th", "tr", "uk", "ur", "vi", "zu"))
-	}
-}
 
-dependencies {
-	implementation(platform(libs.firebase.bom))
-	implementation(libs.firebase.analytics)
-	implementation(libs.firebase.crashlytics)
-	implementation(libs.androidx.localbroadcastmanager)
-	implementation(libs.androidx.core.splashscreen.v100)
-	implementation(libs.androidx.activity.compose)
-	implementation(libs.androidx.appcompat)
-	implementation(libs.androidx.core.ktx)
-	implementation(libs.androidx.datastore.preferences)
-	implementation(libs.androidx.lifecycle.runtime.ktx)
-	implementation(libs.androidx.lifecycle.viewmodel.compose)
-	implementation(libs.androidx.material3)
-	implementation(libs.androidx.preference)
-	implementation(libs.androidx.ui)
-	implementation(libs.androidx.ui.graphics)
-	implementation(libs.androidx.ui.tooling.preview)
-	implementation(libs.material)
-	implementation(platform(libs.androidx.compose.bom))
-	implementation(libs.androidx.compose.material.icons.extended)
-	testImplementation(libs.junit)
-	androidTestImplementation(libs.androidx.junit)
-	androidTestImplementation(libs.androidx.espresso.core)
-	androidTestImplementation(platform(libs.androidx.compose.bom))
-	androidTestImplementation(libs.androidx.ui.test.junit4)
-	debugImplementation(libs.androidx.ui.tooling)
-	debugImplementation(libs.androidx.ui.test.manifest)
+	dependencies {
+		implementation(platform(libs.firebase.bom))
+		implementation(libs.firebase.analytics)
+		implementation(libs.firebase.crashlytics)
+		implementation(libs.androidx.localbroadcastmanager)
+		implementation(libs.androidx.core.splashscreen.v100)
+		implementation(libs.androidx.activity.compose)
+		implementation(libs.androidx.appcompat)
+		implementation(libs.androidx.core.ktx)
+		implementation(libs.androidx.datastore.preferences)
+		implementation(libs.androidx.lifecycle.runtime.ktx)
+		implementation(libs.androidx.lifecycle.viewmodel.compose)
+		implementation(libs.androidx.material3)
+		implementation(libs.androidx.preference)
+		implementation(libs.androidx.ui)
+		implementation(libs.androidx.ui.graphics)
+		implementation(libs.androidx.ui.tooling.preview)
+		implementation(libs.material)
+		implementation(platform(libs.androidx.compose.bom))
+		implementation(libs.androidx.compose.material.icons.extended)
+		testImplementation(libs.junit)
+		androidTestImplementation(libs.androidx.junit)
+		androidTestImplementation(libs.androidx.espresso.core)
+		androidTestImplementation(platform(libs.androidx.compose.bom))
+		androidTestImplementation(libs.androidx.ui.test.junit4)
+		debugImplementation(libs.androidx.ui.tooling)
+		debugImplementation(libs.androidx.ui.test.manifest)
+	}
 }
