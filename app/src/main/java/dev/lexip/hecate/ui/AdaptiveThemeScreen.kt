@@ -27,7 +27,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemGestures
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -91,6 +91,8 @@ private fun android.content.Context.shareSetupUrl(url: String) {
 
 }
 
+private val ScreenHorizontalMargin = 20.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdaptiveThemeScreen(
@@ -136,7 +138,7 @@ fun AdaptiveThemeScreen(
 		topBar = {
 			LargeTopAppBar(
 				modifier = Modifier
-					.padding(horizontal = horizontalOffsetPadding)
+					.padding(start = ScreenHorizontalMargin - 8.dp)
 					.padding(top = 22.dp, bottom = 12.dp),
 				colors = hecateTopAppBarColors(),
 				title = {
@@ -275,9 +277,10 @@ fun AdaptiveThemeScreen(
 	) { innerPadding ->
 		Column(
 			modifier = Modifier
-				.windowInsetsPadding(WindowInsets.systemGestures.only(WindowInsetsSides.Horizontal))
 				.fillMaxSize()
 				.padding(innerPadding)
+				.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
+				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(rememberScrollState()),
 			verticalArrangement = Arrangement.spacedBy(32.dp)
 
