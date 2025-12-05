@@ -69,4 +69,17 @@ object AnalyticsLogger {
 			analytics(context).logEvent("qs_tile_added") { }
 		}
 	}
+
+	fun logThemeSwitched(
+		context: Context,
+		targetMode: Int,
+		succeeded: Boolean
+	) {
+		ifAllowed {
+			analytics(context).logEvent("theme_switched") {
+				param("target_mode", targetMode.toLong())
+				param("succeeded", if (succeeded) 1L else 0L)
+			}
+		}
+	}
 }

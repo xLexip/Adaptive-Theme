@@ -16,6 +16,7 @@ import android.app.UiModeManager
 import android.content.Context
 import android.provider.Settings.Secure
 import android.util.Log
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import java.lang.ref.WeakReference
 
 private const val TAG = "DarkThemeHandler"
@@ -46,15 +47,40 @@ class DarkThemeHandler(context: Context) {
 	 * @throws SecurityException if android.permission.WRITE_SECURE_SETTINGS is not granted.
 	 */
 	fun setDarkTheme(enable: Boolean) {
-		val targetMode = if (enable) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
-
-		// Only write the setting and update the UI when the setting has actually changed.
-		if (enable != isDarkThemeEnabled()) {
-			Log.i(TAG, "Switching dark theme to: $targetMode")
-			Secure.putInt(contentResolver, SECURE_SETTINGS_KEY, targetMode)
-			refreshUi()
+		val context = contextRef.get() ?: run {
+			Log.w(TAG, "Context reference lost, cannot change dark theme")
+			return
+		}
+		val resolver = contentResolver
+		if (resolver == null) {
+			Log.w(TAG, "ContentResolver is null, cannot change dark theme")
+			return
 		}
 
+		val targetMode = if (enable) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+
+		var succeeded = false
+		try {
+			Log.i(TAG, "Setting dark theme to target mode: $targetMode")
+			succeeded = Secure.putInt(resolver, SECURE_SETTINGS_KEY, targetMode)
+			if (succeeded) {
+				refreshUi()
+			} else {
+				Log.w(TAG, "Secure.putInt reported failure when changing dark theme")
+			}
+		} catch (e: SecurityException) {
+			Log.e(TAG, "SecurityException while changing dark theme", e)
+			succeeded = false
+		} catch (e: Exception) {
+			Log.e(TAG, "Unexpected exception while changing dark theme", e)
+			succeeded = false
+		}
+
+		AnalyticsLogger.logThemeSwitched(
+			context = context,
+			targetMode = targetMode,
+			succeeded = succeeded
+		)
 	}
 
 	/**
