@@ -12,6 +12,7 @@
 
 package dev.lexip.hecate.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -35,6 +36,7 @@ class MainActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 
 		// Catch mysterious unsupported SDK versions despite minSDK 31
+		@SuppressLint("ObsoleteSdkInt")
 		if (Build.VERSION.SDK_INT < 31) {
 			Toast.makeText(
 				this,
