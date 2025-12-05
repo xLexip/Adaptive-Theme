@@ -18,6 +18,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -98,7 +99,7 @@ fun AdaptiveThemeScreen(
 	val showMissingPermissionDialog by adaptiveThemeViewModel.showMissingPermissionDialog.collectAsState()
 	val pendingAdbCommand by adaptiveThemeViewModel.pendingAdbCommand.collectAsState()
 
-	var showCustomDialog by remember { mutableStateOf(false) }
+	val showCustomDialog = remember { mutableStateOf(false) }
 
 	LaunchedEffect(adaptiveThemeViewModel) {
 		adaptiveThemeViewModel.uiEvents.collect { event ->
@@ -144,6 +145,44 @@ fun AdaptiveThemeScreen(
 						) {
 							val feedbackSubject =
 								"Adaptive Theme Feedback (v${BuildConfig.VERSION_NAME})"
+
+							// 1) Custom Threshold
+							DropdownMenuItem(
+								text = { Text(text = stringResource(id = R.string.title_custom_threshold)) },
+								enabled = uiState.adaptiveThemeEnabled,
+								onClick = {
+									menuExpanded = false
+									if (uiState.adaptiveThemeEnabled) {
+										showCustomDialog.value = true
+									}
+								}
+							)
+
+							// 2) Change Language (Android 13+)
+							if (android.os.Build.VERSION.SDK_INT >= 33) {
+								DropdownMenuItem(
+									text = { Text(text = stringResource(id = R.string.title_change_language)) },
+									onClick = {
+										menuExpanded = false
+										val intent =
+											Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
+												data = "package:$packageName".toUri()
+												addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+											}
+										try {
+											context.startActivity(intent)
+										} catch (_: ActivityNotFoundException) {
+											Toast.makeText(
+												context,
+												context.getString(R.string.error_no_app_language_settings),
+												Toast.LENGTH_SHORT
+											).show()
+										}
+									}
+								)
+							}
+
+							// 3) Send Feedback
 							DropdownMenuItem(
 								text = { Text(text = stringResource(id = R.string.title_send_feedback)) },
 								onClick = {
@@ -166,16 +205,8 @@ fun AdaptiveThemeScreen(
 									}
 								}
 							)
-							DropdownMenuItem(
-								text = { Text(text = stringResource(id = R.string.title_custom_threshold)) },
-								enabled = uiState.adaptiveThemeEnabled,
-								onClick = {
-									menuExpanded = false
-									if (uiState.adaptiveThemeEnabled) {
-										showCustomDialog = true
-									}
-								}
-							)
+
+							// 4) About
 							DropdownMenuItem(
 								text = { Text(stringResource(R.string.title_about)) },
 								onClick = {
@@ -284,12 +315,12 @@ fun AdaptiveThemeScreen(
 	)
 
 	CustomThresholdDialog(
-		show = showCustomDialog,
+		show = showCustomDialog.value,
 		currentLux = uiState.customAdaptiveThemeThresholdLux ?: uiState.adaptiveThemeThresholdLux,
 		onConfirm = { luxValue: Float ->
 			adaptiveThemeViewModel.setCustomAdaptiveThemeThreshold(luxValue)
-			showCustomDialog = false
+			showCustomDialog.value = false
 		},
-		onDismiss = { showCustomDialog = false }
+		onDismiss = { showCustomDialog.value = false }
 	)
 }
