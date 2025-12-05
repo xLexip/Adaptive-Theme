@@ -145,7 +145,6 @@ internal fun StatusCard(
 
 @Composable
 internal fun ForExpertsSection(
-	summaryText: String? = null,
 	adbCommand: String?,
 	onCopyAdbCommand: (() -> Unit)? = null,
 	onShareExpertCommand: (() -> Unit)? = null,
@@ -185,59 +184,53 @@ internal fun ForExpertsSection(
 			if (expanded) {
 				Spacer(modifier = Modifier.height(8.dp))
 				Text(
-					text = summaryText
-						?: stringResource(id = R.string.permission_wizard_manual_command),
+					text = stringResource(id = R.string.permission_wizard_manual_command),
 					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
-				if (adbCommand != null) {
-					Spacer(modifier = Modifier.height(12.dp))
-					Surface(
-						modifier = Modifier.fillMaxWidth(),
-						color = MaterialTheme.colorScheme.surface,
-						shape = MaterialTheme.shapes.small
+
+				Spacer(modifier = Modifier.height(12.dp))
+				Surface(
+					modifier = Modifier.fillMaxWidth(),
+					color = MaterialTheme.colorScheme.surface,
+					shape = MaterialTheme.shapes.small
+				) {
+					Text(
+						text = adbCommand ?: "",
+						style = MaterialTheme.typography.bodySmall,
+						modifier = Modifier.padding(12.dp),
+						fontWeight = FontWeight.Medium
+					)
+				}
+
+				Spacer(modifier = Modifier.height(8.dp))
+				Row(
+					modifier = Modifier.fillMaxWidth(),
+					horizontalArrangement = Arrangement.spacedBy(8.dp)
+				) {
+					OutlinedButton(
+						onClick = {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+							onCopyAdbCommand?.invoke()
+							Toast.makeText(
+								context,
+								R.string.permission_wizard_copied,
+								Toast.LENGTH_SHORT
+							).show()
+						},
+						modifier = Modifier.weight(1f)
 					) {
-						Text(
-							text = adbCommand,
-							style = MaterialTheme.typography.bodySmall,
-							modifier = Modifier.padding(12.dp),
-							fontWeight = FontWeight.Medium
-						)
+						Text(text = stringResource(id = R.string.action_copy))
 					}
-					if (onCopyAdbCommand != null || onShareExpertCommand != null) {
-						Spacer(modifier = Modifier.height(8.dp))
-						Row(
-							modifier = Modifier.fillMaxWidth(),
-							horizontalArrangement = Arrangement.spacedBy(8.dp)
-						) {
-							if (onCopyAdbCommand != null) {
-								OutlinedButton(
-									onClick = {
-										haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-										onCopyAdbCommand()
-										Toast.makeText(
-											context,
-											R.string.permission_wizard_copied,
-											Toast.LENGTH_SHORT
-										).show()
-									},
-									modifier = Modifier.weight(1f)
-								) {
-									Text(text = stringResource(id = R.string.action_copy))
-								}
-							}
-							if (onShareExpertCommand != null) {
-								Button(
-									onClick = {
-										haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-										onShareExpertCommand()
-									},
-									modifier = Modifier.weight(1f)
-								) {
-									Text(text = stringResource(id = R.string.action_share))
-								}
-							}
-						}
+
+					Button(
+						onClick = {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+							onShareExpertCommand?.invoke()
+						},
+						modifier = Modifier.weight(1f)
+					) {
+						Text(text = stringResource(id = R.string.action_share))
 					}
 				}
 			}

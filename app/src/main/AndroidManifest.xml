@@ -14,7 +14,9 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	tools:ignore="ProtectedPermissions">
 
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission
+		android:name="android.permission.FOREGROUND_SERVICE"
+		tools:ignore="ForegroundServicesPolicy" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -41,7 +43,8 @@
 		android:theme="@style/Theme.App.Starting"
 		android:usesCleartextTraffic="false"
 		android:windowSoftInputMode="adjustResize"
-		android:localeConfig="@xml/locales_config">
+		android:localeConfig="@xml/locales_config"
+		tools:targetApi="33">
 
 		<!-- Explicitly disable AdID collection for Firebase Analytics -->
 		<meta-data

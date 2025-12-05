@@ -188,12 +188,13 @@ private fun DeveloperOptionsCard(
 			}
 			if (!isEnabled) {
 				Spacer(modifier = Modifier.height(12.dp))
+				val toastText = stringResource(R.string.permission_wizard_dev_options_toast)
 				Button(
 					onClick = {
 						onOpenSettings()
 						Toast.makeText(
 							context,
-							context.getString(R.string.permission_wizard_dev_options_toast),
+							toastText,
 							Toast.LENGTH_LONG
 						).show()
 					},
@@ -213,6 +214,7 @@ private fun UsbDebuggingCard(
 	onOpenDeveloperSettings: () -> Unit,
 ) {
 	val context = LocalContext.current
+	val usbDebuggingToastText = stringResource(R.string.permission_wizard_usb_debugging_toast)
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -260,7 +262,7 @@ private fun UsbDebuggingCard(
 						onOpenDeveloperSettings()
 						Toast.makeText(
 							context,
-							context.getString(R.string.permission_wizard_usb_debugging_toast),
+							usbDebuggingToastText,
 							Toast.LENGTH_LONG
 						).show()
 					},

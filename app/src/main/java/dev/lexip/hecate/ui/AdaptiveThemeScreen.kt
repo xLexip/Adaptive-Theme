@@ -51,6 +51,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -96,9 +97,10 @@ fun AdaptiveThemeScreen(
 	onAboutClick: () -> Unit = {}
 ) {
 	// Enable top-app-bar collapsing on small devices
-	val configuration = androidx.compose.ui.platform.LocalConfiguration.current
-	val screenHeightDp = configuration.screenHeightDp
-	val enableCollapsing = screenHeightDp < 700
+	val windowInfo = LocalWindowInfo.current
+	val density = androidx.compose.ui.platform.LocalDensity.current
+	val screenHeightDp = with(density) { windowInfo.containerSize.height.toDp().value }
+	val enableCollapsing = screenHeightDp < 700f
 	val scrollBehavior = if (enableCollapsing) {
 		TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 	} else null
@@ -387,7 +389,6 @@ fun AdaptiveThemeScreen(
 				false
 			}
 
-			var previousUsbConnected = false
 
 			// Observe USB state via sticky broadcast and runtime receiver
 			val usbFilter =
@@ -404,7 +405,7 @@ fun AdaptiveThemeScreen(
 				return connected && (configured || dataConnected || adb || hostConnected)
 			}
 			isUsbConnected = parseUsbIntent(sticky)
-			previousUsbConnected = isUsbConnected
+			var previousUsbConnected = isUsbConnected
 
 			val runtimeReceiver = object : android.content.BroadcastReceiver() {
 				override fun onReceive(
