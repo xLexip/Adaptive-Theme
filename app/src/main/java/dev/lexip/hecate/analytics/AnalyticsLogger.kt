@@ -82,4 +82,12 @@ object AnalyticsLogger {
 			}
 		}
 	}
+
+	fun logOverflowMenuItemClicked(context: Context, menuItem: String) {
+		ifAllowed {
+			analytics(context).logEvent("overflow_menu_item_clicked") {
+				param("menu_item", menuItem)
+			}
+		}
+	}
 }
