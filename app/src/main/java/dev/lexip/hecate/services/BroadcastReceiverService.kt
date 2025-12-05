@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
+private const val ACTION_STOP_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
 
 private var screenOnReceiver: ScreenOnReceiver? = null
 
@@ -51,11 +52,34 @@ class BroadcastReceiverService : Service() {
 
 	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
 		super.onStartCommand(intent, flags, startId)
+
+		// Initialize data store
+		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
+
+		// Handle stop action from notification
+		if (intent.action == ACTION_STOP_SERVICE) {
+			Log.i(
+				TAG,
+				"Disable action received from notification - disabling adaptive theme and stopping service..."
+			)
+			applicationScope.launch {
+				try {
+					val userPreferencesRepository = UserPreferencesRepository(dataStore)
+					userPreferencesRepository.updateAdaptiveThemeEnabled(false)
+					Log.i(TAG, "Adaptive theme disabled via notification action.")
+				} catch (e: Exception) {
+					Log.e(TAG, "Failed to update adaptive theme preference", e)
+				}
+				stopForeground(STOP_FOREGROUND_REMOVE)
+				stopSelf()
+			}
+			return START_NOT_STICKY
+		}
+
 		Log.i(TAG, "Service starting...")
 		initializeUtils()
 
 		// Load user preferences from data store
-		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
 		applicationScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
@@ -79,7 +103,7 @@ class BroadcastReceiverService : Service() {
 			}
 		}
 
-		// Collect preference updates and update the receiver's threshold while service runs
+		// Collect preference updates while service runs
 		applicationScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
@@ -118,23 +142,52 @@ class BroadcastReceiverService : Service() {
 			pendingIntent
 		).build()
 
+		// Create action to stop the service
+		val stopIntent = Intent(this, BroadcastReceiverService::class.java).apply {
+			action = ACTION_STOP_SERVICE
+		}
+		val stopPendingIntent = PendingIntent.getService(
+			this,
+			0,
+			stopIntent,
+			PendingIntent.FLAG_IMMUTABLE
+		)
+		val stopAction = NotificationCompat.Action.Builder(
+			0,
+			getString(R.string.action_stop_service),
+			stopPendingIntent
+		).build()
+
 		// Build notification
-		return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-			.setContentTitle(getString(R.string.message_notification_service_running))
+		val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+			.setContentTitle(getString(R.string.app_name))
+			.setContentText(getString(R.string.description_notification_service_running))
 			.setCategory(Notification.CATEGORY_SERVICE)
-			.setSmallIcon(R.drawable.ic_launcher_foreground)
+			.setSmallIcon(R.drawable.ic_app)
+			.setOnlyAlertOnce(true)
 			.setContentIntent(pendingIntent)
 			.addAction(disableAction)
-			.build()
+			.addAction(stopAction)
+			.setOngoing(true)
+			.setPriority(NotificationCompat.PRIORITY_MIN)
+
+
+		val notification = builder.build()
+		notification.flags =
+			notification.flags or Notification.FLAG_ONGOING_EVENT or Notification.FLAG_NO_CLEAR or Notification.FLAG_FOREGROUND_SERVICE
+
+		return notification
 	}
 
 	private fun createNotificationChannel() {
 		val serviceChannel = NotificationChannel(
-			"ForegroundServiceChannel",
+			NOTIFICATION_CHANNEL_ID,
 			getString(R.string.title_notification_channel_service),
-			NotificationManager.IMPORTANCE_DEFAULT,
+			NotificationManager.IMPORTANCE_MIN
+		)
 
-			)
+		serviceChannel.setSound(null, null) // Silent
+
 		val manager = getSystemService(NotificationManager::class.java)
 		manager?.createNotificationChannel(serviceChannel)
 	}

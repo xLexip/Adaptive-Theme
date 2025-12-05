@@ -68,7 +68,7 @@
 			android:name=".services.QuickSettingsTileService"
 			android:exported="true"
 			android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-			android:icon="@drawable/ic_qs_app">
+			android:icon="@drawable/ic_app">
 			<intent-filter>
 				<action android:name="android.service.quicksettings.action.QS_TILE" />
 			</intent-filter>
