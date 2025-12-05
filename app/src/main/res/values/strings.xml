@@ -6,15 +6,16 @@
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
 	<string name="action_stop_service">Stop Service</string>
+	<string name="action_open">Open</string>
+	<string name="action_share_setup_url">Share Link</string>
+	<string name="action_view_website">View Website</string>
 
 	<string name="description_adaptive_theme">
         Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Theme changes occur only when the screen turns on and the device is uncovered.
     </string>
-
-	<string name="description_missing_secure_settings_permission">
-        This app requires the WRITE_SECURE_SETTINGS permission to change the system theme. It’s a system-level permission that cannot be granted through device settings.\n\nTo grant it, run the following ADB command from a computer connected to your device:\n\n%1$s
+	<string name="description_missing_permission">
+        This app needs the permission WRITE_SECURE_SETTINGS to modify the system theme. Unfortunately, it cannot be granted from the device settings. \n\nTo grant it, simply open the website lexip.dev/setup on another device and follow the instructions.
     </string>
-
 	<string name="description_notification_service_running">
 		Adjusting the system theme based on ambient brightness.
     </string>

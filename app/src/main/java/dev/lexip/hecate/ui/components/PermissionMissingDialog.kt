@@ -12,11 +12,16 @@
 
 package dev.lexip.hecate.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -26,8 +31,9 @@ import dev.lexip.hecate.R
 @Composable
 fun PermissionMissingDialog(
 	show: Boolean,
-	adbCommand: String,
-	onCopy: (String) -> Unit,
+	setupUrl: String,
+	onOpenSetup: () -> Unit,
+	onShareSetupUrl: (String) -> Unit,
 	onDismiss: () -> Unit
 ) {
 	if (!show) return
@@ -38,23 +44,35 @@ fun PermissionMissingDialog(
 		onDismissRequest = onDismiss,
 		title = { Text(text = stringResource(id = R.string.title_missing_permission)) },
 		text = {
-			Text(
-				text = stringResource(
-					id = R.string.description_missing_secure_settings_permission,
-					adbCommand
+			// Show description text and extra action buttons in a Column
+			Column {
+				Text(
+					text = stringResource(
+						id = R.string.description_missing_permission,
+						setupUrl
+					)
 				)
-			)
+
+				TextButton(onClick = {
+					onOpenSetup()
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+				}, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+					Text(text = stringResource(id = R.string.action_view_website))
+				}
+
+
+			}
 		},
 		confirmButton = {
-			TextButton(onClick = {
-				onCopy(adbCommand)
-				haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+			Button(onClick = {
+				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+				onShareSetupUrl(setupUrl)
 			}) {
-				Text(text = stringResource(id = R.string.action_copy_adb_command))
+				Text(text = stringResource(id = R.string.action_share_setup_url))
 			}
 		},
 		dismissButton = {
-			TextButton(onClick = onDismiss) {
+			OutlinedButton(onClick = onDismiss) {
 				Text(text = stringResource(id = R.string.action_close))
 			}
 		}
