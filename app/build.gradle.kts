@@ -47,36 +47,35 @@ android {
 
 	}
 
+	compileOptions {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
+
+	kotlinOptions {
+		jvmTarget = "17"
+	}
+
 	bundle {
-		compileOptions {
-			sourceCompatibility = JavaVersion.VERSION_17
-			targetCompatibility = JavaVersion.VERSION_17
-		}
-
-		kotlin {
-			compilerOptions {
-				jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-			}
-		}
-
 		language {
 			@Suppress("UnstableApiUsage")
 			enableSplit = false
 		}
+	}
 
-		buildFeatures {
-			compose = true
-			buildConfig = true
-		}
+	buildFeatures {
+		compose = true
+		buildConfig = true
+	}
 
-		sourceSets {
-			getByName("main") {
-				resources {
-					srcDirs("src/main/resources", "src/main/java/components")
-				}
+	sourceSets {
+		getByName("main") {
+			resources {
+				srcDirs("src/main/resources", "src/main/java/components")
 			}
 		}
 	}
+}
 
 dependencies {
 	implementation(platform(libs.firebase.bom))
