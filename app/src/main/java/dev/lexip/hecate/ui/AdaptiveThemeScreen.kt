@@ -64,6 +64,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
@@ -152,6 +153,10 @@ fun AdaptiveThemeScreen(
 								enabled = uiState.adaptiveThemeEnabled,
 								onClick = {
 									menuExpanded = false
+									AnalyticsLogger.logOverflowMenuItemClicked(
+										context,
+										"custom_threshold"
+									)
 									if (uiState.adaptiveThemeEnabled) {
 										showCustomDialog.value = true
 									}
@@ -164,6 +169,10 @@ fun AdaptiveThemeScreen(
 									text = { Text(text = stringResource(id = R.string.title_change_language)) },
 									onClick = {
 										menuExpanded = false
+										AnalyticsLogger.logOverflowMenuItemClicked(
+											context,
+											"change_language"
+										)
 										val intent =
 											Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
 												data = "package:$packageName".toUri()
@@ -187,6 +196,11 @@ fun AdaptiveThemeScreen(
 								text = { Text(text = stringResource(id = R.string.title_send_feedback)) },
 								onClick = {
 									menuExpanded = false
+									AnalyticsLogger.logOverflowMenuItemClicked(
+										context,
+										"send_feedback"
+									)
+									onFeedbackClick()
 									val encodedSubject = URLEncoder.encode(
 										feedbackSubject,
 										StandardCharsets.UTF_8.toString()
@@ -211,6 +225,7 @@ fun AdaptiveThemeScreen(
 								text = { Text(stringResource(R.string.title_about)) },
 								onClick = {
 									menuExpanded = false
+									AnalyticsLogger.logOverflowMenuItemClicked(context, "about")
 									val aboutUri = "https://lexip.dev/hecate/about".toUri()
 									val aboutIntent = Intent(Intent.ACTION_VIEW, aboutUri)
 									Toast.makeText(
