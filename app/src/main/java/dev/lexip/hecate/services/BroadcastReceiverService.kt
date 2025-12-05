@@ -34,6 +34,7 @@ import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 private const val TAG = "BroadcastReceiverService"
@@ -42,8 +43,6 @@ private const val ACTION_STOP_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
 
 private var screenOnReceiver: ScreenOnReceiver? = null
 
-private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-
 class BroadcastReceiverService : Service() {
 
 	// Utils
@@ -51,19 +50,29 @@ class BroadcastReceiverService : Service() {
 	private lateinit var lightSensorManager: LightSensorManager
 	private lateinit var proximitySensorManager: ProximitySensorManager
 
-	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+	// Service-bound scope
+	private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 		super.onStartCommand(intent, flags, startId)
+
+		if (intent == null) {
+			Log.w(
+				TAG,
+				"onStartCommand called with null intent; likely system restart. Proceeding safely."
+			)
+		}
 
 		// Initialize data store
 		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
 
 		// Handle stop action from notification
-		if (intent.action == ACTION_STOP_SERVICE) {
+		if (intent?.action == ACTION_STOP_SERVICE) {
 			Log.i(
 				TAG,
 				"Disable action received from notification - disabling adaptive theme and stopping service..."
 			)
-			applicationScope.launch {
+			serviceScope.launch {
 				try {
 					val userPreferencesRepository = UserPreferencesRepository(dataStore)
 					userPreferencesRepository.updateAdaptiveThemeEnabled(false)
@@ -84,8 +93,13 @@ class BroadcastReceiverService : Service() {
 		Log.i(TAG, "Service starting...")
 		initializeUtils()
 
+		// Start foreground immediately to comply with O+ requirements
+		createNotificationChannel()
+		val initialNotification = buildNotification()
+		startForeground(1, initialNotification)
+
 		// Load user preferences from data store
-		applicationScope.launch {
+		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
 
@@ -96,20 +110,14 @@ class BroadcastReceiverService : Service() {
 
 			// Abort service start when there is no receiver to handle
 			if (screenOnReceiver == null) {
-				Log.d(TAG, "No receiver to handle, service start aborted.")
+				Log.d(TAG, "No receiver to handle, stopping foreground and self.")
+				stopForeground(STOP_FOREGROUND_REMOVE)
 				stopSelf()
-			} else {
-				// Create service notification and channel
-				createNotificationChannel()
-				val notification = buildNotification()
-
-				// Start the service in the foreground
-				startForeground(1, notification)
 			}
 		}
 
 		// Collect preference updates while service runs
-		applicationScope.launch {
+		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
 				screenOnReceiver?.adaptiveThemeThresholdLux = prefs.adaptiveThemeThresholdLux
@@ -124,8 +132,14 @@ class BroadcastReceiverService : Service() {
 		Log.i(TAG, "Service is being destroyed...")
 		screenOnReceiver?.let {
 			Log.d(TAG, "Unregistering screen-on receiver...")
-			unregisterReceiver(it)
+			try {
+				unregisterReceiver(it)
+			} catch (e: IllegalArgumentException) {
+				Log.w(TAG, "Receiver was not registered or already unregistered.", e)
+			}
 		}
+		screenOnReceiver = null
+		serviceScope.cancel()
 	}
 
 	override fun onBind(intent: Intent?): IBinder? {

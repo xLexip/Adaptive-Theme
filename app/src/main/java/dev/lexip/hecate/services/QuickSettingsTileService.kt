@@ -17,6 +17,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import androidx.core.content.ContextCompat
 import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
@@ -88,7 +89,7 @@ class QuickSettingsTileService : TileService() {
 			val intent = Intent(applicationContext, BroadcastReceiverService::class.java)
 			if (newEnabled) {
 				repo.ensureAdaptiveThemeThresholdDefault()
-				applicationContext.startService(intent)
+				ContextCompat.startForegroundService(applicationContext, intent)
 				AnalyticsLogger.logServiceEnabled(
 					applicationContext,
 					source = "quick_settings_tile"
