@@ -5,14 +5,22 @@
 	<string name="action_copy_adb_command">Copy ADB Command</string>
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
-	<string name="action_stop_service">Disable Service</string>
+	<string name="action_stop_service">Stop Service</string>
 
-	<string name="description_adaptive_theme">Automatically switches between light and dark mode based on ambient brightness to improve visibility and help save battery. Changes only occur right after the screen turns on and when the device is uncovered.</string>
-	<string name="description_missing_secure_settings_permission">This app needs the WRITE_SECURE_SETTINGS permission to modify the device theme. It is a system-level permission that cannot be granted from the device settings.\n\nTo grant it you can run the following ADB command from a computer connected to your device:\n\n%1$s</string>
-	<string name="description_notification_service_running">Auto-switching the device theme based on ambient brightness.</string>
+	<string name="description_adaptive_theme">
+        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Theme changes occur only when the screen turns on and the device is uncovered.
+    </string>
 
-	<string name="error_no_email_client">No email app found</string>
-	<string name="error_invalid_lux_value">Please enter a valid lux value.</string>
+	<string name="description_missing_secure_settings_permission">
+        This app requires the WRITE_SECURE_SETTINGS permission to change the system theme. It’s a system-level permission that cannot be granted through device settings.\n\nTo grant it, run the following ADB command from a computer connected to your device:\n\n%1$s
+    </string>
+
+	<string name="description_notification_service_running">
+		Adjusting the system theme based on ambient brightness.
+    </string>
+
+	<string name="error_no_email_client">No email app found.</string>
+	<string name="error_invalid_lux_value">Invalid lux value.</string>
 	<string name="error_negative_lux_value">Lux value cannot be negative.</string>
 	<string name="error_lux_value_too_large">Lux value cannot exceed 100,000.</string>
 
@@ -22,8 +30,8 @@
 	<string name="title_more">More</string>
 	<string name="title_notification_channel_service">Background Activity</string>
 	<string name="title_about">About</string>
-	<string name="title_send_feedback">Send feedback</string>
-	<string name="title_custom_threshold">Custom threshold</string>
+	<string name="title_send_feedback">Send Feedback</string>
+	<string name="title_custom_threshold">Custom Threshold</string>
 
 	<string name="adaptive_threshold_dark">Dark</string>
 	<string name="adaptive_threshold_dim">Dim</string>
