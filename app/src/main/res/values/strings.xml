@@ -32,11 +32,6 @@
 	<string name="adaptive_threshold_sunlight">Sunlight</string>
 	<string name="adaptive_threshold_custom">Custom</string>
 
-	<string name="dialog_about_version">Version %1$s</string>
-	<string name="dialog_about_package">Package %1$s</string>
-	<string name="dialog_about_version_unknown">Unknown</string>
-	<string name="dialog_about_copyright">All rights reserved.</string>
-
 	<string name="hint_custom_threshold_value">Lux value</string>
 	<string name="action_set">Set</string>
 	<string name="action_cancel">Cancel</string>
