@@ -114,13 +114,13 @@ private fun LabeledSlider(
 			) {
 				Text(
 					text = labels.getOrNull(liveIndex) ?: liveIndex.toString(),
-					fontSize = MaterialTheme.typography.bodySmall.fontSize,
+					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					modifier = Modifier.weight(1f)
 				)
 				Text(
 					text = lux?.getOrNull(liveIndex)?.toInt()?.let { "${it.formatLux()} lx" } ?: "",
-					fontSize = MaterialTheme.typography.bodySmall.fontSize,
+					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					textAlign = TextAlign.End
 				)
