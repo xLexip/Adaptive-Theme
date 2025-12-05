@@ -14,6 +14,7 @@
 	<string name="error_no_email_client">No email app found</string>
 	<string name="error_invalid_lux_value">Please enter a valid lux value.</string>
 	<string name="error_negative_lux_value">Lux value cannot be negative.</string>
+	<string name="error_lux_value_too_large">Lux value cannot exceed 100,000.</string>
 
 	<string name="title_brightness_threshold">Brightness Threshold</string>
 	<string name="title_current_brightness">Current Brightness</string>
