@@ -58,7 +58,11 @@
 
 		<service
 			android:name=".services.BroadcastReceiverService"
-			android:foregroundServiceType="specialUse" />
+			android:foregroundServiceType="specialUse">
+			<property
+				android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+				android:value="lightweight_screen_on_brightness_based_theme_switch_special_use_fgs" />
+		</service>
 
 		<service
 			android:name=".services.QuickSettingsTileService"
