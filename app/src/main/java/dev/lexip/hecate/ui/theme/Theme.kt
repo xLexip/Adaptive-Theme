@@ -88,7 +88,7 @@ fun HecateTheme(
 fun hecateTopAppBarColors(): TopAppBarColors = TopAppBarDefaults.topAppBarColors(
 	// This represents the top app bar style of the android system settings app in Android 15.
 	containerColor = MaterialTheme.colorScheme.surfaceContainer,
-	scrolledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+	scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
 	navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
 	titleContentColor = MaterialTheme.colorScheme.onSurface,
 	actionIconContentColor = MaterialTheme.colorScheme.onSurface

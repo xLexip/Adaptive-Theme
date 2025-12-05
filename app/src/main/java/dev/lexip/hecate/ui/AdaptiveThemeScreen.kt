@@ -22,13 +22,8 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -99,8 +94,14 @@ fun AdaptiveThemeScreen(
 	uiState: AdaptiveThemeUiState,
 	onAboutClick: () -> Unit = {}
 ) {
-	val scrollBehavior =
-		TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+	// Enable top-app-bar collapsing on small devices
+	val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+	val screenHeightDp = configuration.screenHeightDp
+	val enableCollapsing = screenHeightDp < 700
+	val scrollBehavior = if (enableCollapsing) {
+		TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+	} else null
+
 	val horizontalOffsetPadding = 8.dp
 
 	val context = LocalContext.current
@@ -133,9 +134,17 @@ fun AdaptiveThemeScreen(
 
 	Scaffold(
 		modifier = Modifier
-			.nestedScroll(scrollBehavior.nestedScrollConnection),
+			.fillMaxSize()
+			.then(
+				if (scrollBehavior != null) {
+					Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+				} else {
+					Modifier
+				}
+			),
 		containerColor = MaterialTheme.colorScheme.surfaceContainer,
 		topBar = {
+			val collapsedFraction = scrollBehavior?.state?.collapsedFraction ?: 0f
 			LargeTopAppBar(
 				modifier = Modifier
 					.padding(start = ScreenHorizontalMargin - 8.dp)
@@ -144,7 +153,11 @@ fun AdaptiveThemeScreen(
 				title = {
 					Text(
 						text = stringResource(id = R.string.app_name),
-						style = MaterialTheme.typography.displaySmall,
+						style = if (collapsedFraction > 0.4f) {
+							MaterialTheme.typography.titleLarge
+						} else {
+							MaterialTheme.typography.displaySmall
+						}
 					)
 				},
 				actions = {
