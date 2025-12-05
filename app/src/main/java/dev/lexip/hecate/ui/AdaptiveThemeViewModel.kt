@@ -13,6 +13,7 @@
 package dev.lexip.hecate.ui
 
 import android.content.Intent
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -189,7 +190,7 @@ class AdaptiveThemeViewModel(
 
 	private fun startBroadcastReceiverService() {
 		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
-		application.applicationContext.startService(intent)
+		ContextCompat.startForegroundService(application.applicationContext, intent)
 	}
 
 	private fun stopBroadcastReceiverService() {
