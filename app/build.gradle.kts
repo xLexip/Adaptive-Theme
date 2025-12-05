@@ -28,18 +28,22 @@ android {
 				"proguard-rules.pro"
 			)
 			ndk {
-				debugSymbolLevel = "SYMBOL_TABLE"
+				debugSymbolLevel = "FULL"
 			}
 		}
 		debug {
 			versionNameSuffix = "-debug"
 			isDebuggable = true
+			ndk {
+				debugSymbolLevel = "FULL"
+			}
 		}
 		create("beta") {
 			initWith(getByName("release"))
 			versionNameSuffix = "-beta"
 			isDebuggable = false
 		}
+
 	}
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_17
