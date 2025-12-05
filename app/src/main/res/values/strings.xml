@@ -35,6 +35,7 @@
 	<string name="title_change_language">Change Language</string>
 	<string name="title_send_feedback">Send Feedback</string>
 	<string name="title_custom_threshold">Custom Threshold</string>
+	<string name="title_beta_feedback">Beta Feedback</string>
 
 	<string name="adaptive_threshold_dark">Dark</string>
 	<string name="adaptive_threshold_dim">Dim</string>
