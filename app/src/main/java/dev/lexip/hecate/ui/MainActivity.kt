@@ -29,6 +29,8 @@ import dev.lexip.hecate.util.DarkThemeHandler
 
 class MainActivity : ComponentActivity() {
 
+	private lateinit var inAppUpdateManager: InAppUpdateManager
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -46,6 +48,9 @@ class MainActivity : ComponentActivity() {
 		installSplashScreen()
 		enableEdgeToEdge()
 
+		inAppUpdateManager = InAppUpdateManager(this)
+		inAppUpdateManager.registerUpdateLauncher(this)
+
 		setContent {
 			val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
 			val adaptiveThemeViewModel: AdaptiveThemeViewModel = viewModel(
@@ -62,6 +67,15 @@ class MainActivity : ComponentActivity() {
 					state
 				)
 			}
+		}
+
+		inAppUpdateManager.checkForImmediateUpdate()
+	}
+
+	override fun onResume() {
+		super.onResume()
+		if (::inAppUpdateManager.isInitialized) {
+			inAppUpdateManager.resumeImmediateUpdateIfNeeded()
 		}
 	}
 }
