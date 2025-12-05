@@ -29,7 +29,8 @@ private const val TAG = "UserPreferencesRepository"
 
 data class UserPreferences(
 	val adaptiveThemeEnabled: Boolean,
-	val adaptiveThemeThresholdLux: Float
+	val adaptiveThemeThresholdLux: Float,
+	val customAdaptiveThemeThresholdLux: Float? = null
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -37,6 +38,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private object PreferencesKeys {
 		val ADAPTIVE_THEME_ENABLED = booleanPreferencesKey("adaptive_theme_enabled")
 		val ADAPTIVE_THEME_THRESHOLD_LUX = floatPreferencesKey("adaptive_theme_threshold_lux")
+		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
+			floatPreferencesKey("custom_adaptive_theme_threshold_lux")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -65,12 +68,17 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	}
 
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		// Get our show completed value, defaulting to false if not set:
-		preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] == true
 		val adaptiveThemeEnabled = preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] == true
 		val adaptiveThemeThresholdLux =
-			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] ?: 100f
-		return UserPreferences(adaptiveThemeEnabled, adaptiveThemeThresholdLux)
+			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX]
+				?: AdaptiveThreshold.BRIGHT.lux
+		val customAdaptiveThemeThresholdLux =
+			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX]
+		return UserPreferences(
+			adaptiveThemeEnabled = adaptiveThemeEnabled,
+			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
+			customAdaptiveThemeThresholdLux = customAdaptiveThemeThresholdLux
+		)
 	}
 
 	suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {
@@ -82,6 +90,20 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
+		}
+	}
+
+	suspend fun updateCustomAdaptiveThemeThresholdLux(lux: Float) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX] = lux
+		}
+	}
+
+	suspend fun clearCustomAdaptiveThemeThreshold() {
+		dataStore.edit { preferences ->
+			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
 		}
 	}
 

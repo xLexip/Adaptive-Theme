@@ -67,6 +67,7 @@ import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.AboutDialog
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.PermissionMissingDialog
+import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
@@ -99,6 +100,7 @@ fun AdaptiveThemeScreen(
 	val pendingAdbCommand by adaptiveThemeViewModel.pendingAdbCommand.collectAsState()
 
 	var showAbout by remember { mutableStateOf(false) }
+	var showCustomDialog by remember { mutableStateOf(false) }
 
 	LaunchedEffect(adaptiveThemeViewModel) {
 		adaptiveThemeViewModel.uiEvents.collect { event ->
@@ -167,6 +169,16 @@ fun AdaptiveThemeScreen(
 								}
 							)
 							DropdownMenuItem(
+								text = { Text(text = stringResource(id = R.string.title_custom_threshold)) },
+								enabled = uiState.adaptiveThemeEnabled,
+								onClick = {
+									menuExpanded = false
+									if (uiState.adaptiveThemeEnabled) {
+										showCustomDialog = true
+									}
+								}
+							)
+							DropdownMenuItem(
 								text = { Text(text = stringResource(id = R.string.title_about)) },
 								onClick = {
 									menuExpanded = false
@@ -219,9 +231,13 @@ fun AdaptiveThemeScreen(
 				}
 			)
 
-			val currentIndex = adaptiveThemeViewModel.getIndexForCurrentLux()
-			val labels = AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) }
-			val lux = AdaptiveThreshold.entries.map { it.lux }
+			val customLabel = stringResource(id = R.string.adaptive_threshold_custom)
+			val labels = adaptiveThemeViewModel.getDisplayLabels(
+				AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) },
+				customLabel
+			)
+			val baseLux = AdaptiveThreshold.entries.map { it.lux }
+			val lux = adaptiveThemeViewModel.getDisplayLuxSteps(baseLux)
 			val currentLux by adaptiveThemeViewModel.currentSensorLuxFlow.collectAsState(initial = adaptiveThemeViewModel.currentSensorLux)
 
 			Column(
@@ -229,14 +245,13 @@ fun AdaptiveThemeScreen(
 			) {
 				SliderDetailCard(
 					title = stringResource(id = R.string.title_brightness_threshold),
-					valueIndex = currentIndex,
+					valueIndex = adaptiveThemeViewModel.getIndexForCurrentLux(),
 					steps = labels.size,
 					labels = labels,
 					lux = lux,
 					onValueChange = { index ->
-						adaptiveThemeViewModel.updateAdaptiveThemeThresholdByIndex(
-							index
-						)
+						adaptiveThemeViewModel.setPendingCustomSliderLux(lux[index])
+						adaptiveThemeViewModel.onSliderValueCommitted(index)
 					},
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = true,
@@ -269,5 +284,15 @@ fun AdaptiveThemeScreen(
 		adbCommand = pendingAdbCommand,
 		onCopy = { adaptiveThemeViewModel.requestCopyAdbCommand() },
 		onDismiss = { adaptiveThemeViewModel.dismissDialog() }
+	)
+
+	CustomThresholdDialog(
+		show = showCustomDialog,
+		currentLux = uiState.customAdaptiveThemeThresholdLux ?: uiState.adaptiveThemeThresholdLux,
+		onConfirm = { luxValue: Float ->
+			adaptiveThemeViewModel.setCustomAdaptiveThemeThreshold(luxValue)
+			showCustomDialog = false
+		},
+		onDismiss = { showCustomDialog = false }
 	)
 }
