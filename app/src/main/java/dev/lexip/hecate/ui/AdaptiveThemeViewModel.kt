@@ -38,7 +38,8 @@ sealed interface UiEvent {
 
 data class AdaptiveThemeUiState(
 	val adaptiveThemeEnabled: Boolean = false,
-	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT.lux
+	val adaptiveThemeThresholdLux: Float = AdaptiveThreshold.BRIGHT.lux,
+	val customAdaptiveThemeThresholdLux: Float? = null
 )
 
 class AdaptiveThemeViewModel(
@@ -77,12 +78,16 @@ class AdaptiveThemeViewModel(
 		_currentSensorLux.value = lux
 	}
 
+	// Temporary variable for custom threshold
+	private var customThresholdTemp: Float? = null
+
 	init {
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
 				_uiState.value = AdaptiveThemeUiState(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
-					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux
+					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
+					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) startLightSensorListening()
@@ -184,8 +189,55 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
+	fun setCustomAdaptiveThemeThreshold(lux: Float) {
+		val oldLux = _uiState.value.adaptiveThemeThresholdLux
+		viewModelScope.launch {
+			userPreferencesRepository.updateCustomAdaptiveThemeThresholdLux(lux)
+			AnalyticsLogger.logBrightnessThresholdChanged(
+				application.applicationContext,
+				oldLux = oldLux,
+				newLux = lux
+			)
+		}
+	}
+
+	fun clearCustomAdaptiveThemeThreshold() {
+		viewModelScope.launch {
+			userPreferencesRepository.clearCustomAdaptiveThemeThreshold()
+		}
+	}
+
+	val isUsingCustomThreshold: Boolean
+		get() = _uiState.value.customAdaptiveThemeThresholdLux != null
+
+	fun getDisplayLuxSteps(baseLux: List<Float>): List<Float> {
+		val customLux = _uiState.value.customAdaptiveThemeThresholdLux ?: return baseLux
+		val index = AdaptiveThreshold.fromLux(customLux).ordinal
+		return baseLux.mapIndexed { i, value -> if (i == index) customLux else value }
+	}
+
+	fun getDisplayLabels(labels: List<String>, customLabel: String): List<String> {
+		return if (isUsingCustomThreshold) {
+			labels.mapIndexed { index, label ->
+				if (index == getIndexForCurrentLux()) customLabel else label
+			}
+		} else labels
+	}
+
+	fun onSliderValueCommitted(index: Int) {
+		if (isUsingCustomThreshold) {
+			customThresholdTemp = null
+		}
+		updateAdaptiveThemeThresholdByIndex(index)
+	}
+
 	fun getIndexForCurrentLux(): Int {
-		return AdaptiveThreshold.fromLux(_uiState.value.adaptiveThemeThresholdLux).ordinal
+		val lux = customThresholdTemp ?: _uiState.value.adaptiveThemeThresholdLux
+		return AdaptiveThreshold.fromLux(lux).ordinal
+	}
+
+	fun setPendingCustomSliderLux(lux: Float) {
+		customThresholdTemp = lux
 	}
 
 	private fun startBroadcastReceiverService() {

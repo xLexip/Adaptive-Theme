@@ -119,7 +119,7 @@ private fun LabeledSlider(
 					modifier = Modifier.weight(1f)
 				)
 				Text(
-					text = lux?.getOrNull(liveIndex)?.toInt()?.let { "${it.formatLux()} lx" } ?: "",
+					text = lux?.getOrNull(liveIndex)?.let { "${it.formatLux()} lx" } ?: "",
 					style = MaterialTheme.typography.bodySmall,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					textAlign = TextAlign.End

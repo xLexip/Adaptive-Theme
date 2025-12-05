@@ -23,3 +23,11 @@ fun Int.formatLux(): String {
 	val nf = NumberFormat.getIntegerInstance(Locale.getDefault())
 	return nf.format(this)
 }
+
+fun Float.formatLux(): String {
+	val nf = NumberFormat.getNumberInstance(Locale.getDefault()).apply {
+		maximumFractionDigits = if (this@formatLux % 1f == 0f) 0 else 1
+		minimumFractionDigits = 0
+	}
+	return nf.format(this)
+}
