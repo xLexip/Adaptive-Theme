@@ -193,7 +193,6 @@ fun AdaptiveThemeScreen(
 										val intent =
 											Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
 												data = "package:$packageName".toUri()
-												addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 											}
 										try {
 											context.startActivity(intent)
