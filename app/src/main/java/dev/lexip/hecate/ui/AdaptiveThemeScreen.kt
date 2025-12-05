@@ -213,6 +213,11 @@ fun AdaptiveThemeScreen(
 									menuExpanded = false
 									val aboutUri = "https://lexip.dev/hecate/about".toUri()
 									val aboutIntent = Intent(Intent.ACTION_VIEW, aboutUri)
+									Toast.makeText(
+										context,
+										"v${BuildConfig.VERSION_NAME}",
+										Toast.LENGTH_SHORT
+									).show()
 									try {
 										context.startActivity(aboutIntent)
 									} catch (_: ActivityNotFoundException) {
