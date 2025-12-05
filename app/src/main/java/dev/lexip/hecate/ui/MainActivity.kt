@@ -12,7 +12,9 @@
 
 package dev.lexip.hecate.ui
 
+import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,6 +31,18 @@ class MainActivity : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		// Catch mysterious unsupported SDK versions despite minSDK 31
+		if (Build.VERSION.SDK_INT < 31) {
+			Toast.makeText(
+				this,
+				"Unsupported Android version, please uninstall the app.",
+				Toast.LENGTH_LONG
+			).show()
+			finish()
+			return
+		}
+
 		installSplashScreen()
 		enableEdgeToEdge()
 
@@ -49,7 +63,5 @@ class MainActivity : ComponentActivity() {
 				)
 			}
 		}
-
 	}
-
 }
