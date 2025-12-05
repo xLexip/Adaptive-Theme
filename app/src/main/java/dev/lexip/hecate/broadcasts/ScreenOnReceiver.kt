@@ -19,8 +19,10 @@ import android.util.Log
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
+import kotlin.math.max
 
 private const val TAG = "ScreenOnReceiver"
+private const val HYSTERESIS_RATIO = 0.10f // 10%
 
 /**
  * Adaptive theme switching logic. Executes when the screen is turned on.
@@ -45,7 +47,19 @@ class ScreenOnReceiver(
 				if (distance >= 5f) {
 					lightSensorManager.startListening { lightValue ->
 						lightSensorManager.stopListening()
-						darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
+
+						// Hysteresis around the configured threshold to avoid rapid toggles
+						val threshold = adaptiveThemeThresholdLux
+						val clampedThreshold = max(0f, threshold)
+						val lower = clampedThreshold * (1f - HYSTERESIS_RATIO)
+						val upper = clampedThreshold * (1f + HYSTERESIS_RATIO)
+						val isCurrentlyDark = darkThemeHandler.isDarkThemeEnabled()
+
+						val shouldBeDark =
+							if (isCurrentlyDark) lightValue <= upper
+							else lightValue < lower
+
+						darkThemeHandler.setDarkTheme(shouldBeDark)
 					}
 				} else Log.d(TAG, "Device is covered, skipping adaptive theme checks.")
 
