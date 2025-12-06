@@ -95,7 +95,7 @@ class AdaptiveThemeViewModel(
 		proximitySensorManager.startListening({ distance: Float ->
 			val covered = distance < 5f
 			if (covered != _uiState.value.isDeviceCovered) {
-				if (!covered) Thread.sleep(300) // Prevents UI flickering
+				if (covered) Thread.sleep(1000) // Prevents UI flickering
 				_uiState.value = _uiState.value.copy(isDeviceCovered = covered)
 			}
 		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
