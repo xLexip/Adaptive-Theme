@@ -22,12 +22,17 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -135,7 +140,7 @@ fun AdaptiveThemeScreen(
 			LargeTopAppBar(
 				modifier = Modifier
 					.padding(start = ScreenHorizontalMargin - 8.dp)
-					.padding(top = 22.dp, bottom = 12.dp),
+					.padding(top = 12.dp, bottom = 12.dp),
 				colors = hecateTopAppBarColors(),
 				title = {
 					Text(
@@ -291,7 +296,7 @@ fun AdaptiveThemeScreen(
 				.padding(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(rememberScrollState()),
-			verticalArrangement = Arrangement.spacedBy(32.dp)
+			verticalArrangement = Arrangement.spacedBy(24.dp)
 
 		) {
 			Text(
@@ -299,6 +304,7 @@ fun AdaptiveThemeScreen(
 				text = stringResource(id = R.string.description_adaptive_theme),
 				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
 			)
+
 			MainSwitchPreferenceCard(
 				text = stringResource(id = R.string.action_use_adaptive_theme),
 				isChecked = uiState.adaptiveThemeEnabled,
@@ -359,6 +365,31 @@ fun AdaptiveThemeScreen(
 					lastCard = true
 				)
 
+			}
+
+			// Device-covered warning when the proximity sensor reports covered
+			if (internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled) {
+				Card(
+					modifier = Modifier
+						.fillMaxWidth(),
+					colors = CardDefaults.cardColors(
+						containerColor = MaterialTheme.colorScheme.errorContainer,
+						contentColor = MaterialTheme.colorScheme.onErrorContainer
+					),
+					shape = RoundedCornerShape(20.dp)
+				) {
+					Column(modifier = Modifier.padding(16.dp)) {
+						Text(
+							text = stringResource(id = R.string.device_covered_title),
+							style = MaterialTheme.typography.titleMedium
+						)
+						Spacer(modifier = Modifier.padding(top = 4.dp))
+						Text(
+							text = stringResource(id = R.string.device_covered_message),
+							style = MaterialTheme.typography.bodyMedium
+						)
+					}
+				}
 			}
 		}
 	}
