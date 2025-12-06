@@ -22,7 +22,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.ui.theme.HecateTheme
@@ -32,6 +31,7 @@ import dev.lexip.hecate.util.InstallSourceChecker
 class MainActivity : ComponentActivity() {
 
 	private var inAppUpdateManager: InAppUpdateManager? = null
+	private lateinit var adaptiveThemeViewModel: AdaptiveThemeViewModel
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -58,15 +58,18 @@ class MainActivity : ComponentActivity() {
 			}
 		}
 
-		setContent {
-			val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
-			val adaptiveThemeViewModel: AdaptiveThemeViewModel = viewModel(
-				factory = AdaptiveThemeViewModelFactory(
-					this.application as HecateApplication,
-					UserPreferencesRepository(dataStore),
-					DarkThemeHandler(applicationContext)
-				)
+		// Obtain a stable ViewModel instance
+		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
+		adaptiveThemeViewModel = androidx.lifecycle.ViewModelProvider(
+			this,
+			AdaptiveThemeViewModelFactory(
+				this.application as HecateApplication,
+				UserPreferencesRepository(dataStore),
+				DarkThemeHandler(applicationContext)
 			)
+		)[AdaptiveThemeViewModel::class.java]
+
+		setContent {
 			val state by adaptiveThemeViewModel.uiState.collectAsState()
 
 			HecateTheme {
@@ -81,6 +84,16 @@ class MainActivity : ComponentActivity() {
 
 	override fun onResume() {
 		super.onResume()
+		if (this::adaptiveThemeViewModel.isInitialized) {
+			adaptiveThemeViewModel.startSensorsIfEnabled()
+		}
 		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
+	}
+
+	override fun onPause() {
+		if (this::adaptiveThemeViewModel.isInitialized) {
+			adaptiveThemeViewModel.stopSensors()
+		}
+		super.onPause()
 	}
 }
