@@ -24,6 +24,8 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import dev.lexip.hecate.analytics.AnalyticsGate
+import dev.lexip.hecate.analytics.AnalyticsLogger
 
 private const val TAG = "InAppUpdateManager"
 private const val DAYS_FOR_IMMEDIATE_UPDATE = 0
@@ -31,18 +33,24 @@ private const val MIN_PRIORITY_FOR_IMMEDIATE = 0
 
 class InAppUpdateManager(activity: ComponentActivity) {
 
-	private val appUpdateManager: AppUpdateManager = AppUpdateManagerFactory.create(activity)
+	private val appUpdateManager: AppUpdateManager? = if (AnalyticsGate.isPlayStoreInstall()) {
+		AppUpdateManagerFactory.create(activity)
+	} else null
 
 	private var updateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
 
 	fun registerUpdateLauncher(activity: ComponentActivity) {
 		if (updateLauncher != null) return
+		if (!AnalyticsGate.isPlayStoreInstall()) {
+			return
+		}
+		appUpdateManager ?: return
 
 		updateLauncher =
 			activity.registerForActivityResult(StartIntentSenderForResult()) { result ->
 				when (result.resultCode) {
 					Activity.RESULT_OK -> {
-						Log.d(TAG, "In-app update completed successfully")
+						Log.i(TAG, "In-app update completed successfully")
 					}
 
 					Activity.RESULT_CANCELED -> {
@@ -70,29 +78,28 @@ class InAppUpdateManager(activity: ComponentActivity) {
 		onNoUpdate: () -> Unit = {},
 		onError: (Throwable) -> Unit = {}
 	) {
+		if (!AnalyticsGate.isPlayStoreInstall()) {
+			return
+		}
 		val launcher = updateLauncher
 		if (launcher == null) {
 			Log.w(TAG, "checkForImmediateUpdate called before launcher was registered")
 			return
 		}
+		val manager = appUpdateManager ?: return
 
-		appUpdateManager.appUpdateInfo
+		manager.appUpdateInfo
 			.addOnSuccessListener { appUpdateInfo ->
 				val availability = appUpdateInfo.updateAvailability()
 				val isImmediateAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
 				val staleness = appUpdateInfo.clientVersionStalenessDays() ?: -1
 				val priority = appUpdateInfo.updatePriority()
 
-				Log.d(
-					TAG,
-					"Update info: availability=$availability, immediateAllowed=$isImmediateAllowed, stalenessDays=$staleness, priority=$priority"
-				)
-
 				val meetsStaleness = staleness == -1 || staleness >= DAYS_FOR_IMMEDIATE_UPDATE
 				val meetsPriority = priority >= MIN_PRIORITY_FOR_IMMEDIATE
 
 				if (availability == UpdateAvailability.UPDATE_AVAILABLE && isImmediateAllowed && meetsStaleness && meetsPriority) {
-					Log.d(TAG, "Immediate update available, starting update flow")
+					Log.i(TAG, "Immediate in-app update: starting update flow")
 					try {
 						appUpdateManager.startUpdateFlowForResult(
 							appUpdateInfo,
@@ -104,10 +111,6 @@ class InAppUpdateManager(activity: ComponentActivity) {
 						onError(t)
 					}
 				} else {
-					Log.d(
-						TAG,
-						"No eligible immediate update. availability=$availability, immediateAllowed=$isImmediateAllowed"
-					)
 					onNoUpdate()
 				}
 			}
@@ -118,18 +121,22 @@ class InAppUpdateManager(activity: ComponentActivity) {
 	}
 
 	fun resumeImmediateUpdateIfNeeded() {
+		if (!AnalyticsGate.isPlayStoreInstall()) {
+			return
+		}
 		val launcher = updateLauncher
 		if (launcher == null) {
 			Log.w(TAG, "resumeImmediateUpdateIfNeeded called before launcher was registered")
 			return
 		}
+		val manager = appUpdateManager ?: return
 
-		appUpdateManager.appUpdateInfo
+		manager.appUpdateInfo
 			.addOnSuccessListener { appUpdateInfo ->
 				if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS &&
 					appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
 				) {
-					Log.d(TAG, "Resuming in-progress immediate in-app update")
+					Log.i(TAG, "Resuming in-progress immediate in-app update")
 					try {
 						appUpdateManager.startUpdateFlowForResult(
 							appUpdateInfo,
@@ -139,11 +146,6 @@ class InAppUpdateManager(activity: ComponentActivity) {
 					} catch (t: Throwable) {
 						Log.e(TAG, "Failed to resume immediate in-app update", t)
 					}
-				} else {
-					Log.d(
-						TAG,
-						"No in-progress immediate update to resume. availability=${appUpdateInfo.updateAvailability()}"
-					)
 				}
 			}
 			.addOnFailureListener { throwable ->

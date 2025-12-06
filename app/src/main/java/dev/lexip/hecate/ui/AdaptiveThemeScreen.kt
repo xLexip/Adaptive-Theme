@@ -60,6 +60,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
+import dev.lexip.hecate.analytics.AnalyticsGate
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
@@ -220,7 +221,7 @@ fun AdaptiveThemeScreen(
 							)
 
 							// 4) Beta Feedback (only on beta builds)
-							if (BuildConfig.VERSION_NAME.contains("-beta")) {
+							if (BuildConfig.VERSION_NAME.contains("-beta") && AnalyticsGate.isPlayStoreInstall()) {
 								DropdownMenuItem(
 									text = { Text(text = "Beta Feedback") },
 									onClick = {
