@@ -28,10 +28,13 @@ class ProximitySensorManager(private val context: Context) : SensorEventListener
 	private val proximitySensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
 	private lateinit var callback: (Float) -> Unit
 
-	fun startListening(callback: (Float) -> Unit) {
+	fun startListening(
+		callback: (Float) -> Unit,
+		sensorDelay: Int = SensorManager.SENSOR_DELAY_FASTEST
+	) {
 		this.callback = callback
 		proximitySensor?.let {
-			sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+			sensorManager.registerListener(this, it, sensorDelay)
 		}
 	}
 

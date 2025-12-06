@@ -28,10 +28,13 @@ class LightSensorManager(private val context: Context) : SensorEventListener {
 	private val lightSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 	private lateinit var callback: (Float) -> Unit
 
-	fun startListening(callback: (Float) -> Unit) {
+	fun startListening(
+		callback: (Float) -> Unit,
+		sensorDelay: Int = SensorManager.SENSOR_DELAY_FASTEST
+	) {
 		this.callback = callback
 		lightSensor?.let {
-			sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+			sensorManager.registerListener(this, it, sensorDelay)
 		}
 	}
 
