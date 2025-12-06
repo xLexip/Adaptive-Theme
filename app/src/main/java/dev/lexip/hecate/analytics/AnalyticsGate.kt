@@ -14,6 +14,7 @@ package dev.lexip.hecate.analytics
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
+import dev.lexip.hecate.util.InstallSourceChecker
 
 /**
  * Controls whether analytics collection is enabled.
@@ -24,18 +25,16 @@ object AnalyticsGate {
 	@Volatile
 	private var enabled = false
 
+	@Volatile
+	private var playStoreInstall = false
+
 	fun init(context: Context) {
-		val pm = context.packageManager
-		val installer = try {
-			pm.getInstallSourceInfo(context.packageName).installingPackageName
-				?: pm.getInstallSourceInfo(context.packageName).initiatingPackageName
-		} catch (_: Exception) {
-			null
-		}
-		val isGooglePlayInstall = installer == "com.android.vending"
-		enabled = isGooglePlayInstall
+		playStoreInstall = InstallSourceChecker.isInstalledFromPlayStore(context)
+		enabled = playStoreInstall
 		FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(enabled)
 	}
 
 	fun allowed(): Boolean = enabled
+
+	fun isPlayStoreInstall(): Boolean = playStoreInstall
 }
