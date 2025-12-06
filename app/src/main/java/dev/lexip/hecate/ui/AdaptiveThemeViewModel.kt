@@ -13,6 +13,7 @@
 package dev.lexip.hecate.ui
 
 import android.content.Intent
+import android.hardware.SensorManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -91,13 +92,13 @@ class AdaptiveThemeViewModel(
 	private fun startProximityListening() {
 		if (isListeningToProximity) return
 		isListeningToProximity = true
-		proximitySensorManager.startListening { distance: Float ->
+		proximitySensorManager.startListening({ distance: Float ->
 			val covered = distance < 5f
 			if (covered != _uiState.value.isDeviceCovered) {
 				if (!covered) Thread.sleep(300) // Prevents UI flickering
 				_uiState.value = _uiState.value.copy(isDeviceCovered = covered)
 			}
-		}
+		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
 	}
 
 	private fun stopProximityListening() {
@@ -136,11 +137,11 @@ class AdaptiveThemeViewModel(
 	private fun startLightSensorListening() {
 		if (isListeningToSensor) return
 		isListeningToSensor = true
-		lightSensorManager.startListening { lux ->
+		lightSensorManager.startListening({ lux: Float ->
 			viewModelScope.launch {
 				updateCurrentSensorLux(lux)
 			}
-		}
+		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
 	}
 
 	private fun stopLightSensorListening() {
