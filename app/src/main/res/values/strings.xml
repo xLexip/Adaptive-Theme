@@ -17,11 +17,14 @@
 	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
 
 	<string name="description_adaptive_theme">
-        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Theme changes occur only when the screen turns on and the device is uncovered.
+        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Changes are only made right after the screen turns on.
     </string>
 	<string name="description_notification_service_running">
 		Adjusting the system theme based on ambient brightness.
     </string>
+
+	<string name="device_covered_title">Device covered</string>
+	<string name="device_covered_message">System theme changes are only made when the device is not covered.</string>
 
 	<string name="error_no_email_client">No email app found.</string>
 	<string name="error_invalid_lux_value">Invalid lux value.</string>

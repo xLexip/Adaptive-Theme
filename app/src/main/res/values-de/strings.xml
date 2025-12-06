@@ -14,12 +14,15 @@
 	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
 
 	<string name="description_adaptive_theme">
-        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Der Wechsel erfolgt nur beim Einschalten des Bildschirms und nur, wenn das Gerät nicht abgedeckt ist.
+        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Änderungen werden nur direkt nach Einschalten des Bildschirms vorgenommen.
     </string>
 
 	<string name="description_notification_service_running">
         Systemtheme wird anhand der Umgebungshelligkeit angepasst.
     </string>
+
+	<string name="device_covered_title">Gerät bedeckt</string>
+	<string name="device_covered_message">Das Theme wird nur geändert, wenn das Gerät nicht bedeckt ist.</string>
 
 	<string name="error_invalid_lux_value">Ungültiger Lux-Wert.</string>
 	<string name="error_lux_value_too_large">Der Lux-Wert kann maximal 100.000 sein.</string>
