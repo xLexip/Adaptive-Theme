@@ -219,7 +219,7 @@ fun AdaptiveThemeScreen(
 								}
 							)
 
-							// 3) Beta Feedback (only on beta builds)
+							// 4) Beta Feedback (only on beta builds)
 							if (BuildConfig.VERSION_NAME.contains("-beta")) {
 								DropdownMenuItem(
 									text = { Text(text = "Beta Feedback") },
@@ -237,7 +237,26 @@ fun AdaptiveThemeScreen(
 								)
 							}
 
-							// 4) About
+							// 5) Star on GitHub
+							DropdownMenuItem(
+								text = { Text(text = stringResource(id = R.string.action_star_on_github)) },
+								onClick = {
+									menuExpanded = false
+									AnalyticsLogger.logOverflowMenuItemClicked(
+										context,
+										"star_github"
+									)
+									val starUri = "https://lexip.dev/hecate/source".toUri()
+									val starIntent = Intent(Intent.ACTION_VIEW, starUri)
+									try {
+										context.startActivity(starIntent)
+									} catch (_: ActivityNotFoundException) {
+										context.startActivity(Intent(Intent.ACTION_VIEW, starUri))
+									}
+								}
+							)
+
+							// 6) About
 							DropdownMenuItem(
 								text = { Text(stringResource(R.string.title_about)) },
 								onClick = {
