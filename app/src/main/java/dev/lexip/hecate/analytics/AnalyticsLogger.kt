@@ -134,4 +134,10 @@ object AnalyticsLogger {
 			analytics(context).logEvent("setup_finished") { }
 		}
 	}
+
+	fun logInAppUpdateInstalled(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("in_app_update_installed") { }
+		}
+	}
 }

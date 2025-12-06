@@ -51,6 +51,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 				when (result.resultCode) {
 					Activity.RESULT_OK -> {
 						Log.i(TAG, "In-app update completed successfully")
+						AnalyticsLogger.logInAppUpdateInstalled(activity)
 					}
 
 					Activity.RESULT_CANCELED -> {
