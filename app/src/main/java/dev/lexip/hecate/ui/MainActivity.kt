@@ -27,13 +27,16 @@ import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.InstallSourceChecker
 
 class MainActivity : ComponentActivity() {
 
-	private lateinit var inAppUpdateManager: InAppUpdateManager
+	private var inAppUpdateManager: InAppUpdateManager? = null
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		installSplashScreen()
+		enableEdgeToEdge()
 
 		// Catch mysterious unsupported SDK versions despite minSDK 31
 		@SuppressLint("ObsoleteSdkInt")
@@ -47,11 +50,13 @@ class MainActivity : ComponentActivity() {
 			return
 		}
 
-		installSplashScreen()
-		enableEdgeToEdge()
 
-		inAppUpdateManager = InAppUpdateManager(this)
-		inAppUpdateManager.registerUpdateLauncher(this)
+		val isPlayInstall = InstallSourceChecker.isInstalledFromPlayStore(this)
+		if (isPlayInstall) {
+			inAppUpdateManager = InAppUpdateManager(this).also { manager ->
+				manager.registerUpdateLauncher(this)
+			}
+		}
 
 		setContent {
 			val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
@@ -71,13 +76,11 @@ class MainActivity : ComponentActivity() {
 			}
 		}
 
-		inAppUpdateManager.checkForImmediateUpdate()
+		inAppUpdateManager?.checkForImmediateUpdate()
 	}
 
 	override fun onResume() {
 		super.onResume()
-		if (::inAppUpdateManager.isInitialized) {
-			inAppUpdateManager.resumeImmediateUpdateIfNeeded()
-		}
+		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
 	}
 }
