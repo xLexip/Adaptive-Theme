@@ -110,6 +110,18 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
+	fun startSensorsIfEnabled() {
+		if (_uiState.value.adaptiveThemeEnabled) {
+			startLightSensorListening()
+			startProximityListening()
+		}
+	}
+
+	fun stopSensors() {
+		stopLightSensorListening()
+		stopProximityListening()
+	}
+
 	// Temporary variable for custom threshold
 	private var customThresholdTemp: Float? = null
 
@@ -124,11 +136,9 @@ class AdaptiveThemeViewModel(
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) {
-					startLightSensorListening()
-					startProximityListening()
+					startSensorsIfEnabled()
 				} else {
-					stopLightSensorListening()
-					stopProximityListening()
+					stopSensors()
 				}
 			}
 		}
