@@ -373,6 +373,30 @@ private fun ConnectionWhySection() {
 			)
 		}
 	}
+
+	Spacer(modifier = Modifier.height(16.dp))
+
+	Card(
+		modifier = Modifier.fillMaxWidth(),
+		colors = CardDefaults.cardColors(
+			containerColor = MaterialTheme.colorScheme.surface
+		)
+	) {
+		Column(modifier = Modifier.padding(16.dp)) {
+			Text(
+				text = stringResource(id = R.string.permission_wizard_is_this_safe_title),
+				style = MaterialTheme.typography.bodyMedium,
+				fontWeight = FontWeight.Bold,
+				color = MaterialTheme.colorScheme.onSurfaceVariant
+			)
+			Spacer(modifier = Modifier.height(8.dp))
+			Text(
+				text = stringResource(id = R.string.permission_wizard_is_this_safe_body),
+				style = MaterialTheme.typography.bodyMedium,
+				color = MaterialTheme.colorScheme.onSurfaceVariant
+			)
+		}
+	}
 }
 
 @Composable
