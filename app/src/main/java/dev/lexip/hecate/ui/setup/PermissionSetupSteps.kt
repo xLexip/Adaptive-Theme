@@ -524,7 +524,7 @@ private fun WebsiteShareCard(
 				modifier = Modifier.wrapContentWidth(),
 				contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
 			) {
-				Text(text = stringResource(id = R.string.action_share_setup_url))
+				Text(text = stringResource(id = R.string.action_share_url))
 			}
 		}
 	}
