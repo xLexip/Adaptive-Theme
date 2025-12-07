@@ -4,6 +4,7 @@
 	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
+	<string name="action_skip">Überspringen</string>
 	<string name="action_copy">Kopieren</string>
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
 	<string name="action_finish">Fertig</string>
@@ -14,7 +15,7 @@
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
 
 	<string name="description_adaptive_theme">
-        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Änderungen werden nur direkt nach Einschalten des Bildschirms vorgenommen und nu, wenn das Gerät nicht bedeckt ist.
+        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für optimierte Lesbarkeit und Akkulaufzeit. Änderungen werden nur direkt nach Einschalten des Bildschirms vorgenommen und nu, wenn das Gerät nicht bedeckt ist.
     </string>
 
 	<string name="description_notification_service_running">
@@ -61,7 +62,7 @@
 	<string name="permission_wizard_dev_options_toast">Mehrfach auf die Build-Nummer tippen, um die Entwickleroptionen zu aktivieren.</string>
 	<string name="permission_wizard_for_experts">Alternative für Experten</string>
 	<string name="permission_wizard_grant_body">Öffne diese Website auf einem anderen Gerät und folge den Anweisungen dort:</string>
-	<string name="permission_wizard_grant_title">Berechtigung erteilen</string>
+	<string name="permission_wizard_grant_title">Berechtigung mit dem anderen Gerät erteilen</string>
 	<string name="permission_wizard_manual_command">Falls ADB auf dem anderen Gerät installiert ist, kannst du dort stattdessen diesen Command ausführen:</string>
 	<string name="permission_wizard_permission_granted">Berechtigung erfolgreich erteilt!</string>
 	<string name="permission_wizard_permission_not_granted">Berechtigung noch nicht erteilt. Schließen Sie die Einrichtung auf dem anderen Gerät ab.</string>

@@ -337,14 +337,13 @@ internal fun ConnectUsbStep(
 			OutlinedButton(onClick = onExit) {
 				Text(text = stringResource(id = R.string.action_close))
 			}
-			Button(
+			OutlinedButton(
 				onClick = {
 					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					onNext()
-				},
-				enabled = isUsbConnected
+				}
 			) {
-				Text(text = stringResource(id = R.string.action_continue))
+				Text(text = stringResource(id = R.string.action_skip))
 			}
 		}
 	}
