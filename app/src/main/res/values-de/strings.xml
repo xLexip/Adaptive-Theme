@@ -11,10 +11,10 @@
 	<string name="action_share">Teilen</string>
 	<string name="action_share_setup_url">Link teilen</string>
 	<string name="action_stop_service">Dienst stoppen</string>
-	<string name="action_use_adaptive_theme">Adaptive Theme verwenden</string>
+	<string name="action_use_adaptive_theme">%1$s verwenden</string>
 
 	<string name="description_adaptive_theme">
-        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Änderungen werden nur direkt nach Einschalten des Bildschirms vorgenommen.
+        Wechselt automatisch zwischen hellem und dunklem Modus basierend auf dem Umgebungslicht – für bessere Sichtbarkeit und Akkulaufzeit. Änderungen werden nur direkt nach Einschalten des Bildschirms vorgenommen und nu, wenn das Gerät nicht bedeckt ist.
     </string>
 
 	<string name="description_notification_service_running">
@@ -73,4 +73,8 @@
 	<string name="permission_wizard_usb_not_connected">Warten auf USB-Verbindung …</string>
 	<string name="permission_wizard_why_other_device">Die Berechtigung kann nur über ADB erteilt werden, wofür ein anderes Gerät mit einem Webbrowser oder ADB erforderlich ist.</string>
 	<string name="permission_wizard_why_other_device_title">Warum wird ein anderes Gerät benötigt?</string>
+
+	<string name="setup_required_title">Einrichtung abschließen</string>
+	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung für die erforderliche Berechtigung.</string>
+	<string name="action_finish_setup">Einrichtung abschließen</string>
 </resources>

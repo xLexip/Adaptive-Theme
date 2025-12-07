@@ -148,6 +148,11 @@ fun AdaptiveThemeScreen(
 			)
 		}
 	) { innerPadding ->
+		val hasWriteSecureSettingsPermission = ContextCompat.checkSelfPermission(
+			context,
+			Manifest.permission.WRITE_SECURE_SETTINGS
+		) == PackageManager.PERMISSION_GRANTED
+
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -163,17 +168,54 @@ fun AdaptiveThemeScreen(
 				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
 			)
 
+			// Setup card shown when the required permission has not been granted yet
+			if (!hasWriteSecureSettingsPermission) {
+				Card(
+					modifier = Modifier.fillMaxWidth(),
+					colors = CardDefaults.cardColors(
+						containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+						contentColor = MaterialTheme.colorScheme.onSurface
+					),
+					shape = RoundedCornerShape(24.dp)
+				) {
+					Column(modifier = Modifier.padding(16.dp)) {
+						Text(
+							text = stringResource(id = R.string.setup_required_title),
+							style = MaterialTheme.typography.titleMedium
+						)
+						Spacer(modifier = Modifier.padding(top = 4.dp))
+						Text(
+							text = stringResource(
+								id = R.string.setup_required_message,
+								stringResource(id = R.string.app_name)
+							),
+							style = MaterialTheme.typography.bodyMedium
+						)
+						Spacer(modifier = Modifier.padding(top = 12.dp))
+						androidx.compose.foundation.layout.Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.Center
+						) {
+							androidx.compose.material3.Button(onClick = {
+								adaptiveThemeViewModel.onSetupRequested(packageName)
+							}) {
+								Text(text = stringResource(id = R.string.action_finish_setup))
+							}
+						}
+					}
+				}
+			}
+
 			MainSwitchPreferenceCard(
-				text = stringResource(id = R.string.action_use_adaptive_theme),
+				text = stringResource(
+					id = R.string.action_use_adaptive_theme,
+					stringResource(id = R.string.app_name)
+				),
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
-					val hasPermission = ContextCompat.checkSelfPermission(
-						context, Manifest.permission.WRITE_SECURE_SETTINGS
-					) == PackageManager.PERMISSION_GRANTED
-
 					adaptiveThemeViewModel.onServiceToggleRequested(
 						checked,
-						hasPermission,
+						hasWriteSecureSettingsPermission,
 						packageName
 					).also { wasToggled ->
 						if (wasToggled)
@@ -249,6 +291,7 @@ fun AdaptiveThemeScreen(
 					}
 				}
 			}
+			Spacer(modifier = Modifier.padding(bottom = 4.dp))
 		}
 	}
 
@@ -268,4 +311,3 @@ fun AdaptiveThemeScreen(
 		onDismiss = { showCustomDialog.value = false }
 	)
 }
-
