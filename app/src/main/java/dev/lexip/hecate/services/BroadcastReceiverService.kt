@@ -25,7 +25,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.R
-import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.util.DarkThemeHandler
@@ -148,22 +147,6 @@ class BroadcastReceiverService : Service() {
 			pendingIntent
 		).build()
 
-		// Create action to pause/kill the service. The service will start again on next boot or app open.
-		val stopIntent = Intent(this, BroadcastReceiverService::class.java).apply {
-			action = ACTION_PAUSE_SERVICE
-		}
-		val pausePendingIntent = PendingIntent.getService(
-			this,
-			0,
-			stopIntent,
-			PendingIntent.FLAG_IMMUTABLE
-		)
-		val pauseAction = NotificationCompat.Action.Builder(
-			0,
-			getString(R.string.action_pause_service),
-			pausePendingIntent
-		).build()
-
 		// Build notification
 		val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
 			.setContentTitle(getString(R.string.app_name))
@@ -173,7 +156,6 @@ class BroadcastReceiverService : Service() {
 			.setOnlyAlertOnce(true)
 			.setContentIntent(pendingIntent)
 			.addAction(disableAction)
-			.addAction(pauseAction)
 			.setOngoing(true)
 
 
