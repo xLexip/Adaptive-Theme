@@ -75,6 +75,8 @@
 	<string name="permission_wizard_usb_not_connected">Waiting for USB connection</string>
 	<string name="permission_wizard_why_other_device">The permission can only be granted via ADB, which requires another device with either a web browser or ADB installed.</string>
 	<string name="permission_wizard_why_other_device_title">Why is another device required?</string>
+	<string name="permission_wizard_is_this_safe_title">Is this safe?</string>
+	<string name="permission_wizard_is_this_safe_body">Yes. It just allows the app to modify settings like the dark mode. This is absolutely safe and completely reversible.</string>
 
 	<string name="setup_required_title">Finish setup</string>
 	<string name="setup_required_message">%1$s needs a one-time setup to grant the required permission.</string>
