@@ -7,6 +7,7 @@
 	<string name="action_cancel">Cancel</string>
 	<string name="action_close">Close</string>
 	<string name="action_continue">Continue</string>
+	<string name="action_skip">Skip</string>
 	<string name="action_copy">Copy</string>
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_finish">Finish</string>
@@ -63,7 +64,7 @@
 	<string name="permission_wizard_dev_options_toast">Look for the build number and tap it 7 times to enable the developer settings. You\'ll see a message confirming it\'s enabled.</string>
 	<string name="permission_wizard_for_experts">Alternative for experts</string>
 	<string name="permission_wizard_grant_body">On your other device, open this website and follow the instructions:</string>
-	<string name="permission_wizard_grant_title">Grant the permission</string>
+	<string name="permission_wizard_grant_title">Grant the permission with the other device</string>
 	<string name="permission_wizard_manual_command">If you have ADB installed on your computer, you can run this command instead:</string>
 	<string name="permission_wizard_permission_granted">Permission granted successfully!</string>
 	<string name="permission_wizard_permission_not_granted">Permission not yet granted. Complete the setup on your other device.</string>
