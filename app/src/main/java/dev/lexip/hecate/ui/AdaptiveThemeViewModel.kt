@@ -89,6 +89,14 @@ class AdaptiveThemeViewModel(
 	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
 
+	fun onSetupRequested(packageName: String) {
+		onServiceToggleRequested(
+			checked = true,
+			hasPermission = false,
+			packageName = packageName
+		)
+	}
+
 	private fun startProximityListening() {
 		if (isListeningToProximity) return
 		isListeningToProximity = true

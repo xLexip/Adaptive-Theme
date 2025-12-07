@@ -14,10 +14,10 @@
 	<string name="action_share">Share</string>
 	<string name="action_share_setup_url">Share Link</string>
 	<string name="action_stop_service">Stop Service</string>
-	<string name="action_use_adaptive_theme">Use Adaptive Theme</string>
+	<string name="action_use_adaptive_theme">Use %1$s</string>
 
 	<string name="description_adaptive_theme">
-        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Changes are only made right after the screen turns on.
+        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Changes are only made right after the screen turns on and only when the device is not covered.
     </string>
 	<string name="description_notification_service_running">
 		Adjusting the system theme based on ambient brightness.
@@ -75,4 +75,8 @@
 	<string name="permission_wizard_usb_not_connected">Waiting for USB connection</string>
 	<string name="permission_wizard_why_other_device">The permission can only be granted via ADB, which requires another device with either a web browser or ADB installed.</string>
 	<string name="permission_wizard_why_other_device_title">Why is another device required?</string>
+
+	<string name="setup_required_title">Finish setup</string>
+	<string name="setup_required_message">%1$s needs a one-time setup to grant the required permission.</string>
+	<string name="action_finish_setup">Finish Setup</string>
 </resources>
