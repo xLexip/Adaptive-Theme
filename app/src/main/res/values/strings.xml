@@ -3,34 +3,34 @@
 	<string name="permission_wizard_website_url" translatable="false">lexip.dev/setup</string>
 	<string name="action_star_on_github" translatable="false">Star on GitHub</string>
 
-	<!-- Generic actions -->
 	<string name="action_cancel">Cancel</string>
 	<string name="action_close">Close</string>
 	<string name="action_continue">Continue</string>
-	<string name="action_skip">Skip</string>
 	<string name="action_copy">Copy</string>
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_finish">Finish</string>
 	<string name="action_set">Set</string>
 	<string name="action_share">Share</string>
-	<string name="action_share_setup_url">Share Link</string>
-	<string name="action_stop_service">Stop Service</string>
+	<string name="action_share_url">Share Link</string>
+	<string name="action_skip">Skip</string>
+	<string name="action_pause_service">Pause Service</string>
 	<string name="action_use_adaptive_theme">Use %1$s</string>
 
 	<string name="description_adaptive_theme">
-        Automatically switches between Light and Dark mode based on ambient light for better visibility and battery life. Changes are only made right after the screen turns on and only when the device is not covered.
+        Automatically switches between Light and Dark mode based on ambient light. This saves battery and improves readability. The theme only changes right after you turn the screen on and only when the sensor is not covered.
     </string>
+
 	<string name="description_notification_service_running">
 		Adjusting the system theme based on ambient brightness.
     </string>
 
-	<string name="device_covered_title">Device covered</string>
-	<string name="device_covered_message">System theme changes are only made when the device is not covered.</string>
+	<string name="device_covered_title">Sensor Covered</string>
+	<string name="device_covered_message">Theme changes are paused because the light sensor is covered.</string>
 
 	<string name="error_no_email_client">No email app found.</string>
-	<string name="error_invalid_lux_value">Invalid lux value.</string>
-	<string name="error_negative_lux_value">Lux value cannot be negative.</string>
-	<string name="error_lux_value_too_large">Lux value cannot exceed 100,000.</string>
+	<string name="error_invalid_lux_value">Invalid brightness value.</string>
+	<string name="error_negative_lux_value">Value cannot be negative.</string>
+	<string name="error_lux_value_too_large">Value cannot exceed 100,000.</string>
 
 	<string name="title_about">About</string>
 	<string name="title_brightness_threshold">Brightness Threshold</string>
@@ -38,7 +38,7 @@
 	<string name="title_current_brightness">Current Brightness</string>
 	<string name="title_custom_threshold">Custom Threshold</string>
 	<string name="title_more">More</string>
-	<string name="title_notification_channel_service">Background Activity</string>
+	<string name="title_notification_channel_service">Theme Switching Service</string>
 	<string name="title_send_feedback">Send Feedback</string>
 
 	<string name="adaptive_threshold_bright">Bright</string>
@@ -51,35 +51,34 @@
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 
-	<!-- Permission Wizard -->
-	<string name="permission_wizard_action_open_developer_settings">Open Settings</string>
+	<string name="permission_wizard_action_open_developer_settings">Open Developer Options</string>
 	<string name="permission_wizard_action_open_settings">Open Settings</string>
-	<string name="permission_wizard_connect_body">To grant the permission, you\'ll need another device (preferably a computer) with a web browser. Connect this device to it using a USB cable.</string>
-	<string name="permission_wizard_connect_title">Connect to another device</string>
-	<string name="permission_wizard_copied">Command copied to clipboard.</string>
-	<string name="permission_wizard_developer_mode_body">Tap the build number several times to unlock Developer options, then enable USB debugging there.</string>
+	<string name="permission_wizard_connect_title">Connect to setup device</string>
+	<string name="permission_wizard_connect_body">To grant the permission, you need a <b>secondary device</b> (computer, tablet, or phone). Connect this device to it via USB.</string>
+	<string name="permission_wizard_copied">Command copied.</string>
 	<string name="permission_wizard_developer_mode_title">Enable Developer Mode</string>
-	<string name="permission_wizard_developer_options_enabled">Developer options enabled</string>
+	<string name="permission_wizard_developer_mode_body">Enable USB-Debugging in the developer options.</string>
 	<string name="permission_wizard_developer_options_title">Enable developer options</string>
-	<string name="permission_wizard_dev_options_toast">Look for the build number and tap it 7 times to enable the developer settings. You\'ll see a message confirming it\'s enabled.</string>
-	<string name="permission_wizard_for_experts">Alternative for experts</string>
-	<string name="permission_wizard_grant_body">On your other device, open this website and follow the instructions:</string>
-	<string name="permission_wizard_grant_title">Grant the permission with the other device</string>
+	<string name="permission_wizard_developer_options_enabled">Developer options enabled</string>
+	<string name="permission_wizard_dev_options_toast">Find the Build number and tap it 7 times to enable developer options.</string>
+	<string name="permission_wizard_for_experts">Alternative for experts (ADB)</string>
+	<string name="permission_wizard_grant_title">Grant permission with the other device</string>
+	<string name="permission_wizard_grant_body">Open the following link on your other device and follow the instructions:</string>
 	<string name="permission_wizard_manual_command">If you have ADB installed on your computer, you can run this command instead:</string>
-	<string name="permission_wizard_permission_granted">Permission granted successfully!</string>
-	<string name="permission_wizard_permission_not_granted">Permission not yet granted. Complete the setup on your other device.</string>
+	<string name="permission_wizard_permission_granted">Permission granted.</string>
+	<string name="permission_wizard_permission_not_granted">Permission not yet granted. Please complete the setup with the other device.</string>
 	<string name="permission_wizard_step_counter">Step %1$d of %2$d</string>
 	<string name="permission_wizard_usb_connected">USB connected</string>
-	<string name="permission_wizard_usb_debugging_disabled">Enable USB debugging</string>
-	<string name="permission_wizard_usb_debugging_enabled">USB debugging enabled</string>
-	<string name="permission_wizard_usb_debugging_toast">Enable USB debugging</string>
-	<string name="permission_wizard_usb_not_connected">Waiting for USB connection</string>
-	<string name="permission_wizard_why_other_device">The permission can only be granted via ADB, which requires another device with either a web browser or ADB installed.</string>
+	<string name="permission_wizard_usb_debugging_disabled">Enable USB Debugging</string>
+	<string name="permission_wizard_usb_debugging_enabled">USB Debugging enabled</string>
+	<string name="permission_wizard_usb_debugging_toast">Enable USB Debugging</string>
+	<string name="permission_wizard_usb_not_connected">Waiting for USB connection...</string>
 	<string name="permission_wizard_why_other_device_title">Why is another device required?</string>
+	<string name="permission_wizard_why_other_device">Android prevents apps from granting the required permission themselves. It requires another device with either a web browser or ADB installed. </string>
 	<string name="permission_wizard_is_this_safe_title">Is this safe?</string>
 	<string name="permission_wizard_is_this_safe_body">Yes. It just allows the app to modify settings like the dark mode. This is absolutely safe and completely reversible.</string>
 
-	<string name="setup_required_title">Finish setup</string>
-	<string name="setup_required_message">%1$s needs a one-time setup to grant the required permission.</string>
-	<string name="action_finish_setup">Finish Setup</string>
+	<string name="setup_required_title">Setup Required</string>
+	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>
+	<string name="action_finish_setup">Start Setup</string>
 </resources>
