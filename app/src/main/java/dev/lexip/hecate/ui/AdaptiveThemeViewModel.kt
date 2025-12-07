@@ -61,6 +61,8 @@ class AdaptiveThemeViewModel(
 	private val _uiState = MutableStateFlow(AdaptiveThemeUiState())
 	val uiState: StateFlow<AdaptiveThemeUiState> = _uiState.asStateFlow()
 
+	fun isAdaptiveThemeEnabled(): Boolean = _uiState.value.adaptiveThemeEnabled
+
 	// One-shot UI events
 	private val _uiEvents = MutableSharedFlow<UiEvent>(
 		replay = 0,

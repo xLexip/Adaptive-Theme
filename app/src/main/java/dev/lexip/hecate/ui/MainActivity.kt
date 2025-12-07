@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dev.lexip.hecate.HecateApplication
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.InstallSourceChecker
@@ -86,6 +87,12 @@ class MainActivity : ComponentActivity() {
 		super.onResume()
 		if (this::adaptiveThemeViewModel.isInitialized) {
 			adaptiveThemeViewModel.startSensorsIfEnabled()
+
+			// Always restart the service (it may have been paused in the meantime)
+			if (adaptiveThemeViewModel.isAdaptiveThemeEnabled()) {
+				val intent = android.content.Intent(this, BroadcastReceiverService::class.java)
+				androidx.core.content.ContextCompat.startForegroundService(this, intent)
+			}
 		}
 		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
 	}
