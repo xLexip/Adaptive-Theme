@@ -125,9 +125,11 @@ object AnalyticsLogger {
 		}
 	}
 
-	fun logSetupFinished(context: Context) {
+	fun logSetupFinished(context: Context, source: String? = null) {
 		ifAllowed {
-			analytics(context).logEvent("setup_finished") { }
+			analytics(context).logEvent("setup_finished") {
+				if (source != null) param("source", source)
+			}
 		}
 	}
 

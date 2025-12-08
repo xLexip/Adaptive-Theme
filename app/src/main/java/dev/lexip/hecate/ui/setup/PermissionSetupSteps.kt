@@ -60,6 +60,8 @@ import dev.lexip.hecate.R
 internal fun DeveloperModeStep(
 	isDeveloperOptionsEnabled: Boolean,
 	isUsbDebuggingEnabled: Boolean,
+	isShizukuInstalled: Boolean,
+	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
 	onOpenSettings: () -> Unit,
@@ -116,6 +118,14 @@ internal fun DeveloperModeStep(
 			isEnabled = isUsbDebuggingEnabled,
 			isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 			onOpenDeveloperSettings = onOpenDeveloperSettings
+		)
+
+		Spacer(modifier = Modifier.height(16.dp))
+
+		// Shizuku suggestion card, visible in all setup steps when installed
+		ShizukuOptionCard(
+			isVisible = isShizukuInstalled,
+			onClick = onGrantViaShizuku
 		)
 
 		Spacer(modifier = Modifier.weight(1f))
@@ -278,6 +288,8 @@ private fun UsbDebuggingCard(
 @Composable
 internal fun ConnectUsbStep(
 	isUsbConnected: Boolean,
+	isShizukuInstalled: Boolean,
+	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
 ) {
@@ -322,12 +334,17 @@ internal fun ConnectUsbStep(
 				stringResource(id = R.string.permission_wizard_usb_not_connected),
 			isWaiting = !isUsbConnected
 		)
-
 		Spacer(modifier = Modifier.height(24.dp))
+
+		ShizukuOptionCard(
+			isVisible = isShizukuInstalled,
+			onClick = onGrantViaShizuku
+		)
+
+		Spacer(modifier = Modifier.height(12.dp))
 
 		ConnectionWhySection()
 
-		Spacer(modifier = Modifier.weight(1f))
 		Spacer(modifier = Modifier.height(12.dp))
 
 		Row(
@@ -402,16 +419,19 @@ private fun ConnectionWhySection() {
 internal fun GrantPermissionStep(
 	adbCommand: String,
 	hasWriteSecureSettings: Boolean,
+	isShizukuInstalled: Boolean,
+	onGrantViaShizuku: () -> Unit,
 	onCopyAdbCommand: () -> Unit,
 	onShareSetupUrl: () -> Unit,
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
-	onExit: () -> Unit
+	onExit: () -> Unit,
 ) {
 	val haptic = LocalHapticFeedback.current
 
 	val pulseScale = remember { Animatable(0.8f) }
-	LaunchedEffect(!hasWriteSecureSettings) {
+
+	LaunchedEffect(hasWriteSecureSettings) {
 		if (!hasWriteSecureSettings) {
 			pulseScale.animateTo(
 				targetValue = 1.2f,
@@ -421,13 +441,7 @@ internal fun GrantPermissionStep(
 				)
 			)
 		} else {
-			pulseScale.snapTo(0.8f)
-		}
-	}
-
-	LaunchedEffect(hasWriteSecureSettings) {
-		if (hasWriteSecureSettings) {
-			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
+			pulseScale.snapTo(1.0f)
 		}
 	}
 
@@ -459,8 +473,14 @@ internal fun GrantPermissionStep(
 			pulseScale = pulseScale
 		)
 
-		Spacer(modifier = Modifier.weight(1f))
-		Spacer(modifier = Modifier.height(12.dp))
+		Spacer(modifier = Modifier.height(16.dp))
+
+		ShizukuOptionCard(
+			isVisible = isShizukuInstalled,
+			onClick = onGrantViaShizuku
+		)
+
+		Spacer(modifier = Modifier.height(16.dp))
 
 		ForExpertsSection(
 			adbCommand = adbCommand,
