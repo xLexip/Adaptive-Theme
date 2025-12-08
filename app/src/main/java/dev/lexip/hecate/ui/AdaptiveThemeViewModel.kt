@@ -13,6 +13,7 @@
 package dev.lexip.hecate.ui
 
 import android.content.Intent
+import android.hardware.SensorManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +26,7 @@ import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.setup.PermissionWizardStep
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
+import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +47,8 @@ data class AdaptiveThemeUiState(
 	val permissionWizardStep: PermissionWizardStep = PermissionWizardStep.ENABLE_DEVELOPER_MODE,
 	val permissionWizardCompleted: Boolean = false,
 	val hasAutoAdvancedFromDeveloperMode: Boolean = false,
-	val hasAutoAdvancedFromConnectUsb: Boolean = false
+	val hasAutoAdvancedFromConnectUsb: Boolean = false,
+	val isDeviceCovered: Boolean = false
 )
 
 class AdaptiveThemeViewModel(
@@ -82,21 +85,69 @@ class AdaptiveThemeViewModel(
 		_currentSensorLux.value = lux
 	}
 
+	// Proximity Sensor
+	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
+	private var isListeningToProximity = false
+
+	fun onSetupRequested(packageName: String) {
+		onServiceToggleRequested(
+			checked = true,
+			hasPermission = false,
+			packageName = packageName
+		)
+	}
+
+	private fun startProximityListening() {
+		if (isListeningToProximity) return
+		isListeningToProximity = true
+		proximitySensorManager.startListening({ distance: Float ->
+			val covered = distance < 5f
+			if (covered != _uiState.value.isDeviceCovered) {
+				if (covered) Thread.sleep(1000) // Prevents UI flickering
+				_uiState.value = _uiState.value.copy(isDeviceCovered = covered)
+			}
+		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
+	}
+
+	private fun stopProximityListening() {
+		if (!isListeningToProximity) return
+		isListeningToProximity = false
+		proximitySensorManager.stopListening()
+		if (_uiState.value.isDeviceCovered) {
+			_uiState.value = _uiState.value.copy(isDeviceCovered = false)
+		}
+	}
+
+	fun startSensorsIfEnabled() {
+		if (_uiState.value.adaptiveThemeEnabled) {
+			startLightSensorListening()
+			startProximityListening()
+		}
+	}
+
+	fun stopSensors() {
+		stopLightSensorListening()
+		stopProximityListening()
+	}
+
 	// Temporary variable for custom threshold
 	private var customThresholdTemp: Float? = null
 
 	init {
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
-				_uiState.value = AdaptiveThemeUiState(
+				_uiState.value = _uiState.value.copy(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
 					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux,
 					permissionWizardCompleted = userPreferences.permissionWizardCompleted
 				)
 
-				if (userPreferences.adaptiveThemeEnabled) startLightSensorListening()
-				else stopLightSensorListening()
+				if (userPreferences.adaptiveThemeEnabled) {
+					startSensorsIfEnabled()
+				} else {
+					stopSensors()
+				}
 			}
 		}
 	}
@@ -104,11 +155,11 @@ class AdaptiveThemeViewModel(
 	private fun startLightSensorListening() {
 		if (isListeningToSensor) return
 		isListeningToSensor = true
-		lightSensorManager.startListening { lux ->
+		lightSensorManager.startListening({ lux: Float ->
 			viewModelScope.launch {
 				updateCurrentSensorLux(lux)
 			}
-		}
+		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
 	}
 
 	private fun stopLightSensorListening() {
@@ -119,6 +170,7 @@ class AdaptiveThemeViewModel(
 
 	override fun onCleared() {
 		stopLightSensorListening()
+		stopProximityListening()
 		super.onCleared()
 	}
 

@@ -38,18 +38,17 @@ class ScreenOnReceiver(
 			Log.d(TAG, "Screen turned on, checking adaptive theme conditions...")
 
 			// Check if the device is covered using the proximity sensor
-			proximitySensorManager.startListening { distance ->
+			proximitySensorManager.startListening({ distance: Float ->
 				proximitySensorManager.stopListening()
 
 				// If the device is not covered, change the device theme based on the environment
 				if (distance >= 5f) {
-					lightSensorManager.startListening { lightValue ->
+					lightSensorManager.startListening({ lightValue: Float ->
 						lightSensorManager.stopListening()
 						darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
-					}
+					})
 				} else Log.d(TAG, "Device is covered, skipping adaptive theme checks.")
-
-			}
+			})
 		}
 	}
 }

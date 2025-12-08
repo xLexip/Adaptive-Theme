@@ -337,14 +337,13 @@ internal fun ConnectUsbStep(
 			OutlinedButton(onClick = onExit) {
 				Text(text = stringResource(id = R.string.action_close))
 			}
-			Button(
+			OutlinedButton(
 				onClick = {
 					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					onNext()
-				},
-				enabled = isUsbConnected
+				}
 			) {
-				Text(text = stringResource(id = R.string.action_continue))
+				Text(text = stringResource(id = R.string.action_skip))
 			}
 		}
 	}
@@ -368,6 +367,30 @@ private fun ConnectionWhySection() {
 			Spacer(modifier = Modifier.height(8.dp))
 			Text(
 				text = stringResource(id = R.string.permission_wizard_why_other_device),
+				style = MaterialTheme.typography.bodyMedium,
+				color = MaterialTheme.colorScheme.onSurfaceVariant
+			)
+		}
+	}
+
+	Spacer(modifier = Modifier.height(16.dp))
+
+	Card(
+		modifier = Modifier.fillMaxWidth(),
+		colors = CardDefaults.cardColors(
+			containerColor = MaterialTheme.colorScheme.surface
+		)
+	) {
+		Column(modifier = Modifier.padding(16.dp)) {
+			Text(
+				text = stringResource(id = R.string.permission_wizard_is_this_safe_title),
+				style = MaterialTheme.typography.bodyMedium,
+				fontWeight = FontWeight.Bold,
+				color = MaterialTheme.colorScheme.onSurfaceVariant
+			)
+			Spacer(modifier = Modifier.height(8.dp))
+			Text(
+				text = stringResource(id = R.string.permission_wizard_is_this_safe_body),
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.onSurfaceVariant
 			)
@@ -501,7 +524,7 @@ private fun WebsiteShareCard(
 				modifier = Modifier.wrapContentWidth(),
 				contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
 			) {
-				Text(text = stringResource(id = R.string.action_share_setup_url))
+				Text(text = stringResource(id = R.string.action_share_url))
 			}
 		}
 	}

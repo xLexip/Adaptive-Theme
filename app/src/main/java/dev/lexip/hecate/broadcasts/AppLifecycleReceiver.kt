@@ -21,13 +21,25 @@ import dev.lexip.hecate.services.BroadcastReceiverService
 
 private const val TAG = "BootCompletedReceiver"
 
-class BootCompletedReceiver : BroadcastReceiver() {
+class AppLifecycleReceiver : BroadcastReceiver() {
 
 	override fun onReceive(context: Context, intent: Intent) {
-		if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-			Log.i(TAG, "Boot completed, starting broadcast receiver service...")
-			val serviceIntent = Intent(context, BroadcastReceiverService::class.java)
-			ContextCompat.startForegroundService(context, serviceIntent)
+		when (intent.action) {
+			Intent.ACTION_BOOT_COMPLETED -> {
+				Log.i(TAG, "Boot completed, starting broadcast receiver service...")
+				val serviceIntent = Intent(context, BroadcastReceiverService::class.java)
+				ContextCompat.startForegroundService(context, serviceIntent)
+			}
+
+			Intent.ACTION_MY_PACKAGE_REPLACED -> {
+				Log.i(TAG, "App package replaced, starting broadcast receiver service if needed...")
+				val serviceIntent = Intent(context, BroadcastReceiverService::class.java)
+				ContextCompat.startForegroundService(context, serviceIntent)
+			}
+
+			else -> {
+				Log.d(TAG, "Received unrelated intent action: ${intent.action}")
+			}
 		}
 	}
 

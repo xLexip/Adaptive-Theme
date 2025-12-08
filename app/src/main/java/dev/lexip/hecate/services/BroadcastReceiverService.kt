@@ -39,7 +39,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
-private const val ACTION_STOP_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
+private const val ACTION_PAUSE_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
 
 private var screenOnReceiver: ScreenOnReceiver? = null
 
@@ -67,23 +67,10 @@ class BroadcastReceiverService : Service() {
 		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
 
 		// Handle stop action from notification
-		if (intent?.action == ACTION_STOP_SERVICE) {
-			Log.i(
-				TAG,
-				"Disable action received from notification - disabling adaptive theme and stopping service..."
-			)
+		if (intent?.action == ACTION_PAUSE_SERVICE) {
+			Log.i(TAG, "Pause action received from notification.")
 			serviceScope.launch {
-				try {
-					val userPreferencesRepository = UserPreferencesRepository(dataStore)
-					userPreferencesRepository.updateAdaptiveThemeEnabled(false)
-					Log.i(TAG, "Adaptive theme disabled via notification action.")
-					AnalyticsLogger.logServiceDisabled(
-						applicationContext,
-						source = "notification_action"
-					)
-				} catch (e: Exception) {
-					Log.e(TAG, "Failed to update adaptive theme preference", e)
-				}
+				Log.i(TAG, "Adaptive theme paused/killed via notification action.")
 				stopForeground(STOP_FOREGROUND_REMOVE)
 				stopSelf()
 			}
@@ -161,20 +148,20 @@ class BroadcastReceiverService : Service() {
 			pendingIntent
 		).build()
 
-		// Create action to stop the service
+		// Create action to pause/kill the service. The service will start again on next boot or app open.
 		val stopIntent = Intent(this, BroadcastReceiverService::class.java).apply {
-			action = ACTION_STOP_SERVICE
+			action = ACTION_PAUSE_SERVICE
 		}
-		val stopPendingIntent = PendingIntent.getService(
+		val pausePendingIntent = PendingIntent.getService(
 			this,
 			0,
 			stopIntent,
 			PendingIntent.FLAG_IMMUTABLE
 		)
-		val stopAction = NotificationCompat.Action.Builder(
+		val pauseAction = NotificationCompat.Action.Builder(
 			0,
-			getString(R.string.action_stop_service),
-			stopPendingIntent
+			getString(R.string.action_pause_service),
+			pausePendingIntent
 		).build()
 
 		// Build notification
@@ -186,7 +173,7 @@ class BroadcastReceiverService : Service() {
 			.setOnlyAlertOnce(true)
 			.setContentIntent(pendingIntent)
 			.addAction(disableAction)
-			.addAction(stopAction)
+			.addAction(pauseAction)
 			.setOngoing(true)
 
 
