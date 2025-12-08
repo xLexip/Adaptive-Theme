@@ -81,4 +81,6 @@
 	<string name="setup_required_title">Setup Required</string>
 	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>
 	<string name="action_finish_setup">Start Setup</string>
+
+	<string name="label_live_measurement">Live Value</string>
 </resources>
