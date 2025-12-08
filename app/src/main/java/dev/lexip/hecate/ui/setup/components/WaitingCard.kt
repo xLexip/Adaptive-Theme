@@ -10,7 +10,7 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.ui.setup
+package dev.lexip.hecate.ui.setup.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -22,12 +22,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,26 +42,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun StatusCard(
-	isCompleted: Boolean,
-	title: String,
-	onClick: (() -> Unit)? = null,
-	isWaiting: Boolean = false
-) {
-	val cardColors = if (isCompleted) {
-		CardDefaults.cardColors(
-			containerColor = MaterialTheme.colorScheme.primaryContainer,
-		)
-	} else {
-		CardDefaults.cardColors(
-			containerColor = MaterialTheme.colorScheme.surface,
-		)
-	}
-
+internal fun rememberPulseScale(isActive: Boolean): Float {
 	val pulseScale = remember { Animatable(0.8f) }
 
-	LaunchedEffect(isWaiting) {
-		if (isWaiting) {
+	LaunchedEffect(isActive) {
+		if (isActive) {
 			pulseScale.animateTo(
 				targetValue = 1.2f,
 				animationSpec = infiniteRepeatable(
@@ -76,12 +59,39 @@ internal fun StatusCard(
 		}
 	}
 
+	return pulseScale.value
+}
+
+@Composable
+internal fun WaitingCircle(
+	modifier: Modifier = Modifier,
+	pulseScale: Float,
+) {
+	Icon(
+		imageVector = Icons.Outlined.Circle,
+		contentDescription = null,
+		modifier = modifier
+			.size(32.dp)
+			.scale(pulseScale),
+		tint = MaterialTheme.colorScheme.onSurfaceVariant
+	)
+}
+
+@Composable
+internal fun SetupWaitingCard(
+	title: String,
+	pulseScale: Float,
+	onClick: (() -> Unit)? = null,
+) {
+	val cardColors = CardDefaults.cardColors(
+		containerColor = MaterialTheme.colorScheme.surface,
+	)
+
 	Card(
 		onClick = onClick ?: {},
 		enabled = onClick != null,
 		modifier = Modifier
-			.fillMaxWidth()
-			.height(80.dp),
+			.fillMaxWidth(),
 		colors = cardColors
 	) {
 		Row(
@@ -95,31 +105,15 @@ internal fun StatusCard(
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier.weight(1f)
 			) {
-				val icon = if (isCompleted && !isWaiting) {
-					Icons.Filled.CheckCircle
-				} else {
-					Icons.Outlined.Circle
-				}
-				Icon(
-					imageVector = icon,
-					contentDescription = null,
-					modifier = Modifier
-						.size(32.dp)
-						.scale(pulseScale.value),
-					tint = if (isCompleted && !isWaiting)
-						MaterialTheme.colorScheme.primary
-					else
-						MaterialTheme.colorScheme.onSurfaceVariant
+				WaitingCircle(
+					pulseScale = pulseScale,
 				)
 				Spacer(modifier = Modifier.width(16.dp))
 				Text(
 					text = title,
 					style = MaterialTheme.typography.titleMedium,
-					fontWeight = if (isCompleted) FontWeight.Medium else FontWeight.Normal,
-					color = if (isCompleted)
-						MaterialTheme.colorScheme.onPrimaryContainer
-					else
-						MaterialTheme.colorScheme.onSurface
+					fontWeight = FontWeight.Normal,
+					color = MaterialTheme.colorScheme.onSurface
 				)
 			}
 		}

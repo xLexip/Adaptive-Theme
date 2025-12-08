@@ -10,7 +10,7 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.ui.setup
+package dev.lexip.hecate.ui.setup.components
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandLess
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -48,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
 
 @Composable
-internal fun ForExpertsSection(
+internal fun ForExpertsSectionCard(
 	adbCommand: String?,
 	onCopyAdbCommand: (() -> Unit)? = null,
 	onShareExpertCommand: (() -> Unit)? = null,
@@ -72,7 +73,7 @@ internal fun ForExpertsSection(
 			) {
 				Text(
 					text = stringResource(id = R.string.permission_wizard_for_experts),
-					style = MaterialTheme.typography.labelLarge,
+					style = MaterialTheme.typography.bodyMedium,
 					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					modifier = Modifier.weight(1f)
@@ -89,7 +90,7 @@ internal fun ForExpertsSection(
 				Spacer(modifier = Modifier.height(8.dp))
 				Text(
 					text = stringResource(id = R.string.permission_wizard_manual_command),
-					style = MaterialTheme.typography.bodySmall,
+					style = MaterialTheme.typography.bodyMedium,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
 
