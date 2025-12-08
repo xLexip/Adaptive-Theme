@@ -23,10 +23,16 @@
 	<uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 
+	<!-- One safeguard to support foldables but not tablets -->
+	<uses-feature
+		android:name="android.hardware.telephony"
+		android:required="true"
+		tools:ignore="UnnecessaryRequiredFeature" />
+
 	<supports-screens
 		android:smallScreens="true"
 		android:normalScreens="true"
-		android:largeScreens="false"
+		android:largeScreens="true"
 		android:xlargeScreens="false"
 		android:resizeable="true"
 		android:anyDensity="true" />
@@ -66,10 +72,13 @@
 		</activity>
 
 		<receiver
-			android:name=".broadcasts.BootCompletedReceiver"
+			android:name=".broadcasts.AppLifecycleReceiver"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
 			</intent-filter>
 		</receiver>
 

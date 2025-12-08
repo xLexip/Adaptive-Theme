@@ -106,4 +106,34 @@ object AnalyticsLogger {
 			}
 		}
 	}
+
+	fun logSetupStarted(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("setup_started") { }
+		}
+	}
+
+	fun logSetupStepOneCompleted(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("setup_step_one_completed") { }
+		}
+	}
+
+	fun logSetupStepTwoCompleted(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("setup_step_two_completed") { }
+		}
+	}
+
+	fun logSetupFinished(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("setup_finished") { }
+		}
+	}
+
+	fun logInAppUpdateInstalled(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("in_app_update_installed") { }
+		}
+	}
 }
