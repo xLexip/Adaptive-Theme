@@ -81,20 +81,23 @@ class MainActivity : ComponentActivity() {
 		}
 
 		inAppUpdateManager?.checkForImmediateUpdate()
+		inAppUpdateManager?.checkForFlexibleUpdate()
 	}
 
 	override fun onResume() {
 		super.onResume()
+
+		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
+		inAppUpdateManager?.resumeFlexibleUpdateIfNeeded()
+
+		// Always restart the service (it may have been paused in the meantime)
 		if (this::adaptiveThemeViewModel.isInitialized) {
 			adaptiveThemeViewModel.startSensorsIfEnabled()
-
-			// Always restart the service (it may have been paused in the meantime)
 			if (adaptiveThemeViewModel.isAdaptiveThemeEnabled()) {
 				val intent = android.content.Intent(this, BroadcastReceiverService::class.java)
 				androidx.core.content.ContextCompat.startForegroundService(this, intent)
 			}
 		}
-		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
 	}
 
 	override fun onPause() {
