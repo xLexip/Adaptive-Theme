@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.content.ContextCompat
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.ui.AdaptiveThemeViewModel
+import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 @Composable
 fun PermissionSetupHost(
@@ -32,6 +33,8 @@ fun PermissionSetupHost(
 	var isUsbDebuggingEnabled by remember { mutableStateOf(false) }
 	var isUsbConnected by remember { mutableStateOf(false) }
 	var hasPermission by remember { mutableStateOf(false) }
+
+	val isShizukuInstalled = remember { ShizukuAvailability.isShizukuInstalled(context) }
 
 	SideEffect {
 		AnalyticsLogger.logSetupStarted(context)
@@ -178,6 +181,11 @@ fun PermissionSetupHost(
 		hasWriteSecureSettings = hasPermission,
 		isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 		isUsbDebuggingEnabled = isUsbDebuggingEnabled,
+		isShizukuInstalled = isShizukuInstalled,
+		onGrantViaShizuku = {
+			// Trigger the ViewModel’s Shizuku-based grant flow
+			viewModel.onGrantViaShizukuRequested(context.packageName)
+		},
 		onNext = {
 			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 			when (internalUiState.permissionWizardStep) {
@@ -193,7 +201,9 @@ fun PermissionSetupHost(
 
 				PermissionWizardStep.GRANT_PERMISSION -> {
 					if (hasPermission) {
-						AnalyticsLogger.logSetupFinished(context)
+						val source =
+							if (isUsbConnected) "permission_wizard_complete_usb" else "permission_wizard_complete"
+						AnalyticsLogger.logSetupFinished(context, source = source)
 						viewModel.completePermissionWizardAndEnableService()
 					} else {
 						viewModel.goToNextPermissionWizardStep()
@@ -236,7 +246,9 @@ fun PermissionSetupHost(
 			viewModel.recheckWriteSecureSettingsPermission(nowGranted)
 			if (nowGranted) {
 				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-				AnalyticsLogger.logSetupFinished(context)
+				val source =
+					if (isUsbConnected) "permission_wizard_check_now_granted_usb" else "permission_wizard_check_now_granted"
+				AnalyticsLogger.logSetupFinished(context, source = source)
 				viewModel.completePermissionWizardAndEnableService()
 			}
 		}

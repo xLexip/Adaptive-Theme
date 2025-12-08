@@ -49,6 +49,8 @@ fun PermissionSetupWizardScreen(
 	hasWriteSecureSettings: Boolean,
 	isDeveloperOptionsEnabled: Boolean,
 	isUsbDebuggingEnabled: Boolean,
+	isShizukuInstalled: Boolean,
+	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
 	onOpenSettings: () -> Unit,
@@ -120,6 +122,8 @@ fun PermissionSetupWizardScreen(
 					PermissionWizardStep.ENABLE_DEVELOPER_MODE -> DeveloperModeStep(
 						isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 						isUsbDebuggingEnabled = isUsbDebuggingEnabled,
+						isShizukuInstalled = isShizukuInstalled,
+						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
 						onExit = onExit,
 						onOpenSettings = onOpenSettings,
@@ -128,6 +132,8 @@ fun PermissionSetupWizardScreen(
 
 					PermissionWizardStep.CONNECT_USB -> ConnectUsbStep(
 						isUsbConnected = isUsbConnected,
+						isShizukuInstalled = isShizukuInstalled,
+						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
 						onExit = onExit
 					)
@@ -135,6 +141,8 @@ fun PermissionSetupWizardScreen(
 					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
 						adbCommand = adbCommand,
 						hasWriteSecureSettings = hasWriteSecureSettings,
+						isShizukuInstalled = isShizukuInstalled,
+						onGrantViaShizuku = onGrantViaShizuku,
 						onCopyAdbCommand = onCopyAdbCommand,
 						onShareSetupUrl = onShareSetupUrl,
 						onShareExpertCommand = onShareExpertCommand,

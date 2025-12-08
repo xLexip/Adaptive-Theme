@@ -68,15 +68,26 @@
 	<string name="permission_wizard_usb_debugging_disabled">USB-Debugging aktivieren</string>
 	<string name="permission_wizard_usb_debugging_enabled">USB-Debugging aktiviert</string>
 	<string name="permission_wizard_usb_debugging_toast">Aktiviere USB-Debugging</string>
-	<string name="permission_wizard_usb_not_connected">Warte auf USB-Verbindung...</string>
+	<string name="permission_wizard_usb_not_connected">Warte auf USB-Verbindung…</string>
 	<string name="permission_wizard_why_other_device_title">Warum ist ein anderes Gerät nötig?</string>
 	<string name="permission_wizard_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein anderes Gerät mit einem Webbrowser oder ADB benötigt.</string>
 	<string name="permission_wizard_is_this_safe_title">Ist das sicher?</string>
 	<string name="permission_wizard_is_this_safe_body">Ja. Es erlaubt der App nur, Einstellungen wie den Dunkelmodus zu ändern. Das ist absolut sicher und vollständig rückgängig zu machen.</string>
+	<string name="permission_wizard_shizuku_title">Alternative: Shizuku</string>
+	<string name="permission_wizard_shizuku_body">Wenn du Shizuku bereits verwendest, benötigst du weder ein zweites Gerät noch ADB.</string>
+	<string name="permission_wizard_shizuku_action">Shizuku verwenden</string>
+	<string name="permission_wizard_shizuku_available">Shizuku erkannt: Du kannst die Berechtigung damit direkt von diesem Gerät aus erteilen.</string>
 
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
 	<string name="action_finish_setup">Einrichtung starten</string>
 
-	<string name="label_live_measurement">Live-Wert</string>
+	<string name="title_live_measurement">Live-Wert</string>
+	<string name="shizuku_not_supported">Shizuku-Version nicht unterstützt.</string>
+	<string name="shizuku_not_ready">Starte Shizuku und versuche es erneut.</string>
+	<string name="shizuku_denied_rationale">Aktiviere Adaptive Theme in Shizuku. Zugriff verweigert.</string>
+	<string name="shizuku_request_permission">Frage Berechtigung an…</string>
+	<string name="shizuku_grant_success">Einrichtung abgeschlossen.</string>
+	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
+	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
 </resources>

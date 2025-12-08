@@ -13,7 +13,6 @@
 package dev.lexip.hecate.util
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
 
 object InstallSourceChecker {
@@ -36,12 +35,7 @@ object InstallSourceChecker {
 		val pm = context.packageManager
 		val packageName = context.packageName
 		return try {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-				pm.getInstallSourceInfo(packageName).installingPackageName
-			} else {
-				@Suppress("DEPRECATION")
-				pm.getInstallerPackageName(packageName)
-			}
+			pm.getInstallSourceInfo(packageName).installingPackageName
 		} catch (t: Throwable) {
 			Log.w(TAG, "Failed to resolve installer package", t)
 			null

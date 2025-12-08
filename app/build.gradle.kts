@@ -100,6 +100,8 @@ dependencies {
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.compose.material.icons.extended)
 	implementation(libs.app.update.ktx)
+	implementation(libs.shizuku.api)
+	implementation(libs.shizuku.provider)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

@@ -77,7 +77,7 @@ fun ProgressDetailCard(
 					horizontalArrangement = Arrangement.SpaceBetween
 				) {
 					Text(
-						text = stringResource(id = R.string.label_live_measurement),
+						text = stringResource(id = R.string.title_live_measurement),
 						style = MaterialTheme.typography.bodySmall,
 						color = MaterialTheme.colorScheme.onSurfaceVariant,
 						modifier = Modifier.weight(1f)

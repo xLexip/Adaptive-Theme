@@ -61,6 +61,7 @@ import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
 import dev.lexip.hecate.ui.setup.PermissionSetupHost
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
+import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 private val ScreenHorizontalMargin = 20.dp
 private val horizontalOffsetPadding = 8.dp
@@ -93,6 +94,11 @@ fun AdaptiveThemeScreen(
 	)
 
 	val internalUiState by adaptiveThemeViewModel.uiState.collectAsState()
+
+	LaunchedEffect(Unit) {
+		val installed = ShizukuAvailability.isShizukuInstalled(context)
+		adaptiveThemeViewModel.setShizukuInstalled(installed)
+	}
 
 	val showCustomDialog = remember { mutableStateOf(false) }
 

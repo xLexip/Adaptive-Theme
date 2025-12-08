@@ -14,6 +14,10 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	tools:ignore="ProtectedPermissions">
 
+	<queries>
+		<package android:name="moe.shizuku.privileged.api" />
+	</queries>
+
 	<uses-permission
 		android:name="android.permission.FOREGROUND_SERVICE"
 		tools:ignore="ForegroundServicesPolicy" />
@@ -51,6 +55,15 @@
 		android:windowSoftInputMode="adjustResize"
 		android:localeConfig="@xml/locales_config"
 		tools:targetApi="33">
+
+		<!-- Shizuku provider to acquire binder from Shizuku/Sui -->
+		<provider
+			android:name="rikka.shizuku.ShizukuProvider"
+			android:authorities="${applicationId}.shizuku"
+			android:multiprocess="false"
+			android:enabled="true"
+			android:exported="true"
+			android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
 		<!-- Explicitly disable AdID collection for Firebase Analytics -->
 		<meta-data
