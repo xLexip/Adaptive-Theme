@@ -77,4 +77,6 @@
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
 	<string name="action_finish_setup">Einrichtung starten</string>
+
+	<string name="label_live_measurement">Live-Wert</string>
 </resources>
