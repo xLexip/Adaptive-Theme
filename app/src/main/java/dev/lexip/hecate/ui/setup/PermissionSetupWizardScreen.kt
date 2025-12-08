@@ -33,6 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.setup.steps.ConnectUsbStep
+import dev.lexip.hecate.ui.setup.steps.DeveloperModeStep
+import dev.lexip.hecate.ui.setup.steps.GrantPermissionStep
 
 enum class PermissionWizardStep {
 	ENABLE_DEVELOPER_MODE,
