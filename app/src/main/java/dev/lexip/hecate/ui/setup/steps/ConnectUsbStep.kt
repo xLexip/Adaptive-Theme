@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.setup.components.ForExpertsSectionCard
 import dev.lexip.hecate.ui.setup.components.SetupFAQCards
 import dev.lexip.hecate.ui.setup.components.SetupWaitingCard
 import dev.lexip.hecate.ui.setup.components.ShizukuOptionCard
@@ -41,6 +42,8 @@ internal fun ConnectUsbStep(
 	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
+	onShareExpertCommand: (() -> Unit)? = null,
+	onUseRoot: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 
@@ -89,6 +92,11 @@ internal fun ConnectUsbStep(
 			)
 
 			SetupFAQCards()
+
+			ForExpertsSectionCard(
+				onUseRoot = onUseRoot,
+				onShareADBCommand = onShareExpertCommand
+			)
 		}
 
 		StepNavigationRow(
