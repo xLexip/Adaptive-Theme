@@ -415,7 +415,7 @@ class AdaptiveThemeViewModel(
 			return
 		}
 
-		if (!ShizukuManager.hasPermission()) {
+		if (!ShizukuManager.hasPermission(context)) {
 			Toast.makeText(
 				context,
 				context.getString(R.string.shizuku_request_permission),
@@ -426,7 +426,8 @@ class AdaptiveThemeViewModel(
 		}
 
 		viewModelScope.launch(ioDispatcher) {
-			val result = ShizukuManager.executeGrantViaShizuku(packageName)
+			val result = ShizukuManager.executeGrantViaShizuku(context, packageName)
+			AnalyticsLogger.logShizukuGrantResult(context, result, packageName)
 			withContext(mainDispatcher) {
 				when (result) {
 					is ShizukuManager.GrantResult.Success -> {
@@ -469,6 +470,7 @@ class AdaptiveThemeViewModel(
 							Toast.LENGTH_LONG
 						).show()
 					}
+
 				}
 			}
 		}

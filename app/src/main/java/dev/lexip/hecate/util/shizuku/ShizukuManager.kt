@@ -8,6 +8,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.os.Parcel
 import android.util.Log
+import dev.lexip.hecate.analytics.AnalyticsLogger
 import rikka.shizuku.Shizuku
 
 object ShizukuManager {
@@ -45,7 +46,7 @@ object ShizukuManager {
 
 	fun isBinderReady(): Boolean = binderReady
 
-	fun hasPermission(): Boolean {
+	fun hasPermission(context: Context): Boolean {
 		if (Shizuku.isPreV11()) return false
 		if (!binderReady) return false
 
@@ -53,11 +54,18 @@ object ShizukuManager {
 			Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
 		} catch (t: Throwable) {
 			Log.w(TAG, "Failed to check Shizuku permission", t)
+			AnalyticsLogger.logUnexpectedShizukuError(
+				context = context,
+				operation = "check_permission",
+				stage = "check_self_permission",
+				throwable = t,
+				binderReady = binderReady
+			)
 			false
 		}
 	}
 
-	fun requestPermission(@Suppress("UNUSED_PARAMETER") context: Context) {
+	fun requestPermission(context: Context) {
 		if (Shizuku.isPreV11()) {
 			Log.w(TAG, "Ignoring Shizuku.requestPermission on pre-v11")
 			return
@@ -82,10 +90,10 @@ object ShizukuManager {
 	fun buildGrantWriteSecureSettingsCommand(packageName: String): String =
 		"pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 
-	fun executeGrantViaShizuku(packageName: String): GrantResult {
+	fun executeGrantViaShizuku(context: Context, packageName: String): GrantResult {
 		if (Shizuku.isPreV11()) return GrantResult.ServiceNotRunning
 		if (!binderReady) return GrantResult.ServiceNotRunning
-		if (!hasPermission()) return GrantResult.NotAuthorized
+		if (!hasPermission(context)) return GrantResult.NotAuthorized
 
 		val cmd = buildGrantWriteSecureSettingsCommand(packageName)
 
@@ -94,7 +102,13 @@ object ShizukuManager {
 			var result: GrantResult = GrantResult.Unexpected(IllegalStateException("No result"))
 
 			val args = createGrantServiceArgs()
-			val connection = createGrantServiceConnection(args, cmd, monitor) { grantResult ->
+			val connection = createGrantServiceConnection(
+				context,
+				args,
+				cmd,
+				monitor,
+				packageName
+			) { grantResult ->
 				result = grantResult
 			}
 
@@ -104,6 +118,14 @@ object ShizukuManager {
 			result
 		} catch (t: Throwable) {
 			Log.e(TAG, "Grant via Shizuku failed", t)
+			AnalyticsLogger.logUnexpectedShizukuError(
+				context = context,
+				operation = "grant_write_secure_settings",
+				stage = "execute_grant_via_shizuku",
+				throwable = t,
+				binderReady = binderReady,
+				packageName = packageName
+			)
 			GrantResult.Unexpected(t)
 		}
 	}
@@ -118,9 +140,11 @@ object ShizukuManager {
 	}
 
 	private fun createGrantServiceConnection(
+		context: Context,
 		args: Shizuku.UserServiceArgs,
 		cmd: String,
 		monitor: Object,
+		packageName: String,
 		onResult: (GrantResult) -> Unit
 	): ServiceConnection {
 		return object : ServiceConnection {
@@ -137,13 +161,31 @@ object ShizukuManager {
 				} catch (t: Throwable) {
 					when (t) {
 						is SecurityException -> GrantResult.NotAuthorized
-						else -> GrantResult.Unexpected(t)
+						else -> {
+							AnalyticsLogger.logUnexpectedShizukuError(
+								context = context,
+								operation = "grant_write_secure_settings",
+								stage = "on_service_connected_execute",
+								throwable = t,
+								binderReady = binderReady,
+								packageName = packageName
+							)
+							GrantResult.Unexpected(t)
+						}
 					}
 				} finally {
 					try {
 						Shizuku.unbindUserService(args, this, true)
 					} catch (t: Throwable) {
 						Log.w(TAG, "Error while unbinding Shizuku user service", t)
+						AnalyticsLogger.logUnexpectedShizukuError(
+							context = context,
+							operation = "grant_write_secure_settings",
+							stage = "unbind_user_service",
+							throwable = t,
+							binderReady = binderReady,
+							packageName = packageName
+						)
 					}
 					synchronized(monitor) {
 						monitor.notifyAll()
