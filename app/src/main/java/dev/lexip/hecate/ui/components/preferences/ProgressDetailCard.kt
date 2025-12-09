@@ -52,7 +52,7 @@ fun ProgressDetailCard(
 			modifier = Modifier
 				.fillMaxWidth()
 				.padding(horizontal = 12.dp)
-				.padding(top = 8.dp, bottom = 8.dp),
+				.padding(top = 12.dp, bottom = 8.dp),
 			verticalArrangement = Arrangement.spacedBy(8.dp)
 		) {
 			val segments = (luxSteps.size - 1).coerceAtLeast(1)
@@ -73,8 +73,10 @@ fun ProgressDetailCard(
 			// Live lux measurement
 			if (enabled) {
 				Row(
-					modifier = Modifier.fillMaxWidth(),
-					horizontalArrangement = Arrangement.SpaceBetween
+					modifier = Modifier
+						.fillMaxWidth()
+						.padding(top = 6.dp),
+					horizontalArrangement = Arrangement.SpaceBetween,
 				) {
 					Text(
 						text = stringResource(id = R.string.title_live_measurement),

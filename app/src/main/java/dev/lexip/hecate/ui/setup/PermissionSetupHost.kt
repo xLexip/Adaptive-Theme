@@ -173,11 +173,11 @@ fun PermissionSetupHost(
 
 				// If permission becomes granted, auto-complete wizard and enable service
 				if (hasPermission) {
-					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					viewModel.completePermissionWizard(
 						context,
 						if (isUsbConnected) "usb" else null
 					)
+					haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 					break
 				}
 
@@ -222,8 +222,7 @@ fun PermissionSetupHost(
 							context,
 							if (isUsbConnected) "usb" else null
 						)
-					} else {
-						viewModel.goToNextPermissionWizardStep()
+						haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 					}
 				}
 			}
@@ -261,13 +260,13 @@ fun PermissionSetupHost(
 					context, Manifest.permission.WRITE_SECURE_SETTINGS
 				) == PackageManager.PERMISSION_GRANTED
 			viewModel.recheckWriteSecureSettingsPermission(nowGranted)
+
 			if (nowGranted) {
-				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-				if (isUsbConnected) AnalyticsLogger.logSetupFinished(context, "usb")
 				viewModel.completePermissionWizard(
 					context,
 					if (isUsbConnected) "usb" else null
 				)
+				haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 			}
 		},
 		onUseRoot = {

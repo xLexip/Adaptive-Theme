@@ -298,7 +298,7 @@ class AdaptiveThemeViewModel(
 	) {
 		viewModelScope.launch {
 			if (permissionWizardCompletionHandled.getAndSet(true)) return@launch
-			if (source != null) AnalyticsLogger.logSetupFinished(context, source)
+			if (source != null) AnalyticsLogger.logSetupComplete(context, source)
 			userPreferencesRepository.updatePermissionWizardCompleted(true)
 			dismissPermissionWizard()
 			updateAdaptiveThemeEnabled(true)
@@ -358,7 +358,7 @@ class AdaptiveThemeViewModel(
 			)
 		}
 	}
-	
+
 	val isUsingCustomThreshold: Boolean
 		get() = _uiState.value.customAdaptiveThemeThresholdLux != null
 

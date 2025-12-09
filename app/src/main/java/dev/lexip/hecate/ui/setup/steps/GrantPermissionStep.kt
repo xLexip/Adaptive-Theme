@@ -44,11 +44,7 @@ import dev.lexip.hecate.ui.setup.components.rememberPulseScale
 
 @Composable
 internal fun GrantPermissionStep(
-	adbCommand: String,
 	hasWriteSecureSettings: Boolean,
-	isShizukuInstalled: Boolean,
-	onGrantViaShizuku: () -> Unit,
-	onCopyAdbCommand: () -> Unit,
 	onShareSetupUrl: () -> Unit,
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
