@@ -139,7 +139,9 @@ fun PermissionSetupWizardScreen(
 						isShizukuInstalled = isShizukuInstalled,
 						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
-						onExit = onExit
+						onExit = onExit,
+						onShareExpertCommand = onShareExpertCommand,
+						onUseRoot = onUseRoot
 					)
 
 					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
@@ -152,7 +154,8 @@ fun PermissionSetupWizardScreen(
 						onShareExpertCommand = onShareExpertCommand,
 						onCheckPermission = onCheckPermission,
 						onExit = onExit,
-						onUseRoot = onUseRoot
+						onUseRoot = onUseRoot,
+						isUsbConnected = isUsbConnected
 					)
 				}
 			}
