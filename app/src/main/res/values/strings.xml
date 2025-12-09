@@ -49,6 +49,7 @@
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 
+	<string name="permission_wizard_title">Service Setup</string>
 	<string name="permission_wizard_action_open_developer_settings">Open Developer Options</string>
 	<string name="permission_wizard_action_open_settings">Open Settings</string>
 	<string name="permission_wizard_connect_title">Connect to setup device</string>
@@ -74,7 +75,7 @@
 	<string name="permission_wizard_is_this_safe_title">Is this safe?</string>
 	<string name="permission_wizard_is_this_safe_body">Yes. It just allows the app to modify settings like the dark mode. This is absolutely safe and completely reversible.</string>
 	<string name="permission_wizard_shizuku_title">Alternative: Shizuku</string>
-	<string name="permission_wizard_shizuku_body">If you already use Shizuku, you won\'t need a second device or ADB.</string>
+	<string name="permission_wizard_shizuku_body">If you already use Shizuku, you won’t need a second device or ADB.</string>
 	<string name="permission_wizard_shizuku_action">Use Shizuku instead</string>
 	<string name="permission_wizard_action_use_root">Use Root</string>
 
