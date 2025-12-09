@@ -93,77 +93,103 @@ object ShizukuManager {
 			val monitor = Object()
 			var result: GrantResult = GrantResult.Unexpected(IllegalStateException("No result"))
 
-			val component = ComponentName(
-				"dev.lexip.hecate",
-				GrantService::class.java.name
-			)
-			val args = Shizuku.UserServiceArgs(component)
-				.processNameSuffix("shizuku_grant")
-
-			val connection = object : ServiceConnection {
-				override fun onServiceConnected(
-					name: ComponentName?,
-					binder: IBinder?
-				) {
-					if (binder == null) {
-						result = GrantResult.ServiceNotRunning
-						synchronized(monitor) { monitor.notifyAll() }
-						return
-					}
-
-					try {
-						val data = Parcel.obtain()
-						val reply = Parcel.obtain()
-						try {
-							data.writeInterfaceToken("dev.lexip.hecate.util.shizuku.GrantService")
-							data.writeString(cmd)
-							val transactionCode = Binder.FIRST_CALL_TRANSACTION + 1
-							val success = binder.transact(transactionCode, data, reply, 0)
-							result = if (success) {
-								val exitCode = reply.readInt()
-								if (exitCode == 0) GrantResult.Success
-								else GrantResult.ShellCommandFailed(exitCode)
-							} else {
-								GrantResult.ServiceNotRunning
-							}
-						} finally {
-							data.recycle()
-							reply.recycle()
-						}
-					} catch (t: Throwable) {
-						result = when (t) {
-							is SecurityException -> GrantResult.NotAuthorized
-							else -> GrantResult.Unexpected(t)
-						}
-					} finally {
-						try {
-							Shizuku.unbindUserService(args, this, true)
-						} catch (t: Throwable) {
-							Log.w(TAG, "Error while unbinding Shizuku user service", t)
-						}
-						synchronized(monitor) { monitor.notifyAll() }
-					}
-				}
-
-				override fun onServiceDisconnected(name: ComponentName?) {
-					Log.d(TAG, "GrantService disconnected: $name")
-				}
+			val args = createGrantServiceArgs()
+			val connection = createGrantServiceConnection(args, cmd, monitor) { grantResult ->
+				result = grantResult
 			}
 
 			Shizuku.bindUserService(args, connection)
-
-			synchronized(monitor) {
-				try {
-					monitor.wait(5000)
-				} catch (t: InterruptedException) {
-					Log.w(TAG, "Interrupted while waiting for Shizuku user service", t)
-				}
-			}
+			waitForGrantResult(monitor)
 
 			result
 		} catch (t: Throwable) {
 			Log.e(TAG, "Grant via Shizuku failed", t)
 			GrantResult.Unexpected(t)
+		}
+	}
+
+	private fun createGrantServiceArgs(): Shizuku.UserServiceArgs {
+		val component = ComponentName(
+			"dev.lexip.hecate",
+			GrantService::class.java.name
+		)
+		return Shizuku.UserServiceArgs(component)
+			.processNameSuffix("shizuku_grant")
+	}
+
+	private fun createGrantServiceConnection(
+		args: Shizuku.UserServiceArgs,
+		cmd: String,
+		monitor: Object,
+		onResult: (GrantResult) -> Unit
+	): ServiceConnection {
+		return object : ServiceConnection {
+			override fun onServiceConnected(
+				name: ComponentName?,
+				binder: IBinder?
+			) {
+				val result = try {
+					if (binder == null) {
+						GrantResult.ServiceNotRunning
+					} else {
+						executeGrantTransaction(binder, cmd)
+					}
+				} catch (t: Throwable) {
+					when (t) {
+						is SecurityException -> GrantResult.NotAuthorized
+						else -> GrantResult.Unexpected(t)
+					}
+				} finally {
+					try {
+						Shizuku.unbindUserService(args, this, true)
+					} catch (t: Throwable) {
+						Log.w(TAG, "Error while unbinding Shizuku user service", t)
+					}
+					synchronized(monitor) {
+						monitor.notifyAll()
+					}
+				}
+
+				onResult(result)
+			}
+
+			override fun onServiceDisconnected(name: ComponentName?) {
+				Log.d(TAG, "GrantService disconnected: $name")
+			}
+		}
+	}
+
+	private fun executeGrantTransaction(
+		binder: IBinder,
+		cmd: String
+	): GrantResult {
+		val data = Parcel.obtain()
+		val reply = Parcel.obtain()
+		return try {
+			data.writeInterfaceToken("dev.lexip.hecate.util.shizuku.GrantService")
+			data.writeString(cmd)
+			val transactionCode = Binder.FIRST_CALL_TRANSACTION + 1
+			val success = binder.transact(transactionCode, data, reply, 0)
+			if (!success) {
+				GrantResult.ServiceNotRunning
+			} else {
+				val exitCode = reply.readInt()
+				if (exitCode == 0) GrantResult.Success
+				else GrantResult.ShellCommandFailed(exitCode)
+			}
+		} finally {
+			data.recycle()
+			reply.recycle()
+		}
+	}
+
+	private fun waitForGrantResult(monitor: Object) {
+		synchronized(monitor) {
+			try {
+				monitor.wait(5000)
+			} catch (t: InterruptedException) {
+				Log.w(TAG, "Interrupted while waiting for Shizuku user service", t)
+			}
 		}
 	}
 }
