@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.setup.steps.ConnectUsbStep
+import dev.lexip.hecate.ui.setup.steps.DeveloperModeActions
 import dev.lexip.hecate.ui.setup.steps.DeveloperModeStep
 import dev.lexip.hecate.ui.setup.steps.GrantPermissionStep
 
@@ -130,8 +131,10 @@ fun PermissionSetupWizardScreen(
 						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
 						onExit = onExit,
-						onOpenSettings = onOpenSettings,
-						onOpenDeveloperSettings = onOpenDeveloperSettings
+						actions = DeveloperModeActions(
+							onOpenSettings = onOpenSettings,
+							onOpenDeveloperSettings = onOpenDeveloperSettings
+						)
 					)
 
 					PermissionWizardStep.CONNECT_USB -> ConnectUsbStep(
@@ -145,11 +148,7 @@ fun PermissionSetupWizardScreen(
 					)
 
 					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
-						adbCommand = adbCommand,
 						hasWriteSecureSettings = hasWriteSecureSettings,
-						isShizukuInstalled = isShizukuInstalled,
-						onGrantViaShizuku = onGrantViaShizuku,
-						onCopyAdbCommand = onCopyAdbCommand,
 						onShareSetupUrl = onShareSetupUrl,
 						onShareExpertCommand = onShareExpertCommand,
 						onCheckPermission = onCheckPermission,

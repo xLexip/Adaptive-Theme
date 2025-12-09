@@ -47,6 +47,11 @@ import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.setup.components.ShizukuOptionCard
 import dev.lexip.hecate.ui.setup.components.StepNavigationRow
 
+data class DeveloperModeActions(
+	val onOpenSettings: () -> Unit,
+	val onOpenDeveloperSettings: () -> Unit,
+)
+
 @Composable
 internal fun DeveloperModeStep(
 	isDeveloperOptionsEnabled: Boolean,
@@ -55,21 +60,17 @@ internal fun DeveloperModeStep(
 	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
-	onOpenSettings: () -> Unit,
-	onOpenDeveloperSettings: () -> Unit,
+	actions: DeveloperModeActions,
 ) {
 	val haptic = LocalHapticFeedback.current
 	val bothEnabled = isDeveloperOptionsEnabled && isUsbDebuggingEnabled
 
-	LaunchedEffect(isDeveloperOptionsEnabled) {
+	LaunchedEffect(isDeveloperOptionsEnabled, isUsbDebuggingEnabled) {
 		if (isDeveloperOptionsEnabled) {
-			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
-	}
-
-	LaunchedEffect(isUsbDebuggingEnabled) {
 		if (isUsbDebuggingEnabled) {
-			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
 	}
 
@@ -101,13 +102,13 @@ internal fun DeveloperModeStep(
 
 			DeveloperOptionsCard(
 				isEnabled = isDeveloperOptionsEnabled,
-				onOpenSettings = onOpenSettings
+				onOpenSettings = actions.onOpenSettings
 			)
 
 			UsbDebuggingCard(
 				isEnabled = isUsbDebuggingEnabled,
 				isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
-				onOpenDeveloperSettings = onOpenDeveloperSettings
+				onOpenDeveloperSettings = actions.onOpenDeveloperSettings
 			)
 
 			ShizukuOptionCard(
@@ -131,9 +132,14 @@ internal fun DeveloperModeStep(
 }
 
 @Composable
-private fun DeveloperOptionsCard(
+private fun StatusCard(
 	isEnabled: Boolean,
-	onOpenSettings: () -> Unit,
+	titleResIfEnabled: Int,
+	titleResIfDisabled: Int,
+	showAction: Boolean,
+	actionLabelRes: Int,
+	actionToastRes: Int,
+	onAction: () -> Unit,
 ) {
 	val context = LocalContext.current
 
@@ -147,41 +153,14 @@ private fun DeveloperOptionsCard(
 		)
 	) {
 		Column(modifier = Modifier.padding(20.dp)) {
-			Row(
-				verticalAlignment = Alignment.CenterVertically,
-				modifier = Modifier.fillMaxWidth()
-			) {
-				if (isEnabled) {
-					Icon(
-						imageVector = Icons.Filled.CheckCircle,
-						contentDescription = null,
-						modifier = Modifier.size(32.dp),
-						tint = MaterialTheme.colorScheme.primary
-					)
-					Spacer(modifier = Modifier.width(16.dp))
-				}
-				Text(
-					text = stringResource(
-						id = if (isEnabled)
-							R.string.permission_wizard_developer_options_enabled
-						else
-							R.string.permission_wizard_developer_options_title
-					),
-					style = MaterialTheme.typography.titleMedium,
-					fontWeight = FontWeight.Bold,
-					color = if (isEnabled)
-						MaterialTheme.colorScheme.onPrimaryContainer
-					else
-						MaterialTheme.colorScheme.onSurface,
-					modifier = Modifier.weight(1f)
-				)
-			}
-			if (!isEnabled) {
+			StatusCardHeader(isEnabled, titleResIfEnabled, titleResIfDisabled)
+
+			if (showAction) {
 				Spacer(modifier = Modifier.height(12.dp))
-				val toastText = stringResource(R.string.permission_wizard_dev_options_toast)
+				val toastText = stringResource(actionToastRes)
 				Button(
 					onClick = {
-						onOpenSettings()
+						onAction()
 						Toast.makeText(
 							context,
 							toastText,
@@ -190,11 +169,61 @@ private fun DeveloperOptionsCard(
 					},
 					modifier = Modifier.fillMaxWidth()
 				) {
-					Text(text = stringResource(id = R.string.permission_wizard_action_open_settings))
+					Text(text = stringResource(id = actionLabelRes))
 				}
 			}
 		}
 	}
+}
+
+@Composable
+private fun StatusCardHeader(
+	isEnabled: Boolean,
+	titleResIfEnabled: Int,
+	titleResIfDisabled: Int,
+) {
+	Row(
+		verticalAlignment = Alignment.CenterVertically,
+		modifier = Modifier.fillMaxWidth()
+	) {
+		if (isEnabled) {
+			Icon(
+				imageVector = Icons.Filled.CheckCircle,
+				contentDescription = null,
+				modifier = Modifier.size(32.dp),
+				tint = MaterialTheme.colorScheme.primary
+			)
+			Spacer(modifier = Modifier.width(16.dp))
+		}
+		Text(
+			text = stringResource(
+				id = if (isEnabled) titleResIfEnabled else titleResIfDisabled
+			),
+			style = MaterialTheme.typography.titleMedium,
+			fontWeight = FontWeight.Bold,
+			color = if (isEnabled)
+				MaterialTheme.colorScheme.onPrimaryContainer
+			else
+				MaterialTheme.colorScheme.onSurface,
+			modifier = Modifier.weight(1f)
+		)
+	}
+}
+
+@Composable
+private fun DeveloperOptionsCard(
+	isEnabled: Boolean,
+	onOpenSettings: () -> Unit,
+) {
+	StatusCard(
+		isEnabled = isEnabled,
+		titleResIfEnabled = R.string.permission_wizard_developer_options_enabled,
+		titleResIfDisabled = R.string.permission_wizard_developer_options_title,
+		showAction = !isEnabled,
+		actionLabelRes = R.string.permission_wizard_action_open_settings,
+		actionToastRes = R.string.permission_wizard_dev_options_toast,
+		onAction = onOpenSettings
+	)
 }
 
 @Composable
@@ -203,64 +232,13 @@ private fun UsbDebuggingCard(
 	isDeveloperOptionsEnabled: Boolean,
 	onOpenDeveloperSettings: () -> Unit,
 ) {
-	val context = LocalContext.current
-	val usbDebuggingToastText = stringResource(R.string.permission_wizard_usb_debugging_toast)
-
-	Card(
-		modifier = Modifier.fillMaxWidth(),
-		colors = CardDefaults.cardColors(
-			containerColor = if (isEnabled)
-				MaterialTheme.colorScheme.primaryContainer
-			else
-				MaterialTheme.colorScheme.surface
-		)
-	) {
-		Column(modifier = Modifier.padding(20.dp)) {
-			Row(
-				verticalAlignment = Alignment.CenterVertically,
-				modifier = Modifier.fillMaxWidth()
-			) {
-				if (isEnabled) {
-					Icon(
-						imageVector = Icons.Filled.CheckCircle,
-						contentDescription = null,
-						modifier = Modifier.size(32.dp),
-						tint = MaterialTheme.colorScheme.primary
-					)
-					Spacer(modifier = Modifier.width(16.dp))
-				}
-				Text(
-					text = stringResource(
-						id = if (isEnabled)
-							R.string.permission_wizard_usb_debugging_enabled
-						else
-							R.string.permission_wizard_usb_debugging_disabled
-					),
-					style = MaterialTheme.typography.titleMedium,
-					fontWeight = FontWeight.Bold,
-					color = if (isEnabled)
-						MaterialTheme.colorScheme.onPrimaryContainer
-					else
-						MaterialTheme.colorScheme.onSurface,
-					modifier = Modifier.weight(1f)
-				)
-			}
-			if (!isEnabled && isDeveloperOptionsEnabled) {
-				Spacer(modifier = Modifier.height(12.dp))
-				Button(
-					onClick = {
-						onOpenDeveloperSettings()
-						Toast.makeText(
-							context,
-							usbDebuggingToastText,
-							Toast.LENGTH_LONG
-						).show()
-					},
-					modifier = Modifier.fillMaxWidth()
-				) {
-					Text(text = stringResource(id = R.string.permission_wizard_action_open_developer_settings))
-				}
-			}
-		}
-	}
+	StatusCard(
+		isEnabled = isEnabled,
+		titleResIfEnabled = R.string.permission_wizard_usb_debugging_enabled,
+		titleResIfDisabled = R.string.permission_wizard_usb_debugging_disabled,
+		showAction = !isEnabled && isDeveloperOptionsEnabled,
+		actionLabelRes = R.string.permission_wizard_action_open_developer_settings,
+		actionToastRes = R.string.permission_wizard_usb_debugging_toast,
+		onAction = onOpenDeveloperSettings
+	)
 }

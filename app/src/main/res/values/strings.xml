@@ -7,14 +7,11 @@
 	<string name="action_cancel">Cancel</string>
 	<string name="action_close">Close</string>
 	<string name="action_continue">Continue</string>
-	<string name="action_copy">Copy</string>
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_finish">Finish</string>
 	<string name="action_set">Set</string>
-	<string name="action_share">Share</string>
 	<string name="action_share_url">Share Link</string>
 	<string name="action_skip">Skip</string>
-	<string name="action_pause_service">Pause Service</string>
 	<string name="action_use_adaptive_theme">Use %1$s</string>
 
 	<string name="description_adaptive_theme">
@@ -57,7 +54,6 @@
 	<string name="permission_wizard_action_open_settings">Open Settings</string>
 	<string name="permission_wizard_connect_title">Connect to setup device</string>
 	<string name="permission_wizard_connect_body">To grant the permission, you need a <b>secondary device</b> (computer, tablet, or phone). Connect this device to it via USB.</string>
-	<string name="permission_wizard_copied">Command copied.</string>
 	<string name="permission_wizard_developer_mode_title">Enable Developer Mode</string>
 	<string name="permission_wizard_developer_mode_body">Enable USB-Debugging in the developer options.</string>
 	<string name="permission_wizard_developer_options_title">Enable developer options</string>
@@ -70,7 +66,6 @@
 	<string name="permission_wizard_permission_granted">Permission granted.</string>
 	<string name="permission_wizard_permission_not_granted">Permission not yet granted. Please complete the setup with the other device.</string>
 	<string name="permission_wizard_step_counter">Step %1$d of %2$d</string>
-	<string name="permission_wizard_usb_connected">USB connected</string>
 	<string name="permission_wizard_usb_debugging_disabled">Enable USB Debugging</string>
 	<string name="permission_wizard_usb_debugging_enabled">USB Debugging enabled</string>
 	<string name="permission_wizard_usb_debugging_toast">Enable USB Debugging</string>
@@ -82,20 +77,17 @@
 	<string name="permission_wizard_shizuku_title">Alternative: Shizuku</string>
 	<string name="permission_wizard_shizuku_body">If you already use Shizuku, you won\'t need a second device or ADB.</string>
 	<string name="permission_wizard_shizuku_action">Use Shizuku instead</string>
-	<string name="permission_wizard_shizuku_available">Shizuku detected: you can use it to grant the permission directly from this device.</string>
 	<string name="permission_wizard_action_use_root">Use Root</string>
 
 	<string name="setup_required_title">Setup Required</string>
 	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>
 	<string name="action_finish_setup">Start Setup</string>
 
-	<string name="shizuku_not_supported">Shizuku version not supported.</string>
 	<string name="shizuku_not_ready">Start Shizuku and try again.</string>
 	<string name="shizuku_denied_rationale">Enable Adaptive Theme in Shizuku. Access denied.</string>
 	<string name="shizuku_request_permission">Requesting permission…</string>
-	<string name="shizuku_grant_success">Setup completed.</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
-	<string name="permission_wizard_root_grant_starting">Requesting root access... (beta)</string>
+	<string name="permission_wizard_root_grant_starting">Requesting root access… (beta)</string>
 	<string name="permission_wizard_root_grant_failed">Root grant failed.</string>
 </resources>
