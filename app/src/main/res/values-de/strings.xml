@@ -57,10 +57,10 @@
 	<string name="permission_wizard_developer_options_title">Entwickleroptionen aktivieren</string>
 	<string name="permission_wizard_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="permission_wizard_dev_options_toast">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
-	<string name="permission_wizard_for_experts">Alternative für Experten (ADB)</string>
+	<string name="permission_wizard_for_experts">Alternativen für Experten (ADB oder Root)</string>
 	<string name="permission_wizard_grant_title">Berechtigung mit dem anderen Gerät erteilen</string>
 	<string name="permission_wizard_grant_body">Öffne den folgenden Link auf deinem anderen Gerät und folge den Anweisungen:</string>
-	<string name="permission_wizard_manual_command">Wenn du ADB auf deinem Computer installiert hast, kannst du stattdessen diesen Command ausführen:</string>
+	<string name="permission_wizard_manual_command">Alternativ kannst du diesen ADB-Command ausführen oder Root benutzen. Shizuku wird ebenfalls unterstützt.</string>
 	<string name="permission_wizard_permission_granted">Berechtigung erteilt.</string>
 	<string name="permission_wizard_permission_not_granted">Berechtigung noch nicht erteilt. Bitte schließe die Einrichtung mit dem anderen Gerät ab.</string>
 	<string name="permission_wizard_step_counter">Schritt %1$d von %2$d</string>
@@ -77,6 +77,7 @@
 	<string name="permission_wizard_shizuku_body">Wenn du Shizuku bereits verwendest, benötigst du weder ein zweites Gerät noch ADB.</string>
 	<string name="permission_wizard_shizuku_action">Shizuku verwenden</string>
 	<string name="permission_wizard_shizuku_available">Shizuku erkannt: Du kannst die Berechtigung damit direkt von diesem Gerät aus erteilen.</string>
+	<string name="permission_wizard_action_use_root">Root verwenden</string>
 
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
@@ -90,4 +91,6 @@
 	<string name="shizuku_grant_success">Einrichtung abgeschlossen.</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
+	<string name="permission_wizard_root_grant_starting">Root-Zugriff angefragt... (beta)</string>
+	<string name="permission_wizard_root_grant_failed">Root-Vergabe fehlgeschlagen.</string>
 </resources>

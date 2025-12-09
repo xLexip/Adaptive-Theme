@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
+import java.util.concurrent.atomic.AtomicBoolean
 
 const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 
@@ -290,8 +291,14 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
-	fun completePermissionWizardAndEnableService() {
+	private val permissionWizardCompletionHandled = AtomicBoolean(false)
+	fun completePermissionWizard(
+		context: android.content.Context,
+		source: String? = null
+	) {
 		viewModelScope.launch {
+			if (permissionWizardCompletionHandled.getAndSet(true)) return@launch
+			if (source != null) AnalyticsLogger.logSetupFinished(context, source)
 			userPreferencesRepository.updatePermissionWizardCompleted(true)
 			dismissPermissionWizard()
 			updateAdaptiveThemeEnabled(true)
@@ -430,9 +437,9 @@ class AdaptiveThemeViewModel(
 				when (result) {
 					is ShizukuManager.GrantResult.Success -> {
 						// Setup using Shizuku complete
-						AnalyticsLogger.logSetupFinished(
-							application.applicationContext,
-							source = "shizuku_setup_complete"
+						completePermissionWizard(
+							context,
+							source = "shizuku"
 						)
 					}
 
@@ -456,7 +463,7 @@ class AdaptiveThemeViewModel(
 					is ShizukuManager.GrantResult.ShellCommandFailed -> {
 						Toast.makeText(
 							context,
-							context.getString(R.string.shizuku_grant_shell_failed, result.exitCode),
+							context.getString(R.string.shizuku_grant_shell_failed),
 							Toast.LENGTH_LONG
 						).show()
 					}
@@ -470,6 +477,55 @@ class AdaptiveThemeViewModel(
 					}
 				}
 			}
+		}
+	}
+
+	fun onGrantViaRootRequested(context: android.content.Context, packageName: String) {
+		viewModelScope.launch(ioDispatcher) {
+			val result = tryGrantViaRoot(packageName)
+			withContext(mainDispatcher) {
+				when (result) {
+					RootGrantResult.Success -> {
+						completePermissionWizard(
+							context,
+							source = "root"
+						)
+						Toast.makeText(
+							context,
+							R.string.permission_wizard_permission_granted,
+							Toast.LENGTH_SHORT
+						).show()
+					}
+
+					is RootGrantResult.Failure -> {
+						Toast.makeText(
+							context,
+							R.string.permission_wizard_root_grant_failed,
+							Toast.LENGTH_SHORT
+						).show()
+					}
+				}
+			}
+		}
+	}
+
+	private sealed interface RootGrantResult {
+		data object Success : RootGrantResult
+		data class Failure(val reason: String) : RootGrantResult
+	}
+
+	private fun tryGrantViaRoot(packageName: String): RootGrantResult {
+		return try {
+			val command = "pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
+			val process = Runtime.getRuntime().exec(arrayOf("su", "-c", command))
+			val exitCode = process.waitFor()
+			if (exitCode == 0) {
+				RootGrantResult.Success
+			} else {
+				RootGrantResult.Failure("exit_code_$exitCode")
+			}
+		} catch (e: Exception) {
+			RootGrantResult.Failure(e.javaClass.simpleName)
 		}
 	}
 

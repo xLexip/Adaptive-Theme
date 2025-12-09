@@ -16,6 +16,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -28,6 +29,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.content.ContextCompat
+import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.ui.AdaptiveThemeViewModel
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
@@ -172,7 +174,10 @@ fun PermissionSetupHost(
 				// If permission becomes granted, auto-complete wizard and enable service
 				if (hasPermission) {
 					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-					viewModel.completePermissionWizardAndEnableService()
+					viewModel.completePermissionWizard(
+						context,
+						if (isUsbConnected) "usb" else null
+					)
 					break
 				}
 
@@ -213,10 +218,10 @@ fun PermissionSetupHost(
 
 				PermissionWizardStep.GRANT_PERMISSION -> {
 					if (hasPermission) {
-						val source =
-							if (isUsbConnected) "permission_wizard_complete_usb" else "permission_wizard_complete"
-						AnalyticsLogger.logSetupFinished(context, source = source)
-						viewModel.completePermissionWizardAndEnableService()
+						viewModel.completePermissionWizard(
+							context,
+							if (isUsbConnected) "usb" else null
+						)
 					} else {
 						viewModel.goToNextPermissionWizardStep()
 					}
@@ -258,11 +263,20 @@ fun PermissionSetupHost(
 			viewModel.recheckWriteSecureSettingsPermission(nowGranted)
 			if (nowGranted) {
 				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-				val source =
-					if (isUsbConnected) "permission_wizard_check_now_granted_usb" else "permission_wizard_check_now_granted"
-				AnalyticsLogger.logSetupFinished(context, source = source)
-				viewModel.completePermissionWizardAndEnableService()
+				if (isUsbConnected) AnalyticsLogger.logSetupFinished(context, "usb")
+				viewModel.completePermissionWizard(
+					context,
+					if (isUsbConnected) "usb" else null
+				)
 			}
+		},
+		onUseRoot = {
+			Toast.makeText(
+				context,
+				R.string.permission_wizard_root_grant_starting,
+				Toast.LENGTH_SHORT
+			).show()
+			viewModel.onGrantViaRootRequested(context, context.packageName)
 		}
 	)
 }

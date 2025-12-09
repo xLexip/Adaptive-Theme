@@ -62,10 +62,10 @@
 	<string name="permission_wizard_developer_options_title">Enable developer options</string>
 	<string name="permission_wizard_developer_options_enabled">Developer options enabled</string>
 	<string name="permission_wizard_dev_options_toast">Find the Build number and tap it 7 times to enable developer options.</string>
-	<string name="permission_wizard_for_experts">Alternative for experts (ADB)</string>
+	<string name="permission_wizard_for_experts">Alternatives for experts (ADB or Root)</string>
 	<string name="permission_wizard_grant_title">Grant permission with the other device</string>
 	<string name="permission_wizard_grant_body">Open the following link on your other device and follow the instructions:</string>
-	<string name="permission_wizard_manual_command">If you have ADB installed on your computer, you can run this command instead:</string>
+	<string name="permission_wizard_manual_command">Alternatively, you can execute this ADB command or use root to grant the permission. Shizuku is also supported.</string>
 	<string name="permission_wizard_permission_granted">Permission granted.</string>
 	<string name="permission_wizard_permission_not_granted">Permission not yet granted. Please complete the setup with the other device.</string>
 	<string name="permission_wizard_step_counter">Step %1$d of %2$d</string>
@@ -82,6 +82,7 @@
 	<string name="permission_wizard_shizuku_body">If you already use Shizuku, you won\'t need a second device or ADB.</string>
 	<string name="permission_wizard_shizuku_action">Use Shizuku instead</string>
 	<string name="permission_wizard_shizuku_available">Shizuku detected: you can use it to grant the permission directly from this device.</string>
+	<string name="permission_wizard_action_use_root">Use Root</string>
 
 	<string name="setup_required_title">Setup Required</string>
 	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>
@@ -94,4 +95,6 @@
 	<string name="shizuku_grant_success">Setup completed.</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
+	<string name="permission_wizard_root_grant_starting">Requesting root access... (beta)</string>
+	<string name="permission_wizard_root_grant_failed">Root grant failed.</string>
 </resources>
