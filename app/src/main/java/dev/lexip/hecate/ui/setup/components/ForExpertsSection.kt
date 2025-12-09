@@ -12,7 +12,6 @@
 
 package dev.lexip.hecate.ui.setup.components
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,7 +40,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,10 +49,9 @@ import dev.lexip.hecate.R
 @Composable
 internal fun ForExpertsSectionCard(
 	adbCommand: String?,
-	onCopyAdbCommand: (() -> Unit)? = null,
+	onUseRoot: (() -> Unit)? = null,
 	onShareExpertCommand: (() -> Unit)? = null,
 ) {
-	val context = LocalContext.current
 	val haptic = LocalHapticFeedback.current
 	var expanded by remember { mutableStateOf(false) }
 
@@ -93,7 +90,6 @@ internal fun ForExpertsSectionCard(
 					style = MaterialTheme.typography.bodyMedium,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
-
 				Spacer(modifier = Modifier.height(12.dp))
 				Surface(
 					modifier = Modifier.fillMaxWidth(),
@@ -107,7 +103,6 @@ internal fun ForExpertsSectionCard(
 						fontWeight = FontWeight.Medium
 					)
 				}
-
 				Spacer(modifier = Modifier.height(8.dp))
 				Row(
 					modifier = Modifier.fillMaxWidth(),
@@ -116,18 +111,12 @@ internal fun ForExpertsSectionCard(
 					OutlinedButton(
 						onClick = {
 							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-							onCopyAdbCommand?.invoke()
-							Toast.makeText(
-								context,
-								R.string.permission_wizard_copied,
-								Toast.LENGTH_SHORT
-							).show()
+							onUseRoot?.invoke()
 						},
 						modifier = Modifier.weight(1f)
 					) {
-						Text(text = stringResource(id = R.string.action_copy))
+						Text(text = stringResource(id = R.string.permission_wizard_action_use_root))
 					}
-
 					Button(
 						onClick = {
 							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)

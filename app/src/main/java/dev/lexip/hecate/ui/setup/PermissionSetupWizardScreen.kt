@@ -62,6 +62,7 @@ fun PermissionSetupWizardScreen(
 	onCopyAdbCommand: () -> Unit,
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
+	onUseRoot: () -> Unit,
 ) {
 	val totalSteps = PermissionWizardStep.entries.size
 	val currentStepIndex = step.ordinal + 1
@@ -150,7 +151,8 @@ fun PermissionSetupWizardScreen(
 						onShareSetupUrl = onShareSetupUrl,
 						onShareExpertCommand = onShareExpertCommand,
 						onCheckPermission = onCheckPermission,
-						onExit = onExit
+						onExit = onExit,
+						onUseRoot = onUseRoot
 					)
 				}
 			}

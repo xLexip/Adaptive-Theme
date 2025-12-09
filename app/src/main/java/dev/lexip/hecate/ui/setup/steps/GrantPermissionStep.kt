@@ -53,6 +53,7 @@ internal fun GrantPermissionStep(
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
 	onExit: () -> Unit,
+	onUseRoot: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 
@@ -87,7 +88,7 @@ internal fun GrantPermissionStep(
 
 			ForExpertsSectionCard(
 				adbCommand = adbCommand,
-				onCopyAdbCommand = onCopyAdbCommand,
+				onUseRoot = onUseRoot,
 				onShareExpertCommand = onShareExpertCommand
 			)
 		}
