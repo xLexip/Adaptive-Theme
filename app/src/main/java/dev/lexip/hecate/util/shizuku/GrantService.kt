@@ -3,9 +3,11 @@ package dev.lexip.hecate.util.shizuku
 import android.os.Binder
 import android.os.Parcel
 import android.util.Log
+import androidx.annotation.Keep
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+@Keep
 class GrantService : Binder() {
 
 	companion object {
