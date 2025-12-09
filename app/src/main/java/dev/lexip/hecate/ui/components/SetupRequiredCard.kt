@@ -20,16 +20,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
 
 @Composable
 fun SetupRequiredCard(
+	modifier: Modifier = Modifier,
 	title: String,
 	message: String,
 	onFinishSetupRequested: () -> Unit,
 	shakeKey: Int = 0,
-	modifier: Modifier = Modifier.Companion
 ) {
 	// Shake animation when user tries to enable service without permission
 	val offsetAnim = remember { Animatable(0f) }
@@ -44,7 +45,7 @@ fun SetupRequiredCard(
 	}
 
 	Card(
-		modifier = modifier.offset(x = offsetAnim.value.dp),
+		modifier = modifier.offset { IntOffset(offsetAnim.value.dp.roundToPx(), 0) },
 		colors = CardDefaults.cardColors(
 			containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
 			contentColor = MaterialTheme.colorScheme.onSurface

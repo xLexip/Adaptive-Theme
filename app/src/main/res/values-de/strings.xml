@@ -44,6 +44,7 @@
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
 
+	<string name="permission_wizard_title">Service Setup</string>
 	<string name="permission_wizard_action_open_developer_settings">Entwickleroptionen öffnen</string>
 	<string name="permission_wizard_action_open_settings">Einstellungen öffnen</string>
 	<string name="permission_wizard_connect_title">Mit einem anderen Gerät verbinden</string>

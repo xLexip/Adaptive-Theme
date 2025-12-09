@@ -28,8 +28,8 @@ internal fun StepNavigationRow(
 	Row(
 		modifier = Modifier
 			.fillMaxWidth()
-			.padding(horizontal = 12.dp)
-			.padding(top = 12.dp),
+			.padding(horizontal = 4.dp)
+			.padding(top = 8.dp),
 		horizontalArrangement = Arrangement.SpaceBetween
 	) {
 		OutlinedButton(onClick = onLeft) {

@@ -180,14 +180,14 @@ fun AdaptiveThemeScreen(
 			// Setup card shown when the required permission has not been granted yet
 			if (!hasWriteSecureSettingsPermission) {
 				SetupRequiredCard(
+					modifier = Modifier.fillMaxWidth(),
 					title = stringResource(id = R.string.setup_required_title),
 					message = stringResource(
 						id = R.string.setup_required_message,
 						stringResource(id = R.string.app_name)
 					),
 					onFinishSetupRequested = { adaptiveThemeViewModel.onSetupRequested(packageName) },
-					shakeKey = setupShakeKey.value,
-					modifier = Modifier.fillMaxWidth()
+					shakeKey = setupShakeKey.intValue,
 				)
 			}
 
@@ -200,7 +200,7 @@ fun AdaptiveThemeScreen(
 				onCheckedChange = { checked ->
 					// Shake animation when user tries to enable service without permission
 					if (checked && !hasWriteSecureSettingsPermission) {
-						setupShakeKey.value = setupShakeKey.value + 1
+						setupShakeKey.intValue += 1
 						haptic.performHapticFeedback(HapticFeedbackType.Reject)
 					} else {
 						adaptiveThemeViewModel.onServiceToggleRequested(

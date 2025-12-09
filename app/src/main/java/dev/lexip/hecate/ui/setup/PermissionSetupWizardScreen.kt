@@ -48,7 +48,6 @@ enum class PermissionWizardStep {
 @Composable
 fun PermissionSetupWizardScreen(
 	step: PermissionWizardStep,
-	adbCommand: String,
 	isUsbConnected: Boolean,
 	hasWriteSecureSettings: Boolean,
 	isDeveloperOptionsEnabled: Boolean,
@@ -60,7 +59,6 @@ fun PermissionSetupWizardScreen(
 	onOpenSettings: () -> Unit,
 	onOpenDeveloperSettings: () -> Unit,
 	onShareSetupUrl: () -> Unit,
-	onCopyAdbCommand: () -> Unit,
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
 	onUseRoot: () -> Unit,
@@ -73,7 +71,12 @@ fun PermissionSetupWizardScreen(
 		containerColor = MaterialTheme.colorScheme.surfaceContainer,
 		topBar = {
 			TopAppBar(
-				title = { Text(text = "Service Setup", fontWeight = FontWeight.Bold) },
+				title = {
+					Text(
+						text = stringResource(id = R.string.permission_wizard_title),
+						fontWeight = FontWeight.Bold
+					)
+				},
 				colors = TopAppBarDefaults.topAppBarColors(
 					containerColor = MaterialTheme.colorScheme.surfaceContainer,
 					titleContentColor = MaterialTheme.colorScheme.onSurface

@@ -193,7 +193,6 @@ fun PermissionSetupHost(
 
 	PermissionSetupWizardScreen(
 		step = internalUiState.permissionWizardStep,
-		adbCommand = adbCommand,
 		isUsbConnected = isUsbConnected,
 		hasWriteSecureSettings = hasPermission,
 		isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
@@ -250,7 +249,6 @@ fun PermissionSetupHost(
 			AnalyticsLogger.logShareLinkClicked(context, "permission_wizard")
 			context.shareSetupUrl("https://lexip.dev/setup")
 		},
-		onCopyAdbCommand = { viewModel.requestCopyAdbCommand() },
 		onShareExpertCommand = {
 			context.shareSetupUrl(adbCommand)
 		},
