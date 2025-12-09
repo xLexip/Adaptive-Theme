@@ -1,7 +1,6 @@
 <resources>
 	<string name="app_name" translatable="false">Adaptive Theme</string>
 	<string name="permission_wizard_website_url" translatable="false">lexip.dev/setup</string>
-	<string name="action_star_on_github" translatable="false">Star on GitHub</string>
 	<string name="permission_wizard_action_adb_command" translatable="false">ADB Command</string>
 
 	<string name="action_cancel">Cancel</string>

@@ -127,7 +127,7 @@ fun ThreeDotMenu(
 
 			// 5) Star on GitHub
 			DropdownMenuItem(
-				text = { Text(text = stringResource(id = R.string.action_star_on_github)) },
+				text = { Text(text = "Star on GitHub") },
 				onClick = {
 					menuExpanded = false
 					AnalyticsLogger.logOverflowMenuItemClicked(
