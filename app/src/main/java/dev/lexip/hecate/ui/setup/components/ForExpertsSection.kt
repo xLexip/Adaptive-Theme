@@ -23,14 +23,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,9 +46,8 @@ import dev.lexip.hecate.R
 
 @Composable
 internal fun ForExpertsSectionCard(
-	adbCommand: String?,
 	onUseRoot: (() -> Unit)? = null,
-	onShareExpertCommand: (() -> Unit)? = null,
+	onShareADBCommand: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 	var expanded by remember { mutableStateOf(false) }
@@ -91,19 +88,6 @@ internal fun ForExpertsSectionCard(
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
 				Spacer(modifier = Modifier.height(12.dp))
-				Surface(
-					modifier = Modifier.fillMaxWidth(),
-					color = MaterialTheme.colorScheme.surface,
-					shape = MaterialTheme.shapes.small
-				) {
-					Text(
-						text = adbCommand ?: "",
-						style = MaterialTheme.typography.bodySmall,
-						modifier = Modifier.padding(12.dp),
-						fontWeight = FontWeight.Medium
-					)
-				}
-				Spacer(modifier = Modifier.height(8.dp))
 				Row(
 					modifier = Modifier.fillMaxWidth(),
 					horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -117,14 +101,14 @@ internal fun ForExpertsSectionCard(
 					) {
 						Text(text = stringResource(id = R.string.permission_wizard_action_use_root))
 					}
-					Button(
+					OutlinedButton(
 						onClick = {
 							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-							onShareExpertCommand?.invoke()
+							onShareADBCommand?.invoke()
 						},
 						modifier = Modifier.weight(1f)
 					) {
-						Text(text = stringResource(id = R.string.action_share))
+						Text(text = stringResource(id = R.string.permission_wizard_action_adb_command))
 					}
 				}
 			}

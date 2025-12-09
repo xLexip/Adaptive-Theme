@@ -87,9 +87,8 @@ internal fun GrantPermissionStep(
 			)
 
 			ForExpertsSectionCard(
-				adbCommand = adbCommand,
 				onUseRoot = onUseRoot,
-				onShareExpertCommand = onShareExpertCommand
+				onShareADBCommand = onShareExpertCommand
 			)
 		}
 
