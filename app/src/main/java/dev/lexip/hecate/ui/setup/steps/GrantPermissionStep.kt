@@ -54,10 +54,12 @@ internal fun GrantPermissionStep(
 	onCheckPermission: () -> Unit,
 	onExit: () -> Unit,
 	onUseRoot: (() -> Unit)? = null,
+	isUsbConnected: Boolean,
 ) {
 	val haptic = LocalHapticFeedback.current
 
 	val pulseScale = rememberPulseScale(isActive = !hasWriteSecureSettings)
+	val usbPulseScale = rememberPulseScale(isActive = !isUsbConnected)
 
 	Column(modifier = Modifier.fillMaxSize()) {
 		Column(
@@ -80,6 +82,14 @@ internal fun GrantPermissionStep(
 			}
 
 			SetupWebsiteCard(onShareSetupUrl = onShareSetupUrl)
+
+			// Show USB not connected waiting card if USB is not connected (e.g. step 2 was skipped)
+			if (!isUsbConnected) {
+				SetupWaitingCard(
+					title = stringResource(id = R.string.permission_wizard_usb_not_connected),
+					pulseScale = usbPulseScale
+				)
+			}
 
 			SetupWaitingCard(
 				title = stringResource(id = R.string.permission_wizard_permission_not_granted),
