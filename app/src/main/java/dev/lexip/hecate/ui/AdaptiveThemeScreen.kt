@@ -78,7 +78,7 @@ fun AdaptiveThemeScreen(
 	val windowInfo = LocalWindowInfo.current
 	val density = LocalDensity.current
 	val screenHeightDp = with(density) { windowInfo.containerSize.height.toDp().value }
-	val enableCollapsing = screenHeightDp < 700f
+	val enableCollapsing = screenHeightDp < 650f
 	val scrollBehavior = if (enableCollapsing) {
 		TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
 	} else null
