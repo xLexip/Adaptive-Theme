@@ -38,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -55,6 +56,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
+import dev.lexip.hecate.ui.components.SetupRequiredCard
 import dev.lexip.hecate.ui.components.ThreeDotMenu
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
@@ -101,6 +103,7 @@ fun AdaptiveThemeScreen(
 	}
 
 	val showCustomDialog = remember { mutableStateOf(false) }
+	val setupShakeKey = remember { mutableIntStateOf(0) }
 
 	LaunchedEffect(adaptiveThemeViewModel) {
 		adaptiveThemeViewModel.uiEvents.collect { event ->
@@ -176,40 +179,16 @@ fun AdaptiveThemeScreen(
 
 			// Setup card shown when the required permission has not been granted yet
 			if (!hasWriteSecureSettingsPermission) {
-				Card(
-					modifier = Modifier.fillMaxWidth(),
-					colors = CardDefaults.cardColors(
-						containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-						contentColor = MaterialTheme.colorScheme.onSurface
+				SetupRequiredCard(
+					title = stringResource(id = R.string.setup_required_title),
+					message = stringResource(
+						id = R.string.setup_required_message,
+						stringResource(id = R.string.app_name)
 					),
-					shape = RoundedCornerShape(24.dp)
-				) {
-					Column(modifier = Modifier.padding(16.dp)) {
-						Text(
-							text = stringResource(id = R.string.setup_required_title),
-							style = MaterialTheme.typography.titleMedium
-						)
-						Spacer(modifier = Modifier.padding(top = 4.dp))
-						Text(
-							text = stringResource(
-								id = R.string.setup_required_message,
-								stringResource(id = R.string.app_name)
-							),
-							style = MaterialTheme.typography.bodyMedium
-						)
-						Spacer(modifier = Modifier.padding(top = 12.dp))
-						androidx.compose.foundation.layout.Row(
-							modifier = Modifier.fillMaxWidth(),
-							horizontalArrangement = Arrangement.Center
-						) {
-							androidx.compose.material3.Button(onClick = {
-								adaptiveThemeViewModel.onSetupRequested(packageName)
-							}) {
-								Text(text = stringResource(id = R.string.action_finish_setup))
-							}
-						}
-					}
-				}
+					onFinishSetupRequested = { adaptiveThemeViewModel.onSetupRequested(packageName) },
+					shakeKey = setupShakeKey.value,
+					modifier = Modifier.fillMaxWidth()
+				)
 			}
 
 			MainSwitchPreferenceCard(
@@ -219,17 +198,23 @@ fun AdaptiveThemeScreen(
 				),
 				isChecked = uiState.adaptiveThemeEnabled,
 				onCheckedChange = { checked ->
-					adaptiveThemeViewModel.onServiceToggleRequested(
-						checked,
-						hasWriteSecureSettingsPermission,
-						packageName
-					).also { wasToggled ->
-						if (wasToggled)
-							haptic.performHapticFeedback(
-								if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
-							)
-						else
-							haptic.performHapticFeedback(HapticFeedbackType.Reject)
+					// Shake animation when user tries to enable service without permission
+					if (checked && !hasWriteSecureSettingsPermission) {
+						setupShakeKey.value = setupShakeKey.value + 1
+						haptic.performHapticFeedback(HapticFeedbackType.Reject)
+					} else {
+						adaptiveThemeViewModel.onServiceToggleRequested(
+							checked,
+							hasWriteSecureSettingsPermission,
+							packageName
+						).also { wasToggled ->
+							if (wasToggled)
+								haptic.performHapticFeedback(
+									if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
+								)
+							else
+								haptic.performHapticFeedback(HapticFeedbackType.Reject)
+						}
 					}
 
 				}

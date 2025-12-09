@@ -358,13 +358,7 @@ class AdaptiveThemeViewModel(
 			)
 		}
 	}
-
-	fun clearCustomAdaptiveThemeThreshold() {
-		viewModelScope.launch {
-			userPreferencesRepository.clearCustomAdaptiveThemeThreshold()
-		}
-	}
-
+	
 	val isUsingCustomThreshold: Boolean
 		get() = _uiState.value.customAdaptiveThemeThresholdLux != null
 
