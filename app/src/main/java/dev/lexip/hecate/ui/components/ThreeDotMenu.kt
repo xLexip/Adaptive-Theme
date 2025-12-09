@@ -142,21 +142,22 @@ fun ThreeDotMenu(
 					)
 				}
 
-				// 5) Star on GitHub
+				// 5) Support the project
 				DropdownMenuItem(
-					text = { Text(text = "Star on GitHub") },
+					text = { Text(text = stringResource(R.string.title_support_project)) },
 					onClick = {
 						menuExpanded = false
 						AnalyticsLogger.logOverflowMenuItemClicked(
 							context,
-							"star_github"
+							"support_project"
 						)
-						val starUri = "https://lexip.dev/hecate/source".toUri()
-						val starIntent = Intent(Intent.ACTION_VIEW, starUri)
+						val supportUri =
+							"https://github.com/xLexip/Adaptive-Theme?tab=readme-ov-file#%EF%B8%8F-support-the-project".toUri()
+						val supportIntent = Intent(Intent.ACTION_VIEW, supportUri)
 						try {
-							context.startActivity(starIntent)
+							context.startActivity(supportIntent)
 						} catch (_: ActivityNotFoundException) {
-							context.startActivity(Intent(Intent.ACTION_VIEW, starUri))
+							context.startActivity(Intent(Intent.ACTION_VIEW, supportUri))
 						}
 					}
 				)
