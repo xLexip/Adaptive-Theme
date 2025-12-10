@@ -82,6 +82,7 @@ class MainActivity : ComponentActivity() {
 
 		inAppUpdateManager?.checkForImmediateUpdate()
 		inAppUpdateManager?.checkForFlexibleUpdate()
+		inAppUpdateManager?.checkAndLaunchUpdate()
 	}
 
 	override fun onResume() {

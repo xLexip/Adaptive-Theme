@@ -28,6 +28,7 @@ import dev.lexip.hecate.analytics.AnalyticsGate
 import dev.lexip.hecate.analytics.AnalyticsLogger
 
 private const val TAG = "InAppUpdateManager"
+
 private const val DAYS_FOR_IMMEDIATE_UPDATE = 3
 private const val MIN_PRIORITY_FOR_IMMEDIATE = 0
 private const val DAYS_FOR_FLEXIBLE_UPDATE = 1
@@ -77,16 +78,15 @@ class InAppUpdateManager(activity: ComponentActivity) {
 			}
 	}
 
-	fun checkForImmediateUpdate(
+	fun checkAndLaunchUpdate(
 		onNoUpdate: () -> Unit = {},
 		onError: (Throwable) -> Unit = {}
 	) {
-		if (!AnalyticsGate.isPlayStoreInstall()) {
-			return
-		}
+		if (!AnalyticsGate.isPlayStoreInstall()) return
+
 		val launcher = updateLauncher
 		if (launcher == null) {
-			Log.w(TAG, "checkForImmediateUpdate called before launcher was registered")
+			Log.w(TAG, "checkAndLaunchUpdate called before launcher was registered")
 			return
 		}
 		val manager = appUpdateManager ?: return
@@ -94,27 +94,59 @@ class InAppUpdateManager(activity: ComponentActivity) {
 		manager.appUpdateInfo
 			.addOnSuccessListener { appUpdateInfo ->
 				val availability = appUpdateInfo.updateAvailability()
-				val isImmediateAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
-				val staleness = appUpdateInfo.clientVersionStalenessDays() ?: -1
-				val priority = appUpdateInfo.updatePriority()
-
-				val meetsStaleness = staleness == -1 || staleness >= DAYS_FOR_IMMEDIATE_UPDATE
-				val meetsPriority = priority >= MIN_PRIORITY_FOR_IMMEDIATE
-
-				if (availability == UpdateAvailability.UPDATE_AVAILABLE && isImmediateAllowed && meetsStaleness && meetsPriority) {
-					Log.i(TAG, "Immediate in-app update: starting update flow")
-					try {
-						appUpdateManager.startUpdateFlowForResult(
-							appUpdateInfo,
-							launcher,
-							AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
-						)
-					} catch (t: Throwable) {
-						Log.e(TAG, "Failed to launch immediate in-app update", t)
-						onError(t)
-					}
-				} else {
+				if (availability != UpdateAvailability.UPDATE_AVAILABLE) {
+					Log.d(TAG, "No update available: availability=$availability")
 					onNoUpdate()
+					return@addOnSuccessListener
+				}
+
+				val staleness = appUpdateInfo.clientVersionStalenessDays()
+				val priority = appUpdateInfo.updatePriority()
+				val isImmediateAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+				val isFlexibleAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+
+				val meetsImmediateStaleness =
+					staleness != null && staleness >= DAYS_FOR_IMMEDIATE_UPDATE
+				val meetsFlexibleStaleness =
+					staleness != null && staleness >= DAYS_FOR_FLEXIBLE_UPDATE
+				val meetsImmediatePriority = priority >= MIN_PRIORITY_FOR_IMMEDIATE
+				val meetsFlexiblePriority = priority >= MIN_PRIORITY_FOR_FLEXIBLE
+
+				Log.d(
+					TAG,
+					"Update info: availability=$availability, staleness=$staleness, " +
+							"priority=$priority, immediateAllowed=$isImmediateAllowed, flexibleAllowed=$isFlexibleAllowed"
+				)
+
+				val immediateEligible =
+					isImmediateAllowed && meetsImmediateStaleness && meetsImmediatePriority
+				val flexibleEligible =
+					isFlexibleAllowed && meetsFlexibleStaleness && meetsFlexiblePriority
+
+				when {
+					// Prefer immediate when both are eligible
+					immediateEligible -> {
+						Log.i(TAG, "Immediate in-app update eligible; starting update flow")
+						launchImmediateUpdate(manager, appUpdateInfo, launcher, onError)
+					}
+
+					flexibleEligible -> {
+						Log.i(TAG, "Flexible in-app update eligible; starting update flow")
+						launchFlexibleUpdate(manager, appUpdateInfo, launcher, onError)
+					}
+
+					else -> {
+						Log.d(
+							TAG,
+							"Update available but not eligible: " +
+									"staleness=$staleness, priority=$priority, " +
+									"meetsImmediateStaleness=$meetsImmediateStaleness, " +
+									"meetsFlexibleStaleness=$meetsFlexibleStaleness, " +
+									"meetsImmediatePriority=$meetsImmediatePriority, " +
+									"meetsFlexiblePriority=$meetsFlexiblePriority"
+						)
+						onNoUpdate()
+					}
 				}
 			}
 			.addOnFailureListener { throwable ->
@@ -123,50 +155,54 @@ class InAppUpdateManager(activity: ComponentActivity) {
 			}
 	}
 
+	fun checkForImmediateUpdate(
+		onNoUpdate: () -> Unit = {},
+		onError: (Throwable) -> Unit = {}
+	) {
+		checkAndLaunchUpdate(onNoUpdate, onError)
+	}
+
 	fun checkForFlexibleUpdate(
 		onNoUpdate: () -> Unit = {},
 		onError: (Throwable) -> Unit = {}
 	) {
-		if (!AnalyticsGate.isPlayStoreInstall()) {
-			return
+		checkAndLaunchUpdate(onNoUpdate, onError)
+	}
+
+	private fun launchImmediateUpdate(
+		manager: AppUpdateManager,
+		appUpdateInfo: com.google.android.play.core.appupdate.AppUpdateInfo,
+		launcher: ActivityResultLauncher<IntentSenderRequest>,
+		onError: (Throwable) -> Unit
+	) {
+		try {
+			manager.startUpdateFlowForResult(
+				appUpdateInfo,
+				launcher,
+				AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+			)
+		} catch (t: Throwable) {
+			Log.e(TAG, "Failed to launch immediate in-app update", t)
+			onError(t)
 		}
-		val launcher = updateLauncher
-		if (launcher == null) {
-			Log.w(TAG, "checkForFlexibleUpdate called before launcher was registered")
-			return
+	}
+
+	private fun launchFlexibleUpdate(
+		manager: AppUpdateManager,
+		appUpdateInfo: com.google.android.play.core.appupdate.AppUpdateInfo,
+		launcher: ActivityResultLauncher<IntentSenderRequest>,
+		onError: (Throwable) -> Unit
+	) {
+		try {
+			manager.startUpdateFlowForResult(
+				appUpdateInfo,
+				launcher,
+				AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+			)
+		} catch (t: Throwable) {
+			Log.e(TAG, "Failed to launch flexible in-app update", t)
+			onError(t)
 		}
-		val manager = appUpdateManager ?: return
-
-		manager.appUpdateInfo
-			.addOnSuccessListener { appUpdateInfo ->
-				val availability = appUpdateInfo.updateAvailability()
-				val isFlexibleAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-				val staleness = appUpdateInfo.clientVersionStalenessDays() ?: -1
-				val priority = appUpdateInfo.updatePriority()
-
-				val meetsStaleness = staleness == -1 || staleness >= DAYS_FOR_FLEXIBLE_UPDATE
-				val meetsPriority = priority >= MIN_PRIORITY_FOR_FLEXIBLE
-
-				if (availability == UpdateAvailability.UPDATE_AVAILABLE && isFlexibleAllowed && meetsStaleness && meetsPriority) {
-					Log.i(TAG, "Flexible in-app update: starting update flow")
-					try {
-						appUpdateManager.startUpdateFlowForResult(
-							appUpdateInfo,
-							launcher,
-							AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
-						)
-					} catch (t: Throwable) {
-						Log.e(TAG, "Failed to launch flexible in-app update", t)
-						onError(t)
-					}
-				} else {
-					onNoUpdate()
-				}
-			}
-			.addOnFailureListener { throwable ->
-				Log.e(TAG, "Failed to retrieve appUpdateInfo for flexible update", throwable)
-				onError(throwable)
-			}
 	}
 
 	fun resumeImmediateUpdateIfNeeded() {
