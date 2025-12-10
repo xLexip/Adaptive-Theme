@@ -164,7 +164,7 @@ fun ThreeDotMenu(
 
 				// 6) About
 				DropdownMenuItem(
-					text = { Text(stringResource(R.string.title_about)) },
+					text = { Text(stringResource(R.string.title_about_github)) },
 					onClick = {
 						menuExpanded = false
 						AnalyticsLogger.logOverflowMenuItemClicked(context, "about")
