@@ -25,7 +25,7 @@
 	<string name="error_negative_lux_value">Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
 
-	<string name="title_about">Über (GitHub)</string>
+	<string name="title_about_github">Über / GitHub</string>
 	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
 	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_current_brightness">Aktuelle Helligkeit</string>

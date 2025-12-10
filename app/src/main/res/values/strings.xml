@@ -29,7 +29,7 @@
 	<string name="error_negative_lux_value">Value cannot be negative.</string>
 	<string name="error_lux_value_too_large">Value cannot exceed 100,000.</string>
 
-	<string name="title_about">About (GitHub)</string>
+	<string name="title_about_github">About / GitHub</string>
 	<string name="title_brightness_threshold">Brightness Threshold</string>
 	<string name="title_live_measurement">Live Value</string>
 	<string name="title_change_language">Change Language</string>
