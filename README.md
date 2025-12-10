@@ -1,42 +1,144 @@
-[![GooglePlay](https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg)](https://lexip.dev/hecate/play)
+# Adaptive Theme: Smart Dark Mode
 
-![feature_graphic](https://i.ibb.co/G38P9b9V/adaptive-theme.jpg)
+Adaptive Theme intelligently automates your device's theme settings, switching between **Light and
+Dark mode** based on your environment's **ambient light** — not just the time of day.
 
-## Adaptive Theme
+Get the readability of Light mode in bright daylight and the eye-comfort of Dark mode in low light.
+This allows for a true auto dark mode experience that native Android doesn't offer.
 
-Adaptive Theme intelligently switches your device between Light and Dark mode based on your
-environment.
+## Closed Beta
 
-Get the readability of Light mode in bright daylight and the comfort of Dark mode in low light —
-going easy on your eyes and your battery.
+Join this [Google Group](https://groups.google.com/g/apphive-testers) before clicking on
+this [Google Play](https://play.google.com/apps/testing/dev.lexip.hecate) link to install the beta.
 
----
-
-### Highlights
-
-🌤️ **Smart Detection**: Uses your ambient light sensor to switch themes automatically.
-
-⚙️ **Full Control**: Fully customizable brightness threshold and a Quick Settings tile to
-pause/resume the service.
-
-🔒 **Free & Open**: Free to use, no ads and open source.
-
-🚀 **Native Design**: Modern architecture, built with Jetpack Compose and Material You for a seamless
-Android experience.
-
-🚫 **No Flickering**: The theme only changes when you turn on screen and the device is uncovered.
 
 ---
 
-### One-Time Setup
+## 📋 Table of Contents
 
-To toggle the system theme, Android requires the permission  `WRITE_SECURE_SETTINGS`. This is safe,
-transparent and fully reversible. The app will guide you through the setup process.
+- [💡 Why use Adaptive Theme?](#-why-use-adaptive-theme)
+- [✨ Key Highlights](#-key-highlights)
+- [🛠️ One-Time Setup](#%EF%B8%8F-one-time-setup)
+- [⚙️ How it Works](#%EF%B8%8F-how-it-works)
+- [✅ Safety](#-safety)
+- [❓ FAQ](#-faq)
+- [❤️ Support the Project](#%EF%B8%8F-support-the-project)
+- [📱 Screenshots](#-screenshots)
 
 ---
 
-That’s it! Set your preference, and never worry about your light/dark mode again.
+## 💡 Why use Adaptive Theme?
 
-🇩🇪 Made with 🥨 🍺 in Germany.
+Most Android phones only switch themes at sunset or based on a fixed schedule. Adaptive Theme uses
+your **light sensor** to switch intelligently, optimizing both **eye comfort** and **battery life**.
 
-[![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?project=xLexip_Hecate)](https://sonarcloud.io/summary/new_code?id=xLexip_Hecate)
+## ✨ Key Highlights
+
+* 🌤️ **Smart Ambient Detection:** Uses your device's physical light sensor to toggle the system
+  theme.
+* ⚙️ **Full Customization:** Set your specific lux threshold (brightness level) and use the Quick
+  Settings tile to quickly pause/resume the service.
+* 🚀 **Modern & Native:** Built with **Jetpack Compose** and **Material You** for a smooth,
+  crash-free experience.
+* 🔋 **Battery Friendly:** The app is passive. It only checks the sensor when you turn the screen
+  on — zero battery drain in the background.
+* 🔒 **Privacy First:** Open Source, completely free, and no ads at all.
+* 🗝️ **No Root Required:** Root access is not required (but is supported as an alternative setup
+  method).
+* 🐱 **Optional Shizuku Support:** One of multiple setup options is
+  using [Shizuku](https://github.com/RikkaApps/Shizuku).
+
+---
+
+## 🛠️ One-Time Setup
+
+Android restricts apps from changing system themes by default. To unlock this feature, a specific
+permission (`WRITE_SECURE_SETTINGS`) is needed. After installing the app, you can choose any of the
+following methods:
+
+#### Method 1: Web Tool (Recommended)
+
+Use our browser-based setup tool on a secondary device (Computer, Tablet, or Phone). No code or ADB
+installation required (WebADB).
+👉 **[lexip.dev/setup](https://lexip.dev/setup)**
+
+#### Method 2: Shizuku (No PC)
+
+If you have **Shizuku** installed and configured (via Wireless Debugging or Root), you can grant the
+permission directly within the Adaptive Theme app.
+
+#### Method 3: Root
+
+If your device is rooted, you can grant the permission with one click inside the app.
+
+#### Method 4: Manual ADB
+
+If you have ADB installed on your computer, you can run the ADB grant command manually via your
+terminal.
+
+---
+
+## ⚙️ How it Works
+
+**Why didn't the theme change immediately?**
+
+To prevent unnecessary battery drain and screen flickering, Adaptive Theme obeys the following
+rules:
+
+1. It checks the light sensor only **immediately after the screen turns on**.
+2. It verifies that the light sensor is **not covered**.
+3. It switches the theme **instantly** before you start interacting with the UI.
+
+---
+
+## ✅ Safety
+
+The required permission does **not** grant root access or read any user data. It only allows the app
+to change settings such as "Dark Mode" in the system settings. This is absolutely safe and
+completely reversible by uninstalling the app.
+
+---
+
+## ❓ FAQ
+
+**1. Does this require Root?**
+No. It works on stock devices. However, if you have Root, it can optionally be used to set up the
+service faster.
+
+**2. Does it work with custom skins (MIUI, OneUI)?**
+In most cases, yes. It works with any system that respects the native Android Dark Mode
+implementation.
+
+**Support & Feedback:** If Adaptive Theme not work for you or if you have any questions, please
+create an Issue or send feedback via the app.
+
+---
+
+## ❤️ Support the Project
+
+Adaptive Theme is **completely free**, **ad-free**, **open source**, and developed in my free time.
+
+If you enjoy using the app, there are three simple ways you can support the project:
+
+⭐ **Star on GitHub:** Give this repository a star to help others find it.
+
+🌟 **Rate on Google Play:**
+A [5-star rating](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+is the best way to boost the ranking.
+
+☕ **Buy me a Coffee:** If you are feeling generous, you can
+also [buy me a coffee](https://buymeacoffee.com/lexip).
+
+📣 **Spread the Word:** Share the app to help the project grow.
+
+---
+
+**🇩🇪 Made in Germany** – Engineered with precision (and 🥨 🍺).
+
+---
+
+## 📱 Screenshots
+
+[![Adaptive Theme Screenshot](https://i.ibb.co/6cngXDnx/Adaptive-Theme-Screenshot.webp)](https://ibb.co/gbjz4tjp)
+
+#### [More Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)

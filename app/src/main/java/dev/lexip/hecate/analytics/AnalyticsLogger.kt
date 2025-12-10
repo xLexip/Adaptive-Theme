@@ -125,15 +125,58 @@ object AnalyticsLogger {
 		}
 	}
 
-	fun logSetupFinished(context: Context) {
+	fun logSetupComplete(context: Context, source: String? = null) {
 		ifAllowed {
-			analytics(context).logEvent("setup_finished") { }
+			analytics(context).logEvent("setup_finished") {
+				if (source != null) param("source", source)
+			}
 		}
 	}
 
 	fun logInAppUpdateInstalled(context: Context) {
 		ifAllowed {
 			analytics(context).logEvent("in_app_update_installed") { }
+		}
+	}
+
+	fun logUnexpectedShizukuError(
+		context: Context,
+		operation: String,
+		stage: String,
+		throwable: Throwable,
+		binderReady: Boolean,
+		packageName: String? = null
+	) {
+		ifAllowed {
+			analytics(context).logEvent("shizuku_unexpected_error") {
+				param("operation", operation)
+				param("stage", stage)
+				param("exception_type", throwable.javaClass.simpleName)
+				param("message", throwable.message ?: "no_message")
+				param("binder_ready", if (binderReady) 1L else 0L)
+				if (packageName != null) param("package_name", packageName)
+			}
+		}
+	}
+
+	fun logShizukuGrantResult(
+		context: Context,
+		result: dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult,
+		packageName: String
+	) {
+		ifAllowed {
+			analytics(context).logEvent("shizuku_grant_result") {
+				val (resultType, exitCode) = when (result) {
+					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.Success -> "success" to null
+					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ServiceNotRunning -> "service_not_running" to null
+					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.NotAuthorized -> "not_authorized" to null
+					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ShellCommandFailed -> "shell_command_failed" to result.exitCode
+					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.Unexpected -> "unexpected" to null
+				}
+				param("result_type", resultType)
+				exitCode?.let { param("exit_code", it.toLong()) }
+				param("package_name", packageName)
+			}
 		}
 	}
 }

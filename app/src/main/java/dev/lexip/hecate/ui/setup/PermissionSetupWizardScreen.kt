@@ -33,6 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.setup.steps.ConnectUsbStep
+import dev.lexip.hecate.ui.setup.steps.DeveloperModeActions
+import dev.lexip.hecate.ui.setup.steps.DeveloperModeStep
+import dev.lexip.hecate.ui.setup.steps.GrantPermissionStep
 
 enum class PermissionWizardStep {
 	ENABLE_DEVELOPER_MODE,
@@ -44,19 +48,20 @@ enum class PermissionWizardStep {
 @Composable
 fun PermissionSetupWizardScreen(
 	step: PermissionWizardStep,
-	adbCommand: String,
 	isUsbConnected: Boolean,
 	hasWriteSecureSettings: Boolean,
 	isDeveloperOptionsEnabled: Boolean,
 	isUsbDebuggingEnabled: Boolean,
+	isShizukuInstalled: Boolean,
+	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
 	onOpenSettings: () -> Unit,
 	onOpenDeveloperSettings: () -> Unit,
 	onShareSetupUrl: () -> Unit,
-	onCopyAdbCommand: () -> Unit,
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
+	onUseRoot: () -> Unit,
 ) {
 	val totalSteps = PermissionWizardStep.entries.size
 	val currentStepIndex = step.ordinal + 1
@@ -66,7 +71,12 @@ fun PermissionSetupWizardScreen(
 		containerColor = MaterialTheme.colorScheme.surfaceContainer,
 		topBar = {
 			TopAppBar(
-				title = { Text(text = "Service Setup", fontWeight = FontWeight.Bold) },
+				title = {
+					Text(
+						text = stringResource(id = R.string.permission_wizard_title),
+						fontWeight = FontWeight.Bold
+					)
+				},
 				colors = TopAppBarDefaults.topAppBarColors(
 					containerColor = MaterialTheme.colorScheme.surfaceContainer,
 					titleContentColor = MaterialTheme.colorScheme.onSurface
@@ -120,26 +130,34 @@ fun PermissionSetupWizardScreen(
 					PermissionWizardStep.ENABLE_DEVELOPER_MODE -> DeveloperModeStep(
 						isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 						isUsbDebuggingEnabled = isUsbDebuggingEnabled,
+						isShizukuInstalled = isShizukuInstalled,
+						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
 						onExit = onExit,
-						onOpenSettings = onOpenSettings,
-						onOpenDeveloperSettings = onOpenDeveloperSettings
+						actions = DeveloperModeActions(
+							onOpenSettings = onOpenSettings,
+							onOpenDeveloperSettings = onOpenDeveloperSettings
+						)
 					)
 
 					PermissionWizardStep.CONNECT_USB -> ConnectUsbStep(
 						isUsbConnected = isUsbConnected,
+						isShizukuInstalled = isShizukuInstalled,
+						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
-						onExit = onExit
+						onExit = onExit,
+						onShareExpertCommand = onShareExpertCommand,
+						onUseRoot = onUseRoot
 					)
 
 					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
-						adbCommand = adbCommand,
 						hasWriteSecureSettings = hasWriteSecureSettings,
-						onCopyAdbCommand = onCopyAdbCommand,
 						onShareSetupUrl = onShareSetupUrl,
 						onShareExpertCommand = onShareExpertCommand,
 						onCheckPermission = onCheckPermission,
-						onExit = onExit
+						onExit = onExit,
+						onUseRoot = onUseRoot,
+						isUsbConnected = isUsbConnected
 					)
 				}
 			}
