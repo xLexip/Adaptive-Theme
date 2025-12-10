@@ -1,9 +1,22 @@
+/*
+ * Copyright (C) 2025 xLexip <https://lexip.dev>
+ *
+ * Licensed under the GNU General Public License, Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.gnu.org/licenses/gpl-3.0
+ *
+ * Please see the License for specific terms regarding permissions and limitations.
+ */
+
 package dev.lexip.hecate.ui.setup
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -16,8 +29,10 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.content.ContextCompat
+import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.ui.AdaptiveThemeViewModel
+import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 @Composable
 fun PermissionSetupHost(
@@ -32,6 +47,8 @@ fun PermissionSetupHost(
 	var isUsbDebuggingEnabled by remember { mutableStateOf(false) }
 	var isUsbConnected by remember { mutableStateOf(false) }
 	var hasPermission by remember { mutableStateOf(false) }
+
+	val isShizukuInstalled = remember { ShizukuAvailability.isShizukuInstalled(context) }
 
 	SideEffect {
 		AnalyticsLogger.logSetupStarted(context)
@@ -156,8 +173,11 @@ fun PermissionSetupHost(
 
 				// If permission becomes granted, auto-complete wizard and enable service
 				if (hasPermission) {
-					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-					viewModel.completePermissionWizardAndEnableService()
+					viewModel.completePermissionWizard(
+						context,
+						if (isUsbConnected) "usb" else null
+					)
+					haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 					break
 				}
 
@@ -173,11 +193,15 @@ fun PermissionSetupHost(
 
 	PermissionSetupWizardScreen(
 		step = internalUiState.permissionWizardStep,
-		adbCommand = adbCommand,
 		isUsbConnected = isUsbConnected,
 		hasWriteSecureSettings = hasPermission,
 		isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 		isUsbDebuggingEnabled = isUsbDebuggingEnabled,
+		isShizukuInstalled = isShizukuInstalled,
+		onGrantViaShizuku = {
+			// Trigger the ViewModel’s Shizuku-based grant flow
+			viewModel.onGrantViaShizukuRequested(context.packageName)
+		},
 		onNext = {
 			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 			when (internalUiState.permissionWizardStep) {
@@ -193,10 +217,11 @@ fun PermissionSetupHost(
 
 				PermissionWizardStep.GRANT_PERMISSION -> {
 					if (hasPermission) {
-						AnalyticsLogger.logSetupFinished(context)
-						viewModel.completePermissionWizardAndEnableService()
-					} else {
-						viewModel.goToNextPermissionWizardStep()
+						viewModel.completePermissionWizard(
+							context,
+							if (isUsbConnected) "usb" else null
+						)
+						haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 					}
 				}
 			}
@@ -224,7 +249,6 @@ fun PermissionSetupHost(
 			AnalyticsLogger.logShareLinkClicked(context, "permission_wizard")
 			context.shareSetupUrl("https://lexip.dev/setup")
 		},
-		onCopyAdbCommand = { viewModel.requestCopyAdbCommand() },
 		onShareExpertCommand = {
 			context.shareSetupUrl(adbCommand)
 		},
@@ -234,11 +258,22 @@ fun PermissionSetupHost(
 					context, Manifest.permission.WRITE_SECURE_SETTINGS
 				) == PackageManager.PERMISSION_GRANTED
 			viewModel.recheckWriteSecureSettingsPermission(nowGranted)
+
 			if (nowGranted) {
-				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-				AnalyticsLogger.logSetupFinished(context)
-				viewModel.completePermissionWizardAndEnableService()
+				viewModel.completePermissionWizard(
+					context,
+					if (isUsbConnected) "usb" else null
+				)
+				haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 			}
+		},
+		onUseRoot = {
+			Toast.makeText(
+				context,
+				R.string.permission_wizard_root_grant_starting,
+				Toast.LENGTH_SHORT
+			).show()
+			viewModel.onGrantViaRootRequested(context, context.packageName)
 		}
 	)
 }

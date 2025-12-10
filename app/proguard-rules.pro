@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# --- Shizuku integration ---
+# Keep all Shizuku library classes used for binder communication
+-keep class moe.shizuku.** { *; }
+-keep class rikka.shizuku.** { *; }
+
+# Keep Shizuku user service implementation and its members
+-keep class dev.lexip.hecate.util.shizuku.GrantService { *; }

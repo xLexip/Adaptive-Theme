@@ -2,15 +2,12 @@
 	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
-	<string name="action_copy">Kopieren</string>
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
 	<string name="action_finish">Fertig</string>
 	<string name="action_set">Festlegen</string>
-	<string name="action_share">Teilen</string>
 	<string name="action_share_url">Link teilen</string>
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
 	<string name="action_skip">Überspringen</string>
-	<string name="action_pause_service">Service pausieren</string>
 
 	<string name="description_adaptive_theme">
         Wechselt automatisch zwischen Hell- und Dunkelmodus basierend auf dem Umgebungslicht. Das spart Akku und verbessert die Lesbarkeit. Das Design ändert sich nur direkt nachdem du den Bildschirm einschaltest und nur, wenn der Sensor nicht verdeckt ist.
@@ -28,7 +25,7 @@
 	<string name="error_negative_lux_value">Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
 
-	<string name="title_about">Über</string>
+	<string name="title_about">Über (GitHub)</string>
 	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
 	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_current_brightness">Aktuelle Helligkeit</string>
@@ -36,6 +33,7 @@
 	<string name="title_more">Mehr</string>
 	<string name="title_notification_channel_service">Hintergrundaktivität</string>
 	<string name="title_send_feedback">Feedback senden</string>
+	<string name="title_support_project">Projekt unterstützen</string>
 
 	<string name="adaptive_threshold_bright">Hell</string>
 	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
@@ -47,34 +45,46 @@
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
 
+	<string name="permission_wizard_title">Service Setup</string>
 	<string name="permission_wizard_action_open_developer_settings">Entwickleroptionen öffnen</string>
 	<string name="permission_wizard_action_open_settings">Einstellungen öffnen</string>
 	<string name="permission_wizard_connect_title">Mit einem anderen Gerät verbinden</string>
 	<string name="permission_wizard_connect_body">Um die Berechtigung zu erteilen, benötigst du ein <b>anderes Gerät</b> (Computer, Tablet oder Smartphone). Verbinde dieses Gerät per USB damit.</string>
-	<string name="permission_wizard_copied">Command kopiert.</string>
 	<string name="permission_wizard_developer_mode_title">Entwicklermodus aktivieren</string>
 	<string name="permission_wizard_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="permission_wizard_developer_options_title">Entwickleroptionen aktivieren</string>
 	<string name="permission_wizard_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="permission_wizard_dev_options_toast">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
-	<string name="permission_wizard_for_experts">Alternative für Experten (ADB)</string>
+	<string name="permission_wizard_for_experts">Alternativen für Experten (ADB oder Root)</string>
 	<string name="permission_wizard_grant_title">Berechtigung mit dem anderen Gerät erteilen</string>
 	<string name="permission_wizard_grant_body">Öffne den folgenden Link auf deinem anderen Gerät und folge den Anweisungen:</string>
-	<string name="permission_wizard_manual_command">Wenn du ADB auf deinem Computer installiert hast, kannst du stattdessen diesen Command ausführen:</string>
+	<string name="permission_wizard_manual_command">Alternativ kannst du diesen ADB-Command ausführen oder Root benutzen. Shizuku wird ebenfalls unterstützt.</string>
 	<string name="permission_wizard_permission_granted">Berechtigung erteilt.</string>
 	<string name="permission_wizard_permission_not_granted">Berechtigung noch nicht erteilt. Bitte schließe die Einrichtung mit dem anderen Gerät ab.</string>
 	<string name="permission_wizard_step_counter">Schritt %1$d von %2$d</string>
-	<string name="permission_wizard_usb_connected">USB verbunden</string>
 	<string name="permission_wizard_usb_debugging_disabled">USB-Debugging aktivieren</string>
 	<string name="permission_wizard_usb_debugging_enabled">USB-Debugging aktiviert</string>
 	<string name="permission_wizard_usb_debugging_toast">Aktiviere USB-Debugging</string>
-	<string name="permission_wizard_usb_not_connected">Warte auf USB-Verbindung...</string>
+	<string name="permission_wizard_usb_not_connected">Warte auf USB-Verbindung…</string>
 	<string name="permission_wizard_why_other_device_title">Warum ist ein anderes Gerät nötig?</string>
 	<string name="permission_wizard_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein anderes Gerät mit einem Webbrowser oder ADB benötigt.</string>
 	<string name="permission_wizard_is_this_safe_title">Ist das sicher?</string>
 	<string name="permission_wizard_is_this_safe_body">Ja. Es erlaubt der App nur, Einstellungen wie den Dunkelmodus zu ändern. Das ist absolut sicher und vollständig rückgängig zu machen.</string>
+	<string name="permission_wizard_shizuku_title">Alternative: Shizuku</string>
+	<string name="permission_wizard_shizuku_body">Wenn du Shizuku bereits verwendest, benötigst du weder ein zweites Gerät noch ADB.</string>
+	<string name="permission_wizard_shizuku_action">Shizuku verwenden</string>
+	<string name="permission_wizard_action_use_root">Root verwenden</string>
 
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
 	<string name="action_finish_setup">Einrichtung starten</string>
+
+	<string name="title_live_measurement">Live-Wert</string>
+	<string name="shizuku_not_ready">Starte Shizuku und versuche es erneut.</string>
+	<string name="shizuku_denied_rationale">Aktiviere Adaptive Theme in Shizuku. Zugriff verweigert.</string>
+	<string name="shizuku_request_permission">Frage Berechtigung an…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
+	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
+	<string name="permission_wizard_root_grant_starting">Root-Zugriff angefragt… (beta)</string>
+	<string name="permission_wizard_root_grant_failed">Root-Vergabe fehlgeschlagen.</string>
 </resources>

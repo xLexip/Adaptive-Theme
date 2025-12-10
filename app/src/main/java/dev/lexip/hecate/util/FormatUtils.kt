@@ -14,6 +14,7 @@ package dev.lexip.hecate.util
 
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.math.roundToInt
 
 /**
  * Extension to format lux values with locale-aware thousands separators.
@@ -25,9 +26,6 @@ fun Int.formatLux(): String {
 }
 
 fun Float.formatLux(): String {
-	val nf = NumberFormat.getNumberInstance(Locale.getDefault()).apply {
-		maximumFractionDigits = if (this@formatLux % 1f == 0f) 0 else 1
-		minimumFractionDigits = 0
-	}
-	return nf.format(this)
+	val nf = NumberFormat.getIntegerInstance(Locale.getDefault())
+	return nf.format(this.roundToInt())
 }

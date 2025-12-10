@@ -28,8 +28,10 @@ import dev.lexip.hecate.analytics.AnalyticsGate
 import dev.lexip.hecate.analytics.AnalyticsLogger
 
 private const val TAG = "InAppUpdateManager"
-private const val DAYS_FOR_IMMEDIATE_UPDATE = 0
+private const val DAYS_FOR_IMMEDIATE_UPDATE = 3
 private const val MIN_PRIORITY_FOR_IMMEDIATE = 0
+private const val DAYS_FOR_FLEXIBLE_UPDATE = 1
+private const val MIN_PRIORITY_FOR_FLEXIBLE = 0
 
 class InAppUpdateManager(activity: ComponentActivity) {
 
@@ -121,6 +123,52 @@ class InAppUpdateManager(activity: ComponentActivity) {
 			}
 	}
 
+	fun checkForFlexibleUpdate(
+		onNoUpdate: () -> Unit = {},
+		onError: (Throwable) -> Unit = {}
+	) {
+		if (!AnalyticsGate.isPlayStoreInstall()) {
+			return
+		}
+		val launcher = updateLauncher
+		if (launcher == null) {
+			Log.w(TAG, "checkForFlexibleUpdate called before launcher was registered")
+			return
+		}
+		val manager = appUpdateManager ?: return
+
+		manager.appUpdateInfo
+			.addOnSuccessListener { appUpdateInfo ->
+				val availability = appUpdateInfo.updateAvailability()
+				val isFlexibleAllowed = appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+				val staleness = appUpdateInfo.clientVersionStalenessDays() ?: -1
+				val priority = appUpdateInfo.updatePriority()
+
+				val meetsStaleness = staleness == -1 || staleness >= DAYS_FOR_FLEXIBLE_UPDATE
+				val meetsPriority = priority >= MIN_PRIORITY_FOR_FLEXIBLE
+
+				if (availability == UpdateAvailability.UPDATE_AVAILABLE && isFlexibleAllowed && meetsStaleness && meetsPriority) {
+					Log.i(TAG, "Flexible in-app update: starting update flow")
+					try {
+						appUpdateManager.startUpdateFlowForResult(
+							appUpdateInfo,
+							launcher,
+							AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+						)
+					} catch (t: Throwable) {
+						Log.e(TAG, "Failed to launch flexible in-app update", t)
+						onError(t)
+					}
+				} else {
+					onNoUpdate()
+				}
+			}
+			.addOnFailureListener { throwable ->
+				Log.e(TAG, "Failed to retrieve appUpdateInfo for flexible update", throwable)
+				onError(throwable)
+			}
+	}
+
 	fun resumeImmediateUpdateIfNeeded() {
 		if (!AnalyticsGate.isPlayStoreInstall()) {
 			return
@@ -151,6 +199,39 @@ class InAppUpdateManager(activity: ComponentActivity) {
 			}
 			.addOnFailureListener { throwable ->
 				Log.e(TAG, "Failed to check for in-progress immediate update", throwable)
+			}
+	}
+
+	fun resumeFlexibleUpdateIfNeeded() {
+		if (!AnalyticsGate.isPlayStoreInstall()) {
+			return
+		}
+		val launcher = updateLauncher
+		if (launcher == null) {
+			Log.w(TAG, "resumeFlexibleUpdateIfNeeded called before launcher was registered")
+			return
+		}
+		val manager = appUpdateManager ?: return
+
+		manager.appUpdateInfo
+			.addOnSuccessListener { appUpdateInfo ->
+				if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS &&
+					appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+				) {
+					Log.i(TAG, "Resuming in-progress flexible in-app update")
+					try {
+						appUpdateManager.startUpdateFlowForResult(
+							appUpdateInfo,
+							launcher,
+							AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+						)
+					} catch (t: Throwable) {
+						Log.e(TAG, "Failed to resume flexible in-app update", t)
+					}
+				}
+			}
+			.addOnFailureListener { throwable ->
+				Log.e(TAG, "Failed to check for in-progress flexible update", throwable)
 			}
 	}
 }
