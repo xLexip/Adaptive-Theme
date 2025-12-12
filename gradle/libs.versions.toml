@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.12.1"
-agp = "8.13.1"
+agp = "8.13.2"
 appcompat = "1.7.1"
 appUpdateKtx = "2.1.0"
 composeBom = "2025.12.00"
