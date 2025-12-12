@@ -29,14 +29,15 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
-import dev.lexip.hecate.ui.AdaptiveThemeViewModel
+import dev.lexip.hecate.ui.MainViewModel
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 @Composable
-fun PermissionSetupHost(
-	viewModel: AdaptiveThemeViewModel,
+fun SetupHost(
+	viewModel: MainViewModel,
 ) {
 	val context = LocalContext.current
 	val haptic = LocalHapticFeedback.current
@@ -171,9 +172,9 @@ fun PermissionSetupHost(
 					previousUsbConnected = nowConnected
 				}
 
-				// If permission becomes granted, auto-complete wizard and enable service
+				// If permission becomes granted, auto-complete setup and enable service
 				if (hasPermission) {
-					viewModel.completePermissionWizard(
+					viewModel.completeSetup(
 						context,
 						if (isUsbConnected) "usb" else null
 					)
@@ -191,33 +192,33 @@ fun PermissionSetupHost(
 
 	val adbCommand by viewModel.pendingAdbCommand.collectAsState()
 
-	PermissionSetupWizardScreen(
-		step = internalUiState.permissionWizardStep,
+	SetupScreen(
+		step = internalUiState.setupStep,
 		isUsbConnected = isUsbConnected,
 		hasWriteSecureSettings = hasPermission,
 		isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 		isUsbDebuggingEnabled = isUsbDebuggingEnabled,
 		isShizukuInstalled = isShizukuInstalled,
 		onGrantViaShizuku = {
-			// Trigger the ViewModel’s Shizuku-based grant flow
+			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 			viewModel.onGrantViaShizukuRequested(context.packageName)
 		},
 		onNext = {
 			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-			when (internalUiState.permissionWizardStep) {
-				PermissionWizardStep.ENABLE_DEVELOPER_MODE -> {
+			when (internalUiState.setupStep) {
+				SetupStep.ENABLE_DEVELOPER_MODE -> {
 					AnalyticsLogger.logSetupStepOneCompleted(context)
-					viewModel.goToNextPermissionWizardStep()
+					viewModel.goToNextSetupStep()
 				}
 
-				PermissionWizardStep.CONNECT_USB -> {
+				SetupStep.CONNECT_USB -> {
 					AnalyticsLogger.logSetupStepTwoCompleted(context)
-					viewModel.goToNextPermissionWizardStep()
+					viewModel.goToNextSetupStep()
 				}
 
-				PermissionWizardStep.GRANT_PERMISSION -> {
+				SetupStep.GRANT_PERMISSION -> {
 					if (hasPermission) {
-						viewModel.completePermissionWizard(
+						viewModel.completeSetup(
 							context,
 							if (isUsbConnected) "usb" else null
 						)
@@ -227,7 +228,7 @@ fun PermissionSetupHost(
 			}
 		},
 		onExit = {
-			viewModel.dismissPermissionWizard()
+			viewModel.dismissSetup()
 		},
 		onOpenSettings = {
 			val intent = Intent(Settings.ACTION_DEVICE_INFO_SETTINGS)
@@ -246,7 +247,7 @@ fun PermissionSetupHost(
 			}
 		},
 		onShareSetupUrl = {
-			AnalyticsLogger.logShareLinkClicked(context, "permission_wizard")
+			AnalyticsLogger.logShareLinkClicked(context, "setup")
 			context.shareSetupUrl("https://lexip.dev/setup")
 		},
 		onShareExpertCommand = {
@@ -260,7 +261,7 @@ fun PermissionSetupHost(
 			viewModel.recheckWriteSecureSettingsPermission(nowGranted)
 
 			if (nowGranted) {
-				viewModel.completePermissionWizard(
+				viewModel.completeSetup(
 					context,
 					if (isUsbConnected) "usb" else null
 				)
@@ -270,10 +271,21 @@ fun PermissionSetupHost(
 		onUseRoot = {
 			Toast.makeText(
 				context,
-				R.string.permission_wizard_root_grant_starting,
+				R.string.setup_root_grant_starting,
 				Toast.LENGTH_SHORT
 			).show()
 			viewModel.onGrantViaRootRequested(context, context.packageName)
+		},
+		onInstallShizuku = {
+			val shizukuPackage = viewModel.getShizukuPackageName()
+			viewModel.dismissSetup()
+			val intent = Intent(
+				Intent.ACTION_VIEW,
+				"https://play.google.com/store/apps/details?id=$shizukuPackage".toUri()
+			)
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			context.startActivity(intent)
+
 		}
 	)
 }

@@ -22,7 +22,7 @@ import dev.lexip.hecate.analytics.AnalyticsGate
 const val USER_PREFERENCES_NAME = "user_preferences"
 private val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
-class HecateApplication : Application() {
+class Application : Application() {
 	/**
 	 * Top level data store to ensure it is maintained as a singleton
 	 * but still accessible in both the app and service.

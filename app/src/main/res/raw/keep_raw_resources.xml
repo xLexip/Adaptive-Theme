@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+	<item
+		name="nunito_ofl"
+		type="raw"
+		tools:ignore="UnusedResources" />
+	<item
+		name="keep_raw_resources"
+		type="raw"
+		tools:ignore="UnusedResources" />
+</resources>

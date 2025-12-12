@@ -23,8 +23,8 @@ object ShizukuManager {
 		object Success : GrantResult()
 		object ServiceNotRunning : GrantResult()
 		object NotAuthorized : GrantResult()
+		object Unexpected : GrantResult()
 		data class ShellCommandFailed(val exitCode: Int) : GrantResult()
-		data class Unexpected(val error: Throwable) : GrantResult()
 	}
 
 	init {
@@ -65,7 +65,7 @@ object ShizukuManager {
 		}
 	}
 
-	fun requestPermission(context: Context) {
+	fun requestPermission() {
 		if (Shizuku.isPreV11()) {
 			Log.w(TAG, "Ignoring Shizuku.requestPermission on pre-v11")
 			return
@@ -99,7 +99,7 @@ object ShizukuManager {
 
 		return try {
 			val monitor = Object()
-			var result: GrantResult = GrantResult.Unexpected(IllegalStateException("No result"))
+			var result: GrantResult = GrantResult.Unexpected
 
 			val args = createGrantServiceArgs()
 			val connection = createGrantServiceConnection(
@@ -126,7 +126,7 @@ object ShizukuManager {
 				binderReady = binderReady,
 				packageName = packageName
 			)
-			GrantResult.Unexpected(t)
+			GrantResult.Unexpected
 		}
 	}
 
@@ -170,7 +170,7 @@ object ShizukuManager {
 								binderReady = binderReady,
 								packageName = packageName
 							)
-							GrantResult.Unexpected(t)
+							GrantResult.Unexpected
 						}
 					}
 				} finally {

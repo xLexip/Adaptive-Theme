@@ -33,12 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
-import dev.lexip.hecate.ui.setup.steps.ConnectUsbStep
+import dev.lexip.hecate.ui.setup.steps.A_DeveloperModeStep
+import dev.lexip.hecate.ui.setup.steps.B_ConnectUsbStep
+import dev.lexip.hecate.ui.setup.steps.C_GrantPermissionStep
 import dev.lexip.hecate.ui.setup.steps.DeveloperModeActions
-import dev.lexip.hecate.ui.setup.steps.DeveloperModeStep
-import dev.lexip.hecate.ui.setup.steps.GrantPermissionStep
 
-enum class PermissionWizardStep {
+enum class SetupStep {
 	ENABLE_DEVELOPER_MODE,
 	CONNECT_USB,
 	GRANT_PERMISSION
@@ -46,8 +46,8 @@ enum class PermissionWizardStep {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PermissionSetupWizardScreen(
-	step: PermissionWizardStep,
+fun SetupScreen(
+	step: SetupStep,
 	isUsbConnected: Boolean,
 	hasWriteSecureSettings: Boolean,
 	isDeveloperOptionsEnabled: Boolean,
@@ -62,8 +62,9 @@ fun PermissionSetupWizardScreen(
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
 	onUseRoot: () -> Unit,
+	onInstallShizuku: () -> Unit,
 ) {
-	val totalSteps = PermissionWizardStep.entries.size
+	val totalSteps = SetupStep.entries.size
 	val currentStepIndex = step.ordinal + 1
 	val progress = (currentStepIndex.toFloat() - (0.1).toFloat()) / totalSteps.toFloat()
 
@@ -73,7 +74,7 @@ fun PermissionSetupWizardScreen(
 			TopAppBar(
 				title = {
 					Text(
-						text = stringResource(id = R.string.permission_wizard_title),
+						text = stringResource(id = R.string.setup_title),
 						fontWeight = FontWeight.Bold
 					)
 				},
@@ -105,7 +106,7 @@ fun PermissionSetupWizardScreen(
 				Spacer(modifier = Modifier.height(8.dp))
 				Text(
 					text = stringResource(
-						id = R.string.permission_wizard_step_counter,
+						id = R.string.setup_step_counter,
 						currentStepIndex,
 						totalSteps
 					),
@@ -127,7 +128,7 @@ fun PermissionSetupWizardScreen(
 				verticalArrangement = Arrangement.SpaceBetween
 			) {
 				when (step) {
-					PermissionWizardStep.ENABLE_DEVELOPER_MODE -> DeveloperModeStep(
+					SetupStep.ENABLE_DEVELOPER_MODE -> A_DeveloperModeStep(
 						isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
 						isUsbDebuggingEnabled = isUsbDebuggingEnabled,
 						isShizukuInstalled = isShizukuInstalled,
@@ -140,24 +141,27 @@ fun PermissionSetupWizardScreen(
 						)
 					)
 
-					PermissionWizardStep.CONNECT_USB -> ConnectUsbStep(
+					SetupStep.CONNECT_USB -> B_ConnectUsbStep(
 						isUsbConnected = isUsbConnected,
 						isShizukuInstalled = isShizukuInstalled,
 						onGrantViaShizuku = onGrantViaShizuku,
 						onNext = onNext,
 						onExit = onExit,
 						onShareExpertCommand = onShareExpertCommand,
-						onUseRoot = onUseRoot
+						onUseRoot = onUseRoot,
+						onInstallShizuku = onInstallShizuku
 					)
 
-					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
+					SetupStep.GRANT_PERMISSION -> C_GrantPermissionStep(
 						hasWriteSecureSettings = hasWriteSecureSettings,
 						onShareSetupUrl = onShareSetupUrl,
 						onShareExpertCommand = onShareExpertCommand,
 						onCheckPermission = onCheckPermission,
 						onExit = onExit,
 						onUseRoot = onUseRoot,
-						isUsbConnected = isUsbConnected
+						isUsbConnected = isUsbConnected,
+						isShizukuInstalled = isShizukuInstalled,
+						onInstallShizuku = onInstallShizuku
 					)
 				}
 			}

@@ -61,7 +61,7 @@ import dev.lexip.hecate.ui.components.ThreeDotMenu
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
-import dev.lexip.hecate.ui.setup.PermissionSetupHost
+import dev.lexip.hecate.ui.setup.SetupHost
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
@@ -70,8 +70,8 @@ private val horizontalOffsetPadding = 8.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdaptiveThemeScreen(
-	uiState: AdaptiveThemeUiState,
+fun MainScreen(
+	uiState: MainUiState,
 	onAboutClick: () -> Unit = {}
 ) {
 	// Enable top-app-bar collapsing on small devices
@@ -87,26 +87,26 @@ fun AdaptiveThemeScreen(
 	val haptic = LocalHapticFeedback.current
 	val packageName = context.packageName
 
-	val adaptiveThemeViewModel: AdaptiveThemeViewModel = viewModel(
-		factory = AdaptiveThemeViewModelFactory(
-			context.applicationContext as dev.lexip.hecate.HecateApplication,
-			dev.lexip.hecate.data.UserPreferencesRepository((context.applicationContext as dev.lexip.hecate.HecateApplication).userPreferencesDataStore),
+	val mainViewModel: MainViewModel = viewModel(
+		factory = MainViewModelFactory(
+			context.applicationContext as dev.lexip.hecate.Application,
+			dev.lexip.hecate.data.UserPreferencesRepository((context.applicationContext as dev.lexip.hecate.Application).userPreferencesDataStore),
 			dev.lexip.hecate.util.DarkThemeHandler(context)
 		)
 	)
 
-	val internalUiState by adaptiveThemeViewModel.uiState.collectAsState()
+	val internalUiState by mainViewModel.uiState.collectAsState()
 
 	LaunchedEffect(Unit) {
 		val installed = ShizukuAvailability.isShizukuInstalled(context)
-		adaptiveThemeViewModel.setShizukuInstalled(installed)
+		mainViewModel.setShizukuInstalled(installed)
 	}
 
 	val showCustomDialog = remember { mutableStateOf(false) }
 	val setupShakeKey = remember { mutableIntStateOf(0) }
 
-	LaunchedEffect(adaptiveThemeViewModel) {
-		adaptiveThemeViewModel.uiEvents.collect { event ->
+	LaunchedEffect(mainViewModel) {
+		mainViewModel.uiEvents.collect { event ->
 			when (event) {
 				is UiEvent.CopyToClipboard -> {
 					val clipboard = context.getSystemService(ClipboardManager::class.java)
@@ -186,7 +186,7 @@ fun AdaptiveThemeScreen(
 						id = R.string.setup_required_message,
 						stringResource(id = R.string.app_name)
 					),
-					onFinishSetupRequested = { adaptiveThemeViewModel.onSetupRequested(packageName) },
+					onLaunchSetup = { mainViewModel.onSetupRequested(packageName) },
 					shakeKey = setupShakeKey.intValue,
 				)
 			}
@@ -203,7 +203,7 @@ fun AdaptiveThemeScreen(
 						setupShakeKey.intValue += 1
 						haptic.performHapticFeedback(HapticFeedbackType.Reject)
 					} else {
-						adaptiveThemeViewModel.onServiceToggleRequested(
+						mainViewModel.onServiceToggleRequested(
 							checked,
 							hasWriteSecureSettingsPermission,
 							packageName
@@ -221,26 +221,26 @@ fun AdaptiveThemeScreen(
 			)
 
 			val customLabel = stringResource(id = R.string.adaptive_threshold_custom)
-			val labels = adaptiveThemeViewModel.getDisplayLabels(
+			val labels = mainViewModel.getDisplayLabels(
 				AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) },
 				customLabel
 			)
 			val baseLux = AdaptiveThreshold.entries.map { it.lux }
-			val lux = adaptiveThemeViewModel.getDisplayLuxSteps(baseLux)
-			val currentLux by adaptiveThemeViewModel.currentSensorLuxFlow.collectAsState(initial = adaptiveThemeViewModel.currentSensorLux)
+			val lux = mainViewModel.getDisplayLuxSteps(baseLux)
+			val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(initial = mainViewModel.currentSensorLux)
 
 			Column(
 				verticalArrangement = Arrangement.spacedBy(2.dp)
 			) {
 				SliderDetailCard(
 					title = stringResource(id = R.string.title_brightness_threshold),
-					valueIndex = adaptiveThemeViewModel.getIndexForCurrentLux(),
+					valueIndex = mainViewModel.getIndexForCurrentLux(),
 					steps = labels.size,
 					labels = labels,
 					lux = lux,
 					onValueChange = { index ->
-						adaptiveThemeViewModel.setPendingCustomSliderLux(lux[index])
-						adaptiveThemeViewModel.onSliderValueCommitted(index)
+						mainViewModel.setPendingCustomSliderLux(lux[index])
+						mainViewModel.onSliderValueCommitted(index)
 					},
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = true,
@@ -286,9 +286,9 @@ fun AdaptiveThemeScreen(
 		}
 	}
 
-	// Show permission wizard if needed
-	if (internalUiState.showPermissionWizard) {
-		PermissionSetupHost(viewModel = adaptiveThemeViewModel)
+	// Show setup if needed
+	if (internalUiState.showSetup) {
+		SetupHost(viewModel = mainViewModel)
 		return
 	}
 
@@ -296,7 +296,7 @@ fun AdaptiveThemeScreen(
 		show = showCustomDialog.value,
 		currentLux = uiState.customAdaptiveThemeThresholdLux ?: uiState.adaptiveThemeThresholdLux,
 		onConfirm = { luxValue: Float ->
-			adaptiveThemeViewModel.setCustomAdaptiveThemeThreshold(luxValue)
+			mainViewModel.setCustomAdaptiveThemeThreshold(luxValue)
 			showCustomDialog.value = false
 		},
 		onDismiss = { showCustomDialog.value = false }
