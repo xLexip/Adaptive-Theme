@@ -12,10 +12,7 @@
 
 package dev.lexip.hecate.ui
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -38,20 +35,7 @@ class MainActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 		installSplashScreen()
 		enableEdgeToEdge()
-
-		// Catch mysterious unsupported SDK versions despite minSDK 31
-		@SuppressLint("ObsoleteSdkInt")
-		if (Build.VERSION.SDK_INT < 31) {
-			Toast.makeText(
-				this,
-				"Unsupported Android version, please uninstall the app.",
-				Toast.LENGTH_LONG
-			).show()
-			finish()
-			return
-		}
-
-
+		
 		val isPlayInstall = InstallSourceChecker.isInstalledFromPlayStore(this)
 		if (isPlayInstall) {
 			inAppUpdateManager = InAppUpdateManager(this).also { manager ->
