@@ -224,7 +224,7 @@ private fun DeveloperOptionsCard(
 	StatusCard(
 		isEnabled = isEnabled,
 		titleResIfEnabled = R.string.permission_wizard_developer_options_enabled,
-		titleResIfDisabled = R.string.permission_wizard_developer_options_title,
+		titleResIfDisabled = R.string.permission_wizard_developer_options_unlock,
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
 			labelRes = R.string.permission_wizard_action_open_settings,

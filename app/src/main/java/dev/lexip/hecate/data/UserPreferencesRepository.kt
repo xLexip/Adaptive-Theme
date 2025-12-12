@@ -106,11 +106,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		}
 	}
 
-	suspend fun clearCustomAdaptiveThemeThreshold() {
-		dataStore.edit { preferences ->
-			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
-		}
-	}
 
 	suspend fun updatePermissionWizardCompleted(completed: Boolean) {
 		dataStore.edit { preferences ->

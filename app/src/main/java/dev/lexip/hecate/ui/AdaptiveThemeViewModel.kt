@@ -271,15 +271,6 @@ class AdaptiveThemeViewModel(
 		_uiState.value = _uiState.value.copy(permissionWizardStep = next)
 	}
 
-	fun goToPreviousPermissionWizardStep() {
-		val prev = when (_uiState.value.permissionWizardStep) {
-			PermissionWizardStep.ENABLE_DEVELOPER_MODE -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
-			PermissionWizardStep.CONNECT_USB -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
-			PermissionWizardStep.GRANT_PERMISSION -> PermissionWizardStep.CONNECT_USB
-		}
-		_uiState.value = _uiState.value.copy(permissionWizardStep = prev)
-	}
-
 	fun dismissPermissionWizard() {
 		_uiState.value = _uiState.value.copy(showPermissionWizard = false)
 	}
@@ -305,12 +296,6 @@ class AdaptiveThemeViewModel(
 		}
 	}
 
-	fun requestCopyAdbCommand() {
-		val cmd = _pendingAdbCommand.value
-		viewModelScope.launch {
-			_uiEvents.emit(UiEvent.CopyToClipboard(cmd))
-		}
-	}
 
 	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		val wasEnabled = _uiState.value.adaptiveThemeEnabled
@@ -421,7 +406,7 @@ class AdaptiveThemeViewModel(
 				context.getString(R.string.shizuku_request_permission),
 				Toast.LENGTH_LONG
 			).show()
-			ShizukuManager.requestPermission(context)
+			ShizukuManager.requestPermission()
 			return
 		}
 

@@ -21,7 +21,7 @@ import android.util.Log
 
 private const val TAG = "LightSensorManager"
 
-class LightSensorManager(private val context: Context) : SensorEventListener {
+class LightSensorManager(context: Context) : SensorEventListener {
 
 	private val sensorManager: SensorManager =
 		context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -49,7 +49,7 @@ class LightSensorManager(private val context: Context) : SensorEventListener {
 	}
 
 	override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-		return
+		// No-op: accuracy changes are not relevant for current light sensor usage
 	}
 
 }

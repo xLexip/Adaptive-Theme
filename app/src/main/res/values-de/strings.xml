@@ -20,7 +20,6 @@
 	<string name="device_covered_title">Sensor verdeckt</string>
 	<string name="device_covered_message">Theme-Änderungen sind pausiert, da der Lichtsensor verdeckt ist.</string>
 
-	<string name="error_no_email_client">Keine E-Mail-App gefunden.</string>
 	<string name="error_invalid_lux_value">Ungültiger Helligkeitswert.</string>
 	<string name="error_negative_lux_value">Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
