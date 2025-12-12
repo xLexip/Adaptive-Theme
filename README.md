@@ -1,3 +1,5 @@
+[![Adaptive Theme in the Google Play Store](https://i.ibb.co/bjHmz8Sh/feature-graphic-gh.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+
 # Adaptive Theme: Smart Dark Mode
 
 Adaptive Theme intelligently automates your device's theme settings, switching between **Light and
@@ -23,7 +25,7 @@ this [Google Play](https://play.google.com/apps/testing/dev.lexip.hecate) link t
 - [✅ Safety](#-safety)
 - [❓ FAQ](#-faq)
 - [❤️ Support the Project](#%EF%B8%8F-support-the-project)
-- [📱 Screenshots](#-screenshots)
+- [📱 Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
 ---
 
@@ -138,7 +140,5 @@ also [buy me a coffee](https://buymeacoffee.com/lexip).
 ---
 
 ## 📱 Screenshots
-
-[![Adaptive Theme Screenshot](https://i.ibb.co/6cngXDnx/Adaptive-Theme-Screenshot.webp)](https://ibb.co/gbjz4tjp)
 
 #### [More Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
