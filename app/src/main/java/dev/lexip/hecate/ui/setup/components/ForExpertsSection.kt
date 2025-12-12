@@ -68,7 +68,7 @@ internal fun ForExpertsSectionCard(
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_for_experts),
+					text = stringResource(id = R.string.setup_for_experts),
 					style = MaterialTheme.typography.bodyMedium,
 					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -85,7 +85,7 @@ internal fun ForExpertsSectionCard(
 			if (expanded) {
 				Spacer(modifier = Modifier.height(8.dp))
 				Text(
-					text = stringResource(id = R.string.permission_wizard_manual_command),
+					text = stringResource(id = R.string.setup_manual_command),
 					style = MaterialTheme.typography.bodyMedium,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
@@ -101,7 +101,7 @@ internal fun ForExpertsSectionCard(
 						},
 						modifier = Modifier.weight(1f)
 					) {
-						Text(text = stringResource(id = R.string.permission_wizard_action_use_root))
+						Text(text = stringResource(id = R.string.setup_action_use_root))
 					}
 					OutlinedButton(
 						onClick = {
@@ -110,7 +110,7 @@ internal fun ForExpertsSectionCard(
 						},
 						modifier = Modifier.weight(1f)
 					) {
-						Text(text = stringResource(id = R.string.permission_wizard_action_adb_command))
+						Text(text = stringResource(id = R.string.setup_action_adb_command))
 					}
 				}
 				// Offer Shizuku alternative here when Shizuku is NOT installed
@@ -122,7 +122,7 @@ internal fun ForExpertsSectionCard(
 						},
 						modifier = Modifier.fillMaxWidth()
 					) {
-						Text(text = stringResource(id = R.string.permission_wizard_shizuku_action))
+						Text(text = stringResource(id = R.string.setup_shizuku_action))
 					}
 				}
 			}

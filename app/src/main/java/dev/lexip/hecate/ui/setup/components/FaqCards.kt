@@ -64,7 +64,7 @@ internal fun WhyOtherDeviceCard() {
 					.clickable { expanded = !expanded }
 			) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_why_other_device_title),
+					text = stringResource(id = R.string.setup_why_other_device_title),
 					style = MaterialTheme.typography.bodyMedium,
 					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -81,7 +81,7 @@ internal fun WhyOtherDeviceCard() {
 			if (expanded) {
 				Spacer(modifier = Modifier.height(4.dp))
 				Text(
-					text = stringResource(id = R.string.permission_wizard_why_other_device),
+					text = stringResource(id = R.string.setup_why_other_device),
 					style = MaterialTheme.typography.bodyMedium,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
@@ -108,7 +108,7 @@ internal fun IsThisSafeCard() {
 					.clickable { expanded = !expanded }
 			) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_is_this_safe_title),
+					text = stringResource(id = R.string.setup_is_this_safe_title),
 					style = MaterialTheme.typography.bodyMedium,
 					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -125,7 +125,7 @@ internal fun IsThisSafeCard() {
 			if (expanded) {
 				Spacer(modifier = Modifier.height(4.dp))
 				Text(
-					text = stringResource(id = R.string.permission_wizard_is_this_safe_body),
+					text = stringResource(id = R.string.setup_is_this_safe_body),
 					style = MaterialTheme.typography.bodyMedium,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)

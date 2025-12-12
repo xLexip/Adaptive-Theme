@@ -45,14 +45,14 @@ internal fun ShizukuOptionCard(
 	) {
 		Column(modifier = Modifier.padding(16.dp)) {
 			Text(
-				text = stringResource(id = R.string.permission_wizard_shizuku_title),
+				text = stringResource(id = R.string.setup_shizuku_title),
 				style = MaterialTheme.typography.bodyMedium,
 				fontWeight = FontWeight.Bold,
 				color = MaterialTheme.colorScheme.onSecondaryContainer
 			)
 			Spacer(modifier = Modifier.height(8.dp))
 			Text(
-				text = stringResource(id = R.string.permission_wizard_shizuku_body),
+				text = stringResource(id = R.string.setup_shizuku_body),
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.onSecondaryContainer
 			)
@@ -62,7 +62,7 @@ internal fun ShizukuOptionCard(
 				onClick = onClick
 			) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_shizuku_action),
+					text = stringResource(id = R.string.setup_shizuku_action),
 					textAlign = TextAlign.Center
 				)
 			}

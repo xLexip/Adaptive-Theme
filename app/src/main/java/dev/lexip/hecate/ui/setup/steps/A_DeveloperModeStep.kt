@@ -60,7 +60,7 @@ data class ActionConfig(
 )
 
 @Composable
-internal fun DeveloperModeStep(
+internal fun A_DeveloperModeStep(
 	isDeveloperOptionsEnabled: Boolean,
 	isUsbDebuggingEnabled: Boolean,
 	isShizukuInstalled: Boolean,
@@ -96,12 +96,12 @@ internal fun DeveloperModeStep(
 		) {
 			Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_developer_mode_title),
+					text = stringResource(id = R.string.setup_developer_mode_title),
 					style = MaterialTheme.typography.headlineMedium,
 					fontWeight = FontWeight.Bold
 				)
 				Text(
-					text = stringResource(id = R.string.permission_wizard_developer_mode_body),
+					text = stringResource(id = R.string.setup_developer_mode_body),
 					style = MaterialTheme.typography.bodyLarge,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
@@ -223,12 +223,12 @@ private fun DeveloperOptionsCard(
 ) {
 	StatusCard(
 		isEnabled = isEnabled,
-		titleResIfEnabled = R.string.permission_wizard_developer_options_enabled,
-		titleResIfDisabled = R.string.permission_wizard_developer_options_unlock,
+		titleResIfEnabled = R.string.setup_developer_options_enabled,
+		titleResIfDisabled = R.string.setup_developer_options_unlock,
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
-			labelRes = R.string.permission_wizard_action_open_settings,
-			toastRes = R.string.permission_wizard_dev_options_toast,
+			labelRes = R.string.setup_action_open_settings,
+			toastRes = R.string.setup_dev_options_toast,
 			onAction = onOpenSettings,
 			enabled = true
 		)
@@ -243,12 +243,12 @@ private fun UsbDebuggingCard(
 ) {
 	StatusCard(
 		isEnabled = isEnabled,
-		titleResIfEnabled = R.string.permission_wizard_usb_debugging_enabled,
-		titleResIfDisabled = R.string.permission_wizard_usb_debugging_disabled,
+		titleResIfEnabled = R.string.setup_usb_debugging_enabled,
+		titleResIfDisabled = R.string.setup_usb_debugging_disabled,
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
-			labelRes = R.string.permission_wizard_action_open_developer_settings,
-			toastRes = R.string.permission_wizard_usb_debugging_toast,
+			labelRes = R.string.setup_action_open_developer_settings,
+			toastRes = R.string.setup_usb_debugging_toast,
 			onAction = onOpenDeveloperSettings,
 			enabled = isDeveloperOptionsEnabled
 		)
