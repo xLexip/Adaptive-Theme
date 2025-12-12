@@ -215,7 +215,7 @@ class AdaptiveThemeViewModel(
 			viewModelScope.launch {
 				updateCurrentSensorLux(lux)
 			}
-		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
+		}, sensorDelay = SensorManager.SENSOR_DELAY_NORMAL)
 	}
 
 	private fun stopLightSensorListening() {
