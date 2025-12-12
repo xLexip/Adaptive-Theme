@@ -8,10 +8,7 @@ Dark mode** based on your environment's **ambient light** — not just the time 
 Get the readability of Light mode in bright daylight and the eye-comfort of Dark mode in low light.
 This allows for a true auto dark mode experience that native Android doesn't offer.
 
-## Closed Beta
-
-Join this [Google Group](https://groups.google.com/g/apphive-testers) before clicking on
-this [Google Play](https://play.google.com/apps/testing/dev.lexip.hecate) link to install the beta.
+[![Get it on Google Play](https://i.ibb.co/4RNvZBvK/Get-It-On-Google-Play-Badge-Web-color-English-1.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
 
 ---
