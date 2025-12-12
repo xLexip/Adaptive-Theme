@@ -62,6 +62,7 @@ fun PermissionSetupWizardScreen(
 	onShareExpertCommand: () -> Unit,
 	onCheckPermission: () -> Unit,
 	onUseRoot: () -> Unit,
+	onInstallShizuku: () -> Unit,
 ) {
 	val totalSteps = PermissionWizardStep.entries.size
 	val currentStepIndex = step.ordinal + 1
@@ -147,7 +148,8 @@ fun PermissionSetupWizardScreen(
 						onNext = onNext,
 						onExit = onExit,
 						onShareExpertCommand = onShareExpertCommand,
-						onUseRoot = onUseRoot
+						onUseRoot = onUseRoot,
+						onInstallShizuku = onInstallShizuku
 					)
 
 					PermissionWizardStep.GRANT_PERMISSION -> GrantPermissionStep(
@@ -157,7 +159,9 @@ fun PermissionSetupWizardScreen(
 						onCheckPermission = onCheckPermission,
 						onExit = onExit,
 						onUseRoot = onUseRoot,
-						isUsbConnected = isUsbConnected
+						isUsbConnected = isUsbConnected,
+						isShizukuInstalled = isShizukuInstalled,
+						onInstallShizuku = onInstallShizuku
 					)
 				}
 			}

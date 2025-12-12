@@ -51,6 +51,8 @@ internal fun GrantPermissionStep(
 	onExit: () -> Unit,
 	onUseRoot: (() -> Unit)? = null,
 	isUsbConnected: Boolean,
+	isShizukuInstalled: Boolean = true,
+	onInstallShizuku: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 
@@ -94,7 +96,9 @@ internal fun GrantPermissionStep(
 
 			ForExpertsSectionCard(
 				onUseRoot = onUseRoot,
-				onShareADBCommand = onShareExpertCommand
+				onShareADBCommand = onShareExpertCommand,
+				isShizukuInstalled = isShizukuInstalled,
+				onInstallShizuku = onInstallShizuku
 			)
 		}
 

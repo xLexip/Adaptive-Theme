@@ -48,6 +48,8 @@ import dev.lexip.hecate.R
 internal fun ForExpertsSectionCard(
 	onUseRoot: (() -> Unit)? = null,
 	onShareADBCommand: (() -> Unit)? = null,
+	isShizukuInstalled: Boolean = true,
+	onInstallShizuku: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 	var expanded by remember { mutableStateOf(false) }
@@ -109,6 +111,18 @@ internal fun ForExpertsSectionCard(
 						modifier = Modifier.weight(1f)
 					) {
 						Text(text = stringResource(id = R.string.permission_wizard_action_adb_command))
+					}
+				}
+				// Offer Shizuku alternative here when Shizuku is NOT installed
+				if (!isShizukuInstalled) {
+					OutlinedButton(
+						onClick = {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+							onInstallShizuku?.invoke()
+						},
+						modifier = Modifier.fillMaxWidth()
+					) {
+						Text(text = stringResource(id = R.string.permission_wizard_shizuku_action))
 					}
 				}
 			}
