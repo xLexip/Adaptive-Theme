@@ -21,13 +21,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
-import dev.lexip.hecate.ui.setup.PermissionWizardStep
+import dev.lexip.hecate.ui.setup.SetupStep
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
@@ -46,36 +46,35 @@ import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
 import java.util.concurrent.atomic.AtomicBoolean
 
-const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 
 sealed interface UiEvent {
 	data class CopyToClipboard(val text: String) : UiEvent
 }
 
-data class AdaptiveThemeUiState(
+data class MainUiState(
 	val adaptiveThemeEnabled: Boolean = false,
 	val adaptiveThemeThresholdLux: Float = 1000f,
 	val customAdaptiveThemeThresholdLux: Float? = null,
-	val showPermissionWizard: Boolean = false,
-	val permissionWizardStep: PermissionWizardStep = PermissionWizardStep.ENABLE_DEVELOPER_MODE,
-	val permissionWizardCompleted: Boolean = false,
+	val showSetup: Boolean = false,
+	val setupStep: SetupStep = SetupStep.ENABLE_DEVELOPER_MODE,
+	val hasSetupCompleted: Boolean = false,
 	val hasAutoAdvancedFromDeveloperMode: Boolean = false,
 	val hasAutoAdvancedFromConnectUsb: Boolean = false,
 	val isDeviceCovered: Boolean = false,
 	val isShizukuInstalled: Boolean = false
 )
 
-class AdaptiveThemeViewModel(
-	private val application: HecateApplication,
+class MainViewModel(
+	private val application: Application,
 	private val userPreferencesRepository: UserPreferencesRepository,
-	@Suppress("unused")
 	private var _darkThemeHandler: DarkThemeHandler,
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
 
-	private val _uiState = MutableStateFlow(AdaptiveThemeUiState())
-	val uiState: StateFlow<AdaptiveThemeUiState> = _uiState.asStateFlow()
+	private val _uiState = MutableStateFlow(MainUiState())
+	val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
 	fun setShizukuInstalled(installed: Boolean) {
 		if (_uiState.value.isShizukuInstalled == installed) return
@@ -92,7 +91,6 @@ class AdaptiveThemeViewModel(
 	)
 	val uiEvents = _uiEvents.asSharedFlow()
 
-	// Wizard + pending ADB command
 	private val _pendingAdbCommand = MutableStateFlow("")
 	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
 
@@ -166,7 +164,7 @@ class AdaptiveThemeViewModel(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
 					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux,
-					permissionWizardCompleted = userPreferences.permissionWizardCompleted
+					hasSetupCompleted = userPreferences.hasSetupCompleted
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) {
@@ -215,7 +213,7 @@ class AdaptiveThemeViewModel(
 			viewModelScope.launch {
 				updateCurrentSensorLux(lux)
 			}
-		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
+		}, sensorDelay = SensorManager.SENSOR_DELAY_NORMAL)
 	}
 
 	private fun stopLightSensorListening() {
@@ -232,8 +230,8 @@ class AdaptiveThemeViewModel(
 	}
 
 	/**
-	 * Toggle adaptive theme service or show permission wizard.
-	 * @return true if service was toggled, false if permission wizard is shown.
+	 * Toggle adaptive theme service or show setup.
+	 * @return true if service was toggled, false if setup is shown.
 	 */
 	fun onServiceToggleRequested(
 		checked: Boolean,
@@ -241,7 +239,7 @@ class AdaptiveThemeViewModel(
 		packageName: String
 	): Boolean {
 		if (checked && !hasPermission) {
-			startPermissionWizard(packageName)
+			startSetup(packageName)
 			AnalyticsLogger.logPermissionErrorShown(
 				application.applicationContext,
 				reason = "missing_write_secure_settings",
@@ -253,64 +251,49 @@ class AdaptiveThemeViewModel(
 		return true
 	}
 
-	private fun startPermissionWizard(packageName: String) {
+	private fun startSetup(packageName: String) {
 		_pendingAdbCommand.value =
 			"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 		_uiState.value = _uiState.value.copy(
-			showPermissionWizard = true,
-			permissionWizardStep = PermissionWizardStep.ENABLE_DEVELOPER_MODE
+			showSetup = true,
+			setupStep = SetupStep.ENABLE_DEVELOPER_MODE
 		)
 	}
 
-	fun goToNextPermissionWizardStep() {
-		val next = when (_uiState.value.permissionWizardStep) {
-			PermissionWizardStep.ENABLE_DEVELOPER_MODE -> PermissionWizardStep.CONNECT_USB
-			PermissionWizardStep.CONNECT_USB -> PermissionWizardStep.GRANT_PERMISSION
-			PermissionWizardStep.GRANT_PERMISSION -> PermissionWizardStep.GRANT_PERMISSION
+	fun goToNextSetupStep() {
+		val next = when (_uiState.value.setupStep) {
+			SetupStep.ENABLE_DEVELOPER_MODE -> SetupStep.CONNECT_USB
+			SetupStep.CONNECT_USB -> SetupStep.GRANT_PERMISSION
+			SetupStep.GRANT_PERMISSION -> SetupStep.GRANT_PERMISSION
 		}
-		_uiState.value = _uiState.value.copy(permissionWizardStep = next)
+		_uiState.value = _uiState.value.copy(setupStep = next)
 	}
 
-	fun goToPreviousPermissionWizardStep() {
-		val prev = when (_uiState.value.permissionWizardStep) {
-			PermissionWizardStep.ENABLE_DEVELOPER_MODE -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
-			PermissionWizardStep.CONNECT_USB -> PermissionWizardStep.ENABLE_DEVELOPER_MODE
-			PermissionWizardStep.GRANT_PERMISSION -> PermissionWizardStep.CONNECT_USB
-		}
-		_uiState.value = _uiState.value.copy(permissionWizardStep = prev)
-	}
-
-	fun dismissPermissionWizard() {
-		_uiState.value = _uiState.value.copy(showPermissionWizard = false)
+	fun dismissSetup() {
+		_uiState.value = _uiState.value.copy(showSetup = false)
 	}
 
 	fun recheckWriteSecureSettingsPermission(granted: Boolean) {
 		if (granted) {
 			_uiState.value =
-				_uiState.value.copy(permissionWizardStep = PermissionWizardStep.GRANT_PERMISSION)
+				_uiState.value.copy(setupStep = SetupStep.GRANT_PERMISSION)
 		}
 	}
 
-	private val permissionWizardCompletionHandled = AtomicBoolean(false)
-	fun completePermissionWizard(
+	private val setupCompletionHandled = AtomicBoolean(false)
+	fun completeSetup(
 		context: android.content.Context,
 		source: String? = null
 	) {
 		viewModelScope.launch {
-			if (permissionWizardCompletionHandled.getAndSet(true)) return@launch
+			if (setupCompletionHandled.getAndSet(true)) return@launch
 			if (source != null) AnalyticsLogger.logSetupComplete(context, source)
-			userPreferencesRepository.updatePermissionWizardCompleted(true)
-			dismissPermissionWizard()
+			userPreferencesRepository.updateSetupCompleted(true)
+			dismissSetup()
 			updateAdaptiveThemeEnabled(true)
 		}
 	}
 
-	fun requestCopyAdbCommand() {
-		val cmd = _pendingAdbCommand.value
-		viewModelScope.launch {
-			_uiEvents.emit(UiEvent.CopyToClipboard(cmd))
-		}
-	}
 
 	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		val wasEnabled = _uiState.value.adaptiveThemeEnabled
@@ -421,7 +404,7 @@ class AdaptiveThemeViewModel(
 				context.getString(R.string.shizuku_request_permission),
 				Toast.LENGTH_LONG
 			).show()
-			ShizukuManager.requestPermission(context)
+			ShizukuManager.requestPermission()
 			return
 		}
 
@@ -432,7 +415,7 @@ class AdaptiveThemeViewModel(
 				when (result) {
 					is ShizukuManager.GrantResult.Success -> {
 						// Setup using Shizuku complete
-						completePermissionWizard(
+						completeSetup(
 							context,
 							source = "shizuku"
 						)
@@ -482,13 +465,13 @@ class AdaptiveThemeViewModel(
 			withContext(mainDispatcher) {
 				when (result) {
 					RootGrantResult.Success -> {
-						completePermissionWizard(
+						completeSetup(
 							context,
 							source = "root"
 						)
 						Toast.makeText(
 							context,
-							R.string.permission_wizard_permission_granted,
+							R.string.setup_permission_granted,
 							Toast.LENGTH_SHORT
 						).show()
 					}
@@ -496,13 +479,17 @@ class AdaptiveThemeViewModel(
 					is RootGrantResult.Failure -> {
 						Toast.makeText(
 							context,
-							R.string.permission_wizard_root_grant_failed,
+							R.string.setup_root_grant_failed,
 							Toast.LENGTH_SHORT
 						).show()
 					}
 				}
 			}
 		}
+	}
+
+	fun getShizukuPackageName(): String {
+		return SHIZUKU_PACKAGE
 	}
 
 	private sealed interface RootGrantResult {
@@ -546,16 +533,16 @@ class AdaptiveThemeViewModel(
 	}
 }
 
-class AdaptiveThemeViewModelFactory(
-	private val application: HecateApplication,
+class MainViewModelFactory(
+	private val application: Application,
 	private val userPreferencesRepository: UserPreferencesRepository,
 	private val darkThemeHandler: DarkThemeHandler
 ) : ViewModelProvider.Factory {
 
 	override fun <T : ViewModel> create(modelClass: Class<T>): T {
-		if (modelClass.isAssignableFrom(AdaptiveThemeViewModel::class.java)) {
+		if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
 			@Suppress("UNCHECKED_CAST")
-			return AdaptiveThemeViewModel(
+			return MainViewModel(
 				application,
 				userPreferencesRepository,
 				darkThemeHandler

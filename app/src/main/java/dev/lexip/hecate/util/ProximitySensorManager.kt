@@ -21,7 +21,7 @@ import android.util.Log
 
 private const val TAG = "ProximitySensorManager"
 
-class ProximitySensorManager(private val context: Context) : SensorEventListener {
+class ProximitySensorManager(context: Context) : SensorEventListener {
 
 	private val sensorManager: SensorManager =
 		context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -49,7 +49,7 @@ class ProximitySensorManager(private val context: Context) : SensorEventListener
 	}
 
 	override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-		return
+		// No-op: accuracy changes are not relevant for current proximity sensor usage
 	}
 
 }
