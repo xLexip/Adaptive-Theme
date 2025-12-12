@@ -29,6 +29,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.ui.AdaptiveThemeViewModel
@@ -274,6 +275,17 @@ fun PermissionSetupHost(
 				Toast.LENGTH_SHORT
 			).show()
 			viewModel.onGrantViaRootRequested(context, context.packageName)
+		},
+		onInstallShizuku = {
+			val shizukuPackage = viewModel.getShizukuPackageName()
+			viewModel.dismissPermissionWizard()
+			val intent = Intent(
+				Intent.ACTION_VIEW,
+				"https://play.google.com/store/apps/details?id=$shizukuPackage".toUri()
+			)
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			context.startActivity(intent)
+
 		}
 	)
 }

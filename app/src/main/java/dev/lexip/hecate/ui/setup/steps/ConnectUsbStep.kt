@@ -44,6 +44,7 @@ internal fun ConnectUsbStep(
 	onExit: () -> Unit,
 	onShareExpertCommand: (() -> Unit)? = null,
 	onUseRoot: (() -> Unit)? = null,
+	onInstallShizuku: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 
@@ -95,7 +96,9 @@ internal fun ConnectUsbStep(
 
 			ForExpertsSectionCard(
 				onUseRoot = onUseRoot,
-				onShareADBCommand = onShareExpertCommand
+				onShareADBCommand = onShareExpertCommand,
+				isShizukuInstalled = isShizukuInstalled,
+				onInstallShizuku = onInstallShizuku
 			)
 		}
 

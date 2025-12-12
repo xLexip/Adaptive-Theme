@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
 import java.util.concurrent.atomic.AtomicBoolean
 
-const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 
 sealed interface UiEvent {
 	data class CopyToClipboard(val text: String) : UiEvent
@@ -503,6 +503,10 @@ class AdaptiveThemeViewModel(
 				}
 			}
 		}
+	}
+
+	fun getShizukuPackageName(): String {
+		return SHIZUKU_PACKAGE
 	}
 
 	private sealed interface RootGrantResult {
