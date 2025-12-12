@@ -19,23 +19,24 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.InAppUpdateManager
 import dev.lexip.hecate.util.InstallSourceChecker
 
 class MainActivity : ComponentActivity() {
 
 	private var inAppUpdateManager: InAppUpdateManager? = null
-	private lateinit var adaptiveThemeViewModel: AdaptiveThemeViewModel
+	private lateinit var mainViewModel: MainViewModel
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		installSplashScreen()
 		enableEdgeToEdge()
-		
+
 		val isPlayInstall = InstallSourceChecker.isInstalledFromPlayStore(this)
 		if (isPlayInstall) {
 			inAppUpdateManager = InAppUpdateManager(this).also { manager ->
@@ -44,21 +45,21 @@ class MainActivity : ComponentActivity() {
 		}
 
 		// Obtain a stable ViewModel instance
-		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
-		adaptiveThemeViewModel = androidx.lifecycle.ViewModelProvider(
+		val dataStore = (this.applicationContext as Application).userPreferencesDataStore
+		mainViewModel = androidx.lifecycle.ViewModelProvider(
 			this,
-			AdaptiveThemeViewModelFactory(
-				this.application as HecateApplication,
+			MainViewModelFactory(
+				this.application as Application,
 				UserPreferencesRepository(dataStore),
 				DarkThemeHandler(applicationContext)
 			)
-		)[AdaptiveThemeViewModel::class.java]
+		)[MainViewModel::class.java]
 
 		setContent {
-			val state by adaptiveThemeViewModel.uiState.collectAsState()
+			val state by mainViewModel.uiState.collectAsState()
 
 			HecateTheme {
-				AdaptiveThemeScreen(
+				MainScreen(
 					state
 				)
 			}
@@ -76,9 +77,9 @@ class MainActivity : ComponentActivity() {
 		inAppUpdateManager?.resumeFlexibleUpdateIfNeeded()
 
 		// Always restart the service (it may have been paused in the meantime)
-		if (this::adaptiveThemeViewModel.isInitialized) {
-			adaptiveThemeViewModel.startSensorsIfEnabled()
-			if (adaptiveThemeViewModel.isAdaptiveThemeEnabled()) {
+		if (this::mainViewModel.isInitialized) {
+			mainViewModel.startSensorsIfEnabled()
+			if (mainViewModel.isAdaptiveThemeEnabled()) {
 				val intent = android.content.Intent(this, BroadcastReceiverService::class.java)
 				androidx.core.content.ContextCompat.startForegroundService(this, intent)
 			}
@@ -86,8 +87,8 @@ class MainActivity : ComponentActivity() {
 	}
 
 	override fun onPause() {
-		if (this::adaptiveThemeViewModel.isInitialized) {
-			adaptiveThemeViewModel.stopSensors()
+		if (this::mainViewModel.isInitialized) {
+			mainViewModel.stopSensors()
 		}
 		super.onPause()
 	}

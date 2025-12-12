@@ -43,7 +43,7 @@ import dev.lexip.hecate.ui.setup.components.StepNavigationRow
 import dev.lexip.hecate.ui.setup.components.rememberPulseScale
 
 @Composable
-internal fun GrantPermissionStep(
+internal fun C_GrantPermissionStep(
 	hasWriteSecureSettings: Boolean,
 	onShareSetupUrl: () -> Unit,
 	onShareExpertCommand: () -> Unit,
@@ -68,12 +68,12 @@ internal fun GrantPermissionStep(
 		) {
 			Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_grant_title),
+					text = stringResource(id = R.string.setup_grant_title),
 					style = MaterialTheme.typography.headlineMedium,
 					fontWeight = FontWeight.Bold
 				)
 				Text(
-					text = stringResource(id = R.string.permission_wizard_grant_body),
+					text = stringResource(id = R.string.setup_grant_body),
 					style = MaterialTheme.typography.bodyLarge,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
@@ -84,13 +84,13 @@ internal fun GrantPermissionStep(
 			// Show USB not connected waiting card if USB is not connected (e.g. step 2 was skipped)
 			if (!isUsbConnected) {
 				SetupWaitingCard(
-					title = stringResource(id = R.string.permission_wizard_usb_not_connected),
+					title = stringResource(id = R.string.setup_usb_not_connected),
 					pulseScale = usbPulseScale
 				)
 			}
 
 			SetupWaitingCard(
-				title = stringResource(id = R.string.permission_wizard_permission_not_granted),
+				title = stringResource(id = R.string.setup_permission_not_granted),
 				pulseScale = pulseScale
 			)
 
@@ -133,7 +133,7 @@ private fun SetupWebsiteCard(onShareSetupUrl: () -> Unit) {
 			horizontalAlignment = Alignment.CenterHorizontally
 		) {
 			Text(
-				text = stringResource(id = R.string.permission_wizard_website_url),
+				text = stringResource(id = R.string.setup_website_url),
 				style = MaterialTheme.typography.displaySmall,
 				fontWeight = FontWeight.Bold,
 				color = MaterialTheme.colorScheme.onPrimaryContainer,

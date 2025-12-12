@@ -68,7 +68,7 @@ fun SetupRequiredCard(
 				horizontalArrangement = Arrangement.Center
 			) {
 				Button(onClick = onFinishSetupRequested) {
-					Text(text = stringResource(id = R.string.action_finish_setup))
+					Text(text = stringResource(id = R.string.action_start_setup))
 				}
 			}
 		}

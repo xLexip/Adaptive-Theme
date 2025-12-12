@@ -36,7 +36,7 @@ import dev.lexip.hecate.ui.setup.components.StepNavigationRow
 import dev.lexip.hecate.ui.setup.components.rememberPulseScale
 
 @Composable
-internal fun ConnectUsbStep(
+internal fun B_ConnectUsbStep(
 	isUsbConnected: Boolean,
 	isShizukuInstalled: Boolean,
 	onGrantViaShizuku: () -> Unit,
@@ -71,19 +71,19 @@ internal fun ConnectUsbStep(
 		) {
 			Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 				Text(
-					text = stringResource(id = R.string.permission_wizard_connect_title),
+					text = stringResource(id = R.string.setup_connect_title),
 					style = MaterialTheme.typography.headlineMedium,
 					fontWeight = FontWeight.Bold
 				)
 				Text(
-					text = stringResource(id = R.string.permission_wizard_connect_body),
+					text = stringResource(id = R.string.setup_connect_body),
 					style = MaterialTheme.typography.bodyLarge,
 					color = MaterialTheme.colorScheme.onSurfaceVariant
 				)
 			}
 
 			SetupWaitingCard(
-				title = stringResource(id = R.string.permission_wizard_usb_not_connected),
+				title = stringResource(id = R.string.setup_usb_not_connected),
 				pulseScale = pulseScale
 			)
 

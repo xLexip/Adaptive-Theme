@@ -31,7 +31,7 @@ data class UserPreferences(
 	val adaptiveThemeEnabled: Boolean,
 	val adaptiveThemeThresholdLux: Float,
 	val customAdaptiveThemeThresholdLux: Float? = null,
-	val permissionWizardCompleted: Boolean = false
+	val hasSetupCompleted: Boolean = false
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -41,7 +41,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val ADAPTIVE_THEME_THRESHOLD_LUX = floatPreferencesKey("adaptive_theme_threshold_lux")
 		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
 			floatPreferencesKey("custom_adaptive_theme_threshold_lux")
-		val PERMISSION_WIZARD_COMPLETED = booleanPreferencesKey("permission_wizard_completed")
+		val SETUP_COMPLETED = booleanPreferencesKey("setup_completed")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -76,13 +76,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 				?: AdaptiveThreshold.DAYLIGHT.lux
 		val customAdaptiveThemeThresholdLux =
 			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX]
-		val permissionWizardCompleted =
-			preferences[PreferencesKeys.PERMISSION_WIZARD_COMPLETED] == true
+		val hasSetupCompleted =
+			preferences[PreferencesKeys.SETUP_COMPLETED] == true
 		return UserPreferences(
 			adaptiveThemeEnabled = adaptiveThemeEnabled,
 			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
 			customAdaptiveThemeThresholdLux = customAdaptiveThemeThresholdLux,
-			permissionWizardCompleted = permissionWizardCompleted
+			hasSetupCompleted = hasSetupCompleted
 		)
 	}
 
@@ -107,9 +107,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	}
 
 
-	suspend fun updatePermissionWizardCompleted(completed: Boolean) {
+	suspend fun updateSetupCompleted(completed: Boolean) {
 		dataStore.edit { preferences ->
-			preferences[PreferencesKeys.PERMISSION_WIZARD_COMPLETED] = completed
+			preferences[PreferencesKeys.SETUP_COMPLETED] = completed
 		}
 	}
 

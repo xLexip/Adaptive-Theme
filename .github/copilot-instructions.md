@@ -59,7 +59,7 @@ hecate/
 │           │   ├── AdaptiveThemeScreen.kt
 │           │   ├── AdaptiveThemeViewModel.kt
 │           │   ├── components/         # Reusable UI components
-│           │   ├── setup/              # Permission setup wizard
+│           │   ├── setup/              # Setup wizard/flow
 │           │   └── theme/              # Material theme
 │           └── util/                   # Sensor managers, Shizuku
 │               ├── DarkThemeHandler.kt # System theme control

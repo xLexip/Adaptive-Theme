@@ -42,18 +42,19 @@
 		android:anyDensity="true" />
 
 	<application
-		android:name="dev.lexip.hecate.HecateApplication"
+		android:name="dev.lexip.hecate.Application"
 		android:allowBackup="false"
 		android:dataExtractionRules="@xml/data_extraction_rules"
 		android:fullBackupContent="@xml/backup_rules"
-		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
+		android:icon="@mipmap/ic_launcher"
 		android:roundIcon="@mipmap/ic_launcher"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.App.Starting"
 		android:usesCleartextTraffic="false"
 		android:windowSoftInputMode="adjustResize"
 		android:localeConfig="@xml/locales_config"
+		android:enableOnBackInvokedCallback="true"
 		tools:targetApi="33">
 
 		<!-- Shizuku provider to acquire binder from Shizuku/Sui -->

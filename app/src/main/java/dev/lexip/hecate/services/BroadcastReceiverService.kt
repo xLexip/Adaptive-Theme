@@ -23,7 +23,7 @@ import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferencesRepository
@@ -63,7 +63,7 @@ class BroadcastReceiverService : Service() {
 		}
 
 		// Initialize data store
-		val dataStore = (this.applicationContext as HecateApplication).userPreferencesDataStore
+		val dataStore = (this.applicationContext as Application).userPreferencesDataStore
 
 		// Handle stop action from notification
 		if (intent?.action == ACTION_PAUSE_SERVICE) {

@@ -18,7 +18,7 @@ import android.content.pm.PackageManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.core.content.ContextCompat
-import dev.lexip.hecate.HecateApplication
+import dev.lexip.hecate.Application
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -54,7 +54,7 @@ class QuickSettingsTileService : TileService() {
 		}
 
 		// Load user preference and set tile state
-		val dataStore = (applicationContext as HecateApplication).userPreferencesDataStore
+		val dataStore = (applicationContext as Application).userPreferencesDataStore
 		val repo = UserPreferencesRepository(dataStore)
 
 		serviceScope.launch {
@@ -75,7 +75,7 @@ class QuickSettingsTileService : TileService() {
 			return
 		}
 
-		val dataStore = (applicationContext as HecateApplication).userPreferencesDataStore
+		val dataStore = (applicationContext as Application).userPreferencesDataStore
 		val repo = UserPreferencesRepository(dataStore)
 
 		// Toggle adaptive theme

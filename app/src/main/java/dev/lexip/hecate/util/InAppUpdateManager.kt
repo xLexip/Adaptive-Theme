@@ -10,7 +10,7 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.ui
+package dev.lexip.hecate.util
 
 import android.app.Activity
 import android.util.Log
@@ -19,6 +19,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
+import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -171,7 +172,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 
 	private fun launchImmediateUpdate(
 		manager: AppUpdateManager,
-		appUpdateInfo: com.google.android.play.core.appupdate.AppUpdateInfo,
+		appUpdateInfo: AppUpdateInfo,
 		launcher: ActivityResultLauncher<IntentSenderRequest>,
 		onError: (Throwable) -> Unit
 	) {
@@ -189,7 +190,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 
 	private fun launchFlexibleUpdate(
 		manager: AppUpdateManager,
-		appUpdateInfo: com.google.android.play.core.appupdate.AppUpdateInfo,
+		appUpdateInfo: AppUpdateInfo,
 		launcher: ActivityResultLauncher<IntentSenderRequest>,
 		onError: (Throwable) -> Unit
 	) {
