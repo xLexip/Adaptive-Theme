@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -29,11 +31,13 @@ fun SetupRequiredCard(
 	modifier: Modifier = Modifier,
 	title: String,
 	message: String,
-	onFinishSetupRequested: () -> Unit,
+	onLaunchSetup: () -> Unit,
 	shakeKey: Int = 0,
 ) {
 	// Shake animation when user tries to enable service without permission
 	val offsetAnim = remember { Animatable(0f) }
+
+	val haptic = LocalHapticFeedback.current
 
 	LaunchedEffect(shakeKey) {
 		if (shakeKey > 0) {
@@ -67,7 +71,10 @@ fun SetupRequiredCard(
 				modifier = Modifier.fillMaxWidth(),
 				horizontalArrangement = Arrangement.Center
 			) {
-				Button(onClick = onFinishSetupRequested) {
+				Button(onClick = {
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					onLaunchSetup()
+				}) {
 					Text(text = stringResource(id = R.string.action_start_setup))
 				}
 			}

@@ -200,7 +200,7 @@ fun SetupHost(
 		isUsbDebuggingEnabled = isUsbDebuggingEnabled,
 		isShizukuInstalled = isShizukuInstalled,
 		onGrantViaShizuku = {
-			// Trigger the ViewModel’s Shizuku-based grant flow
+			haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 			viewModel.onGrantViaShizukuRequested(context.packageName)
 		},
 		onNext = {

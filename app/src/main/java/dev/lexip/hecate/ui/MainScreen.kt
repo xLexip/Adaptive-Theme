@@ -186,7 +186,7 @@ fun MainScreen(
 						id = R.string.setup_required_message,
 						stringResource(id = R.string.app_name)
 					),
-					onFinishSetupRequested = { mainViewModel.onSetupRequested(packageName) },
+					onLaunchSetup = { mainViewModel.onSetupRequested(packageName) },
 					shakeKey = setupShakeKey.intValue,
 				)
 			}
