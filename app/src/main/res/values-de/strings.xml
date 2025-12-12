@@ -52,7 +52,7 @@
 	<string name="permission_wizard_connect_body">Um die Berechtigung zu erteilen, benötigst du ein <b>anderes Gerät</b> (Computer, Tablet oder Smartphone). Verbinde dieses Gerät per USB damit.</string>
 	<string name="permission_wizard_developer_mode_title">Entwicklermodus aktivieren</string>
 	<string name="permission_wizard_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
-	<string name="permission_wizard_developer_options_title">Entwickleroptionen aktivieren</string>
+	<string name="permission_wizard_developer_options_unlock">Entwickleroptionen freischalten</string>
 	<string name="permission_wizard_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="permission_wizard_dev_options_toast">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
 	<string name="permission_wizard_for_experts">Alternativen für Experten (ADB oder Root)</string>

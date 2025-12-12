@@ -57,7 +57,7 @@
 	<string name="permission_wizard_connect_body">To grant the permission, you need a <b>secondary device</b> (computer, tablet, or phone). Connect this device to it via USB.</string>
 	<string name="permission_wizard_developer_mode_title">Enable Developer Mode</string>
 	<string name="permission_wizard_developer_mode_body">Enable USB-Debugging in the developer options.</string>
-	<string name="permission_wizard_developer_options_title">Enable developer options</string>
+	<string name="permission_wizard_developer_options_unlock">Unlock developer options</string>
 	<string name="permission_wizard_developer_options_enabled">Developer options enabled</string>
 	<string name="permission_wizard_dev_options_toast">Find the Build number and tap it 7 times to enable developer options.</string>
 	<string name="permission_wizard_for_experts">Alternatives for experts (ADB or Root)</string>
