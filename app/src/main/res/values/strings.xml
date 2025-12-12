@@ -24,7 +24,6 @@
 	<string name="device_covered_title">Sensor Covered</string>
 	<string name="device_covered_message">Theme changes are paused because the light sensor is covered.</string>
 
-	<string name="error_no_email_client">No email app found.</string>
 	<string name="error_invalid_lux_value">Invalid brightness value.</string>
 	<string name="error_negative_lux_value">Value cannot be negative.</string>
 	<string name="error_lux_value_too_large">Value cannot exceed 100,000.</string>
