@@ -33,6 +33,14 @@
 		android:required="true"
 		tools:ignore="UnnecessaryRequiredFeature" />
 
+	<uses-feature
+		android:name="android.hardware.sensor.light"
+		android:required="true" />
+
+	<uses-feature
+		android:name="android.hardware.sensor.proximity"
+		android:required="true" />
+
 	<supports-screens
 		android:smallScreens="true"
 		android:normalScreens="true"
