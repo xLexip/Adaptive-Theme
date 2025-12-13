@@ -16,6 +16,11 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -259,7 +264,11 @@ fun MainScreen(
 			}
 
 			// Device-covered warning when the proximity sensor reports covered
-			if (internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled) {
+			AnimatedVisibility(
+				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled,
+				enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+				exit = fadeOut() + slideOutVertically(targetOffsetY = { it / 2 })
+			) {
 				Card(
 					modifier = Modifier
 						.fillMaxWidth(),
