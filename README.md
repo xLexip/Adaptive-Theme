@@ -10,6 +10,11 @@ This allows for a true auto dark mode experience that native Android doesn't off
 
 [![Get it on Google Play](https://i.ibb.co/4RNvZBvK/Get-It-On-Google-Play-Badge-Web-color-English-1.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
+[![Version](https://playbadges.pavi2410.com/badge/version?id=dev.lexip.hecate&pretty&fallback=Open+Beta)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+[![Downloads](https://playbadges.pavi2410.com/badge/downloads?id=dev.lexip.hecate&pretty)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+<!---
+[![Ratings](https://playbadges.pavi2410.com/badge/ratings?id=dev.lexip.hecate&pretty)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+-->
 
 ---
 
