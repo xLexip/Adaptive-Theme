@@ -71,6 +71,11 @@
 			android:name="google_analytics_adid_collection_enabled"
 			android:value="false" />
 
+		<!-- Disables crashlytics for specific build types. -->
+		<meta-data
+			android:name="firebase_crashlytics_collection_enabled"
+			android:value="${crashlyticsEnabled}" />
+
 		<activity
 			android:name=".ui.MainActivity"
 			android:exported="true"
