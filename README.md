@@ -10,6 +10,11 @@ This allows for a true auto dark mode experience that native Android doesn't off
 
 [![Get it on Google Play](https://i.ibb.co/4RNvZBvK/Get-It-On-Google-Play-Badge-Web-color-English-1.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
+[![Version](https://playbadges.pavi2410.com/badge/version?id=dev.lexip.hecate&pretty&fallback=Open+Beta)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+[![Downloads](https://playbadges.pavi2410.com/badge/downloads?id=dev.lexip.hecate&pretty)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+<!---
+[![Ratings](https://playbadges.pavi2410.com/badge/ratings?id=dev.lexip.hecate&pretty)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+-->
 
 ---
 
@@ -22,6 +27,7 @@ This allows for a true auto dark mode experience that native Android doesn't off
 - [✅ Safety](#-safety)
 - [❓ FAQ](#-faq)
 - [❤️ Support the Project](#%EF%B8%8F-support-the-project)
+- [🏗️ Architecture & Tech Stack](#%EF%B8%8F-architecture--tech-stack)
 - [📱 Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
 ---
@@ -61,10 +67,10 @@ Use our browser-based setup tool on a secondary device (Computer, Tablet, or Pho
 installation required (WebADB).
 👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
-#### Method 2: Shizuku (No PC)
+#### Method 2: Shizuku
 
-If you have **Shizuku** installed and configured (via Wireless Debugging or Root), you can grant the
-permission directly within the Adaptive Theme app.
+If you have **[Shizuku](https://github.com/RikkaApps/Shizuku)** installed and configured, you can
+grant the permission directly within the Adaptive Theme app.
 
 #### Method 3: Root
 
@@ -81,12 +87,15 @@ terminal.
 
 **Why didn't the theme change immediately?**
 
-To prevent unnecessary battery drain and screen flickering, Adaptive Theme obeys the following
-rules:
+To prevent unnecessary background activity, screen flickering, and usage interruptions, Adaptive
+Theme adheres to a strict logic:
 
-1. It checks the light sensor only **immediately after the screen turns on**.
-2. It verifies that the light sensor is **not covered**.
-3. It switches the theme **instantly** before you start interacting with the UI.
+* **Smart Trigger**: It checks the light sensor only immediately after the screen turns on.
+
+* **Validity Check**: It verifies that the sensor is not obstructed (e.g., by a hand or pocket).
+
+* **Seamless Transition**: It switches the theme instantly, ensuring the UI is ready before you
+  start interacting with it.
 
 ---
 
@@ -132,10 +141,38 @@ also [buy me a coffee](https://buymeacoffee.com/lexip).
 
 ---
 
-**🇩🇪 Made in Germany** – Engineered with precision (and 🥨 🍺).
+## 🏗️ Architecture & Tech Stack
+
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![Jetpack-Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=Jetpack%20Compose&logoColor=white)](https://developer.android.com/compose)
+[![Material-Design](https://img.shields.io/badge/material%20design-757575?style=for-the-badge&logo=material%20design&logoColor=white)](https://m3.material.io/)
+[![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)](https://gradle.org/)
+[![SonarQube](https://img.shields.io/badge/Sonarqube-5190cf?style=for-the-badge&logoColor=white&logo=sonarr)](https://sonarcloud.io/)
+
+Adaptive Theme is built with modern Android engineering standards to ensure a lightweight,
+maintainable, and production-ready codebase.
+
+**Modern UI:** Written entirely in Kotlin using Jetpack Compose and Material 3 (Material You).
+
+**Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
+
+**Reactive Data:** ViewModels expose data via Kotlin Flows and manage concurrency with Coroutines.
+
+**Persistence:** Type-safe settings storage using Jetpack DataStore.
+
+**Background Work:** Sensor operations run in a dedicated Foreground Service on-demand, utilizing
+scoped coroutines and isolated handlers for stability. Logic triggers only upon screen-on
+broadcasts, ensuring zero unnecessary battery drain in the background.
 
 ---
 
 ## 📱 Screenshots
 
-#### [More Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+**[More Screenshots](https://play.google.com/store/apps/details?id=dev.lexip.hecate)**
+
+---
+
+### 🇩🇪 Made in Germany
+
+**Engineered with precision (and 🥨 🍺).**

@@ -13,10 +13,10 @@ android {
 
 	defaultConfig {
 		applicationId = "dev.lexip.hecate"
-		minSdk = 31
+		minSdk = 34
 		targetSdk = 36
-		versionCode = 52
-		versionName = "0.9.2"
+		versionCode = 55
+		versionName = "0.9.3"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
@@ -31,6 +31,7 @@ android {
 			ndk {
 				debugSymbolLevel = "FULL"
 			}
+			manifestPlaceholders["crashlyticsEnabled"] = true
 		}
 		debug {
 			versionNameSuffix = "-debug"
@@ -38,11 +39,13 @@ android {
 			ndk {
 				debugSymbolLevel = "FULL"
 			}
+			manifestPlaceholders["crashlyticsEnabled"] = false
 		}
 		create("beta") {
 			initWith(getByName("release"))
 			versionNameSuffix = "-beta"
 			isDebuggable = false
+			manifestPlaceholders["crashlyticsEnabled"] = true
 		}
 
 	}
