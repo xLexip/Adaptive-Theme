@@ -31,6 +31,7 @@ android {
 			ndk {
 				debugSymbolLevel = "FULL"
 			}
+			manifestPlaceholders["crashlyticsEnabled"] = true
 		}
 		debug {
 			versionNameSuffix = "-debug"
@@ -38,11 +39,13 @@ android {
 			ndk {
 				debugSymbolLevel = "FULL"
 			}
+			manifestPlaceholders["crashlyticsEnabled"] = false
 		}
 		create("beta") {
 			initWith(getByName("release"))
 			versionNameSuffix = "-beta"
 			isDebuggable = false
+			manifestPlaceholders["crashlyticsEnabled"] = true
 		}
 
 	}
