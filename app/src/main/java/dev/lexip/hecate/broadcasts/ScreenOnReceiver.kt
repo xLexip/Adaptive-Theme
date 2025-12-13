@@ -37,7 +37,21 @@ class ScreenOnReceiver(
 		if (intent.action == Intent.ACTION_SCREEN_ON) {
 			Log.d(TAG, "Screen turned on, checking adaptive theme conditions...")
 
+			// If no proximity sensor is available, fall back to light-sensor-only behavior
+			if (!proximitySensorManager.hasProximitySensor) {
+				Log.d(
+					TAG,
+					"No proximity sensor available; using light sensor only for adaptive theme."
+				)
+				lightSensorManager.startListening({ lightValue: Float ->
+					lightSensorManager.stopListening()
+					darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
+				})
+				return
+			}
+
 			// Check if the device is covered using the proximity sensor
+			Log.d(TAG, "Starting proximity sensor check for adaptive theme.")
 			proximitySensorManager.startListening({ distance: Float ->
 				proximitySensorManager.stopListening()
 
@@ -47,7 +61,9 @@ class ScreenOnReceiver(
 						lightSensorManager.stopListening()
 						darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
 					})
-				} else Log.d(TAG, "Device is covered, skipping adaptive theme checks.")
+				} else {
+					Log.d(TAG, "Device is covered, skipping adaptive theme checks.")
+				}
 			})
 		}
 	}
