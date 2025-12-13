@@ -33,6 +33,12 @@
 		android:required="true"
 		tools:ignore="UnnecessaryRequiredFeature" />
 
+	<uses-feature
+		android:name="android.hardware.sensor.light"
+		android:required="true" />
+
+	<uses-feature android:name="android.hardware.sensor.proximity" />
+
 	<supports-screens
 		android:smallScreens="true"
 		android:normalScreens="true"
@@ -54,8 +60,7 @@
 		android:usesCleartextTraffic="false"
 		android:windowSoftInputMode="adjustResize"
 		android:localeConfig="@xml/locales_config"
-		android:enableOnBackInvokedCallback="true"
-		tools:targetApi="33">
+		android:enableOnBackInvokedCallback="true">
 
 		<!-- Shizuku provider to acquire binder from Shizuku/Sui -->
 		<provider
@@ -70,6 +75,11 @@
 		<meta-data
 			android:name="google_analytics_adid_collection_enabled"
 			android:value="false" />
+
+		<!-- Disables crashlytics for specific build types. -->
+		<meta-data
+			android:name="firebase_crashlytics_collection_enabled"
+			android:value="${crashlyticsEnabled}" />
 
 		<activity
 			android:name=".ui.MainActivity"

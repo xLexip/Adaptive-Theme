@@ -12,6 +12,9 @@
 
 package dev.lexip.hecate.ui.components.preferences
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -107,15 +111,19 @@ private fun SegmentedBrightnessRow(segments: Int, activeIndex: Int, enabled: Boo
 			val isActive = i <= activeIndex
 			val shape = RoundedCornerShape(8.dp)
 
+			// Interpolate between colors for a smooth fade
+			val targetColor = if (enabled && isActive) activeColor else inactiveColor
+			val animatedColor by animateColorAsState(
+				targetColor,
+				animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+			)
+
 			Box(
 				modifier = Modifier
 					.weight(1f)
 					.height(16.dp)
 					.clip(shape)
-					.background(
-						if (enabled && isActive) activeColor
-						else inactiveColor
-					)
+					.background(animatedColor)
 			) {}
 		}
 	}

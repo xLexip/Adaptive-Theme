@@ -16,6 +16,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.SensorManager
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
@@ -47,6 +48,7 @@ import rikka.shizuku.Shizuku
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+private const val TAG = "MainViewModel"
 
 sealed interface UiEvent {
 	data class CopyToClipboard(val text: String) : UiEvent
@@ -110,15 +112,18 @@ class MainViewModel(
 	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
 
-	fun onSetupRequested(packageName: String) {
-		onServiceToggleRequested(
-			checked = true,
-			hasPermission = false,
-			packageName = packageName
-		)
-	}
-
 	private fun startProximityListening() {
+		if (!proximitySensorManager.hasProximitySensor) {
+			Log.w(
+				TAG,
+				"Proximity sensor not available; skipping proximity listening in MainViewModel."
+			)
+			if (_uiState.value.isDeviceCovered) {
+				_uiState.value = _uiState.value.copy(isDeviceCovered = false)
+			}
+			return
+		}
+
 		if (isListeningToProximity) return
 		isListeningToProximity = true
 		proximitySensorManager.startListening({ distance: Float ->
@@ -137,6 +142,14 @@ class MainViewModel(
 		if (_uiState.value.isDeviceCovered) {
 			_uiState.value = _uiState.value.copy(isDeviceCovered = false)
 		}
+	}
+
+	fun onSetupRequested(packageName: String) {
+		onServiceToggleRequested(
+			checked = true,
+			hasPermission = false,
+			packageName = packageName
+		)
 	}
 
 	fun startSensorsIfEnabled() {
