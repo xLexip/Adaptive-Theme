@@ -12,6 +12,9 @@
 
 package dev.lexip.hecate.ui.components.preferences
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -42,6 +45,12 @@ fun DetailPreferenceCard(
 		bottomEnd = if (lastCard) largeRadius else smallRadius,
 	)
 
+	// Animate based on enabled state
+	val animatedAlpha = animateFloatAsState(
+		targetValue = if (enabled) 1f else 0.38f,
+		animationSpec = tween(durationMillis = 250)
+	)
+
 	Card(
 		shape = shape,
 		colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright)
@@ -50,7 +59,8 @@ fun DetailPreferenceCard(
 			modifier = Modifier
 				.fillMaxWidth()
 				.padding(14.dp)
-				.alpha(if (enabled) 1f else 0.38f)
+				.animateContentSize()
+				.alpha(animatedAlpha.value)
 		) {
 			Text(
 				text = title,

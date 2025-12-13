@@ -115,7 +115,7 @@ private fun SegmentedBrightnessRow(segments: Int, activeIndex: Int, enabled: Boo
 			val targetColor = if (enabled && isActive) activeColor else inactiveColor
 			val animatedColor by animateColorAsState(
 				targetColor,
-				animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
+				animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
 			)
 
 			Box(
