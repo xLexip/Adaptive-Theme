@@ -54,8 +54,7 @@
 		android:usesCleartextTraffic="false"
 		android:windowSoftInputMode="adjustResize"
 		android:localeConfig="@xml/locales_config"
-		android:enableOnBackInvokedCallback="true"
-		tools:targetApi="33">
+		android:enableOnBackInvokedCallback="true">
 
 		<!-- Shizuku provider to acquire binder from Shizuku/Sui -->
 		<provider

@@ -13,7 +13,7 @@ android {
 
 	defaultConfig {
 		applicationId = "dev.lexip.hecate"
-		minSdk = 31
+		minSdk = 34
 		targetSdk = 36
 		versionCode = 52
 		versionName = "0.9.2"
