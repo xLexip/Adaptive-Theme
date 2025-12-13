@@ -28,12 +28,24 @@ class ProximitySensorManager(context: Context) : SensorEventListener {
 	private val proximitySensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
 	private lateinit var callback: (Float) -> Unit
 
+	val hasProximitySensor: Boolean
+		get() = proximitySensor != null
+
 	fun startListening(
 		callback: (Float) -> Unit,
 		sensorDelay: Int = SensorManager.SENSOR_DELAY_FASTEST
 	) {
+		if (!hasProximitySensor) {
+			Log.w(
+				TAG,
+				"Proximity sensor not available on this device; startListening() will be a no-op."
+			)
+			return
+		}
+
 		this.callback = callback
 		proximitySensor?.let {
+			Log.d(TAG, "Registering proximity sensor listener...")
 			sensorManager.registerListener(this, it, sensorDelay)
 		}
 	}

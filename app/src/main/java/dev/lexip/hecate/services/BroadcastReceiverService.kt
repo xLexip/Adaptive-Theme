@@ -197,6 +197,19 @@ class BroadcastReceiverService : Service() {
 			lightSensorManager = LightSensorManager(this)
 		if (!this::proximitySensorManager.isInitialized)
 			proximitySensorManager = ProximitySensorManager(this)
+
+		// Log proximity sensor availability for debugging and transparency
+		if (proximitySensorManager.hasProximitySensor) {
+			Log.d(
+				TAG,
+				"Proximity sensor detected; using proximity + light sensors for adaptive theme."
+			)
+		} else {
+			Log.w(
+				TAG,
+				"No proximity sensor detected; using light sensor only for adaptive theme."
+			)
+		}
 	}
 
 }
