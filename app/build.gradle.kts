@@ -15,8 +15,8 @@ android {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 34
 		targetSdk = 36
-		versionCode = 52
-		versionName = "0.9.2"
+		versionCode = 55
+		versionName = "0.9.3"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
