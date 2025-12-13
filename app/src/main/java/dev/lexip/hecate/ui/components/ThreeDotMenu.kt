@@ -85,23 +85,21 @@ fun ThreeDotMenu(
 				)
 
 				// 2) Change Language (Android 13+)
-				if (android.os.Build.VERSION.SDK_INT >= 33) {
-					DropdownMenuItem(
-						text = { Text(text = stringResource(id = R.string.title_change_language)) },
-						onClick = {
-							menuExpanded = false
-							AnalyticsLogger.logOverflowMenuItemClicked(
-								context,
-								"change_language"
-							)
-							val intent =
-								Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
-									data = "package:$packageName".toUri()
-								}
-							context.startActivity(intent)
-						}
-					)
-				}
+				DropdownMenuItem(
+					text = { Text(text = stringResource(id = R.string.title_change_language)) },
+					onClick = {
+						menuExpanded = false
+						AnalyticsLogger.logOverflowMenuItemClicked(
+							context,
+							"change_language"
+						)
+						val intent =
+							Intent(Settings.ACTION_APP_LOCALE_SETTINGS).apply {
+								data = "package:$packageName".toUri()
+							}
+						context.startActivity(intent)
+					}
+				)
 
 				// 3) Send Feedback
 				DropdownMenuItem(
