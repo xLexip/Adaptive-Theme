@@ -12,58 +12,45 @@
 
 package dev.lexip.hecate.ui
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.hardware.SensorManager
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
-import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
-import dev.lexip.hecate.ui.setup.SetupStep
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
-import dev.lexip.hecate.util.shizuku.ShizukuManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import rikka.shizuku.Shizuku
-import java.util.concurrent.atomic.AtomicBoolean
 
 private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 private const val TAG = "MainViewModel"
 
-sealed interface UiEvent {
-	data class CopyToClipboard(val text: String) : UiEvent
-}
+sealed interface UiEvent
+
+data class CopyToClipboard(val text: String) : UiEvent
+data object NavigateToSetup : UiEvent
 
 data class MainUiState(
 	val adaptiveThemeEnabled: Boolean = false,
 	val adaptiveThemeThresholdLux: Float = 1000f,
 	val customAdaptiveThemeThresholdLux: Float? = null,
-	val showSetup: Boolean = false,
-	val setupStep: SetupStep = SetupStep.ENABLE_DEVELOPER_MODE,
 	val hasSetupCompleted: Boolean = false,
-	val hasAutoAdvancedFromDeveloperMode: Boolean = false,
-	val hasAutoAdvancedFromConnectUsb: Boolean = false,
 	val isDeviceCovered: Boolean = false,
 	val isShizukuInstalled: Boolean = false
 )
@@ -93,9 +80,6 @@ class MainViewModel(
 		onBufferOverflow = BufferOverflow.DROP_OLDEST
 	)
 	val uiEvents = _uiEvents.asSharedFlow()
-
-	private val _pendingAdbCommand = MutableStateFlow("")
-	val pendingAdbCommand: StateFlow<String> = _pendingAdbCommand.asStateFlow()
 
 	// Light Sensor
 	private val lightSensorManager = LightSensorManager(application.applicationContext)
@@ -145,14 +129,6 @@ class MainViewModel(
 		}
 	}
 
-	fun onSetupRequested(packageName: String) {
-		onServiceToggleRequested(
-			checked = true,
-			hasPermission = false,
-			packageName = packageName
-		)
-	}
-
 	fun startSensorsIfEnabled() {
 		if (_uiState.value.adaptiveThemeEnabled) {
 			startLightSensorListening()
@@ -165,11 +141,7 @@ class MainViewModel(
 		stopProximityListening()
 	}
 
-	// Temporary variable for custom threshold
 	private var customThresholdTemp: Float? = null
-
-	// Keep a reference to the registered Shizuku listener for removal in onCleared
-	private var registeredShizukuListener: Shizuku.OnRequestPermissionResultListener? = null
 
 	init {
 		viewModelScope.launch {
@@ -198,26 +170,6 @@ class MainViewModel(
 				source = "shizuku_found"
 			)
 		}
-
-		// Create and register the Shizuku permission listener here so it is fully initialized
-		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
-			val granted = grantResult == PackageManager.PERMISSION_GRANTED
-			if (granted && requestCode == REQUEST_CODE_SHIZUKU) {
-				AnalyticsLogger.logServiceEnabled(
-					application.applicationContext,
-					source = "shizuku_permission_granted"
-				)
-				onGrantViaShizukuRequested(application.packageName)
-			} else if (!granted && requestCode == REQUEST_CODE_SHIZUKU) {
-				Toast.makeText(
-					application.applicationContext,
-					application.getString(R.string.shizuku_denied_rationale),
-					Toast.LENGTH_LONG
-				).show()
-			}
-		}
-		registeredShizukuListener = listener
-		Shizuku.addRequestPermissionResultListener(listener)
 	}
 
 	private fun startLightSensorListening() {
@@ -237,7 +189,6 @@ class MainViewModel(
 	}
 
 	override fun onCleared() {
-		registeredShizukuListener?.let { Shizuku.removeRequestPermissionResultListener(it) }
 		stopLightSensorListening()
 		stopProximityListening()
 		super.onCleared()
@@ -249,71 +200,17 @@ class MainViewModel(
 	 */
 	fun onServiceToggleRequested(
 		checked: Boolean,
-		hasPermission: Boolean,
-		packageName: String
+		hasPermission: Boolean
 	): Boolean {
 		if (checked && !hasPermission) {
-			startSetup(packageName)
-			AnalyticsLogger.logPermissionErrorShown(
-				application.applicationContext,
-				reason = "missing_write_secure_settings",
-				attemptedAction = "enable_adaptive_theme"
-			)
+			viewModelScope.launch {
+				_uiEvents.emit(NavigateToSetup)
+			}
 			return false
 		}
 		updateAdaptiveThemeEnabled(checked)
 		return true
 	}
-
-	private fun startSetup(packageName: String) {
-		_pendingAdbCommand.value =
-			"adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-		_uiState.value = _uiState.value.copy(
-			showSetup = true,
-			setupStep = SetupStep.ENABLE_DEVELOPER_MODE
-		)
-	}
-
-	fun goToNextSetupStep() {
-		val next = when (_uiState.value.setupStep) {
-			SetupStep.ENABLE_DEVELOPER_MODE -> SetupStep.CONNECT_USB
-			SetupStep.CONNECT_USB -> SetupStep.GRANT_PERMISSION
-			SetupStep.GRANT_PERMISSION -> SetupStep.GRANT_PERMISSION
-		}
-		_uiState.value = _uiState.value.copy(setupStep = next)
-	}
-
-	fun dismissSetup() {
-		_uiState.value = _uiState.value.copy(showSetup = false)
-	}
-
-	fun recheckWriteSecureSettingsPermission(granted: Boolean) {
-		if (granted) {
-			_uiState.value =
-				_uiState.value.copy(setupStep = SetupStep.GRANT_PERMISSION)
-		}
-	}
-
-	private val setupCompletionHandled = AtomicBoolean(false)
-	fun completeSetup(
-		context: android.content.Context,
-		source: String? = null
-	) {
-		viewModelScope.launch {
-			if (setupCompletionHandled.getAndSet(true)) return@launch
-			if (source != null) AnalyticsLogger.logSetupComplete(context, source)
-
-			withContext(ioDispatcher) {
-				userPreferencesRepository.updateSetupCompleted(true)
-			}
-			withContext(mainDispatcher) {
-				dismissSetup()
-				delay(300L)
-				updateAdaptiveThemeEnabled(true)
-			}
-		}
-	}
-
 
 	private fun updateAdaptiveThemeEnabled(enable: Boolean) {
 		val wasEnabled = _uiState.value.adaptiveThemeEnabled
@@ -404,153 +301,6 @@ class MainViewModel(
 		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
 		application.applicationContext.stopService(intent)
 	}
-
-	fun onGrantViaShizukuRequested(packageName: String) {
-		val context = application.applicationContext
-
-		if (!ShizukuManager.isBinderReady()) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.shizuku_not_ready),
-				Toast.LENGTH_LONG
-			).show()
-			openShizukuAppIfInstalled(context)
-			return
-		}
-
-		if (!ShizukuManager.hasPermission(context)) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.shizuku_request_permission),
-				Toast.LENGTH_LONG
-			).show()
-			ShizukuManager.requestPermission()
-			return
-		}
-
-		viewModelScope.launch(ioDispatcher) {
-			val result = ShizukuManager.executeGrantViaShizuku(context, packageName)
-			AnalyticsLogger.logShizukuGrantResult(context, result, packageName)
-			withContext(mainDispatcher) {
-				when (result) {
-					is ShizukuManager.GrantResult.Success -> {
-						// Setup using Shizuku complete
-						completeSetup(
-							context,
-							source = "shizuku"
-						)
-					}
-
-					is ShizukuManager.GrantResult.ServiceNotRunning -> {
-						Toast.makeText(
-							context,
-							context.getString(R.string.shizuku_not_ready),
-							Toast.LENGTH_LONG
-						).show()
-						openShizukuAppIfInstalled(context)
-					}
-
-					is ShizukuManager.GrantResult.NotAuthorized -> {
-						Toast.makeText(
-							context,
-							context.getString(R.string.shizuku_not_ready),
-							Toast.LENGTH_LONG
-						).show()
-					}
-
-					is ShizukuManager.GrantResult.ShellCommandFailed -> {
-						Toast.makeText(
-							context,
-							context.getString(R.string.shizuku_grant_shell_failed),
-							Toast.LENGTH_LONG
-						).show()
-					}
-
-					is ShizukuManager.GrantResult.Unexpected -> {
-						Toast.makeText(
-							context,
-							context.getString(R.string.shizuku_grant_unexpected),
-							Toast.LENGTH_LONG
-						).show()
-					}
-
-				}
-			}
-		}
-	}
-
-	fun onGrantViaRootRequested(context: android.content.Context, packageName: String) {
-		viewModelScope.launch(ioDispatcher) {
-			val result = tryGrantViaRoot(packageName)
-			withContext(mainDispatcher) {
-				when (result) {
-					RootGrantResult.Success -> {
-						completeSetup(
-							context,
-							source = "root"
-						)
-						Toast.makeText(
-							context,
-							R.string.setup_permission_granted,
-							Toast.LENGTH_SHORT
-						).show()
-					}
-
-					is RootGrantResult.Failure -> {
-						Toast.makeText(
-							context,
-							R.string.setup_root_grant_failed,
-							Toast.LENGTH_SHORT
-						).show()
-					}
-				}
-			}
-		}
-	}
-
-	fun getShizukuPackageName(): String {
-		return SHIZUKU_PACKAGE
-	}
-
-	private sealed interface RootGrantResult {
-		data object Success : RootGrantResult
-		data class Failure(val reason: String) : RootGrantResult
-	}
-
-	private fun tryGrantViaRoot(packageName: String): RootGrantResult {
-		return try {
-			val command = "pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-			val process = Runtime.getRuntime().exec(arrayOf("su", "-c", command))
-			val exitCode = process.waitFor()
-			if (exitCode == 0) {
-				RootGrantResult.Success
-			} else {
-				RootGrantResult.Failure("exit_code_$exitCode")
-			}
-		} catch (e: Exception) {
-			RootGrantResult.Failure(e.javaClass.simpleName)
-		}
-	}
-
-	private fun openShizukuAppIfInstalled(context: android.content.Context) {
-		val pm = context.packageManager
-		try {
-			pm.getPackageInfo(SHIZUKU_PACKAGE, 0)
-			val launchIntent = pm.getLaunchIntentForPackage(SHIZUKU_PACKAGE)
-			if (launchIntent != null) {
-				launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-				context.startActivity(launchIntent)
-			}
-		} catch (_: PackageManager.NameNotFoundException) {
-			// Shizuku not installed
-		} catch (_: ActivityNotFoundException) {
-			// No launchable activity
-		}
-	}
-
-	companion object {
-		private const val REQUEST_CODE_SHIZUKU = 1001
-	}
 }
 
 class MainViewModelFactory(
@@ -558,6 +308,7 @@ class MainViewModelFactory(
 	private val userPreferencesRepository: UserPreferencesRepository,
 	private val darkThemeHandler: DarkThemeHandler
 ) : ViewModelProvider.Factory {
+
 
 	override fun <T : ViewModel> create(modelClass: Class<T>): T {
 		if (modelClass.isAssignableFrom(MainViewModel::class.java)) {

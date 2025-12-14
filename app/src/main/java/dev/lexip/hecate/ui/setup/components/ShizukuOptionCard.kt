@@ -24,6 +24,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +38,8 @@ internal fun ShizukuOptionCard(
 	onClick: () -> Unit,
 ) {
 	if (!isVisible) return
+
+	val haptic = LocalHapticFeedback.current
 
 	ElevatedCard(
 		modifier = Modifier.fillMaxWidth(),
@@ -59,7 +63,10 @@ internal fun ShizukuOptionCard(
 			Spacer(modifier = Modifier.height(8.dp))
 			OutlinedButton(
 				modifier = Modifier.fillMaxWidth(),
-				onClick = onClick
+				onClick = {
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					onClick()
+				}
 			) {
 				Text(
 					text = stringResource(id = R.string.setup_shizuku_action),
