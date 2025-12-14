@@ -22,6 +22,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
+import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.InAppUpdateManager
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
 
 	private var inAppUpdateManager: InAppUpdateManager? = null
 	private lateinit var mainViewModel: MainViewModel
+	private val navigationManager = NavigationManager()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -59,8 +61,10 @@ class MainActivity : ComponentActivity() {
 			val state by mainViewModel.uiState.collectAsState()
 
 			HecateTheme {
-				MainScreen(
-					state
+				AppNavHost(
+					mainViewModel = mainViewModel,
+					uiState = state,
+					navigationManager = navigationManager
 				)
 			}
 		}
