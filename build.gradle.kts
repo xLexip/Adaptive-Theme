@@ -11,7 +11,7 @@ plugins {
 sonar {
 	properties {
 		property("sonar.projectKey", "xLexip_Hecate")
-		property("sonar.projectVersion", "0.6.0")
+		property("sonar.projectVersion", "0.10.0")
 		property("sonar.organization", "xlexip")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.androidLint.reportPaths", "app/build/reports/lint-results-debug.html")
