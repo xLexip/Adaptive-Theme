@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -65,34 +66,44 @@ internal fun rememberPulseScale(isActive: Boolean): Float {
 @Composable
 internal fun WaitingCircle(
 	modifier: Modifier = Modifier,
-	pulseScale: Float,
+	isWaiting: Boolean,
 ) {
-	Icon(
-		imageVector = Icons.Outlined.Circle,
-		contentDescription = null,
-		modifier = modifier
-			.size(32.dp)
-			.scale(pulseScale),
-		tint = MaterialTheme.colorScheme.onSurfaceVariant
-	)
+	val pulseScale = if (isWaiting) rememberPulseScale(isActive = true) else 1f
+
+	if (isWaiting) {
+		Icon(
+			imageVector = Icons.Outlined.Circle,
+			contentDescription = null,
+			modifier = modifier
+				.size(32.dp)
+				.scale(pulseScale),
+			tint = MaterialTheme.colorScheme.onSurfaceVariant
+		)
+	} else {
+		Icon(
+			imageVector = Icons.Filled.CheckCircle,
+			contentDescription = null,
+			modifier = modifier.size(32.dp),
+			tint = MaterialTheme.colorScheme.primary
+		)
+	}
 }
 
 @Composable
 internal fun SetupWaitingCard(
 	title: String,
-	pulseScale: Float,
+	isWaiting: Boolean,
 	onClick: (() -> Unit)? = null,
 ) {
-	val cardColors = CardDefaults.cardColors(
-		containerColor = MaterialTheme.colorScheme.surface,
+	CardDefaults.cardColors(
+		containerColor = MaterialTheme.colorScheme.primaryContainer,
 	)
 
 	Card(
 		onClick = onClick ?: {},
 		enabled = onClick != null,
-		modifier = Modifier
-			.fillMaxWidth(),
-		colors = cardColors
+		modifier = Modifier.fillMaxWidth(),
+		colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
 	) {
 		Row(
 			modifier = Modifier
@@ -106,7 +117,7 @@ internal fun SetupWaitingCard(
 				modifier = Modifier.weight(1f)
 			) {
 				WaitingCircle(
-					pulseScale = pulseScale,
+					isWaiting = isWaiting,
 				)
 				Spacer(modifier = Modifier.width(16.dp))
 				Text(

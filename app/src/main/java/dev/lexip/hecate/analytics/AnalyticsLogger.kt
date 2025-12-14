@@ -25,15 +25,6 @@ object AnalyticsLogger {
 		if (AnalyticsGate.allowed()) block()
 	}
 
-	fun logPermissionErrorShown(context: Context, reason: String, attemptedAction: String) {
-		ifAllowed {
-			analytics(context).logEvent("permission_error_shown") {
-				param("reason", reason)
-				param("attempted_action", attemptedAction)
-			}
-		}
-	}
-
 	fun logServiceEnabled(context: Context, source: String) {
 		ifAllowed {
 			analytics(context).logEvent("adaptive_service_enabled") {

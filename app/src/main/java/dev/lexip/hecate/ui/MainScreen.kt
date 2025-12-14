@@ -57,7 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
@@ -66,7 +65,6 @@ import dev.lexip.hecate.ui.components.ThreeDotMenu
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
-import dev.lexip.hecate.ui.setup.SetupHost
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
@@ -77,7 +75,7 @@ private val horizontalOffsetPadding = 8.dp
 @Composable
 fun MainScreen(
 	uiState: MainUiState,
-	onAboutClick: () -> Unit = {}
+	mainViewModel: MainViewModel
 ) {
 	// Enable top-app-bar collapsing on small devices
 	val windowInfo = LocalWindowInfo.current
@@ -92,14 +90,6 @@ fun MainScreen(
 	val haptic = LocalHapticFeedback.current
 	val packageName = context.packageName
 
-	val mainViewModel: MainViewModel = viewModel(
-		factory = MainViewModelFactory(
-			context.applicationContext as dev.lexip.hecate.Application,
-			dev.lexip.hecate.data.UserPreferencesRepository((context.applicationContext as dev.lexip.hecate.Application).userPreferencesDataStore),
-			dev.lexip.hecate.util.DarkThemeHandler(context)
-		)
-	)
-
 	val internalUiState by mainViewModel.uiState.collectAsState()
 
 	LaunchedEffect(Unit) {
@@ -113,10 +103,14 @@ fun MainScreen(
 	LaunchedEffect(mainViewModel) {
 		mainViewModel.uiEvents.collect { event ->
 			when (event) {
-				is UiEvent.CopyToClipboard -> {
+				is CopyToClipboard -> {
 					val clipboard = context.getSystemService(ClipboardManager::class.java)
 					val clip = ClipData.newPlainText("ADB Command", event.text)
 					clipboard?.setPrimaryClip(clip)
+				}
+
+				is NavigateToSetup -> {
+					// Handled by MainActivity
 				}
 			}
 		}
@@ -154,8 +148,7 @@ fun MainScreen(
 					ThreeDotMenu(
 						isAdaptiveThemeEnabled = uiState.adaptiveThemeEnabled,
 						packageName = packageName,
-						onShowCustomThresholdDialog = { showCustomDialog.value = true },
-						onAboutClick = onAboutClick
+						onShowCustomThresholdDialog = { showCustomDialog.value = true }
 					)
 				},
 				scrollBehavior = scrollBehavior
@@ -191,7 +184,12 @@ fun MainScreen(
 						id = R.string.setup_required_message,
 						stringResource(id = R.string.app_name)
 					),
-					onLaunchSetup = { mainViewModel.onSetupRequested(packageName) },
+					onLaunchSetup = {
+						mainViewModel.onServiceToggleRequested(
+							checked = true,
+							hasPermission = false
+						)
+					},
 					shakeKey = setupShakeKey.intValue,
 				)
 			}
@@ -210,8 +208,7 @@ fun MainScreen(
 					} else {
 						mainViewModel.onServiceToggleRequested(
 							checked,
-							hasWriteSecureSettingsPermission,
-							packageName
+							hasWriteSecureSettingsPermission
 						).also { wasToggled ->
 							if (wasToggled)
 								haptic.performHapticFeedback(
@@ -295,11 +292,6 @@ fun MainScreen(
 		}
 	}
 
-	// Show setup if needed
-	if (internalUiState.showSetup) {
-		SetupHost(viewModel = mainViewModel)
-		return
-	}
 
 	CustomThresholdDialog(
 		show = showCustomDialog.value,

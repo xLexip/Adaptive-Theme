@@ -3,6 +3,7 @@
 	<string name="setup_website_url" translatable="false">lexip.dev/setup</string>
 	<string name="setup_action_adb_command" translatable="false">ADB Command</string>
 
+	<string name="action_back">Back</string>
 	<string name="action_cancel">Cancel</string>
 	<string name="action_close">Close</string>
 	<string name="action_continue">Continue</string>
@@ -68,6 +69,7 @@
 	<string name="setup_usb_debugging_enabled">USB Debugging enabled</string>
 	<string name="setup_usb_debugging_toast">Enable USB Debugging</string>
 	<string name="setup_usb_not_connected">Waiting for USB connection…</string>
+	<string name="setup_usb_connected">USB Connected</string>
 	<string name="setup_why_other_device_title">Why is another device required?</string>
 	<string name="setup_why_other_device">Android prevents apps from granting the required permission themselves. It requires another device with either a web browser or ADB installed. </string>
 	<string name="setup_is_this_safe_title">Is this safe?</string>
