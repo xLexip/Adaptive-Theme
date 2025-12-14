@@ -27,10 +27,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -68,7 +72,16 @@ fun ProgressDetailCard(
 				).coerceIn(-1, segments - 1)
 			}
 
-			SegmentedBrightnessRow(
+			val haptic = LocalHapticFeedback.current
+			val previousIndex = remember { mutableStateOf<Int?>(null) }
+			LaunchedEffect(activeIndex) {
+				val prev = previousIndex.value
+				if (prev != null && prev != activeIndex) {
+					haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+				}
+				previousIndex.value = activeIndex
+			}
+
 				segments = segments,
 				activeIndex = activeIndex,
 				enabled = enabled
@@ -124,7 +137,7 @@ private fun SegmentedBrightnessRow(segments: Int, activeIndex: Int, enabled: Boo
 					.height(16.dp)
 					.clip(shape)
 					.background(animatedColor)
-			) {}
+			)
 		}
 	}
 }
