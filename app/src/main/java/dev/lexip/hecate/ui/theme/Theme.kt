@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import dev.lexip.hecate.R
@@ -44,14 +43,9 @@ fun HecateTheme(
 
 	// Bundle Nunito Font to match system settings design
 	val nunitoFontFamily = FontFamily(
-		Font(R.font.nunito_black, weight = FontWeight.Black),
-		Font(R.font.nunito_extrabold, weight = FontWeight.ExtraBold),
 		Font(R.font.nunito_bold, weight = FontWeight.Bold),
 		Font(R.font.nunito_semibold, weight = FontWeight.SemiBold),
-		Font(R.font.nunito_medium, weight = FontWeight.Medium),
 		Font(R.font.nunito_regular, weight = FontWeight.Normal),
-		Font(R.font.nunito_light, weight = FontWeight.Light),
-		Font(R.font.nunito_italic, weight = FontWeight.Normal, style = FontStyle.Italic)
 	)
 
 	val appTypography = Typography(
@@ -67,6 +61,7 @@ fun HecateTheme(
 		),
 		bodyLarge = TextStyle(
 			fontFamily = nunitoFontFamily,
+			fontWeight = FontWeight.Normal,
 			fontSize = 17.sp
 		),
 		bodySmall = TextStyle(
@@ -86,7 +81,7 @@ fun HecateTheme(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun hecateTopAppBarColors(): TopAppBarColors = TopAppBarDefaults.topAppBarColors(
-	// This represents the top app bar style of the android system settings app in Android 15.
+	// This represents the top app bar style of the stock/pixel android system settings.
 	containerColor = MaterialTheme.colorScheme.surfaceContainer,
 	scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
 	navigationIconContentColor = MaterialTheme.colorScheme.onSurface,
