@@ -59,7 +59,7 @@
 	<string name="setup_developer_options_unlock">Unlock developer options</string>
 	<string name="setup_developer_options_enabled">Developer options enabled</string>
 	<string name="setup_dev_options_toast">Find the Build number and tap it 7 times to enable developer options.</string>
-	<string name="setup_for_experts">Alternatives for experts (ADB or Root)</string>
+	<string name="setup_methods_for_experts">Alternatives for experts</string>
 	<string name="setup_grant_title">Grant permission with the other device</string>
 	<string name="setup_grant_body">Open the following link on your other device and follow the instructions:</string>
 	<string name="setup_manual_command">Alternatively, you can execute this ADB command or use root to grant the permission. Shizuku is also supported.</string>
