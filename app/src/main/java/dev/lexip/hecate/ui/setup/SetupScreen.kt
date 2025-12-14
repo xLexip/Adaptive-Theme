@@ -20,19 +20,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.components.SegmentedProgressIndicator
 import dev.lexip.hecate.ui.setup.steps.A_DeveloperModeStep
 import dev.lexip.hecate.ui.setup.steps.B_ConnectUsbStep
 import dev.lexip.hecate.ui.setup.steps.C_GrantPermissionStep
@@ -66,24 +59,9 @@ fun SetupScreen(
 ) {
 	val totalSteps = SetupStep.entries.size
 	val currentStepIndex = step.ordinal + 1
-	val progress = (currentStepIndex.toFloat() - (0.1).toFloat()) / totalSteps.toFloat()
 
 	Scaffold(
 		containerColor = MaterialTheme.colorScheme.surfaceContainer,
-		topBar = {
-			TopAppBar(
-				title = {
-					Text(
-						text = stringResource(id = R.string.setup_title),
-						fontWeight = FontWeight.Bold
-					)
-				},
-				colors = TopAppBarDefaults.topAppBarColors(
-					containerColor = MaterialTheme.colorScheme.surfaceContainer,
-					titleContentColor = MaterialTheme.colorScheme.onSurface
-				)
-			)
-		}
 	) { paddingValues ->
 		Column(
 			modifier = Modifier
@@ -97,24 +75,13 @@ fun SetupScreen(
 					.padding(horizontal = 24.dp)
 					.padding(top = 16.dp)
 			) {
-				LinearProgressIndicator(
-					progress = { progress },
-					modifier = Modifier
-						.fillMaxWidth()
-						.height(8.dp),
+				// Segmented progress matches the multi-step setup flow visually
+				SegmentedProgressIndicator(
+					segments = totalSteps,
+					activeIndex = currentStepIndex - 1,
+					enabled = true
 				)
-				Spacer(modifier = Modifier.height(8.dp))
-				Text(
-					text = stringResource(
-						id = R.string.setup_step_counter,
-						currentStepIndex,
-						totalSteps
-					),
-					style = MaterialTheme.typography.labelMedium,
-					color = MaterialTheme.colorScheme.onSurfaceVariant,
-					modifier = Modifier.fillMaxWidth(),
-					textAlign = TextAlign.Center
-				)
+
 			}
 
 			Spacer(modifier = Modifier.height(16.dp))
