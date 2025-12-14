@@ -12,6 +12,7 @@
 
 package dev.lexip.hecate.ui.setup.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -156,11 +156,11 @@ private fun SetupWebsiteCard(onShareSetupUrl: () -> Unit) {
 			)
 			Spacer(modifier = Modifier.height(16.dp))
 			OutlinedButton(
+				border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
 				onClick = {
 					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					onShareSetupUrl()
-				},
-				modifier = Modifier.wrapContentWidth()
+				}
 			) {
 				Text(
 					text = stringResource(id = R.string.action_share_url),
