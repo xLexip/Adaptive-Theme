@@ -49,23 +49,21 @@
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 
-	<string name="setup_title">Service Setup</string>
 	<string name="setup_action_open_developer_settings">Open Developer Options</string>
 	<string name="setup_action_open_settings">Open Settings</string>
-	<string name="setup_connect_title">Connect to setup device</string>
+	<string name="setup_connect_title">Step 2: Connect to another device</string>
 	<string name="setup_connect_body">To grant the permission, you need a <b>secondary device</b> (computer, tablet, or phone). Connect this device to it via USB.</string>
-	<string name="setup_developer_mode_title">Enable Developer Mode</string>
+	<string name="setup_developer_mode_title">Step 1: Enable Developer Mode</string>
 	<string name="setup_developer_mode_body">Enable USB-Debugging in the developer options.</string>
 	<string name="setup_developer_options_unlock">Unlock developer options</string>
 	<string name="setup_developer_options_enabled">Developer options enabled</string>
 	<string name="setup_dev_options_toast">Find the Build number and tap it 7 times to enable developer options.</string>
 	<string name="setup_methods_for_experts">Alternatives for experts</string>
-	<string name="setup_grant_title">Grant permission with the other device</string>
+	<string name="setup_grant_title">Step 3: Grant permission with the other device</string>
 	<string name="setup_grant_body">Open the following link on your other device and follow the instructions:</string>
 	<string name="setup_manual_command">Alternatively, you can execute this ADB command or use root to grant the permission. Shizuku is also supported.</string>
 	<string name="setup_permission_granted">Permission granted.</string>
 	<string name="setup_permission_not_granted">Permission not yet granted. Please complete the setup with the other device.</string>
-	<string name="setup_step_counter">Step %1$d of %2$d</string>
 	<string name="setup_usb_debugging_disabled">Enable USB Debugging</string>
 	<string name="setup_usb_debugging_enabled">USB Debugging enabled</string>
 	<string name="setup_usb_debugging_toast">Enable USB Debugging</string>
