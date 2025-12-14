@@ -12,29 +12,25 @@
 
 package dev.lexip.hecate.ui.components.preferences
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.components.SegmentedProgressIndicator
 import dev.lexip.hecate.util.formatLux
 
 @Composable
@@ -68,7 +64,17 @@ fun ProgressDetailCard(
 				).coerceIn(-1, segments - 1)
 			}
 
-			SegmentedBrightnessRow(
+			val haptic = LocalHapticFeedback.current
+			val previousIndex = remember { mutableStateOf<Int?>(null) }
+			LaunchedEffect(activeIndex) {
+				val prev = previousIndex.value
+				if (prev != null && prev != activeIndex) {
+					haptic.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+				}
+				previousIndex.value = activeIndex
+			}
+
+			SegmentedProgressIndicator(
 				segments = segments,
 				activeIndex = activeIndex,
 				enabled = enabled
@@ -96,35 +102,6 @@ fun ProgressDetailCard(
 					)
 				}
 			}
-		}
-	}
-}
-
-@Composable
-private fun SegmentedBrightnessRow(segments: Int, activeIndex: Int, enabled: Boolean) {
-	val sliderColors = androidx.compose.material3.SliderDefaults.colors()
-	val activeColor = sliderColors.activeTrackColor
-	val inactiveColor = sliderColors.inactiveTrackColor
-
-	Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-		for (i in 0 until segments) {
-			val isActive = i <= activeIndex
-			val shape = RoundedCornerShape(8.dp)
-
-			// Interpolate between colors for a smooth fade
-			val targetColor = if (enabled && isActive) activeColor else inactiveColor
-			val animatedColor by animateColorAsState(
-				targetColor,
-				animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
-			)
-
-			Box(
-				modifier = Modifier
-					.weight(1f)
-					.height(16.dp)
-					.clip(shape)
-					.background(animatedColor)
-			) {}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 <resources>
+	<string name="action_back">Zurück</string>
 	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
@@ -44,27 +45,26 @@
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
 
-	<string name="setup_title">Service Setup</string>
 	<string name="setup_action_open_developer_settings">Entwickleroptionen öffnen</string>
 	<string name="setup_action_open_settings">Einstellungen öffnen</string>
-	<string name="setup_connect_title">Mit einem anderen Gerät verbinden</string>
+	<string name="setup_connect_title">Schritt 2: Mit einem anderen Gerät verbinden</string>
 	<string name="setup_connect_body">Um die Berechtigung zu erteilen, benötigst du ein <b>anderes Gerät</b> (Computer, Tablet oder Smartphone). Verbinde dieses Gerät per USB damit.</string>
-	<string name="setup_developer_mode_title">Entwicklermodus aktivieren</string>
+	<string name="setup_developer_mode_title">Schritt 1: Entwicklermodus aktivieren</string>
 	<string name="setup_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="setup_developer_options_unlock">Entwickleroptionen freischalten</string>
 	<string name="setup_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="setup_dev_options_toast">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
-	<string name="setup_for_experts">Alternativen für Experten (ADB oder Root)</string>
-	<string name="setup_grant_title">Berechtigung mit dem anderen Gerät erteilen</string>
+	<string name="setup_methods_for_experts">Alternativen für Experten</string>
+	<string name="setup_grant_title">Schritt 3: Berechtigung mit dem anderen Gerät erteilen</string>
 	<string name="setup_grant_body">Öffne den folgenden Link auf deinem anderen Gerät und folge den Anweisungen:</string>
 	<string name="setup_manual_command">Alternativ kannst du diesen ADB-Command ausführen oder Root benutzen. Shizuku wird ebenfalls unterstützt.</string>
 	<string name="setup_permission_granted">Berechtigung erteilt.</string>
 	<string name="setup_permission_not_granted">Berechtigung noch nicht erteilt. Bitte schließe die Einrichtung mit dem anderen Gerät ab.</string>
-	<string name="setup_step_counter">Schritt %1$d von %2$d</string>
 	<string name="setup_usb_debugging_disabled">USB-Debugging aktivieren</string>
 	<string name="setup_usb_debugging_enabled">USB-Debugging aktiviert</string>
 	<string name="setup_usb_debugging_toast">Aktiviere USB-Debugging</string>
 	<string name="setup_usb_not_connected">Warte auf USB-Verbindung…</string>
+	<string name="setup_usb_connected">USB verbunden</string>
 	<string name="setup_why_other_device_title">Warum ist ein anderes Gerät nötig?</string>
 	<string name="setup_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein anderes Gerät mit einem Webbrowser oder ADB benötigt.</string>
 	<string name="setup_is_this_safe_title">Ist das sicher?</string>
@@ -86,5 +86,4 @@
 	<string name="shizuku_request_permission">Frage Berechtigung an…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
-
 </resources>

@@ -43,7 +43,7 @@ fun SetupRequiredCard(
 		if (shakeKey > 0) {
 			val offsets = listOf(-12f, 12f, -8f, 8f, -4f, 4f, 0f)
 			for (o in offsets) {
-				offsetAnim.animateTo(o, animationSpec = tween(durationMillis = 80))
+				offsetAnim.animateTo(o, animationSpec = tween(durationMillis = 100))
 			}
 		}
 	}

@@ -10,7 +10,7 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.ui.setup.steps
+package dev.lexip.hecate.ui.setup.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -44,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
+import dev.lexip.hecate.ui.setup.SetupUiState
 import dev.lexip.hecate.ui.setup.components.ShizukuOptionCard
 import dev.lexip.hecate.ui.setup.components.StepNavigationRow
 
@@ -60,81 +62,98 @@ data class ActionConfig(
 )
 
 @Composable
-internal fun A_DeveloperModeStep(
-	isDeveloperOptionsEnabled: Boolean,
-	isUsbDebuggingEnabled: Boolean,
-	isShizukuInstalled: Boolean,
+fun A_DeveloperModeScreen(
+	uiState: SetupUiState,
 	onGrantViaShizuku: () -> Unit,
 	onNext: () -> Unit,
 	onExit: () -> Unit,
-	actions: DeveloperModeActions,
+	onOpenSettings: () -> Unit,
+	onOpenDeveloperSettings: () -> Unit,
 ) {
 	val haptic = LocalHapticFeedback.current
-	val bothEnabled = isDeveloperOptionsEnabled && isUsbDebuggingEnabled
+	val stepComplete = uiState.isDeveloperOptionsEnabled && uiState.isUsbDebuggingEnabled
 
-	LaunchedEffect(isDeveloperOptionsEnabled, isUsbDebuggingEnabled) {
-		if (isDeveloperOptionsEnabled) {
+
+	// Haptic feedback when developer options get enabled
+	val prevDevOptionsEnabled =
+		remember { androidx.compose.runtime.mutableStateOf(uiState.isDeveloperOptionsEnabled) }
+	LaunchedEffect(uiState.isDeveloperOptionsEnabled) {
+		if (uiState.isDeveloperOptionsEnabled && !prevDevOptionsEnabled.value) {
 			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
-		if (isUsbDebuggingEnabled) {
+		prevDevOptionsEnabled.value = uiState.isDeveloperOptionsEnabled
+	}
+
+	// Haptic feedback when usb debugging gets enabled
+	val prevUsbDebuggingEnabled =
+		remember { androidx.compose.runtime.mutableStateOf(uiState.isUsbDebuggingEnabled) }
+	LaunchedEffect(uiState.isUsbDebuggingEnabled) {
+		if (uiState.isUsbDebuggingEnabled && !prevUsbDebuggingEnabled.value) {
 			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
+		prevUsbDebuggingEnabled.value = uiState.isUsbDebuggingEnabled
 	}
 
-	LaunchedEffect(bothEnabled) {
-		if (bothEnabled) {
-			onNext()
-		}
-	}
+	SetupScreenScaffold(
+		currentStepIndex = 0,
+		totalSteps = 3
+	) {
+		Column(modifier = Modifier.fillMaxSize()) {
+			Column(
+				modifier = Modifier
+					.weight(1f)
+					.verticalScroll(rememberScrollState()),
+				verticalArrangement = Arrangement.spacedBy(24.dp)
+			) {
+				Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+					Text(
+						text = stringResource(id = R.string.setup_developer_mode_title),
+						style = MaterialTheme.typography.headlineMedium,
+						fontWeight = FontWeight.Bold
+					)
+					Text(
+						text = stringResource(id = R.string.setup_developer_mode_body),
+						style = MaterialTheme.typography.bodyLarge,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
+					)
+				}
 
-	Column(modifier = Modifier.fillMaxSize()) {
-		Column(
-			modifier = Modifier
-				.weight(1f)
-				.verticalScroll(rememberScrollState()),
-			verticalArrangement = Arrangement.spacedBy(24.dp)
-		) {
-			Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-				Text(
-					text = stringResource(id = R.string.setup_developer_mode_title),
-					style = MaterialTheme.typography.headlineMedium,
-					fontWeight = FontWeight.Bold
+				DeveloperOptionsCard(
+					isEnabled = uiState.isDeveloperOptionsEnabled,
+					onOpenSettings = {
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+						onOpenSettings()
+					}
 				)
-				Text(
-					text = stringResource(id = R.string.setup_developer_mode_body),
-					style = MaterialTheme.typography.bodyLarge,
-					color = MaterialTheme.colorScheme.onSurfaceVariant
+
+				UsbDebuggingCard(
+					isEnabled = uiState.isUsbDebuggingEnabled,
+					isDeveloperOptionsEnabled = uiState.isDeveloperOptionsEnabled,
+					onOpenDeveloperSettings = {
+						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+						onOpenDeveloperSettings()
+					}
 				)
+				if (!uiState.isDeveloperOptionsEnabled || !uiState.isUsbDebuggingEnabled)
+					ShizukuOptionCard(
+						isVisible = uiState.isShizukuInstalled,
+						onClick = onGrantViaShizuku
+					)
 			}
 
-			DeveloperOptionsCard(
-				isEnabled = isDeveloperOptionsEnabled,
-				onOpenSettings = actions.onOpenSettings
-			)
-
-			UsbDebuggingCard(
-				isEnabled = isUsbDebuggingEnabled,
-				isDeveloperOptionsEnabled = isDeveloperOptionsEnabled,
-				onOpenDeveloperSettings = actions.onOpenDeveloperSettings
-			)
-
-			ShizukuOptionCard(
-				isVisible = isShizukuInstalled,
-				onClick = onGrantViaShizuku
+			// Step 1: Close button (left) + Next button (right, enabled when step complete)
+			StepNavigationRow(
+				leftTextRes = R.string.action_close,
+				onLeft = onExit,
+				rightTextRes = R.string.action_continue,
+				onRight = {
+					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+					onNext()
+				},
+				rightEnabled = stepComplete,
+				rightIsPrimary = true
 			)
 		}
-
-		StepNavigationRow(
-			leftTextRes = R.string.action_close,
-			onLeft = onExit,
-			rightTextRes = R.string.action_continue,
-			onRight = {
-				haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-				onNext()
-			},
-			rightEnabled = bothEnabled,
-			rightIsPrimary = true
-		)
 	}
 }
 
@@ -254,3 +273,4 @@ private fun UsbDebuggingCard(
 		)
 	)
 }
+
