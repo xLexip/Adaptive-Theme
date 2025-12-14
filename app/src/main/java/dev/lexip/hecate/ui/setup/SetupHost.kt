@@ -228,6 +228,7 @@ fun SetupHost(
 			}
 		},
 		onExit = {
+			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 			viewModel.dismissSetup()
 		},
 		onOpenSettings = {

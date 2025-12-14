@@ -37,6 +37,7 @@ import dev.lexip.hecate.util.shizuku.ShizukuManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -301,9 +302,15 @@ class MainViewModel(
 		viewModelScope.launch {
 			if (setupCompletionHandled.getAndSet(true)) return@launch
 			if (source != null) AnalyticsLogger.logSetupComplete(context, source)
-			userPreferencesRepository.updateSetupCompleted(true)
-			dismissSetup()
-			updateAdaptiveThemeEnabled(true)
+
+			withContext(ioDispatcher) {
+				userPreferencesRepository.updateSetupCompleted(true)
+			}
+			withContext(mainDispatcher) {
+				dismissSetup()
+				delay(300L)
+				updateAdaptiveThemeEnabled(true)
+			}
 		}
 	}
 
