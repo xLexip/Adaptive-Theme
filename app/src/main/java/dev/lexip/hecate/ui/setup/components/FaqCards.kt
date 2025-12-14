@@ -12,6 +12,14 @@
 
 package dev.lexip.hecate.ui.setup.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,6 +42,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,7 +64,9 @@ internal fun WhyOtherDeviceCard() {
 			containerColor = MaterialTheme.colorScheme.surface
 		)
 	) {
-		Column(modifier = Modifier.padding(16.dp)) {
+		Column(modifier = Modifier
+			.padding(16.dp)
+			.animateContentSize()) {
 			Row(
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
@@ -70,15 +80,32 @@ internal fun WhyOtherDeviceCard() {
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					modifier = Modifier.weight(1f)
 				)
+				val rotation by animateFloatAsState(
+					targetValue = if (expanded) 180f else 0f,
+					animationSpec = tween(durationMillis = 300)
+				)
 				IconButton(onClick = { expanded = !expanded }) {
 					Icon(
-						imageVector = if (expanded) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,
-						contentDescription = null
+						imageVector = Icons.Outlined.ExpandMore,
+						contentDescription = null,
+						modifier = Modifier.rotate(rotation)
 					)
 				}
 			}
 
-			if (expanded) {
+			AnimatedVisibility(
+				visible = expanded,
+				enter = fadeIn(animationSpec = tween(200)) + expandVertically(
+					animationSpec = tween(
+						300
+					)
+				),
+				exit = fadeOut(animationSpec = tween(150)) + shrinkVertically(
+					animationSpec = tween(
+						200
+					)
+				)
+			) {
 				Spacer(modifier = Modifier.height(4.dp))
 				Text(
 					text = stringResource(id = R.string.setup_why_other_device),
@@ -100,7 +127,9 @@ internal fun IsThisSafeCard() {
 			containerColor = MaterialTheme.colorScheme.surface
 		)
 	) {
-		Column(modifier = Modifier.padding(16.dp)) {
+		Column(modifier = Modifier
+			.padding(16.dp)
+			.animateContentSize()) {
 			Row(
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
@@ -114,15 +143,32 @@ internal fun IsThisSafeCard() {
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
 					modifier = Modifier.weight(1f)
 				)
+				val rotation by animateFloatAsState(
+					targetValue = if (expanded) 180f else 0f,
+					animationSpec = tween(durationMillis = 300)
+				)
 				IconButton(onClick = { expanded = !expanded }) {
 					Icon(
-						imageVector = if (expanded) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore,
-						contentDescription = null
+						imageVector = Icons.Outlined.ExpandMore,
+						contentDescription = null,
+						modifier = Modifier.rotate(rotation)
 					)
 				}
 			}
 
-			if (expanded) {
+			AnimatedVisibility(
+				visible = expanded,
+				enter = fadeIn(animationSpec = tween(200)) + expandVertically(
+					animationSpec = tween(
+						300
+					)
+				),
+				exit = fadeOut(animationSpec = tween(150)) + shrinkVertically(
+					animationSpec = tween(
+						200
+					)
+				)
+			) {
 				Spacer(modifier = Modifier.height(4.dp))
 				Text(
 					text = stringResource(id = R.string.setup_is_this_safe_body),
