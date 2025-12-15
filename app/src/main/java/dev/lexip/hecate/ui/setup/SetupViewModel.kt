@@ -159,9 +159,10 @@ class SetupViewModel(
 			} else if (!granted && requestCode == REQUEST_CODE_SHIZUKU) {
 				Toast.makeText(
 					application.applicationContext,
-					application.getString(R.string.shizuku_denied_rationale),
+					application.getString(R.string.shizuku_denied),
 					Toast.LENGTH_LONG
 				).show()
+				openShizukuAppIfInstalled()
 			}
 		}
 		registeredShizukuListener = listener
@@ -420,7 +421,7 @@ class SetupViewModel(
 
 			val context = application.applicationContext
 			AnalyticsLogger.logSetupComplete(context, source)
-			
+
 
 			withContext(ioDispatcher) {
 				userPreferencesRepository.updateSetupCompleted(true)
@@ -526,7 +527,7 @@ class SetupViewModel(
 			Toast.makeText(
 				context,
 				context.getString(R.string.shizuku_request_permission),
-				Toast.LENGTH_LONG
+				Toast.LENGTH_SHORT
 			).show()
 			ShizukuManager.requestPermission()
 			return
