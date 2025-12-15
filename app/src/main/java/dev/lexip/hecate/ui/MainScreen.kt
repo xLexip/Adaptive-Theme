@@ -167,14 +167,23 @@ fun MainScreen(
 				.padding(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(rememberScrollState()),
-			verticalArrangement = Arrangement.spacedBy(24.dp)
+			verticalArrangement = Arrangement.spacedBy(28.dp)
 
 		) {
-			Text(
-				modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
-				text = stringResource(id = R.string.description_adaptive_theme),
-				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
-			)
+			Column {
+				Text(
+					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
+					text = stringResource(id = R.string.description_service_purpose),
+					style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
+				)
+				Spacer(modifier = Modifier.padding(top = 8.dp))
+				Text(
+					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
+					text = stringResource(id = R.string.description_switching_conditions),
+					style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
+				)
+			}
+
 
 			// Setup card shown when the required permission has not been granted yet
 			if (!hasWriteSecureSettingsPermission) {

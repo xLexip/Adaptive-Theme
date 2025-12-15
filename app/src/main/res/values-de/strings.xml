@@ -10,9 +10,13 @@
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
 	<string name="action_skip">Überspringen</string>
 
-	<string name="description_adaptive_theme">
-        Wechselt automatisch zwischen Hell- und Dunkelmodus basierend auf dem Umgebungslicht. Das spart Akku und verbessert die Lesbarkeit. Das Design ändert sich nur direkt nachdem du den Bildschirm einschaltest und nur, wenn der Sensor nicht verdeckt ist.
+	<string name="description_service_purpose">
+        Wechselt je nach Helligkeit der Umgebung zwischen dem hellen und dunklen Modus und optimiert so Augenkomfort und Akkulaufzeit.
     </string>
+
+	<string name="description_switching_conditions">
+		Änderungen erfolgen nur direkt nach Einschalten des Bildschirms, sofern der Sensor nicht bedeckt ist.
+	</string>
 
 	<string name="description_notification_service_running">
        Passt das Systemdesign an die Umgebungshelligkeit an.
