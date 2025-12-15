@@ -27,7 +27,6 @@ import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
-import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -159,16 +158,6 @@ class MainViewModel(
 					stopSensors()
 				}
 			}
-		}
-
-		// Log when Shizuku is present on the device
-		val hasShizuku =
-			ShizukuAvailability.isShizukuInstalled(application.applicationContext)
-		if (hasShizuku) {
-			AnalyticsLogger.logServiceEnabled(
-				application.applicationContext,
-				source = "shizuku_found"
-			)
 		}
 	}
 

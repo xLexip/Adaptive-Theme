@@ -16,6 +16,7 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -166,14 +167,23 @@ fun MainScreen(
 				.padding(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(rememberScrollState()),
-			verticalArrangement = Arrangement.spacedBy(24.dp)
+			verticalArrangement = Arrangement.spacedBy(28.dp)
 
 		) {
-			Text(
-				modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
-				text = stringResource(id = R.string.description_adaptive_theme),
-				style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
-			)
+			Column {
+				Text(
+					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
+					text = stringResource(id = R.string.description_service_purpose),
+					style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
+				)
+				Spacer(modifier = Modifier.padding(top = 8.dp))
+				Text(
+					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
+					text = stringResource(id = R.string.description_switching_conditions),
+					style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
+				)
+			}
+
 
 			// Setup card shown when the required permission has not been granted yet
 			if (!hasWriteSecureSettingsPermission) {
@@ -299,6 +309,13 @@ fun MainScreen(
 		onConfirm = { luxValue: Float ->
 			mainViewModel.setCustomAdaptiveThemeThreshold(luxValue)
 			showCustomDialog.value = false
+			if (luxValue.toInt() == 42) {
+				Toast.makeText(
+					context,
+					"The answer to the ultimate question of life, the universe, and everything.",
+					Toast.LENGTH_LONG
+				).show()
+			}
 		},
 		onDismiss = { showCustomDialog.value = false }
 	)

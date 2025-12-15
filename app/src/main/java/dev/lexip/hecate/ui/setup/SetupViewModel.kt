@@ -118,10 +118,6 @@ class SetupViewModel(
 				hasWriteSecureSettings = checkWriteSecureSettingsPermission(context)
 			)
 		}
-
-		if (hasShizuku) {
-			AnalyticsLogger.logServiceEnabled(context, source = "shizuku_found")
-		}
 	}
 
 	private fun determineInitialStep() {
@@ -163,9 +159,10 @@ class SetupViewModel(
 			} else if (!granted && requestCode == REQUEST_CODE_SHIZUKU) {
 				Toast.makeText(
 					application.applicationContext,
-					application.getString(R.string.shizuku_denied_rationale),
+					application.getString(R.string.shizuku_denied),
 					Toast.LENGTH_LONG
 				).show()
+				openShizukuAppIfInstalled()
 			}
 		}
 		registeredShizukuListener = listener
@@ -173,7 +170,11 @@ class SetupViewModel(
 	}
 
 	private fun logSetupStarted() {
-		AnalyticsLogger.logSetupStarted(application.applicationContext)
+		val hasShizuku = _uiState.value.isShizukuInstalled
+		AnalyticsLogger.logSetupStarted(
+			context = application.applicationContext,
+			hasShizuku = hasShizuku
+		)
 	}
 
 	/**
@@ -419,9 +420,8 @@ class SetupViewModel(
 			if (setupCompletionHandled.getAndSet(true)) return@launch
 
 			val context = application.applicationContext
-			if (source != null) {
-				AnalyticsLogger.logSetupComplete(context, source)
-			}
+			AnalyticsLogger.logSetupComplete(context, source)
+
 
 			withContext(ioDispatcher) {
 				userPreferencesRepository.updateSetupCompleted(true)
@@ -527,7 +527,7 @@ class SetupViewModel(
 			Toast.makeText(
 				context,
 				context.getString(R.string.shizuku_request_permission),
-				Toast.LENGTH_LONG
+				Toast.LENGTH_SHORT
 			).show()
 			ShizukuManager.requestPermission()
 			return
