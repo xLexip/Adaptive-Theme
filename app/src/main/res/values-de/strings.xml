@@ -86,8 +86,8 @@
 
 	<string name="title_live_measurement">Live-Wert</string>
 	<string name="shizuku_not_ready">Starte Shizuku und versuche es erneut.</string>
-	<string name="shizuku_denied_rationale">Aktiviere Adaptive Theme in Shizuku. Zugriff verweigert.</string>
-	<string name="shizuku_request_permission">Frage Berechtigung an…</string>
+	<string name="shizuku_denied">Zugriff verweigert. Erlauben Sie diese App in Shizuku.</string>
+	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
 </resources>

@@ -90,7 +90,7 @@
 	<string name="action_start_setup">Start Setup</string>
 
 	<string name="shizuku_not_ready">Start Shizuku and try again.</string>
-	<string name="shizuku_denied_rationale">Enable Adaptive Theme in Shizuku. Access denied.</string>
+	<string name="shizuku_denied">Access denied. Permit this app in Shizuku.</string>
 	<string name="shizuku_request_permission">Requesting permission…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
