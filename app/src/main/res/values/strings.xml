@@ -14,9 +14,13 @@
 	<string name="action_skip">Skip</string>
 	<string name="action_use_adaptive_theme">Use %1$s</string>
 
-	<string name="description_adaptive_theme">
-        Automatically switches between Light and Dark mode based on ambient light. This saves battery and improves readability. The theme only changes right after you turn the screen on and only when the sensor is not covered.
-    </string>
+	<string name="description_service_purpose">
+		Switches between light and dark mode based on ambient light, optimizing eye comfort and battery life.
+	</string>
+
+	<string name="description_switching_conditions">
+		Changes only occur immediately after the screen is turned on, provided the sensor is not covered.
+	</string>
 
 	<string name="description_notification_service_running">
 		Adjusting the system theme based on ambient brightness.
