@@ -90,9 +90,11 @@ object AnalyticsLogger {
 		}
 	}
 
-	fun logSetupStarted(context: Context) {
+	fun logSetupStarted(context: Context, hasShizuku: Boolean) {
 		ifAllowed {
-			analytics(context).logEvent("setup_started") { }
+			analytics(context).logEvent("setup_started") {
+				param("has_shizuku", if (hasShizuku) 1L else 0L)
+			}
 		}
 	}
 

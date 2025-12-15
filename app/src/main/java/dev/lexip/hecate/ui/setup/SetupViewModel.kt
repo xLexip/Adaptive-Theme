@@ -118,10 +118,6 @@ class SetupViewModel(
 				hasWriteSecureSettings = checkWriteSecureSettingsPermission(context)
 			)
 		}
-
-		if (hasShizuku) {
-			AnalyticsLogger.logServiceEnabled(context, source = "shizuku_found")
-		}
 	}
 
 	private fun determineInitialStep() {
@@ -173,7 +169,11 @@ class SetupViewModel(
 	}
 
 	private fun logSetupStarted() {
-		AnalyticsLogger.logSetupStarted(application.applicationContext)
+		val hasShizuku = _uiState.value.isShizukuInstalled
+		AnalyticsLogger.logSetupStarted(
+			context = application.applicationContext,
+			hasShizuku = hasShizuku
+		)
 	}
 
 	/**
@@ -419,9 +419,8 @@ class SetupViewModel(
 			if (setupCompletionHandled.getAndSet(true)) return@launch
 
 			val context = application.applicationContext
-			if (source != null) {
-				AnalyticsLogger.logSetupComplete(context, source)
-			}
+			AnalyticsLogger.logSetupComplete(context, source)
+			
 
 			withContext(ioDispatcher) {
 				userPreferencesRepository.updateSetupCompleted(true)
