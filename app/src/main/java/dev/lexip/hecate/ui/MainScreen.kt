@@ -16,6 +16,7 @@ import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -299,6 +300,13 @@ fun MainScreen(
 		onConfirm = { luxValue: Float ->
 			mainViewModel.setCustomAdaptiveThemeThreshold(luxValue)
 			showCustomDialog.value = false
+			if (luxValue.toInt() == 42) {
+				Toast.makeText(
+					context,
+					"The answer to the ultimate question of life, the universe, and everything.",
+					Toast.LENGTH_LONG
+				).show()
+			}
 		},
 		onDismiss = { showCustomDialog.value = false }
 	)
