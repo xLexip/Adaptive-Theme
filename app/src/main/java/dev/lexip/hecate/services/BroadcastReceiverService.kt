@@ -19,6 +19,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
 import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
@@ -82,7 +83,20 @@ class BroadcastReceiverService : Service() {
 		// Start foreground immediately to comply with O+ requirements
 		createNotificationChannel()
 		val initialNotification = buildNotification()
-		startForeground(1, initialNotification)
+		try {
+			startForeground(
+				1,
+				initialNotification,
+				ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+			)
+		} catch (e: Exception) {
+			/**
+			 *  Catch required because some Android 14 ROMs (HyperOS/MIUI) are broken
+			 * 	and throw false-positive SecurityExceptions for valid FGS types.
+			 */
+			startForeground(1, initialNotification)
+		}
+
 
 		// Load user preferences from data store
 		serviceScope.launch {
