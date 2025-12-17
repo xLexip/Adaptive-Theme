@@ -17,7 +17,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dev.lexip.hecate.analytics.AnalyticsGate
 
 const val USER_PREFERENCES_NAME = "user_preferences"
@@ -34,9 +33,5 @@ class Application : Application() {
 	override fun onCreate() {
 		super.onCreate()
 		AnalyticsGate.init(this)
-		
-		if (BuildConfig.DEBUG) {
-			FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = false
-		}
 	}
 }
