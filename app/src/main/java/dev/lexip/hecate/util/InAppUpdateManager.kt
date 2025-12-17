@@ -109,7 +109,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 				val meetsImmediateStaleness =
 					staleness != null && staleness >= DAYS_FOR_IMMEDIATE_UPDATE
 				val meetsFlexibleStaleness =
-					staleness != null && staleness >= DAYS_FOR_FLEXIBLE_UPDATE
+					staleness == null || staleness >= DAYS_FOR_FLEXIBLE_UPDATE
 				val meetsImmediatePriority = priority >= MIN_PRIORITY_FOR_IMMEDIATE
 				val meetsFlexiblePriority = priority >= MIN_PRIORITY_FOR_FLEXIBLE
 
