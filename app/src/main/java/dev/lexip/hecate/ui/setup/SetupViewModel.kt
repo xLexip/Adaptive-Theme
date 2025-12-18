@@ -29,8 +29,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
-import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.navigation.NavigationEvent
 import dev.lexip.hecate.ui.navigation.NavigationManager
@@ -137,13 +137,13 @@ class SetupViewModel(
 			}
 			step1AutoAdvanceTriggered = true
 			step2AutoAdvanceTriggered = true
-			AnalyticsLogger.logSetupStepOneCompleted(context)
-			AnalyticsLogger.logSetupStepTwoCompleted(context)
+			Logger.logSetupStepOneCompleted(context)
+			Logger.logSetupStepTwoCompleted(context)
 			navigateToStep(SetupRoute.GrantPermission)
 		} else if (step1Done) {
 			_uiState.update { it.copy(isStep1Complete = true) }
 			step1AutoAdvanceTriggered = true
-			AnalyticsLogger.logSetupStepOneCompleted(context)
+			Logger.logSetupStepOneCompleted(context)
 			navigateToStep(SetupRoute.ConnectUsb)
 		}
 	}
@@ -152,7 +152,7 @@ class SetupViewModel(
 		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
 			val granted = grantResult == PackageManager.PERMISSION_GRANTED
 			if (granted && requestCode == REQUEST_CODE_SHIZUKU) {
-				AnalyticsLogger.logServiceEnabled(
+				Logger.logServiceEnabled(
 					application.applicationContext,
 					source = "shizuku_permission_granted"
 				)
@@ -172,7 +172,7 @@ class SetupViewModel(
 
 	private fun logSetupStarted() {
 		val hasShizuku = _uiState.value.isShizukuInstalled
-		AnalyticsLogger.logSetupStarted(
+		Logger.logSetupStarted(
 			context = application.applicationContext,
 			hasShizuku = hasShizuku
 		)
@@ -230,7 +230,7 @@ class SetupViewModel(
 		}
 		if (stepComplete && !step1AutoAdvanceTriggered) {
 			step1AutoAdvanceTriggered = true
-			AnalyticsLogger.logSetupStepOneCompleted(application.applicationContext)
+			Logger.logSetupStepOneCompleted(application.applicationContext)
 			startAutoAdvanceCountdown { navigateToStep(SetupRoute.ConnectUsb) }
 		}
 	}
@@ -243,7 +243,7 @@ class SetupViewModel(
 		}
 		if (stepComplete && !step2AutoAdvanceTriggered) {
 			step2AutoAdvanceTriggered = true
-			AnalyticsLogger.logSetupStepTwoCompleted(application.applicationContext)
+			Logger.logSetupStepTwoCompleted(application.applicationContext)
 			startAutoAdvanceCountdown { navigateToStep(SetupRoute.GrantPermission) }
 		}
 	}
@@ -423,7 +423,7 @@ class SetupViewModel(
 			stopEnvironmentMonitoring()
 
 			val context = application.applicationContext
-			AnalyticsLogger.logSetupComplete(context, source)
+			Logger.logSetupComplete(context, source)
 
 			// Activate Adaptive Theme
 			withContext(ioDispatcher) {
@@ -436,7 +436,7 @@ class SetupViewModel(
 					Intent(application.applicationContext, BroadcastReceiverService::class.java)
 				ContextCompat.startForegroundService(application.applicationContext, intent)
 
-				AnalyticsLogger.logServiceEnabled(
+				Logger.logServiceEnabled(
 					application.applicationContext,
 					source = "setup_complete"
 				)
@@ -474,7 +474,7 @@ class SetupViewModel(
 			})
 		}
 	}
-	
+
 	fun shareAdbCommand() {
 		val context = application.applicationContext
 		val sendIntent = Intent().apply {
@@ -536,7 +536,7 @@ class SetupViewModel(
 
 		viewModelScope.launch(ioDispatcher) {
 			val result = ShizukuManager.executeGrantViaShizuku(context, packageName)
-			AnalyticsLogger.logShizukuGrantResult(context, result, packageName)
+			Logger.logShizukuGrantResult(context, result, packageName)
 			withContext(mainDispatcher) {
 				when (result) {
 					is ShizukuManager.GrantResult.Success -> {

@@ -10,19 +10,19 @@
  * Please see the License for specific terms regarding permissions and limitations.
  */
 
-package dev.lexip.hecate.analytics
+package dev.lexip.hecate.logging
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.logEvent
 
-object AnalyticsLogger {
+object Logger {
 
 	private fun analytics(context: Context): FirebaseAnalytics =
 		FirebaseAnalytics.getInstance(context)
 
 	private inline fun ifAllowed(block: () -> Unit) {
-		if (AnalyticsGate.allowed()) block()
+		if (LoggerGate.allowed()) block()
 	}
 
 	fun logServiceEnabled(context: Context, source: String) {

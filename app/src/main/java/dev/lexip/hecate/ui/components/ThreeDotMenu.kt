@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
-import dev.lexip.hecate.analytics.AnalyticsGate
-import dev.lexip.hecate.analytics.AnalyticsLogger
+import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.util.InstallSourceChecker
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -73,7 +73,7 @@ fun ThreeDotMenu(
 					enabled = isAdaptiveThemeEnabled,
 					onClick = {
 						menuExpanded = false
-						AnalyticsLogger.logOverflowMenuItemClicked(
+						Logger.logOverflowMenuItemClicked(
 							context,
 							"custom_threshold"
 						)
@@ -88,7 +88,7 @@ fun ThreeDotMenu(
 					text = { Text(text = stringResource(id = R.string.title_change_language)) },
 					onClick = {
 						menuExpanded = false
-						AnalyticsLogger.logOverflowMenuItemClicked(
+						Logger.logOverflowMenuItemClicked(
 							context,
 							"change_language"
 						)
@@ -105,7 +105,7 @@ fun ThreeDotMenu(
 					text = { Text(text = stringResource(id = R.string.title_send_feedback)) },
 					onClick = {
 						menuExpanded = false
-						AnalyticsLogger.logOverflowMenuItemClicked(
+						Logger.logOverflowMenuItemClicked(
 							context,
 							"send_feedback"
 						)
@@ -121,13 +121,15 @@ fun ThreeDotMenu(
 					}
 				)
 
-				// 4) Beta Feedback (only on beta builds)
-				if (BuildConfig.VERSION_NAME.contains("-beta") && AnalyticsGate.isPlayStoreInstall()) {
+				// 4) Beta Feedback (only on beta builds from Play Store)
+				if (BuildConfig.VERSION_NAME.contains("-beta")
+					&& InstallSourceChecker.fromPlayStore(context)
+				) {
 					DropdownMenuItem(
 						text = { Text(text = "Beta Feedback") },
 						onClick = {
 							menuExpanded = false
-							AnalyticsLogger.logOverflowMenuItemClicked(
+							Logger.logOverflowMenuItemClicked(
 								context,
 								"beta_feedback"
 							)
@@ -144,7 +146,7 @@ fun ThreeDotMenu(
 					text = { Text(text = stringResource(R.string.title_support_project)) },
 					onClick = {
 						menuExpanded = false
-						AnalyticsLogger.logOverflowMenuItemClicked(
+						Logger.logOverflowMenuItemClicked(
 							context,
 							"support_project"
 						)
@@ -164,7 +166,7 @@ fun ThreeDotMenu(
 					text = { Text(stringResource(R.string.title_about_github)) },
 					onClick = {
 						menuExpanded = false
-						AnalyticsLogger.logOverflowMenuItemClicked(context, "about")
+						Logger.logOverflowMenuItemClicked(context, "about")
 						val aboutUri = "https://lexip.dev/hecate/about".toUri()
 						val aboutIntent = Intent(Intent.ACTION_VIEW, aboutUri)
 						Toast.makeText(

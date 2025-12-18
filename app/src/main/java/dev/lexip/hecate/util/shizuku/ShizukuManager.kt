@@ -8,7 +8,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.os.Parcel
 import android.util.Log
-import dev.lexip.hecate.analytics.AnalyticsLogger
+import dev.lexip.hecate.logging.Logger
 import rikka.shizuku.Shizuku
 
 object ShizukuManager {
@@ -54,7 +54,7 @@ object ShizukuManager {
 			Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
 		} catch (t: Throwable) {
 			Log.w(TAG, "Failed to check Shizuku permission", t)
-			AnalyticsLogger.logUnexpectedShizukuError(
+			Logger.logUnexpectedShizukuError(
 				context = context,
 				operation = "check_permission",
 				stage = "check_self_permission",
@@ -118,7 +118,7 @@ object ShizukuManager {
 			result
 		} catch (t: Throwable) {
 			Log.e(TAG, "Grant via Shizuku failed", t)
-			AnalyticsLogger.logUnexpectedShizukuError(
+			Logger.logUnexpectedShizukuError(
 				context = context,
 				operation = "grant_write_secure_settings",
 				stage = "execute_grant_via_shizuku",
@@ -162,7 +162,7 @@ object ShizukuManager {
 					when (t) {
 						is SecurityException -> GrantResult.NotAuthorized
 						else -> {
-							AnalyticsLogger.logUnexpectedShizukuError(
+							Logger.logUnexpectedShizukuError(
 								context = context,
 								operation = "grant_write_secure_settings",
 								stage = "on_service_connected_execute",
@@ -178,7 +178,7 @@ object ShizukuManager {
 						Shizuku.unbindUserService(args, this, true)
 					} catch (t: Throwable) {
 						Log.w(TAG, "Error while unbinding Shizuku user service", t)
-						AnalyticsLogger.logUnexpectedShizukuError(
+						Logger.logUnexpectedShizukuError(
 							context = context,
 							operation = "grant_write_secure_settings",
 							stage = "unbind_user_service",

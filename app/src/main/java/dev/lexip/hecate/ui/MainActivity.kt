@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
 		installSplashScreen()
 		enableEdgeToEdge()
 
-		val isPlayInstall = InstallSourceChecker.isInstalledFromPlayStore(this)
+		val isPlayInstall = InstallSourceChecker.fromPlayStore(this)
 		if (isPlayInstall) {
 			inAppUpdateManager = InAppUpdateManager(this).also { manager ->
 				manager.registerUpdateLauncher(this)

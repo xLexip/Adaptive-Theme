@@ -17,7 +17,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import dev.lexip.hecate.analytics.AnalyticsGate
+import dev.lexip.hecate.logging.LoggerGate
 
 const val USER_PREFERENCES_NAME = "user_preferences"
 private val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
@@ -32,6 +32,6 @@ class Application : Application() {
 
 	override fun onCreate() {
 		super.onCreate()
-		AnalyticsGate.init(this)
+		LoggerGate.init(this)
 	}
 }

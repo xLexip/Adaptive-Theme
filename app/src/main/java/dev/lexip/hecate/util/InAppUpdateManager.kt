@@ -25,8 +25,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
-import dev.lexip.hecate.analytics.AnalyticsGate
-import dev.lexip.hecate.analytics.AnalyticsLogger
+import dev.lexip.hecate.logging.Logger
 
 private const val TAG = "InAppUpdateManager"
 
@@ -37,15 +36,18 @@ private const val MIN_PRIORITY_FOR_FLEXIBLE = 0
 
 class InAppUpdateManager(activity: ComponentActivity) {
 
-	private val appUpdateManager: AppUpdateManager? = if (AnalyticsGate.isPlayStoreInstall()) {
-		AppUpdateManagerFactory.create(activity)
-	} else null
+	private val isPlayStoreInstall: Boolean = InstallSourceChecker.fromPlayStore(activity)
+
+	private val appUpdateManager: AppUpdateManager? =
+		if (isPlayStoreInstall) {
+			AppUpdateManagerFactory.create(activity)
+		} else null
 
 	private var updateLauncher: ActivityResultLauncher<IntentSenderRequest>? = null
 
 	fun registerUpdateLauncher(activity: ComponentActivity) {
 		if (updateLauncher != null) return
-		if (!AnalyticsGate.isPlayStoreInstall()) {
+		if (!isPlayStoreInstall) {
 			return
 		}
 		appUpdateManager ?: return
@@ -55,7 +57,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 				when (result.resultCode) {
 					Activity.RESULT_OK -> {
 						Log.i(TAG, "In-app update completed successfully")
-						AnalyticsLogger.logInAppUpdateInstalled(activity)
+						Logger.logInAppUpdateInstalled(activity)
 					}
 
 					Activity.RESULT_CANCELED -> {
@@ -83,7 +85,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 		onNoUpdate: () -> Unit = {},
 		onError: (Throwable) -> Unit = {}
 	) {
-		if (!AnalyticsGate.isPlayStoreInstall()) return
+		if (!isPlayStoreInstall) return
 
 		val launcher = updateLauncher
 		if (launcher == null) {
@@ -207,7 +209,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 	}
 
 	fun resumeImmediateUpdateIfNeeded() {
-		if (!AnalyticsGate.isPlayStoreInstall()) {
+		if (!isPlayStoreInstall) {
 			return
 		}
 		val launcher = updateLauncher
@@ -240,7 +242,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 	}
 
 	fun resumeFlexibleUpdateIfNeeded() {
-		if (!AnalyticsGate.isPlayStoreInstall()) {
+		if (!isPlayStoreInstall) {
 			return
 		}
 		val launcher = updateLauncher

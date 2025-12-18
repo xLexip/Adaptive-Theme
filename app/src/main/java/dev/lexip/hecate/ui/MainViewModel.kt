@@ -20,9 +20,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
-import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
@@ -208,13 +208,13 @@ class MainViewModel(
 			if (enable) {
 				startBroadcastReceiverService()
 				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault()
-				AnalyticsLogger.logServiceEnabled(
+				Logger.logServiceEnabled(
 					application.applicationContext,
 					source = if (wasEnabled) "state_restore" else "ui_toggle"
 				)
 			} else {
 				stopBroadcastReceiverService()
-				AnalyticsLogger.logServiceDisabled(
+				Logger.logServiceDisabled(
 					application.applicationContext,
 					source = if (wasEnabled) "ui_toggle" else "state_restore"
 				)
@@ -228,7 +228,7 @@ class MainViewModel(
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
 			// Log threshold change
-			AnalyticsLogger.logBrightnessThresholdChanged(
+			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,
 				newLux = threshold.lux
@@ -240,7 +240,7 @@ class MainViewModel(
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateCustomAdaptiveThemeThresholdLux(lux)
-			AnalyticsLogger.logBrightnessThresholdChanged(
+			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,
 				newLux = lux

@@ -24,7 +24,7 @@ object InstallSourceChecker {
 	 * Returns true only if the app was installed from the Google Play Store.
 	 * On any error or unknown installer, this returns false to safely disable in-app updates.
 	 */
-	fun isInstalledFromPlayStore(context: Context): Boolean {
+	fun fromPlayStore(context: Context): Boolean {
 		val installer = getInstallerPackageName(context)
 		val fromPlay = installer == PLAY_STORE_PACKAGE
 		Log.d(TAG, "Installer package: $installer, isPlayStore=$fromPlay")

@@ -20,8 +20,8 @@ import android.service.quicksettings.TileService
 import android.util.Log
 import androidx.core.content.ContextCompat
 import dev.lexip.hecate.Application
-import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.DefaultDispatcherProvider
 import dev.lexip.hecate.util.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +48,7 @@ class QuickSettingsTileService : TileService() {
 
 	override fun onTileAdded() {
 		super.onTileAdded()
-		AnalyticsLogger.logQuickSettingsTileAdded(applicationContext)
+		Logger.logQuickSettingsTileAdded(applicationContext)
 	}
 
 	override fun onStartListening() {
@@ -102,7 +102,7 @@ class QuickSettingsTileService : TileService() {
 				intent.putExtra(EXTRA_ENABLE_MONITORING, true)
 				try {
 					ContextCompat.startForegroundService(applicationContext, intent)
-					AnalyticsLogger.logServiceEnabled(
+					Logger.logServiceEnabled(
 						applicationContext,
 						source = "quick_settings_tile"
 					)
@@ -117,7 +117,7 @@ class QuickSettingsTileService : TileService() {
 				}
 			} else {
 				applicationContext.stopService(intent)
-				AnalyticsLogger.logServiceDisabled(
+				Logger.logServiceDisabled(
 					applicationContext,
 					source = "quick_settings_tile"
 				)
