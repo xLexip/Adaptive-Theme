@@ -15,13 +15,16 @@ package dev.lexip.hecate.ui.setup
 import android.content.Intent
 
 // Helper to share a URL via Android Sharesheet, reused by setup components.
-internal fun android.content.Context.shareSetupUrl(url: String) {
-	if (url.isBlank()) return
+internal fun android.content.Context.shareText(
+	text: String,
+	title: String? = "Adaptive Theme"
+) {
+	if (text.isBlank()) return
 
 	val sendIntent = Intent().apply {
 		action = Intent.ACTION_SEND
-		putExtra(Intent.EXTRA_TEXT, url)
-		putExtra(Intent.EXTRA_TITLE, "Setup - Adaptive Theme")
+		putExtra(Intent.EXTRA_TEXT, text)
+		putExtra(Intent.EXTRA_TITLE, title)
 		type = "text/plain"
 	}
 

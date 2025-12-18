@@ -46,6 +46,7 @@ import dev.lexip.hecate.ui.setup.SetupViewModelFactory
 import dev.lexip.hecate.ui.setup.screens.A_DeveloperModeScreen
 import dev.lexip.hecate.ui.setup.screens.B_ConnectUsbScreen
 import dev.lexip.hecate.ui.setup.screens.C_GrantPermissionScreen
+import dev.lexip.hecate.ui.setup.shareText
 
 @Composable
 fun AppNavHost(
@@ -230,7 +231,12 @@ private fun NavGraphBuilder.setupNavGraph(
 
 			C_GrantPermissionScreen(
 				uiState = setupUiState,
-				onShareSetupUrl = setupViewModel::shareSetupUrl,
+				onShareSetupUrl = {
+					context.shareText(
+						"https://lexip.dev/setup",
+						"Setup - Adaptive Theme"
+					)
+				},
 				onShareExpertCommand = setupViewModel::shareAdbCommand,
 				onFinish = setupViewModel::checkPermissionAndComplete,
 				onBack = setupViewModel::navigateBack,

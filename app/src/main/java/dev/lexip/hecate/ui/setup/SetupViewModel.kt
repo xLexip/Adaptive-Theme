@@ -474,17 +474,7 @@ class SetupViewModel(
 			})
 		}
 	}
-
-	fun shareSetupUrl() {
-		val context = application.applicationContext
-		AnalyticsLogger.logShareLinkClicked(context, "setup")
-		val intent = Intent(Intent.ACTION_VIEW).apply {
-			data = "https://hecate.lexip.dev/setup".toUri()
-			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-		}
-		context.startActivity(intent)
-	}
-
+	
 	fun shareAdbCommand() {
 		val context = application.applicationContext
 		val sendIntent = Intent().apply {
