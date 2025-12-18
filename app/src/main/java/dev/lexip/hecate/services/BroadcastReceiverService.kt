@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
 private const val ACTION_PAUSE_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
+internal const val EXTRA_ENABLE_MONITORING = "dev.lexip.hecate.extra.ENABLE_MONITORING"
 
 private var screenOnReceiver: ScreenOnReceiver? = null
 
@@ -104,7 +105,8 @@ class BroadcastReceiverService : Service() {
 			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
 
 			// Create screen-on receiver if adaptive theme is enabled
-			if (userPreferences.adaptiveThemeEnabled) {
+			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
+			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
 				createScreenOnReceiver(userPreferences.adaptiveThemeThresholdLux)
 			}
 
