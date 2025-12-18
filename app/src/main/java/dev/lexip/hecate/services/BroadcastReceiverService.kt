@@ -19,6 +19,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo
 import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
@@ -39,6 +40,7 @@ import kotlinx.coroutines.launch
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
 private const val ACTION_PAUSE_SERVICE = "dev.lexip.hecate.action.STOP_SERVICE"
+internal const val EXTRA_ENABLE_MONITORING = "dev.lexip.hecate.extra.ENABLE_MONITORING"
 
 private var screenOnReceiver: ScreenOnReceiver? = null
 
@@ -82,7 +84,20 @@ class BroadcastReceiverService : Service() {
 		// Start foreground immediately to comply with O+ requirements
 		createNotificationChannel()
 		val initialNotification = buildNotification()
-		startForeground(1, initialNotification)
+		try {
+			startForeground(
+				1,
+				initialNotification,
+				ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+			)
+		} catch (e: Exception) {
+			/**
+			 *  Catch required because some Android 14 ROMs (HyperOS/MIUI) are broken
+			 * 	and throw false-positive SecurityExceptions for valid FGS types.
+			 */
+			startForeground(1, initialNotification)
+		}
+
 
 		// Load user preferences from data store
 		serviceScope.launch {
@@ -90,7 +105,8 @@ class BroadcastReceiverService : Service() {
 			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
 
 			// Create screen-on receiver if adaptive theme is enabled
-			if (userPreferences.adaptiveThemeEnabled) {
+			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
+			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
 				createScreenOnReceiver(userPreferences.adaptiveThemeThresholdLux)
 			}
 

@@ -32,7 +32,7 @@ private const val TAG = "InAppUpdateManager"
 
 private const val DAYS_FOR_IMMEDIATE_UPDATE = 3
 private const val MIN_PRIORITY_FOR_IMMEDIATE = 0
-private const val DAYS_FOR_FLEXIBLE_UPDATE = 1
+private const val DAYS_FOR_FLEXIBLE_UPDATE = 0
 private const val MIN_PRIORITY_FOR_FLEXIBLE = 0
 
 class InAppUpdateManager(activity: ComponentActivity) {
@@ -109,7 +109,7 @@ class InAppUpdateManager(activity: ComponentActivity) {
 				val meetsImmediateStaleness =
 					staleness != null && staleness >= DAYS_FOR_IMMEDIATE_UPDATE
 				val meetsFlexibleStaleness =
-					staleness != null && staleness >= DAYS_FOR_FLEXIBLE_UPDATE
+					staleness == null || staleness >= DAYS_FOR_FLEXIBLE_UPDATE
 				val meetsImmediatePriority = priority >= MIN_PRIORITY_FOR_IMMEDIATE
 				val meetsFlexiblePriority = priority >= MIN_PRIORITY_FOR_FLEXIBLE
 

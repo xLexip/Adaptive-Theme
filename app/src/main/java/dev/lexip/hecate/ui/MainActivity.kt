@@ -68,9 +68,6 @@ class MainActivity : ComponentActivity() {
 				)
 			}
 		}
-
-		inAppUpdateManager?.checkForImmediateUpdate()
-		inAppUpdateManager?.checkForFlexibleUpdate()
 		inAppUpdateManager?.checkAndLaunchUpdate()
 	}
 

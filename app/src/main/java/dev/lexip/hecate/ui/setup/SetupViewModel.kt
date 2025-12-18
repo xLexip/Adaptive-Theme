@@ -31,6 +31,7 @@ import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.analytics.AnalyticsLogger
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.navigation.NavigationEvent
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.navigation.SetupRoute
@@ -418,20 +419,30 @@ class SetupViewModel(
 	fun completeSetup(source: String? = null) {
 		viewModelScope.launch {
 			if (setupCompletionHandled.getAndSet(true)) return@launch
+			_uiState.update { it.copy(isSetupCompleted = true) }
+			stopEnvironmentMonitoring()
 
 			val context = application.applicationContext
 			AnalyticsLogger.logSetupComplete(context, source)
 
-
+			// Activate Adaptive Theme
 			withContext(ioDispatcher) {
 				userPreferencesRepository.updateSetupCompleted(true)
 				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault()
-				delay(300L) // Delay for animations
 				userPreferencesRepository.updateAdaptiveThemeEnabled(true)
+
+				// Start Service
+				val intent =
+					Intent(application.applicationContext, BroadcastReceiverService::class.java)
+				ContextCompat.startForegroundService(application.applicationContext, intent)
+
+				AnalyticsLogger.logServiceEnabled(
+					application.applicationContext,
+					source = "setup_complete"
+				)
 			}
 
-			_uiState.update { it.copy(isSetupCompleted = true) }
-			stopEnvironmentMonitoring()
+			// Close Setup
 			navigationManager.tryNavigate(NavigationEvent.ToMainClearingSetup)
 		}
 	}
@@ -463,17 +474,7 @@ class SetupViewModel(
 			})
 		}
 	}
-
-	fun shareSetupUrl() {
-		val context = application.applicationContext
-		AnalyticsLogger.logShareLinkClicked(context, "setup")
-		val intent = Intent(Intent.ACTION_VIEW).apply {
-			data = "https://hecate.lexip.dev/setup".toUri()
-			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-		}
-		context.startActivity(intent)
-	}
-
+	
 	fun shareAdbCommand() {
 		val context = application.applicationContext
 		val sendIntent = Intent().apply {

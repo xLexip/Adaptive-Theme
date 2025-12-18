@@ -27,11 +27,10 @@ render.experimental.xml
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# Secrets (e.g. APIs or Firebase)
 google-services.json
-
-# Trade secret
-app/src/main/java/dev/lexip/hecate/util/DarkThemeHandler.kt
+**/AnalyticsGate.kt
+**/DarkThemeHandler.kt
 
 # Android Profiling
 *.hprof
