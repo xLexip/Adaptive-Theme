@@ -35,8 +35,8 @@ Shizuku, or root.
 
 ## Required Files for Build
 
-- `google-services.json` - Required at `app/src/play/` for the Play flavor. In CI, this is created
-  from a GitHub secret.
+- `google-services.json` - Required at both repo root AND `app/` directory for Firebase. In CI, this
+  is created from a GitHub secret.
 - `app/src/main/kotlin/dev/lexip/hecate/util/DarkThemeHandler.kt` - Core theme handler. CI creates a
   mock version from a secret; the real file must exist locally.
 
@@ -123,10 +123,9 @@ The `build.yml` workflow runs on push and PR:
 Before submitting changes:
 
 1. Run `./gradlew lint` - fix all errors
-2. Run `./gradlew assemblePlayDebug` - must succeed
-3. Run `./gradlew assembleFossDebug` - must succeed
-4. Verify no new lint warnings in changed files
-5. Ensure license headers present on new Kotlin files
+2. Run `./gradlew assembleDebug` - must succeed
+3. Verify no new lint warnings in changed files
+4. Ensure license headers present on new Kotlin files
 
 ## Trust These Instructions
 
