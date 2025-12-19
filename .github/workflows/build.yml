@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Setup Environment
         uses: ./.github/actions/setup-env
@@ -17,15 +19,38 @@ jobs:
           mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        # Use setup-java and explicit Gradle cache (pinned action avoids unpinned-action warnings)
+        uses: actions/setup-java@v4
+        with:
+          java-version: 23
+          distribution: 'zulu'
 
-      - name: Run Lint
-        run: ./gradlew lint
+      - name: Cache Gradle
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Run Lint and Sonar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew lint assemblePlayRelease sonar --info
 
   build_play:
-    name: Build Play & Analyze
-    # needs: lint # Removed to allow parallel execution
-    # Actually, user asked to run tasks in parallel. So no `needs`.
+    name: Build Play
+    # This job only builds the Play flavor; Sonar analysis is now run in the `lint` job.
+    # Parallel execution is enabled (no `needs`).
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -41,20 +66,22 @@ jobs:
           mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: actions/setup-java@v4
+        with:
+          java-version: 23
+          distribution: 'zulu'
 
-      - name: Cache SonarCloud packages
+      - name: Cache Gradle
         uses: actions/cache@v5
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew assemblePlayRelease sonar --info
+      - name: Build Play
+        run: ./gradlew assemblePlayRelease --info
 
   build_foss:
     name: Build FOSS
@@ -69,8 +96,19 @@ jobs:
           mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: actions/setup-java@v4
+        with:
+          java-version: 23
+          distribution: 'zulu'
+
+      - name: Cache Gradle
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
 
       - name: Build FOSS
         run: ./gradlew assembleFossRelease
-
