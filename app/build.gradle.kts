@@ -29,6 +29,10 @@ android {
 		create("foss") {
 			dimension = "store"
 			versionNameSuffix = "-foss"
+			dependenciesInfo {
+				includeInApk = false
+				includeInBundle = false
+			}
 		}
 	}
 
