@@ -20,7 +20,7 @@ jobs:
 
       - name: Setup Gradle
         # Use setup-java and explicit Gradle cache (pinned action avoids unpinned-action warnings)
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 23
           distribution: 'zulu'
@@ -66,7 +66,7 @@ jobs:
           mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Setup Gradle
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 23
           distribution: 'zulu'
@@ -96,7 +96,7 @@ jobs:
           mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Setup Gradle
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 23
           distribution: 'zulu'
