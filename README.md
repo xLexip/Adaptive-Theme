@@ -1,6 +1,6 @@
 [![Feature Graphic with App Screenshot](https://i.ibb.co/bjHmz8Sh/feature-graphic-gh.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
 
-# Adaptive Theme: Auto Dark Mode by Ambient Light
+# Adaptive Theme: Auto Dark Mode by Ambient Light 
 
 Adaptive Theme automatically switches between **Light** and **Dark mode** using your phone’s
 **ambient light sensor (lux)** — not a fixed schedule.
