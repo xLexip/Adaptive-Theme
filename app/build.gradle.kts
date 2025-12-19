@@ -88,7 +88,7 @@ android {
 	sourceSets {
 		getByName("main") {
 			resources {
-				srcDirs("src/main/resources", "src/main/java/components")
+				srcDirs("src/main/resources", "src/main/kotlin/components")
 			}
 		}
 	}
