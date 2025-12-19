@@ -1,0 +1,1 @@
+Auto dark mode based on ambient light.

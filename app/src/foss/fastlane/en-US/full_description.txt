@@ -1,0 +1,44 @@
+**Adaptive Theme** automatically switches between Light and Dark mode using the physical ambient
+light sensor – not a fixed schedule.
+
+It adapts to your actual environment to optimize readability, eye
+comfort, and battery life.
+
+**Features & Highlights**
+
+- **Smart Detection:** Real-time theme switching based on ambient light levels (lux).
+- **Custom Thresholds:** You choose exactly at which brightness level the theme should flip.
+- **Battery Friendly:** Event-driven architecture. The app only checks the sensor for a split second
+  when the screen turns on.
+- **Modern UI:** Native experience built with Jetpack Compose and Material You / Material 3.
+
+**Setup Methods**
+
+Android restricts apps from changing system themes by default. To unlock this feature, a one-time
+setup is required to grant the `WRITE_SECURE_SETTINGS` permission.
+
+The app provides a step-by-step setup wizard.
+You can choose the method that fits best:
+
+- **Web Tool (Recommended):** Use the browser-based setup on a computer or secondary device. No ADB
+  installation required (WebADB).
+- **Shizuku:** Grant permission directly if you use the Shizuku manager.
+- **Root:** Grant permission with a single tap if your device is rooted.
+- **Manual ADB:** For power users who prefer the command line.
+
+**How it works**
+
+To ensure a seamless experience without battery drain or usage interruptions, Adaptive Theme follows
+strict rules:
+
+- It only checks the sensor immediately after the screen is turned on.
+- It verifies the sensor isn't covered (e.g., by your hand or pocket) before switching the theme
+  instantly.
+
+---
+
+Adaptive Theme is completely free and developed as an open-source project in my free time.
+
+If you find it useful, please consider leaving a rating or star on the GitHub Repo!
+
+**Made with 🥨 in Germany.**

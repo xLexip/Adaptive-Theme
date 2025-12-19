@@ -29,7 +29,6 @@ render.experimental.xml
 
 # Secrets (e.g. APIs or Firebase)
 google-services.json
-**/AnalyticsGate.kt
 **/DarkThemeHandler.kt
 
 # Android Profiling
@@ -39,3 +38,6 @@ google-services.json
 app/release/
 app/debug/
 app/beta/
+app/foss/
+app/play/
+.kotlin/

@@ -16,9 +16,24 @@ android {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 34
 		targetSdk = 35
-		versionCode = 63
-		versionName = "0.10.1"
+		versionCode = 81
+		versionName = "0.12.0"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+	}
+
+	flavorDimensions += "store"
+	productFlavors {
+		create("play") {
+			dimension = "store"
+		}
+		create("foss") {
+			dimension = "store"
+			versionNameSuffix = "-foss"
+			dependenciesInfo {
+				includeInApk = false
+				includeInBundle = false
+			}
+		}
 	}
 
 	buildTypes {
@@ -77,16 +92,13 @@ android {
 	sourceSets {
 		getByName("main") {
 			resources {
-				srcDirs("src/main/resources", "src/main/java/components")
+				srcDirs("src/main/resources", "src/main/kotlin/components")
 			}
 		}
 	}
 }
 
 dependencies {
-	implementation(platform(libs.firebase.bom))
-	implementation(libs.firebase.analytics)
-	implementation(libs.firebase.crashlytics)
 	implementation(libs.androidx.localbroadcastmanager)
 	implementation(libs.androidx.core.splashscreen.v100)
 	implementation(libs.androidx.activity.compose)
@@ -105,9 +117,12 @@ dependencies {
 	implementation(libs.material)
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.compose.material.icons.extended)
-	implementation(libs.app.update.ktx)
 	implementation(libs.shizuku.api)
 	implementation(libs.shizuku.provider)
+	"playImplementation"(platform(libs.firebase.bom))
+	"playImplementation"(libs.firebase.analytics)
+	"playImplementation"(libs.firebase.crashlytics)
+	"playImplementation"(libs.app.update.ktx)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
@@ -115,4 +130,28 @@ dependencies {
 	androidTestImplementation(libs.androidx.ui.test.junit4)
 	debugImplementation(libs.androidx.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+afterEvaluate {
+	tasks.matching { it.name.contains("GoogleServices") && it.name.contains("Foss") }
+		.configureEach { enabled = false }
+	tasks.matching { it.name.contains("Crashlytics") && it.name.contains("Foss") }
+		.configureEach { enabled = false }
+}
+
+tasks.register<DefaultTask>("ensureFileCompleteness") {
+	group = "build"
+	description = "Ensures file completeness."
+	val handlerPath = "src/main/kotlin/dev/lexip/hecate/util/DarkThemeHandler.kt"
+	val handlerFile = File(projectDir, handlerPath)
+
+	doLast {
+		if (!handlerFile.exists()) {
+			handlerFile.parentFile.mkdirs()
+			handlerFile.writeText("package dev.lexip.hecate.util; import android.content.Context; class DarkThemeHandler(context: Context) { fun setDarkTheme(enable: Boolean) {} }".trimIndent())
+		}
+	}
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+	dependsOn("ensureFileCompleteness")
 }
