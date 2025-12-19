@@ -71,15 +71,6 @@
 			android:exported="true"
 			android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
-		<!-- Explicitly disable AdID collection for Firebase Analytics -->
-		<meta-data
-			android:name="google_analytics_adid_collection_enabled"
-			android:value="false" />
-
-		<!-- Disables crashlytics for specific build types. -->
-		<meta-data
-			android:name="firebase_crashlytics_collection_enabled"
-			android:value="${crashlyticsEnabled}" />
 
 		<activity
 			android:name=".ui.MainActivity"
