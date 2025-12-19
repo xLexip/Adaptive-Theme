@@ -1,0 +1,41 @@
+name: 'Setup Environment'
+description: 'Sets up JDK and creates necessary files from secrets'
+inputs:
+  google-services-json:
+    required: true
+  mock-dark-theme-handler:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Create files
+      shell: bash
+      env:
+        GOOGLE_SERVICES_JSON: ${{ inputs.google-services-json }}
+        MOCK_DARK_THEME_HANDLER: ${{ inputs.mock-dark-theme-handler }}
+      run: |
+        # Fail fast if secrets are missing
+        if [ -z "${GOOGLE_SERVICES_JSON:-}" ]; then
+          echo "Missing GOOGLE_SERVICES_JSON" >&2
+          exit 1
+        fi
+        if [ -z "${MOCK_DARK_THEME_HANDLER:-}" ]; then
+          echo "Missing MOCK_DARK_THEME_HANDLER" >&2
+          exit 1
+        fi
+
+        # Ensure directories
+        mkdir -p app
+        mkdir -p app/src/main/kotlin/dev/lexip/hecate/util
+
+        # Safely write files
+        printf '%s' "$GOOGLE_SERVICES_JSON" > google-services.json
+        printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        printf '%s' "$MOCK_DARK_THEME_HANDLER" > app/src/main/kotlin/dev/lexip/hecate/util/DarkThemeHandler.kt
+
+    - name: Set up JDK 23
+      uses: actions/setup-java@v4
+      with:
+        java-version: 23
+        distribution: 'zulu'
+
