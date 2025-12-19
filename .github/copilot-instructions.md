@@ -11,8 +11,8 @@ Shizuku, or root.
 
 - **Language:** Kotlin (JVM target 17)
 - **UI:** Jetpack Compose with Material 3/Material You
-- **Build:** Gradle 9.2.1, AGP 8.13.2
-- **Target SDK:** 36 | **Min SDK:** 31
+- **Build:** Gradle, AGP
+- **Target SDK:** 35 | **Min SDK:** 34
 - **Architecture:** Single-module Android app with MVVM pattern
 - **Dependencies:** Firebase (Analytics, Crashlytics), Shizuku API, AndroidX DataStore, Compose BOM
 
@@ -24,7 +24,8 @@ Shizuku, or root.
 |-------------------|------------------------------------------------------------------------------|
 | Clean build       | `./gradlew clean build`                                                      |
 | Debug build       | `./gradlew assembleDebug`                                                    |
-| Release build     | `./gradlew assembleRelease`                                                  |
+| Play Release      | `./gradlew assemblePlayRelease`                                              |
+| FOSS Release      | `./gradlew assembleFossRelease`                                              |
 | Beta build        | `./gradlew assembleBeta`                                                     |
 | Lint only         | `./gradlew lint`                                                             |
 | Build + Lint (CI) | `./gradlew lint --build-cache && ./gradlew build sonar --info --build-cache` |
@@ -34,9 +35,9 @@ Shizuku, or root.
 
 ## Required Files for Build
 
-- `google-services.json` - Required at both repo root AND `app/` directory for Firebase. In CI, this
-  is created from a GitHub secret.
-- `app/src/main/java/dev/lexip/hecate/util/DarkThemeHandler.kt` - Core theme handler. CI creates a
+- `google-services.json` - Required at `app/src/play/` for the Play flavor. In CI, this is created
+  from a GitHub secret.
+- `app/src/main/kotlin/dev/lexip/hecate/util/DarkThemeHandler.kt` - Core theme handler. CI creates a
   mock version from a secret; the real file must exist locally.
 
 ## Project Structure
@@ -44,46 +45,48 @@ Shizuku, or root.
 ```
 hecate/
 ├── app/
-│   ├── build.gradle.kts          # App-level Gradle config
-│   ├── proguard-rules.pro        # ProGuard/R8 rules (Shizuku-specific keeps)
-│   └── src/main/
-│       ├── AndroidManifest.xml   # Permissions, services, receivers
-│       └── java/dev/lexip/hecate/
-│           ├── HecateApplication.kt    # App entry, DataStore singleton
-│           ├── analytics/              # Firebase Analytics logging
-│           ├── broadcasts/             # Boot/screen-on receivers
-│           ├── data/                   # DataStore preferences, models
-│           ├── services/               # Foreground service, QS tile
-│           ├── ui/                     # Compose screens, ViewModel
-│           │   ├── MainActivity.kt     # Main entry Activity
-│           │   ├── AdaptiveThemeScreen.kt
-│           │   ├── AdaptiveThemeViewModel.kt
-│           │   ├── components/         # Reusable UI components
-│           │   ├── setup/              # Setup wizard/flow
-│           │   └── theme/              # Material theme
-│           └── util/                   # Sensor managers, Shizuku
-│               ├── DarkThemeHandler.kt # System theme control
-│               ├── LightSensorManager.kt
-│               ├── ProximitySensorManager.kt
-│               └── shizuku/            # Shizuku integration
-├── build.gradle.kts              # Root Gradle, SonarCloud config
-├── settings.gradle.kts           # Project settings
-├── gradle/
-│   ├── libs.versions.toml        # Version catalog (dependencies)
-│   └── wrapper/                  # Gradle wrapper
-├── gradle.properties             # JVM args, Android settings
-└── .github/workflows/build.yml   # CI: lint, build, SonarCloud analysis
+│   ├── build.gradle.kts          # App-level Gradle config (flavors: play, foss)
+│   ├── proguard-rules.pro        # ProGuard/R8 rules
+│   └── src/
+│       ├── main/
+│       │   ├── AndroidManifest.xml   # Core permissions, services
+│       │   └── kotlin/dev/lexip/hecate/
+│       │       ├── HecateApplication.kt
+│       │       ├── broadcasts/
+│       │       ├── data/
+│       │       ├── services/
+│       │       ├── ui/
+│       │       │   ├── MainActivity.kt
+│       │       │   ├── navigation/         # Type-safe navigation (Routes.kt)
+│       │       │   ├── setup/              # Setup wizard (SetupViewModel.kt)
+│       │       │   └── ...
+│       │       └── util/
+│       │           └── DarkThemeHandler.kt
+│       ├── play/                 # Play Store flavor (Proprietary)
+│       │   ├── AndroidManifest.xml
+│       │   ├── google-services.json
+│       │   └── java/dev/lexip/hecate/
+│       │       ├── logging/      # Firebase implementation
+│       │       └── util/         # InAppUpdateManager implementation
+│       └── foss/                 # FOSS flavor (Open Source)
+│           └── java/dev/lexip/hecate/
+│               ├── logging/      # No-op implementation
+│               └── util/         # No-op implementation
+├── build.gradle.kts              # Root Gradle
+└── ...
 ```
 
 ## Key Architecture Details
 
-- **State Management:** MVVM with `AdaptiveThemeViewModel` and Kotlin Flow
-- **Persistence:** AndroidX DataStore for user preferences (not SharedPreferences)
-- **Background Service:** `BroadcastReceiverService` runs as foreground service with `specialUse`
-  type
-- **Theme Switching:** `DarkThemeHandler` writes to `Settings.Secure` (requires
-  `WRITE_SECURE_SETTINGS`)
-- **Shizuku Support:** Optional permission grant method via `ShizukuManager` and `GrantService`
+- **Flavors:**
+    - `play`: Includes Firebase Analytics/Crashlytics and In-App Updates.
+    - `foss`: Completely open source, no proprietary dependencies, no-op logging.
+- **State Management:** MVVM with `AdaptiveThemeViewModel`, `SetupViewModel`, and Kotlin Flow.
+- **Navigation:** Jetpack Compose Navigation with type-safe routes (`Routes.kt`).
+- **Persistence:** AndroidX DataStore for user preferences.
+- **Background Service:** `BroadcastReceiverService` (foreground service).
+- **Theme Switching:** `DarkThemeHandler` writes to `Settings.Secure`.
+- **Shizuku Support:** Optional permission grant via `ShizukuManager`.
 
 ## CI/CD Pipeline (GitHub Actions)
 
@@ -120,10 +123,10 @@ The `build.yml` workflow runs on push and PR:
 Before submitting changes:
 
 1. Run `./gradlew lint` - fix all errors
-2. Run `./gradlew assembleDebug` - must succeed
-3. Verify no new lint warnings in changed files
-4. Ensure license headers present on new Kotlin files
-5. Check `DarkThemeHandler.kt` is not accidentally modified (contains proprietary logic)
+2. Run `./gradlew assemblePlayDebug` - must succeed
+3. Run `./gradlew assembleFossDebug` - must succeed
+4. Verify no new lint warnings in changed files
+5. Ensure license headers present on new Kotlin files
 
 ## Trust These Instructions
 

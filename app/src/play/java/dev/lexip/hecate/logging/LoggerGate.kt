@@ -31,20 +31,21 @@ object LoggerGate {
 	private var isPlayStoreInstall = false
 
 	private val EXCLUDED_ANDROID_IDS = listOf(
-		"4840d1ef56c9ab8"
+		"484b0d1ef56c9ab8"
 	)
 
 	@SuppressLint("HardwareIds")
 	fun init(context: Context) {
 		isPlayStoreInstall = InstallSourceChecker.fromPlayStore(context)
 
-		val isDebug = BuildConfig.DEBUG
 		val androidId =
 			Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 		val isExcludedDevice = androidId in EXCLUDED_ANDROID_IDS
+		val isDebug = BuildConfig.DEBUG
+		val isPlayConsoleTest = android.os.Build.MODEL == "OnePlus8Pro" // for whatever reason
 
-		analyticsEnabled = !isDebug && isPlayStoreInstall && !isExcludedDevice
-		crashlyticsEnabled = !isDebug && isPlayStoreInstall
+		analyticsEnabled = !isDebug && isPlayStoreInstall && !isPlayConsoleTest && !isExcludedDevice
+		crashlyticsEnabled = !isDebug && isPlayStoreInstall && !isPlayConsoleTest
 
 		// Apply settings to Firebase
 		FirebaseAnalytics.getInstance(context).setAnalyticsCollectionEnabled(analyticsEnabled)
@@ -52,4 +53,6 @@ object LoggerGate {
 	}
 
 	fun allowed(): Boolean = analyticsEnabled
+
 }
+

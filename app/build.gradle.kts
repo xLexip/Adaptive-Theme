@@ -21,6 +21,17 @@ android {
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
+	flavorDimensions += "store"
+	productFlavors {
+		create("play") {
+			dimension = "store"
+		}
+		create("foss") {
+			dimension = "store"
+			versionNameSuffix = "-foss"
+		}
+	}
+
 	buildTypes {
 		release {
 			isMinifyEnabled = true
@@ -84,9 +95,6 @@ android {
 }
 
 dependencies {
-	implementation(platform(libs.firebase.bom))
-	implementation(libs.firebase.analytics)
-	implementation(libs.firebase.crashlytics)
 	implementation(libs.androidx.localbroadcastmanager)
 	implementation(libs.androidx.core.splashscreen.v100)
 	implementation(libs.androidx.activity.compose)
@@ -105,9 +113,12 @@ dependencies {
 	implementation(libs.material)
 	implementation(platform(libs.androidx.compose.bom))
 	implementation(libs.androidx.compose.material.icons.extended)
-	implementation(libs.app.update.ktx)
 	implementation(libs.shizuku.api)
 	implementation(libs.shizuku.provider)
+	"playImplementation"(platform(libs.firebase.bom))
+	"playImplementation"(libs.firebase.analytics)
+	"playImplementation"(libs.firebase.crashlytics)
+	"playImplementation"(libs.app.update.ktx)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
@@ -115,4 +126,11 @@ dependencies {
 	androidTestImplementation(libs.androidx.ui.test.junit4)
 	debugImplementation(libs.androidx.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+afterEvaluate {
+	tasks.matching { it.name.contains("GoogleServices") && it.name.contains("Foss") }
+		.configureEach { enabled = false }
+	tasks.matching { it.name.contains("Crashlytics") && it.name.contains("Foss") }
+		.configureEach { enabled = false }
 }
