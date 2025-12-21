@@ -16,6 +16,10 @@ import android.content.Context
 
 object Logger {
 
+	fun logException(e: Throwable) {
+		// No-op for FOSS build
+	}
+
 	fun logServiceEnabled(context: Context, source: String) {
 		// No-op for FOSS build
 	}

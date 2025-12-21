@@ -2,26 +2,26 @@
 
 # Adaptive Theme: Auto Dark Mode by Ambient Light
 
-Adaptive Theme automatically switches between **Light** and **Dark mode** using your phone’s
-**ambient light sensor (lux)** — not a fixed schedule.
+Adaptive Theme automatically switches between Light and **Dark mode**
+using the **ambient light sensor** — not a fixed schedule.
 
 It adapts to real lighting conditions to improve **readability**, **eye comfort**, and **battery
 life**.
 
----
-
-## 🚀 Quick Start (2 minutes)
-
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
     <img src=".github/resources/get-it-on-google-play.svg" alt="Get Adaptive Theme on Google Play" width="200"/>
 </a>
+‎ ‎ ‎
+<a href="https://github.com/xLexip/Adaptive-Theme/releases">
+    <img src=".github/resources/github-releases.png" alt="GitHub" width="200"/>
+</a> 
+
+## 🚀 Quick Start (2 minutes)
 
 1. **Install** Adaptive Theme.
 2. **Grant the permission** with our [web-tool](https://lexip.dev/setup), Shizuku, or other methods
    below.
 3. **Pick your lux threshold** and you’re done. ✅
-
----
 
 ## 📋 Table of Contents
 
@@ -32,8 +32,6 @@ life**.
 - [❓ FAQ](#-faq)
 - [❤️ Support the Project](#%EF%B8%8F-support-the-project)
 - [🏗️ Architecture & Tech Stack](#%EF%B8%8F-architecture--tech-stack)
-
----
 
 ## ✨ Features & Highlights
 
@@ -49,8 +47,6 @@ life**.
 * 🚀 **Modern & Native:** Built with best-practices using Kotlin, Jetpack Compose and Material You
   for a smooth and solid experience.
 * 🔒 **Transparent:** Free, open-source, no-ads.
-
----
 
 ## 🛠️ One-Time Setup
 
@@ -75,8 +71,6 @@ methods to do so:
   command manually via your
   terminal.
 
----
-
 ## ⚙️ How it Works
 
 **Wondering why the theme didn't change immediately?**
@@ -88,16 +82,12 @@ To avoid screen flicker and unnecessary background work, Adaptive Theme follows 
 - **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
   interacting with it.
 
----
-
 ## ✅ Safety
 
 The required permission only allows the app to change system settings such as the dark mode. This is
 absolutely safe and
 completely reversible by uninstalling the app. It does **not** grant root access or read any user
 data.
-
----
 
 ## ❓ FAQ
 
@@ -124,8 +114,6 @@ data.
 If Adaptive Theme doesn’t work for you — or if you have any questions or ideas — please open an
 issue here or send feedback via the app.
 
----
-
 ## ❤️ Support the Project
 
 Adaptive Theme is **completely free**, **ad-free**, **open source**, and developed in my free time.
@@ -142,8 +130,6 @@ is the best way to boost the ranking.
 also [buy me a coffee](https://buymeacoffee.com/lexip).
 
 📣 **Spread the Word:** Share the app to help the project grow.
-
----
 
 ## 🏗️ Architecture & Tech Stack
 

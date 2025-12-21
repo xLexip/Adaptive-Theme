@@ -15,6 +15,7 @@ package dev.lexip.hecate.logging
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.logEvent
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 object Logger {
 
@@ -23,6 +24,12 @@ object Logger {
 
 	private inline fun ifAllowed(block: () -> Unit) {
 		if (LoggerGate.allowed()) block()
+	}
+
+	fun logException(e: Throwable) {
+		ifAllowed {
+			FirebaseCrashlytics.getInstance().recordException(e)
+		}
 	}
 
 	fun logServiceEnabled(context: Context, source: String) {
