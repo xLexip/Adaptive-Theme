@@ -28,6 +28,7 @@ import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferencesRepository
+import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
@@ -91,11 +92,16 @@ class BroadcastReceiverService : Service() {
 				ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 			)
 		} catch (e: Exception) {
+			Logger.logException(e)
 			/**
 			 *  Catch required because some Android 14 ROMs (HyperOS/MIUI) are broken
 			 * 	and throw false-positive SecurityExceptions for valid FGS types.
 			 */
-			startForeground(1, initialNotification)
+			try {
+				startForeground(1, initialNotification)
+			} catch (e2: Exception) {
+				Logger.logException(e2)
+			}
 		}
 
 

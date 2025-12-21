@@ -434,7 +434,11 @@ class SetupViewModel(
 				// Start Service
 				val intent =
 					Intent(application.applicationContext, BroadcastReceiverService::class.java)
-				ContextCompat.startForegroundService(application.applicationContext, intent)
+				try {
+					ContextCompat.startForegroundService(application.applicationContext, intent)
+				} catch (e: Exception) {
+					Logger.logException(e)
+				}
 
 				Logger.logServiceEnabled(
 					application.applicationContext,
