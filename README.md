@@ -12,7 +12,7 @@ life**.
     <img src=".github/resources/get-it-on-google-play.svg" alt="Get Adaptive Theme on Google Play" width="200"/>
 </a>
 ‎ ‎ ‎
-<a href="https://github.com/xLexip/Adaptive-Theme/releases">
+<a href="https://github.com/xLexip/Adaptive-Theme/releases/latest">
     <img src=".github/resources/github-releases.png" alt="GitHub" width="200"/>
 </a> 
 
