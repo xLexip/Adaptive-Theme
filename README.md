@@ -5,7 +5,7 @@
 Adaptive Theme automatically switches between Light and **Dark mode**
 using the **ambient light sensor** — not a fixed schedule.
 
-It adapts to real lighting conditions to improve **readability**, **eye comfort**, and **battery
+It adapts to real lighting conditions to optimize **readability**, **eye comfort**, and **battery
 life**.
 
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
@@ -118,7 +118,7 @@ issue here or send feedback via the app.
 
 Adaptive Theme is **completely free**, **ad-free**, **open source**, and developed in my free time.
 
-If you enjoy using the app, there are three simple ways you can support the project:
+If you enjoy using the app, there are simple ways you can support the project:
 
 ⭐ **Star on GitHub:** Give this repository a star to help others find it.
 
@@ -136,7 +136,7 @@ also [buy me a coffee](https://buymeacoffee.com/lexip).
 [![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
 [![Jetpack-Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=Jetpack%20Compose&logoColor=white)](https://developer.android.com/compose)
-[![Material-Design](https://img.shields.io/badge/material%20design-757575?style=for-the-badge&logo=material%20design&logoColor=white)](https://m3.material.io/)
+[![Material-Design](https://img.shields.io/badge/material%20design-757575?style=for-the-badge&logo=material%20design&logoColor=white)](https://source.android.com/docs/core/display/material)
 [![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)](https://gradle.org/)
 [![SonarQube](https://img.shields.io/badge/Sonarqube-5190cf?style=for-the-badge&logoColor=white&logo=sonarr)](https://sonarcloud.io/)
 
