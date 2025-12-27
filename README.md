@@ -1,4 +1,4 @@
-[![Feature Graphic with App Screenshot](https://i.ibb.co/bjHmz8Sh/feature-graphic-gh.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+[![Feature Graphic with App Screenshot](https://i.ibb.co/bjHmz8Sh/feature-graphic-gh.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
 
 # Adaptive Theme: Auto Dark Mode by Ambient Light
 
@@ -8,7 +8,7 @@ using the **ambient light sensor** — not a fixed schedule.
 It adapts to real lighting conditions to improve **readability**, **eye comfort**, and **battery
 life**.
 
-<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
+<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
     <img src=".github/resources/get-it-on-google-play.svg" alt="Get Adaptive Theme on Google Play" width="200"/>
 </a>
 ‎ ‎ ‎
