@@ -80,7 +80,7 @@ internal fun ForExpertsSectionCard(
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
-					text = stringResource(id = R.string.setup_methods_for_experts),
+					text = stringResource(id = R.string.setup_alternative_methods),
 					style = MaterialTheme.typography.bodyMedium,
 					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colorScheme.onSurfaceVariant,
