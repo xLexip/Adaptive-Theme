@@ -589,7 +589,7 @@ class SetupViewModel(
 		Toast.makeText(context, R.string.setup_root_grant_starting, Toast.LENGTH_SHORT).show()
 
 		viewModelScope.launch(ioDispatcher) {
-			val result = tryGrantViaRoot(application.packageName)
+			val result = tryGrantViaRoot()
 			withContext(mainDispatcher) {
 				when (result) {
 					RootGrantResult.Success -> {
@@ -618,10 +618,15 @@ class SetupViewModel(
 		data class Failure(val reason: String) : RootGrantResult
 	}
 
-	private fun tryGrantViaRoot(packageName: String): RootGrantResult {
+	private fun tryGrantViaRoot(): RootGrantResult {
 		return try {
-			val command = "pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-			val process = Runtime.getRuntime().exec(arrayOf("su", "-c", command))
+			val process = Runtime.getRuntime().exec("su")
+			val os = java.io.DataOutputStream(process.outputStream)
+			os.writeBytes("pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS\n")
+			os.writeBytes("exit\n")
+			os.flush()
+			os.close()
+
 			val exitCode = process.waitFor()
 			if (exitCode == 0) {
 				RootGrantResult.Success
