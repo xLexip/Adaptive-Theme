@@ -84,6 +84,7 @@
 	<string name="setup_action_use_root">Use Root</string>
 	<string name="setup_root_grant_starting">Requesting root access… (beta)</string>
 	<string name="setup_root_grant_failed">Root grant failed.</string>
+	<string name="setup_root_question">Is the device rooted?</string>
 
 	<string name="setup_required_title">Setup Required</string>
 	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>

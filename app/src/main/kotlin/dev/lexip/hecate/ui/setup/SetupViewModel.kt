@@ -607,6 +607,11 @@ class SetupViewModel(
 							R.string.setup_root_grant_failed,
 							Toast.LENGTH_SHORT
 						).show()
+						Toast.makeText(
+							context,
+							R.string.setup_root_question,
+							Toast.LENGTH_SHORT
+						).show()
 					}
 				}
 			}

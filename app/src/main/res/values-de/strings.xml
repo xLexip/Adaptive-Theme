@@ -79,6 +79,7 @@
 	<string name="setup_action_use_root">Root verwenden</string>
 	<string name="setup_root_grant_starting">Root-Zugriff angefragt… (beta)</string>
 	<string name="setup_root_grant_failed">Root-Vergabe fehlgeschlagen.</string>
+	<string name="setup_root_question">Ist das Gerät gerooted?</string>
 
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
