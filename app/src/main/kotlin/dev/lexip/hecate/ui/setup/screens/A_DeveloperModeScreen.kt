@@ -56,7 +56,8 @@ data class DeveloperModeActions(
 
 data class ActionConfig(
 	val labelRes: Int,
-	val toastRes: Int,
+	val toastResOne: Int,
+	val toastResTwo: Int?,
 	val onAction: () -> Unit,
 	val enabled: Boolean = true,
 )
@@ -181,15 +182,24 @@ private fun StatusCard(
 
 			if (showAction && actionConfig != null) {
 				Spacer(modifier = Modifier.height(12.dp))
-				val toastText = stringResource(actionConfig.toastRes)
+				val toastTextOne = stringResource(id = actionConfig.toastResOne)
+				val toastTextTwo =
+					if (actionConfig.toastResTwo != null) stringResource(id = actionConfig.toastResTwo) else null
 				Button(
 					onClick = {
 						actionConfig.onAction()
 						Toast.makeText(
 							context,
-							toastText,
+							toastTextOne,
 							Toast.LENGTH_LONG
 						).show()
+						toastTextTwo?.let { text ->
+							Toast.makeText(
+								context,
+								text,
+								Toast.LENGTH_LONG
+							).show()
+						}
 					},
 					modifier = Modifier.fillMaxWidth(),
 					enabled = actionConfig.enabled
@@ -247,7 +257,8 @@ private fun DeveloperOptionsCard(
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
 			labelRes = R.string.setup_action_open_settings,
-			toastRes = R.string.setup_dev_options_toast,
+			toastResOne = R.string.setup_dev_options_toast_one,
+			toastResTwo = R.string.setup_dev_options_toast_two,
 			onAction = onOpenSettings,
 			enabled = true
 		)
@@ -267,10 +278,10 @@ private fun UsbDebuggingCard(
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
 			labelRes = R.string.setup_action_open_developer_settings,
-			toastRes = R.string.setup_usb_debugging_toast,
+			toastResOne = R.string.setup_usb_debugging_toast,
+			toastResTwo = null,
 			onAction = onOpenDeveloperSettings,
 			enabled = isDeveloperOptionsEnabled
 		)
 	)
 }
-

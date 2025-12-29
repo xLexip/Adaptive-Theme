@@ -57,7 +57,8 @@
 	<string name="setup_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="setup_developer_options_unlock">Entwickleroptionen freischalten</string>
 	<string name="setup_developer_options_enabled">Entwickleroptionen aktiviert</string>
-	<string name="setup_dev_options_toast">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
+	<string name="setup_dev_options_toast_one">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
+	<string name="setup_dev_options_toast_two">Nutze die Suchfunktion, wenn du sie nicht findest.</string>
 	<string name="setup_alternative_methods">Alternative Methoden</string>
 	<string name="setup_grant_title">Schritt 3: Berechtigung mit dem anderen Gerät erteilen</string>
 	<string name="setup_grant_body">Öffne den folgenden Link auf deinem anderen Gerät und folge den Anweisungen:</string>
