@@ -19,7 +19,7 @@ life**.
 ## 🚀 Quick Start (2 minutes)
 
 1. **Install** Adaptive Theme.
-2. **Grant the permission** with our [web-tool](https://lexip.dev/setup), Shizuku, or other methods
+2. **Grant the permission** with a [web-tool](https://lexip.dev/setup), Shizuku, or other methods
    below.
 3. **Pick your lux threshold** and you’re done. ✅
 
@@ -56,10 +56,11 @@ permission (`WRITE_SECURE_SETTINGS`) has to be granted.
 The app comes with an easy step-by-step setup process, that lets you choose one of the following
 methods to do so:
 
-* Web Tool (Recommended) – Use our browser-based setup tool on a secondary device (Computer, Tablet,
-  or Phone). No code or ADB
-  installation required (WebADB).
-  👉 **[lexip.dev/setup](https://lexip.dev/setup)**
+* **Web Tool (Recommended)** – Use our browser-based setup tool on a secondary device (Computer,
+Tablet,
+or Phone). No code or ADB
+installation required (WebADB).
+👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
 * **Shizuku** – If you have **[Shizuku](https://github.com/RikkaApps/Shizuku)** installed and
   configured, you can
@@ -67,9 +68,7 @@ methods to do so:
 
 * **Root** – If your device is rooted, you can grant the permission with one tap inside the app.
 
-* **Manual ADB** – If you have ADB installed on your computer, you can run the ADB grant
-  command manually via your
-  terminal.
+* **Manual ADB** – If you have ADB installed on your computer, you can run the ADB command manually.
 
 ## ⚙️ How it Works
 
