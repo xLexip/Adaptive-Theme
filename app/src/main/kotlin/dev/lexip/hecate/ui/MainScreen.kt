@@ -18,6 +18,8 @@ import android.content.ClipboardManager
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -27,6 +29,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,6 +58,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -100,6 +104,18 @@ fun MainScreen(
 
 	val showCustomDialog = remember { mutableStateOf(false) }
 	val setupShakeKey = remember { mutableIntStateOf(0) }
+	val textShakeKey = remember { mutableIntStateOf(0) }
+
+	// Text shake animation for the conditions text (shown when the threshold changes)
+	val textOffsetAnim = remember { Animatable(0f) }
+	LaunchedEffect(textShakeKey.intValue) {
+		if (textShakeKey.intValue > 0) {
+			val offsets = listOf(-3f, 3f, -2f, 2f, -1f, 1f, -0.5f, 0.5f, 0f)
+			for (o in offsets) {
+				textOffsetAnim.animateTo(o, animationSpec = tween(durationMillis = 80))
+			}
+		}
+	}
 
 	LaunchedEffect(mainViewModel) {
 		mainViewModel.uiEvents.collect { event ->
@@ -178,7 +194,9 @@ fun MainScreen(
 				)
 				Spacer(modifier = Modifier.padding(top = 8.dp))
 				Text(
-					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
+					modifier = Modifier
+						.padding(horizontal = horizontalOffsetPadding)
+						.offset { IntOffset(textOffsetAnim.value.dp.roundToPx(), 0) },
 					text = stringResource(id = R.string.description_switching_conditions),
 					style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 21.sp)
 				)
@@ -253,6 +271,7 @@ fun MainScreen(
 					onValueChange = { index ->
 						mainViewModel.setPendingCustomSliderLux(lux[index])
 						mainViewModel.onSliderValueCommitted(index)
+						textShakeKey.intValue += 1
 					},
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = true,
