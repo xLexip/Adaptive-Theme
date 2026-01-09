@@ -24,6 +24,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -96,6 +97,8 @@ fun MainScreen(
 	val packageName = context.packageName
 
 	val internalUiState by mainViewModel.uiState.collectAsState()
+
+	val isSystemDark = isSystemInDarkTheme()
 
 	LaunchedEffect(Unit) {
 		val installed = ShizukuAvailability.isShizukuInstalled(context)
@@ -271,7 +274,11 @@ fun MainScreen(
 					onValueChange = { index ->
 						mainViewModel.setPendingCustomSliderLux(lux[index])
 						mainViewModel.onSliderValueCommitted(index)
-						textShakeKey.intValue += 1
+
+						// Shake the description text when the user could expect an immediate theme switch
+						if ((currentLux > lux[index]) == isSystemDark) {
+							textShakeKey.intValue += 1
+						}
 					},
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = true,
