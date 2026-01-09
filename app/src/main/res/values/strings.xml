@@ -83,7 +83,7 @@
 	<string name="setup_shizuku_body">If you already use Shizuku, you won’t need a second device or ADB.</string>
 	<string name="setup_shizuku_action">Use Shizuku instead</string>
 	<string name="setup_action_use_root">Use Root</string>
-	<string name="setup_root_grant_starting">Requesting root access… (beta)</string>
+	<string name="setup_root_request">Requesting root access…</string>
 	<string name="setup_root_grant_failed">Root grant failed.</string>
 	<string name="setup_root_question">Is the device rooted?</string>
 

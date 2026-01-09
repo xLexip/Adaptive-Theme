@@ -586,7 +586,7 @@ class SetupViewModel(
 
 	fun onGrantViaRootRequested() {
 		val context = application.applicationContext
-		Toast.makeText(context, R.string.setup_root_grant_starting, Toast.LENGTH_SHORT).show()
+		Toast.makeText(context, R.string.setup_root_request, Toast.LENGTH_SHORT).show()
 
 		viewModelScope.launch(ioDispatcher) {
 			val result = tryGrantViaRoot()
