@@ -25,6 +25,7 @@ import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.InAppUpdateManager
 import dev.lexip.hecate.util.InstallSourceChecker
 
@@ -73,6 +74,8 @@ class MainActivity : ComponentActivity() {
 
 	override fun onResume() {
 		super.onResume()
+
+		InAppReviewHandler.checkAndTriggerReview(this)
 
 		inAppUpdateManager?.resumeImmediateUpdateIfNeeded()
 		inAppUpdateManager?.resumeFlexibleUpdateIfNeeded()

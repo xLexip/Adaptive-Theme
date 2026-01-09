@@ -171,4 +171,11 @@ object Logger {
 			}
 		}
 	}
+
+	fun logInAppReviewFlowCompleted(context: Context) {
+		ifAllowed {
+			analytics(context).logEvent("review_flow_completed") { }
+		}
+	}
+
 }
