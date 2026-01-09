@@ -16,8 +16,8 @@ android {
 		applicationId = "dev.lexip.hecate"
 		minSdk = 34
 		targetSdk = 35
-		versionCode = 97
-		versionName = "1.0.0"
+		versionCode = 103
+		versionName = "1.1.0"
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
@@ -123,6 +123,8 @@ dependencies {
 	"playImplementation"(libs.firebase.analytics)
 	"playImplementation"(libs.firebase.crashlytics)
 	"playImplementation"(libs.app.update.ktx)
+	"playImplementation"(libs.review)
+	"playImplementation"(libs.review.ktx)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
