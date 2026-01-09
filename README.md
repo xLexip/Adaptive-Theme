@@ -2,7 +2,7 @@
 
 # Adaptive Theme: Auto Dark Mode by Ambient Light
 
-Adaptive Theme automatically switches between Light and **Dark mode**
+Adaptive Theme automatically switches between light and **dark mode**
 using the **ambient light sensor** — not a fixed schedule.
 
 It adapts to real lighting conditions to optimize **readability**, **eye comfort**, and **battery
@@ -19,7 +19,7 @@ life**.
 ## 🚀 Quick Start (2 minutes)
 
 1. **Install** Adaptive Theme.
-2. **Grant the permission** with a [web-tool](https://lexip.dev/setup), Shizuku, or other methods
+2. **Grant the permission** with the [web-tool](https://lexip.dev/setup), Shizuku, or other methods
    below.
 3. **Pick your lux threshold** and you’re done. ✅
 
@@ -27,8 +27,8 @@ life**.
 
 - [✨ Features & Highlights](#-features--highlights)
 - [🛠️ One-Time Setup](#%EF%B8%8F-one-time-setup)
-- [⚙️ How it Works](#%EF%B8%8F-how-it-works)
 - [✅ Safety](#-safety)
+- [⚙️ How it Works](#%EF%B8%8F-how-it-works)
 - [❓ FAQ](#-faq)
 - [❤️ Support the Project](#%EF%B8%8F-support-the-project)
 - [🏗️ Architecture & Tech Stack](#%EF%B8%8F-architecture--tech-stack)
@@ -37,15 +37,17 @@ life**.
 
 * 🌤️ **Smart Detection:** Uses your devices physical light sensor to switch the system
   theme.
-* ⚙️ **Custom brightness threshold:** Choose exactly when Light ↔ Dark should flip.
+* ⚙️ **Custom brightness threshold:** Choose exactly when the theme should flip or use a preset (
+  indoor, outdoor, sunlight, etc.).
 * 🔋 **Battery Friendly:** The app is passive. Its event-driven architecture only checks the sensor
   when you turn on the screen — zero battery drain in the background.
-* 🗝️ **No Root Required:** Root access is not required (but is supported as an alternative setup
+* 🗝️ **No Root Required:** Root access is not required (but supported as an alternative setup
   method).
 * 🐱 **Shizuku Support:** One of multiple setup options is
   using [Shizuku](https://github.com/RikkaApps/Shizuku).
 * 🚀 **Modern & Native:** Built with best-practices using Kotlin, Jetpack Compose and Material You
   for a smooth and solid experience.
+* 🌍 **50+ Languages:** Applied globalization at its best.
 * 🔒 **Transparent:** Free, open-source, no-ads.
 
 ## 🛠️ One-Time Setup
@@ -56,30 +58,22 @@ permission (`WRITE_SECURE_SETTINGS`) has to be granted.
 The app comes with an easy step-by-step setup process, that lets you choose one of the following
 methods to do so:
 
-* **Web Tool (Recommended)** – Use our browser-based setup tool on a secondary device (Computer,
-Tablet,
-or Phone). No code or ADB
-installation required (WebADB).
-👉 **[lexip.dev/setup](https://lexip.dev/setup)**
+* **Web Tool (Recommended)** – A browser-based setup tool on a secondary device (Computer,
+  Tablet,
+  or Phone). No code or ADB
+  installation required (WebADB).
+  👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
 * **Shizuku** – If you have **[Shizuku](https://github.com/RikkaApps/Shizuku)** installed and
   configured, you can
-  grant the permission directly within the Adaptive Theme app.
+  grant the permission directly within Adaptive Theme.
 
-* **Root** – If your device is rooted, you can grant the permission with one tap inside the app.
+* **Root** – If your device is rooted, you can grant the permission directly in Adaptive Theme as
+  well.
 
-* **Manual ADB** – If you have ADB installed on your computer, you can run the ADB command manually.
-
-## ⚙️ How it Works
-
-**Wondering why the theme didn't change immediately?**
-
-To avoid screen flicker and unnecessary background work, Adaptive Theme follows strict rules:
-
-- **Event-driven:** It checks the light sensor only immediately after the screen turns on.
-- **Validity check:** It verifies that the sensor is not obstructed (e.g., by a hand or pocket).
-- **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
-  interacting with it.
+* **Manual ADB** – If you have ADB installed on your computer, you can simply run the ADB command
+  manually:
+  ```adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS```
 
 ## ✅ Safety
 
@@ -88,12 +82,25 @@ absolutely safe and
 completely reversible by uninstalling the app. It does **not** grant root access or read any user
 data.
 
+## ⚙️ How it Works
+
+**Wondering why the theme didn't change immediately?**
+
+To avoid screen flicker and unnecessary background work, Adaptive Theme follows strict rules:
+
+- **Event-driven:** It checks the light sensor only right after the screen turns on. Combined with
+  hysteresis, this prevents flicker, avoids interruptions while you’re using the phone, and saves
+  battery.
+- **Validity check:** It verifies that the sensor is not obstructed (e.g., by a hand or pocket).
+- **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
+  interacting with it.
+
 ## ❓ FAQ
 
 **Does this require root?**
 
-* No. It works on stock devices. However, if you have Root, it can optionally be used to set up the
-  service faster.
+* No. It works on stock devices. However, if you have Root, it can be used as an alternative setup
+  method.
 
 **Does it work with custom Android skins (Xiaomi MIUI, Samsung OneUI, etc.)?**
 
@@ -107,11 +114,12 @@ data.
   your device usage.
 - Check that your sensor isn’t covered when you turn the screen on.
 - Adjust your lux threshold and test in clearly bright/dim conditions.
+- Check if the current lux value is shown correctly in the Adaptive Theme app.
 
 ### Support & Feedback
 
-If Adaptive Theme doesn’t work for you — or if you have any questions or ideas — please open an
-issue here or send feedback via the app.
+If Adaptive Theme doesn’t work for you — or if you have any questions or ideas — please [open an
+issue](https://github.com/xLexip/Adaptive-Theme/issues/new) here or send feedback via the app.
 
 ## ❤️ Support the Project
 
@@ -142,7 +150,8 @@ also [buy me a coffee](https://buymeacoffee.com/lexip).
 Adaptive Theme is built with modern Android engineering standards to ensure a lightweight,
 maintainable, and production-ready codebase.
 
-**Modern Codebase:** Written entirely in Kotlin with Jetpack Compose and Material 3 (Material You).
+**Modern Codebase:** Written entirely in Kotlin with Jetpack Compose and Material 3 (Material You),
+including haptic feedback.
 
 **Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
 
@@ -155,7 +164,8 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
 
 ### **Made with 🥨 in Germany.**
 
-> ~~> Keywords: theme switcher · android automation · night mode · dark sense · automatic dark
+> ~~> Keywords: theme switcher · android automation · night mode · dark sense · automatic android
+dark
 mode ·
 brightness-based ·
 light-based · based on lux · google pixel · auto dark theme · shizuku apps · android 14 · android
