@@ -115,7 +115,7 @@ internal fun ForExpertsSectionCard(
 				Column(modifier = Modifier.fillMaxWidth()) {
 					Spacer(modifier = Modifier.height(8.dp))
 					Text(
-						text = stringResource(id = R.string.setup_manual_command),
+						text = stringResource(id = R.string.setup_alternatives),
 						style = MaterialTheme.typography.bodyMedium,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)
