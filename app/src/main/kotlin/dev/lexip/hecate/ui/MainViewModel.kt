@@ -25,6 +25,7 @@ import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.InstallSourceChecker
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.CoroutineDispatcher
@@ -51,7 +52,8 @@ data class MainUiState(
 	val customAdaptiveThemeThresholdLux: Float? = null,
 	val hasSetupCompleted: Boolean = false,
 	val isDeviceCovered: Boolean = false,
-	val isShizukuInstalled: Boolean = false
+	val isShizukuInstalled: Boolean = false,
+	val isInstalledFromPlayStore: Boolean = false
 )
 
 class MainViewModel(
@@ -143,6 +145,11 @@ class MainViewModel(
 	private var customThresholdTemp: Float? = null
 
 	init {
+		viewModelScope.launch(ioDispatcher) {
+			val fromPlayStore = InstallSourceChecker.fromPlayStore(application)
+			_uiState.value = _uiState.value.copy(isInstalledFromPlayStore = fromPlayStore)
+		}
+
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
 				_uiState.value = _uiState.value.copy(

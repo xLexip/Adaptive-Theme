@@ -168,6 +168,7 @@ fun MainScreen(
 					ThreeDotMenu(
 						isAdaptiveThemeEnabled = uiState.adaptiveThemeEnabled,
 						packageName = packageName,
+						isInstalledFromPlayStore = uiState.isInstalledFromPlayStore,
 						onShowCustomThresholdDialog = { showCustomDialog.value = true }
 					)
 				},
