@@ -1,0 +1,95 @@
+<resources>
+    <string name="action_back">Atrás</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_close">Cerrar</string>
+    <string name="action_continue">Continuar</string>
+    <string name="action_disable_notification">Ocultar notificación</string>
+    <string name="action_finish">Finalizar</string>
+    <string name="action_set">Establecer</string>
+    <string name="action_share_url">Compartir enlace</string>
+    <string name="action_skip">Omitir</string>
+    <string name="action_use_adaptive_theme">Usar %1$s</string>
+
+    <string name="description_service_purpose">
+       Alterna entre el modo claro y oscuro según la luz ambiental, optimizando el confort visual y la batería.
+    </string>
+
+    <string name="description_switching_conditions">
+       Los cambios solo ocurren inmediatamente después de encender la pantalla, siempre que el sensor no esté cubierto.
+    </string>
+
+    <string name="description_notification_service_running">
+       Ajustando el tema del sistema según el brillo ambiental.
+    </string>
+
+    <string name="device_covered_title">Sensor cubierto</string>
+    <string name="device_covered_message">Los cambios de tema están pausados porque el sensor de luz está cubierto.</string>
+
+    <string name="error_invalid_lux_value">Valor de brillo no válido.</string>
+    <string name="error_negative_lux_value">El valor no puede ser negativo.</string>
+    <string name="error_lux_value_too_large">El valor no puede exceder 100,000.</string>
+
+    <string name="title_about_github">Acerca de / GitHub</string>
+    <string name="title_brightness_threshold">Umbral de brillo</string>
+    <string name="title_live_measurement">Valor en vivo</string>
+    <string name="title_change_language">Cambiar idioma</string>
+    <string name="title_current_brightness">Brillo actual</string>
+    <string name="title_custom_threshold">Umbral personalizado</string>
+    <string name="title_more">Más</string>
+    <string name="title_notification_channel_service">Servicio de cambio de tema</string>
+    <string name="title_send_feedback">Enviar comentarios</string>
+    <string name="title_support_project">Apoyar el proyecto</string>
+
+    <string name="adaptive_threshold_bright">Brillante</string>
+    <string name="adaptive_threshold_custom">Personalizado</string>
+    <string name="adaptive_threshold_dark">Oscuro</string>
+    <string name="adaptive_threshold_daylight">Luz de día</string>
+    <string name="adaptive_threshold_dim">Tenue</string>
+    <string name="adaptive_threshold_soft">Suave</string>
+    <string name="adaptive_threshold_sunlight">Luz solar</string>
+
+    <string name="hint_custom_threshold_value">Valor en Lux</string>
+
+    <string name="setup_action_open_developer_settings">Abrir opciones para desarrolladores</string>
+    <string name="setup_action_open_settings">Abrir configuración</string>
+    <string name="setup_connect_title">Paso 2: Conectar a otro dispositivo</string>
+    <string name="setup_connect_body">Para conceder el permiso, necesitas un <b>dispositivo secundario</b> (computadora, tableta o teléfono). Conecta este dispositivo a él mediante USB.</string>
+    <string name="setup_developer_mode_title">Paso 1: Habilitar modo desarrollador</string>
+    <string name="setup_developer_mode_body">Habilita la depuración por USB en las opciones para desarrolladores.</string>
+    <string name="setup_developer_options_unlock">Desbloquear opciones para desarrolladores</string>
+    <string name="setup_developer_options_enabled">Opciones para desarrolladores habilitadas</string>
+    <string name="setup_dev_options_toast_one">Busca el número de compilación y tócalo 7 veces para habilitar las opciones para desarrolladores.</string>
+    <string name="setup_dev_options_toast_two">Usa la función de búsqueda si no puedes encontrarlo.</string>
+    <string name="setup_alternative_methods">Métodos alternativos</string>
+    <string name="setup_grant_title">Paso 3: Conceder el permiso con el otro dispositivo</string>
+    <string name="setup_grant_body">Abre el siguiente enlace en tu otro dispositivo y sigue las instrucciones:</string>
+    <string name="setup_alternatives">Alternativamente, puedes ejecutar un comando ADB tú mismo o usar root para conceder el permiso. Shizuku también es compatible.</string>
+    <string name="setup_permission_granted">Permiso concedido.</string>
+    <string name="setup_permission_not_granted">Permiso aún no concedido. Por favor completa la configuración con el otro dispositivo.</string>
+    <string name="setup_usb_debugging_disabled">Habilitar depuración por USB</string>
+    <string name="setup_usb_debugging_enabled">Depuración por USB habilitada</string>
+    <string name="setup_usb_debugging_toast">Habilitar depuración por USB</string>
+    <string name="setup_usb_not_connected">Esperando conexión USB…</string>
+    <string name="setup_usb_connected">USB conectado</string>
+    <string name="setup_why_other_device_title">¿Por qué se requiere otro dispositivo?</string>
+    <string name="setup_why_other_device">Android impide que las aplicaciones se concedan el permiso requerido a sí mismas. Requiere otro dispositivo con un navegador web o ADB instalado. </string>
+    <string name="setup_is_this_safe_title">¿Es esto seguro?</string>
+    <string name="setup_is_this_safe_body">Sí. Solo permite a la aplicación modificar configuraciones como el modo oscuro. Esto es absolutamente seguro y completamente reversible. Además, el código fuente está disponible públicamente en GitHub.</string>
+    <string name="setup_shizuku_title">Alternativa: Shizuku</string>
+    <string name="setup_shizuku_body">Si ya usas Shizuku, no necesitarás un segundo dispositivo ni ADB.</string>
+    <string name="setup_shizuku_action">Usar Shizuku en su lugar</string>
+    <string name="setup_action_use_root">Usar Root</string>
+    <string name="setup_root_request">Solicitando acceso root…</string>
+    <string name="setup_root_grant_failed">Falló la concesión de root.</string>
+    <string name="setup_root_question">¿Está el dispositivo rooteado?</string>
+
+    <string name="setup_required_title">Configuración requerida</string>
+    <string name="setup_required_message">%1$s requiere una configuración única para funcionar.</string>
+    <string name="action_start_setup">Iniciar configuración</string>
+
+    <string name="shizuku_not_ready">Inicia Shizuku e inténtalo de nuevo.</string>
+    <string name="shizuku_denied">Acceso denegado. Permite esta aplicación en Shizuku.</string>
+    <string name="shizuku_request_permission">Solicitando permiso…</string>
+    <string name="shizuku_grant_shell_failed">Shizuku no pudo ejecutar el comando.</string>
+    <string name="shizuku_grant_unexpected">Error inesperado al usar Shizuku.</string>
+</resources>
