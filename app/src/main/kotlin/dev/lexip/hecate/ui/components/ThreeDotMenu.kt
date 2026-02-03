@@ -156,7 +156,7 @@ fun ThreeDotMenu(
 						}
 
 						val supportUri =
-							"https://github.com/xLexip/Adaptive-Theme?tab=readme-ov-file#%EF%B8%8F-support-the-project".toUri()
+							"https://lexip.dev/hecate/support-the-project".toUri()
 						val supportIntent = Intent(Intent.ACTION_VIEW, supportUri)
 						try {
 							context.startActivity(supportIntent)
