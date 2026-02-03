@@ -31,6 +31,7 @@ life**.
 - [FAQ](#faq)
 - [Support the Project](#support-the-project)
 - [Architecture & Tech Stack](#architecture--tech-stack)
+- [Credits](#credits)
 
 ## Features & Highlights
 
@@ -160,5 +161,16 @@ including haptic feedback.
 
 **Background Work:** Sensor operations run event-driven – only upon screen-on
 broadcasts – ensuring zero unnecessary battery drain in the background.
+
+## Credits
+
+* Thanks to Facundo Holzmeister (HowToMen)
+  for featuring Adaptive Theme in
+  a [YouTube video](https://youtu.be/iY3FBMTA15A?si=N8aCNyHj7vzRpiiC&t=98).
+* Thanks to Abdul
+  for featuring Adaptive Theme in
+  a [YouTube video](https://youtu.be/CH_4E1LzGcU?si=BHWwIAIMiiWp6iWf&t=459).
+* Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for spanish translation
+  strings.
 
 ### **Made with 🥨 in Germany.**
