@@ -1,4 +1,4 @@
-[![Feature Graphic with App Screenshot](https://i.ibb.co/bjHmz8Sh/feature-graphic-gh.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
+[![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
 
 # Adaptive Theme: Auto Dark Mode by Ambient Light
 
@@ -9,11 +9,15 @@ It adapts to real lighting conditions to optimize **readability**, **eye comfort
 life**.
 
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
-    <img src=".github/resources/get-it-on-google-play.svg" alt="Get Adaptive Theme on Google Play" width="200"/>
+    <img src=".github/resources/get-it-on-google-play.svg" alt="Get it on Google Play" width="200"/>
 </a>
 ‎ ‎ ‎
 <a href="https://github.com/xLexip/Adaptive-Theme/releases/latest">
-    <img src=".github/resources/github-releases.png" alt="GitHub" width="200"/>
+    <img src=".github/resources/github-releases.png" alt="GitHub Releases" width="200"/>
+</a> 
+‎ ‎ ‎
+<a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub%26utm_medium%3Dxlexip">
+    <img src=".github/resources/works-with-shizuku.png" alt="Shizuku (PlayStore)" width="200"/>
 </a> 
 
 ## Quick Start (2 minutes)
