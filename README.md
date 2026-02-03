@@ -20,6 +20,8 @@ life**.
     <img src=".github/resources/works-with-shizuku.png" alt="Shizuku (PlayStore)" width="200"/>
 </a> 
 
+### YouTube: [HowToMen – Top 15 Best Android Apps - February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)
+
 ## Quick Start (2 minutes)
 
 1. **Install** Adaptive Theme.
