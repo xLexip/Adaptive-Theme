@@ -8,7 +8,7 @@
 		"develop"
 	],
 	"dependencyDashboard": true,
-	"minimumReleaseAge": "3 days"
+	"minimumReleaseAge": "3 days",
 	"labels": [
 		"renovate"
 	],
