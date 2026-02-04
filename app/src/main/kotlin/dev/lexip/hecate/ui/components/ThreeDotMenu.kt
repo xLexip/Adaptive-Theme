@@ -29,7 +29,6 @@ import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.InAppReviewHandler
-import dev.lexip.hecate.util.InstallSourceChecker
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -39,6 +38,7 @@ const val FEEDBACK_SUBJECT = "Adaptive Theme Feedback (v${BuildConfig.VERSION_NA
 fun ThreeDotMenu(
 	isAdaptiveThemeEnabled: Boolean,
 	packageName: String,
+	isInstalledFromPlayStore: Boolean,
 	onShowCustomThresholdDialog: () -> Unit
 ) {
 	val context = LocalContext.current
@@ -123,7 +123,7 @@ fun ThreeDotMenu(
 
 				// 4) Beta Feedback (only on beta builds from Play Store)
 				if (BuildConfig.VERSION_NAME.contains("-beta")
-					&& InstallSourceChecker.fromPlayStore(context)
+					&& isInstalledFromPlayStore
 				) {
 					DropdownMenuItem(
 						text = { Text(text = "Beta Feedback") },
@@ -156,7 +156,7 @@ fun ThreeDotMenu(
 						}
 
 						val supportUri =
-							"https://github.com/xLexip/Adaptive-Theme?tab=readme-ov-file#%EF%B8%8F-support-the-project".toUri()
+							"https://lexip.dev/hecate/support-the-project".toUri()
 						val supportIntent = Intent(Intent.ACTION_VIEW, supportUri)
 						try {
 							context.startActivity(supportIntent)
