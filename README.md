@@ -1,5 +1,10 @@
 [![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
 
+[![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases/latest)
+[![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)](#)
+[![Play Store Downloads (>5k)](https://playbadges.pavi2410.com/badge/downloads?id=dev.lexip.hecate&pretty)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+[![Play Store Ratings (4.5*)](https://playbadges.pavi2410.com/badge/ratings?id=dev.lexip.hecate)](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
+
 # Adaptive Theme: Auto Dark Mode by Ambient Light
 
 Adaptive Theme automatically switches between light and dark mode
@@ -115,12 +120,17 @@ To avoid screen flicker and unnecessary background work, Adaptive Theme follows 
 
 **My theme doesn’t change — what should I check?**
 
-- Keep in mind that the theme only switched immediately after the screen is turned on, to optimize
+* Keep in mind that the theme only switched immediately after the screen is turned on, to optimize
   sensor usage and to not interrupt
   your device usage.
-- Check that your sensor isn’t covered when you turn the screen on.
-- Adjust your lux threshold and test in clearly bright/dim conditions.
-- Check if the current lux value is shown correctly in the Adaptive Theme app.
+* Check that your sensor isn’t covered when you turn the screen on.
+* Adjust your lux threshold and test in clearly bright/dim conditions.
+* Check if the current lux value is shown correctly in the Adaptive Theme app.
+
+
+**Does Adaptive Theme work on tablets?**
+
+* Due to a technical detail, Adaptive Theme does not work on most tablets.
 
 ### Support & Feedback
 
