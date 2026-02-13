@@ -23,15 +23,8 @@ import dev.lexip.hecate.logging.Logger
 object InAppReviewHandler {
 
 	private const val TAG = "InAppReviewHandler"
-	private var isReviewPending = false
 
-	fun setReviewPending() {
-		isReviewPending = true
-	}
-
-	fun checkAndTriggerReview(activity: Activity) {
-		if (!isReviewPending) return
-		isReviewPending = false
+	fun triggerReview(activity: Activity) {
 
 		val manager = if (BuildConfig.DEBUG) {
 			FakeReviewManager(activity)

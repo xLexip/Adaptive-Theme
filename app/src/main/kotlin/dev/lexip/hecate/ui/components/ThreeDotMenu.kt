@@ -28,9 +28,9 @@ import androidx.core.net.toUri
 import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.R
 import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.util.InAppReviewHandler
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+
 
 const val FEEDBACK_SUBJECT = "Adaptive Theme Feedback (v${BuildConfig.VERSION_NAME})"
 
@@ -130,11 +130,6 @@ fun ThreeDotMenu(
 							context,
 							"support_project"
 						)
-
-						if (isAdaptiveThemeEnabled) {
-							InAppReviewHandler.setReviewPending()
-						}
-
 						val supportUri =
 							"https://lexip.dev/hecate/support-the-project".toUri()
 						val supportIntent = Intent(Intent.ACTION_VIEW, supportUri)
@@ -165,7 +160,7 @@ fun ThreeDotMenu(
 							context.startActivity(Intent(Intent.ACTION_VIEW, aboutUri))
 						}
 					}
-					
+
 				)
 			}
 		}

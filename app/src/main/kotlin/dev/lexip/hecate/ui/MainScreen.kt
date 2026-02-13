@@ -13,6 +13,7 @@
 package dev.lexip.hecate.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
@@ -72,6 +73,7 @@ import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
+import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 private val ScreenHorizontalMargin = 20.dp
@@ -131,6 +133,13 @@ fun MainScreen(
 
 				is NavigateToSetup -> {
 					// Handled by MainActivity
+				}
+
+				is RequestInAppReview -> {
+					val activity = context as? Activity
+					if (activity != null) {
+						InAppReviewHandler.triggerReview(activity)
+					}
 				}
 			}
 		}
