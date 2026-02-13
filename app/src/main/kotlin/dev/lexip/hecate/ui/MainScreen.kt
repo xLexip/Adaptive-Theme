@@ -22,8 +22,8 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -206,6 +206,34 @@ fun MainScreen(
 				)
 			}
 
+			// Device-covered warning when the proximity sensor reports covered
+			AnimatedVisibility(
+				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled,
+				enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
+				exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
+			) {
+				Card(
+					modifier = Modifier
+						.fillMaxWidth(),
+					colors = CardDefaults.cardColors(
+						containerColor = MaterialTheme.colorScheme.errorContainer,
+						contentColor = MaterialTheme.colorScheme.onErrorContainer
+					),
+					shape = RoundedCornerShape(20.dp)
+				) {
+					Column(modifier = Modifier.padding(16.dp)) {
+						Text(
+							text = stringResource(id = R.string.device_covered_title),
+							style = MaterialTheme.typography.titleMedium
+						)
+						Spacer(modifier = Modifier.padding(top = 4.dp))
+						Text(
+							text = stringResource(id = R.string.device_covered_message),
+							style = MaterialTheme.typography.bodyMedium
+						)
+					}
+				}
+			}
 
 			// Setup card shown when the required permission has not been granted yet
 			if (!hasWriteSecureSettingsPermission) {
@@ -297,34 +325,6 @@ fun MainScreen(
 
 			}
 
-			// Device-covered warning when the proximity sensor reports covered
-			AnimatedVisibility(
-				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled,
-				enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
-				exit = fadeOut() + slideOutVertically(targetOffsetY = { it / 2 })
-			) {
-				Card(
-					modifier = Modifier
-						.fillMaxWidth(),
-					colors = CardDefaults.cardColors(
-						containerColor = MaterialTheme.colorScheme.errorContainer,
-						contentColor = MaterialTheme.colorScheme.onErrorContainer
-					),
-					shape = RoundedCornerShape(20.dp)
-				) {
-					Column(modifier = Modifier.padding(16.dp)) {
-						Text(
-							text = stringResource(id = R.string.device_covered_title),
-							style = MaterialTheme.typography.titleMedium
-						)
-						Spacer(modifier = Modifier.padding(top = 4.dp))
-						Text(
-							text = stringResource(id = R.string.device_covered_message),
-							style = MaterialTheme.typography.bodyMedium
-						)
-					}
-				}
-			}
 			Spacer(modifier = Modifier.padding(bottom = 4.dp))
 		}
 	}
