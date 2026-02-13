@@ -16,12 +16,7 @@ import android.app.Activity
 
 object InAppReviewHandler {
 
-	fun setReviewPending() {
-		// No-op for FOSS flavor
-	}
-
-	fun checkAndTriggerReview(activity: Activity) {
+	fun triggerReview(activity: Activity) {
 		// No-op for FOSS flavor
 	}
 }
-

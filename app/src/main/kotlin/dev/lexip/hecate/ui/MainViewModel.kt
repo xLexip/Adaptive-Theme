@@ -42,11 +42,13 @@ import kotlinx.coroutines.launch
 
 private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 private const val TAG = "MainViewModel"
+private const val REVIEW_MIN_SWITCH_COUNT = 10
 
 sealed interface UiEvent
 
 data class CopyToClipboard(val text: String) : UiEvent
 data object NavigateToSetup : UiEvent
+data object RequestInAppReview : UiEvent
 
 data class MainUiState(
 	val adaptiveThemeEnabled: Boolean = false,
@@ -172,6 +174,10 @@ class MainViewModel(
 
 	private var customThresholdTemp: Float? = null
 
+	// In-app reviews
+	private var serviceEnabledAtStart: Boolean? = null
+	private var reviewRequestedInSession: Boolean = false
+
 	init {
 		viewModelScope.launch(ioDispatcher) {
 			val fromPlayStore = InstallSourceChecker.fromPlayStore(application)
@@ -180,6 +186,9 @@ class MainViewModel(
 
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
+				if (serviceEnabledAtStart == null) {
+					serviceEnabledAtStart = userPreferences.adaptiveThemeEnabled
+				}
 				_uiState.value = _uiState.value.copy(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
@@ -257,17 +266,28 @@ class MainViewModel(
 		}
 	}
 
+	private fun shouldPromptForReview(): Boolean {
+		val daysSinceFirstInstall =
+			InstallSourceChecker.getDaysSinceFirstInstall(application.applicationContext)
+		return !reviewRequestedInSession && serviceEnabledAtStart == true && daysSinceFirstInstall >= 2
+	}
+
 	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
 		val threshold = AdaptiveThreshold.fromIndex(index)
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
-			// Log threshold change
+
 			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,
 				newLux = threshold.lux
 			)
+
+			if (shouldPromptForReview()) {
+				_uiEvents.emit(RequestInAppReview)
+				reviewRequestedInSession = true
+			}
 		}
 	}
 
@@ -275,6 +295,7 @@ class MainViewModel(
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateCustomAdaptiveThemeThresholdLux(lux)
+
 			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,

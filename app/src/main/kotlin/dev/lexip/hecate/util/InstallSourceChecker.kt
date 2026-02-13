@@ -31,6 +31,23 @@ object InstallSourceChecker {
 		return fromPlay
 	}
 
+	/**
+	 * Returns the number of days since the app was first installed on the device.
+	 */
+	fun getDaysSinceFirstInstall(context: Context): Long {
+		return try {
+			val pm = context.packageManager
+			val info = pm.getPackageInfo(context.packageName, 0)
+			val firstInstallTime = info.firstInstallTime
+			val currentTime = System.currentTimeMillis()
+			val diff = currentTime - firstInstallTime
+			java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff)
+		} catch (e: Exception) {
+			Log.e(TAG, "Failed to get first install time", e)
+			0L
+		}
+	}
+
 	private fun getInstallerPackageName(context: Context): String? {
 		val pm = context.packageManager
 		val packageName = context.packageName
@@ -42,4 +59,3 @@ object InstallSourceChecker {
 		}
 	}
 }
-
