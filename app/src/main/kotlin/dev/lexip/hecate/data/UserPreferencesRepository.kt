@@ -20,6 +20,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -31,7 +32,8 @@ data class UserPreferences(
 	val adaptiveThemeEnabled: Boolean,
 	val adaptiveThemeThresholdLux: Float,
 	val customAdaptiveThemeThresholdLux: Float? = null,
-	val hasSetupCompleted: Boolean = false
+	val hasSetupCompleted: Boolean = false,
+	val themeSwitchCount: Int = 0
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -42,8 +44,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
 			floatPreferencesKey("custom_adaptive_theme_threshold_lux")
 		val SETUP_COMPLETED = booleanPreferencesKey("setup_completed")
+		val THEME_SWITCH_COUNT = intPreferencesKey("theme_switch_count")
 	}
-
+ 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
 			// dataStore.data throws an IOException when an error is encountered when reading data
@@ -78,11 +81,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX]
 		val hasSetupCompleted =
 			preferences[PreferencesKeys.SETUP_COMPLETED] == true
+		val themeSwitchCount = preferences[PreferencesKeys.THEME_SWITCH_COUNT] ?: 0
 		return UserPreferences(
 			adaptiveThemeEnabled = adaptiveThemeEnabled,
 			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
 			customAdaptiveThemeThresholdLux = customAdaptiveThemeThresholdLux,
-			hasSetupCompleted = hasSetupCompleted
+			hasSetupCompleted = hasSetupCompleted,
+			themeSwitchCount = themeSwitchCount
 		)
 	}
 
@@ -110,6 +115,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun updateSetupCompleted(completed: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.SETUP_COMPLETED] = completed
+		}
+	}
+
+	suspend fun incrementThemeSwitchCount() {
+		dataStore.edit { preferences ->
+			val current = preferences[PreferencesKeys.THEME_SWITCH_COUNT] ?: 0
+			preferences[PreferencesKeys.THEME_SWITCH_COUNT] = current + 1
 		}
 	}
 

@@ -99,6 +99,10 @@ fun AppNavHost(
 				is CopyToClipboard -> {
 					// Let UI handle copying to clipboard if needed
 				}
+
+				is RequestInAppReview -> {
+					// Handled by MainScreen
+				}
 			}
 		}
 	}
@@ -273,5 +277,4 @@ private fun rememberSetupViewModel(
 
 	return viewModel
 }
-
 
