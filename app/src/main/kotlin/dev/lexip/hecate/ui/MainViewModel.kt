@@ -30,7 +30,9 @@ import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -97,6 +99,7 @@ class MainViewModel(
 	// Proximity Sensor
 	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
+	private var coveredJob: Job? = null
 
 	private fun startProximityListening() {
 		if (!proximitySensorManager.hasProximitySensor) {
@@ -114,9 +117,29 @@ class MainViewModel(
 		isListeningToProximity = true
 		proximitySensorManager.startListening({ distance: Float ->
 			val covered = distance < 5f
-			if (covered != _uiState.value.isDeviceCovered) {
-				if (covered) Thread.sleep(1000) // Prevents UI flickering
-				_uiState.value = _uiState.value.copy(isDeviceCovered = covered)
+			if (covered) {
+				if (_uiState.value.isDeviceCovered || coveredJob?.isActive == true) return@startListening
+				coveredJob = viewModelScope.launch {
+					Log.d(TAG, "Proximity covered timer started")
+					try {
+						delay(1000)
+						if (!_uiState.value.isDeviceCovered) {
+							_uiState.value = _uiState.value.copy(isDeviceCovered = true)
+							Log.d(TAG, "Proximity covered timer fired")
+						}
+					} finally {
+						coveredJob = null
+					}
+				}
+			} else {
+				if (coveredJob?.isActive == true) {
+					coveredJob?.cancel()
+					coveredJob = null
+					Log.d(TAG, "Proximity covered timer cancelled")
+				}
+				if (_uiState.value.isDeviceCovered) {
+					_uiState.value = _uiState.value.copy(isDeviceCovered = false)
+				}
 			}
 		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
 	}
@@ -125,6 +148,11 @@ class MainViewModel(
 		if (!isListeningToProximity) return
 		isListeningToProximity = false
 		proximitySensorManager.stopListening()
+		if (coveredJob?.isActive == true) {
+			coveredJob?.cancel()
+			coveredJob = null
+			Log.d(TAG, "Proximity covered timer cancelled")
+		}
 		if (_uiState.value.isDeviceCovered) {
 			_uiState.value = _uiState.value.copy(isDeviceCovered = false)
 		}
