@@ -121,27 +121,7 @@ fun ThreeDotMenu(
 					}
 				)
 
-				// 4) Beta Feedback (only on beta builds from Play Store)
-				if (BuildConfig.VERSION_NAME.contains("-beta")
-					&& isInstalledFromPlayStore
-				) {
-					DropdownMenuItem(
-						text = { Text(text = "Beta Feedback") },
-						onClick = {
-							menuExpanded = false
-							Logger.logOverflowMenuItemClicked(
-								context,
-								"beta_feedback"
-							)
-							val betaUri =
-								"https://play.google.com/store/apps/details?id=dev.lexip.hecate".toUri()
-							val betaIntent = Intent(Intent.ACTION_VIEW, betaUri)
-							context.startActivity(betaIntent)
-						}
-					)
-				}
-
-				// 5) Support the project
+				// 4) Support the project
 				DropdownMenuItem(
 					text = { Text(text = stringResource(R.string.title_support_project)) },
 					onClick = {
@@ -166,7 +146,7 @@ fun ThreeDotMenu(
 					}
 				)
 
-				// 6) About
+				// 5) About
 				DropdownMenuItem(
 					text = { Text(stringResource(R.string.title_about_github)) },
 					onClick = {
@@ -185,6 +165,7 @@ fun ThreeDotMenu(
 							context.startActivity(Intent(Intent.ACTION_VIEW, aboutUri))
 						}
 					}
+					
 				)
 			}
 		}
