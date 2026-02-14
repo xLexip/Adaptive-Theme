@@ -1,12 +1,22 @@
+[![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases/latest)
+[![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)](#)
+<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
+<img
+src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white"
+alt="Play Store Download Count (6k+)">
+</a>
+
 [![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
 
-# Adaptive Theme: Auto Dark Mode by Ambient Light
+# Adaptive Theme – Auto Dark Mode by Ambient Light
 
-Adaptive Theme automatically switches between light and dark mode
-using the **ambient light sensor** — not a fixed schedule.
+Adaptive Theme automatically switches between light and dark theme
+using the ambient light sensor — not a fixed schedule.
 
-It adapts to real lighting conditions to optimize **readability**, **eye comfort**, and **battery
+It adapts to actual lighting conditions to optimize **readability**, **eye comfort**, and **battery
 life**.
+
+#### YouTube: [HowToMen – Top 15 Best Android Apps - February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)
 
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
     <img src=".github/resources/get-it-on-google-play.svg" alt="Get it on Google Play" width="200"/>
@@ -16,11 +26,9 @@ life**.
     <img src=".github/resources/github-releases.png" alt="GitHub Releases" width="200"/>
 </a> 
 ‎ ‎ ‎
-<a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub%26utm_medium%3Dxlexip">
+<a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip">
     <img src=".github/resources/works-with-shizuku.png" alt="Shizuku (PlayStore)" width="200"/>
 </a> 
-
-### YouTube: [HowToMen – Top 15 Best Android Apps - February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)
 
 ## Quick Start (2 minutes)
 
@@ -50,7 +58,7 @@ life**.
 * **No Root Required:** Root access is not required (but supported as an alternative setup
   method).
 * **Shizuku Support:** One of multiple setup options is
-  using [Shizuku](https://github.com/RikkaApps/Shizuku).
+  using [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip).
 * **Modern & Native:** Built with best-practices using Kotlin, Jetpack Compose and Material You
   for a smooth and solid experience.
 * **50+ Languages:** Applied globalization at its best.
@@ -70,7 +78,7 @@ methods to do so:
   installation required (WebADB).
   👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
-* **Shizuku** – If you have [Shizuku](https://github.com/RikkaApps/Shizuku) installed and
+* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip) installed and
   configured, you can
   grant the permission directly within Adaptive Theme.
 
@@ -115,12 +123,16 @@ To avoid screen flicker and unnecessary background work, Adaptive Theme follows 
 
 **My theme doesn’t change — what should I check?**
 
-- Keep in mind that the theme only switched immediately after the screen is turned on, to optimize
+* Keep in mind that the theme only switched immediately after the screen is turned on, to optimize
   sensor usage and to not interrupt
   your device usage.
-- Check that your sensor isn’t covered when you turn the screen on.
-- Adjust your lux threshold and test in clearly bright/dim conditions.
-- Check if the current lux value is shown correctly in the Adaptive Theme app.
+* Check that your sensor isn’t covered when you turn the screen on.
+* Adjust your lux threshold and test in clearly bright/dim conditions.
+* Check if the current lux value is shown correctly in the Adaptive Theme app.
+
+**Does Adaptive Theme work on tablets?**
+
+* No. Due to a technical detail, Adaptive Theme only works on smartphones.
 
 ### Support & Feedback
 
@@ -170,13 +182,13 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
 
 ## Credits
 
-* Thanks to Facundo Holzmeister (HowToMen)
-  for featuring Adaptive Theme in
-  a [YouTube video](https://youtu.be/iY3FBMTA15A?si=N8aCNyHj7vzRpiiC&t=98).
-* Thanks to Abdul
-  for featuring Adaptive Theme in
-  a [YouTube video](https://youtu.be/CH_4E1LzGcU?si=BHWwIAIMiiWp6iWf&t=459).
+* Thanks to the following YouTubers for featuring Adaptive Theme:
+    * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
+    * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
+    * El Androide Feliz – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&t=152s)
+    * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
 * Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for spanish translation
   strings.
+* Font Credits: [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors
 
 ### **Made with 🥨 in Germany.**

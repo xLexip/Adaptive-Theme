@@ -30,7 +30,9 @@ import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,11 +42,13 @@ import kotlinx.coroutines.launch
 
 private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 private const val TAG = "MainViewModel"
+private const val REVIEW_MIN_SWITCH_COUNT = 10
 
 sealed interface UiEvent
 
 data class CopyToClipboard(val text: String) : UiEvent
 data object NavigateToSetup : UiEvent
+data object RequestInAppReview : UiEvent
 
 data class MainUiState(
 	val adaptiveThemeEnabled: Boolean = false,
@@ -97,6 +101,7 @@ class MainViewModel(
 	// Proximity Sensor
 	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
+	private var coveredJob: Job? = null
 
 	private fun startProximityListening() {
 		if (!proximitySensorManager.hasProximitySensor) {
@@ -114,9 +119,29 @@ class MainViewModel(
 		isListeningToProximity = true
 		proximitySensorManager.startListening({ distance: Float ->
 			val covered = distance < 5f
-			if (covered != _uiState.value.isDeviceCovered) {
-				if (covered) Thread.sleep(1000) // Prevents UI flickering
-				_uiState.value = _uiState.value.copy(isDeviceCovered = covered)
+			if (covered) {
+				if (_uiState.value.isDeviceCovered || coveredJob?.isActive == true) return@startListening
+				coveredJob = viewModelScope.launch {
+					Log.d(TAG, "Proximity covered timer started")
+					try {
+						delay(1000)
+						if (!_uiState.value.isDeviceCovered) {
+							_uiState.value = _uiState.value.copy(isDeviceCovered = true)
+							Log.d(TAG, "Proximity covered timer fired")
+						}
+					} finally {
+						coveredJob = null
+					}
+				}
+			} else {
+				if (coveredJob?.isActive == true) {
+					coveredJob?.cancel()
+					coveredJob = null
+					Log.d(TAG, "Proximity covered timer cancelled")
+				}
+				if (_uiState.value.isDeviceCovered) {
+					_uiState.value = _uiState.value.copy(isDeviceCovered = false)
+				}
 			}
 		}, sensorDelay = SensorManager.SENSOR_DELAY_UI)
 	}
@@ -125,6 +150,11 @@ class MainViewModel(
 		if (!isListeningToProximity) return
 		isListeningToProximity = false
 		proximitySensorManager.stopListening()
+		if (coveredJob?.isActive == true) {
+			coveredJob?.cancel()
+			coveredJob = null
+			Log.d(TAG, "Proximity covered timer cancelled")
+		}
 		if (_uiState.value.isDeviceCovered) {
 			_uiState.value = _uiState.value.copy(isDeviceCovered = false)
 		}
@@ -144,6 +174,10 @@ class MainViewModel(
 
 	private var customThresholdTemp: Float? = null
 
+	// In-app reviews
+	private var serviceEnabledAtStart: Boolean? = null
+	private var reviewRequestedInSession: Boolean = false
+
 	init {
 		viewModelScope.launch(ioDispatcher) {
 			val fromPlayStore = InstallSourceChecker.fromPlayStore(application)
@@ -152,6 +186,9 @@ class MainViewModel(
 
 		viewModelScope.launch {
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
+				if (serviceEnabledAtStart == null) {
+					serviceEnabledAtStart = userPreferences.adaptiveThemeEnabled
+				}
 				_uiState.value = _uiState.value.copy(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
@@ -229,17 +266,28 @@ class MainViewModel(
 		}
 	}
 
+	private fun shouldPromptForReview(): Boolean {
+		val daysSinceFirstInstall =
+			InstallSourceChecker.getDaysSinceFirstInstall(application.applicationContext)
+		return !reviewRequestedInSession && serviceEnabledAtStart == true && daysSinceFirstInstall >= 2
+	}
+
 	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
 		val threshold = AdaptiveThreshold.fromIndex(index)
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
-			// Log threshold change
+
 			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,
 				newLux = threshold.lux
 			)
+
+			if (shouldPromptForReview()) {
+				_uiEvents.emit(RequestInAppReview)
+				reviewRequestedInSession = true
+			}
 		}
 	}
 
@@ -247,6 +295,7 @@ class MainViewModel(
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
 		viewModelScope.launch {
 			userPreferencesRepository.updateCustomAdaptiveThemeThresholdLux(lux)
+
 			Logger.logBrightnessThresholdChanged(
 				application.applicationContext,
 				oldLux = oldLux,
