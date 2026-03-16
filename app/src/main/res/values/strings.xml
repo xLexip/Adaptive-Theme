@@ -50,7 +50,7 @@
 	<string name="adaptive_threshold_daylight">Daylight</string>
 	<string name="adaptive_threshold_dim">Dim</string>
 	<string name="adaptive_threshold_soft">Soft</string>
-	<string name="adaptive_threshold_sunlight">Sunlight</string>
+	<string name="adaptive_threshold_direct_sunlight">Direct Sunlight</string>
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 

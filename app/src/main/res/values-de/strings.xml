@@ -45,7 +45,7 @@
 	<string name="adaptive_threshold_daylight">Tageslicht</string>
 	<string name="adaptive_threshold_dim">Schwach</string>
 	<string name="adaptive_threshold_soft">Leicht</string>
-	<string name="adaptive_threshold_sunlight">Sonnenlicht</string>
+	<string name="adaptive_threshold_direct_sunlight">Direktes Sonnenlicht</string>
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
 
