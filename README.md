@@ -3,7 +3,12 @@
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
 <img
 src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white"
-alt="Play Store Download Count (6k+)">
+alt="Play Store Download Count >10k">
+</a>
+<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
+<img
+src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DRating%26m%3D%24rating&color=brightgreen&logo=google-play&logoColor=white"
+alt="Play Store Rating >4,9*">
 </a>
 
 [![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
