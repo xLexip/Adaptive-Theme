@@ -3,7 +3,12 @@
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
 <img
 src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white"
-alt="Play Store Download Count (6k+)">
+alt="Play Store Download Count >10k">
+</a>
+<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
+<img
+src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DRating%26m%3D%24rating&color=brightgreen&logo=google-play&logoColor=white"
+alt="Play Store Rating >4,9*">
 </a>
 
 [![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
@@ -78,9 +83,8 @@ methods to do so:
   installation required (WebADB).
   👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
-* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip) installed and
-  configured, you can
-  grant the permission directly within Adaptive Theme.
+* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip)
+  installed and configured, you can grant the permission directly within Adaptive Theme.
 
 * **Root** – If your device is rooted, you can grant the permission directly in Adaptive Theme as
   well.
@@ -186,6 +190,9 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
     * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
     * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
     * El Androide Feliz – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&t=152s)
+    * TechTab – [**Top 10 Android Apps you need to try - March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&t=298s)
+    * Gadget Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&t=306s)
+    * Tech Tricks – [**10 Best New Top Rated Android Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&t=257s)
     * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
 * Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for spanish translation
   strings.

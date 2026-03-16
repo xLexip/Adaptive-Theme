@@ -20,7 +20,7 @@ enum class AdaptiveThreshold(val labelRes: Int, val lux: Float) {
 	SOFT(R.string.adaptive_threshold_soft, 10f),
 	BRIGHT(R.string.adaptive_threshold_bright, 100f),
 	DAYLIGHT(R.string.adaptive_threshold_daylight, 1_000f),
-	SUNLIGHT(R.string.adaptive_threshold_sunlight, 10_000f);
+	SUNLIGHT(R.string.adaptive_threshold_direct_sunlight, 10_000f);
 
 	companion object {
 		fun fromIndex(index: Int): AdaptiveThreshold {

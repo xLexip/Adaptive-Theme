@@ -30,15 +30,42 @@ class GrantService : Binder() {
 
 			TRANSACTION_EXECUTE_CMD -> {
 				data.enforceInterface(DESCRIPTOR)
-				val cmd = data.readString()
-				Log.d(TAG, "Received command via Shizuku: $cmd")
-				val exitCode = runShell(cmd)
+
+				val first = data.readInt()
+				val commands: List<String?> = if (first == -1) {
+					listOf(data.readString())
+				} else {
+					val count = first
+					buildList {
+						repeat(count.coerceAtLeast(0)) {
+							add(data.readString())
+						}
+					}
+				}
+
+				val (failedIndex, exitCode) = runShellAll(commands)
+				reply?.writeInt(failedIndex)
 				reply?.writeInt(exitCode)
 				true
 			}
 
 			else -> super.onTransact(code, data, reply, flags)
 		}
+	}
+
+	private fun runShellAll(commands: List<String?>): Pair<Int, Int> {
+		commands.forEachIndexed { index, cmd ->
+			if (cmd.isNullOrBlank()) {
+				Log.w(TAG, "Received blank command at index=$index")
+				return index to -1
+			}
+
+			Log.d(TAG, "Received command via Shizuku (index=$index): $cmd")
+			val code = runShell(cmd)
+			if (code != 0) return index to code
+		}
+
+		return -1 to 0
 	}
 
 	private fun runShell(cmd: String?): Int {

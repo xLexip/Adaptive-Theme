@@ -50,7 +50,7 @@
 	<string name="adaptive_threshold_daylight">Daylight</string>
 	<string name="adaptive_threshold_dim">Dim</string>
 	<string name="adaptive_threshold_soft">Soft</string>
-	<string name="adaptive_threshold_sunlight">Sunlight</string>
+	<string name="adaptive_threshold_direct_sunlight">Direct Sunlight</string>
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 
@@ -72,7 +72,7 @@
 	<string name="setup_permission_not_granted">Permission not yet granted. Please complete the setup with the other device.</string>
 	<string name="setup_usb_debugging_disabled">Enable USB Debugging</string>
 	<string name="setup_usb_debugging_enabled">USB Debugging enabled</string>
-	<string name="setup_usb_debugging_toast">Enable USB Debugging</string>
+	<string name="setup_usb_debugging_enable_toast">Enable USB Debugging in the developer options.</string>
 	<string name="setup_usb_not_connected">Waiting for USB connection…</string>
 	<string name="setup_usb_connected">USB Connected</string>
 	<string name="setup_why_other_device_title">Why is another device required?</string>

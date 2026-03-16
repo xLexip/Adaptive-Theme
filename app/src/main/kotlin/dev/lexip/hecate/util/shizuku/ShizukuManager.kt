@@ -24,7 +24,11 @@ object ShizukuManager {
 		object ServiceNotRunning : GrantResult()
 		object NotAuthorized : GrantResult()
 		object Unexpected : GrantResult()
-		data class ShellCommandFailed(val exitCode: Int) : GrantResult()
+		data class ShellCommandFailed(
+			val commandIndex: Int,
+			val command: String,
+			val exitCode: Int
+		) : GrantResult()
 	}
 
 	init {
@@ -90,12 +94,25 @@ object ShizukuManager {
 	fun buildGrantWriteSecureSettingsCommand(packageName: String): String =
 		"pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
 
+	private fun buildAllowRunAnyInBackgroundCommand(packageName: String): String =
+		"cmd appops set $packageName RUN_ANY_IN_BACKGROUND allow"
+
+	private fun buildDeviceIdleWhitelistCommand(packageName: String): String =
+		"dumpsys deviceidle whitelist +$packageName"
+
+	fun buildAllGrantCommands(packageName: String): List<String> =
+		listOf(
+			buildGrantWriteSecureSettingsCommand(packageName),
+			buildAllowRunAnyInBackgroundCommand(packageName),
+			buildDeviceIdleWhitelistCommand(packageName)
+		)
+
 	fun executeGrantViaShizuku(context: Context, packageName: String): GrantResult {
 		if (Shizuku.isPreV11()) return GrantResult.ServiceNotRunning
 		if (!binderReady) return GrantResult.ServiceNotRunning
 		if (!hasPermission(context)) return GrantResult.NotAuthorized
 
-		val cmd = buildGrantWriteSecureSettingsCommand(packageName)
+		val commands = buildAllGrantCommands(packageName)
 
 		return try {
 			val monitor = Object()
@@ -105,7 +122,7 @@ object ShizukuManager {
 			val connection = createGrantServiceConnection(
 				context,
 				args,
-				cmd,
+				commands,
 				monitor,
 				packageName
 			) { grantResult ->
@@ -142,7 +159,7 @@ object ShizukuManager {
 	private fun createGrantServiceConnection(
 		context: Context,
 		args: Shizuku.UserServiceArgs,
-		cmd: String,
+		commands: List<String>,
 		monitor: Object,
 		packageName: String,
 		onResult: (GrantResult) -> Unit
@@ -156,7 +173,7 @@ object ShizukuManager {
 					if (binder == null) {
 						GrantResult.ServiceNotRunning
 					} else {
-						executeGrantTransaction(binder, cmd)
+						executeGrantTransaction(binder, commands)
 					}
 				} catch (t: Throwable) {
 					when (t) {
@@ -203,21 +220,36 @@ object ShizukuManager {
 
 	private fun executeGrantTransaction(
 		binder: IBinder,
-		cmd: String
+		commands: List<String>
 	): GrantResult {
 		val data = Parcel.obtain()
 		val reply = Parcel.obtain()
 		return try {
 			data.writeInterfaceToken("dev.lexip.hecate.util.shizuku.GrantService")
-			data.writeString(cmd)
+			data.writeInt(commands.size)
+			commands.forEach { data.writeString(it) }
 			val transactionCode = Binder.FIRST_CALL_TRANSACTION + 1
 			val success = binder.transact(transactionCode, data, reply, 0)
 			if (!success) {
 				GrantResult.ServiceNotRunning
 			} else {
+				val failedIndex = reply.readInt()
 				val exitCode = reply.readInt()
-				if (exitCode == 0) GrantResult.Success
-				else GrantResult.ShellCommandFailed(exitCode)
+				if (failedIndex == -1 && exitCode == 0) {
+					GrantResult.Success
+				} else {
+					val safeIndex = failedIndex.coerceIn(0, (commands.size - 1).coerceAtLeast(0))
+					val cmd: String = if (safeIndex in commands.indices) {
+						commands[safeIndex]
+					} else {
+						"<unknown>"
+					}
+					GrantResult.ShellCommandFailed(
+						commandIndex = failedIndex,
+						command = cmd,
+						exitCode = exitCode
+					)
+				}
 			}
 		} finally {
 			data.recycle()

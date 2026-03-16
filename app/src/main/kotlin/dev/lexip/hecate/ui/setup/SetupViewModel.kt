@@ -21,6 +21,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.usb.UsbManager
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
@@ -52,6 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 private const val AUTO_ADVANCE_DELAY = 2
 private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 private const val REQUEST_CODE_SHIZUKU = 1001
+private const val TAG = "SetupViewModel"
 
 /**
  * UI state for the setup flow, observed by setup screens.
@@ -602,6 +604,7 @@ class SetupViewModel(
 					}
 
 					is RootGrantResult.Failure -> {
+						Log.w(TAG, "Root setup commands failed: ${result.reason}")
 						Toast.makeText(
 							context,
 							R.string.setup_root_grant_failed,
@@ -624,22 +627,55 @@ class SetupViewModel(
 	}
 
 	private fun tryGrantViaRoot(): RootGrantResult {
+		val packageName = application.packageName
+		val commands = ShizukuManager.buildAllGrantCommands(packageName)
+
+		for ((index, command) in commands.withIndex()) {
+			val result = executeSingleRootCommand(command)
+			when (result) {
+				is RootCommandResult.Success -> Unit
+				is RootCommandResult.Failure -> {
+					return RootGrantResult.Failure(
+						"command_${index + 1}_exit_${result.exitCode}: ${result.command}"
+					)
+				}
+				is RootCommandResult.Unexpected -> {
+					return RootGrantResult.Failure(
+						"command_${index + 1}_${result.throwableName}: ${result.command}"
+					)
+				}
+			}
+		}
+
+		return RootGrantResult.Success
+	}
+
+	private sealed interface RootCommandResult {
+		data object Success : RootCommandResult
+		data class Failure(val command: String, val exitCode: Int) : RootCommandResult
+		data class Unexpected(val command: String, val throwableName: String) : RootCommandResult
+	}
+
+	private fun executeSingleRootCommand(command: String): RootCommandResult {
 		return try {
 			val process = Runtime.getRuntime().exec("su")
-			val os = java.io.DataOutputStream(process.outputStream)
-			os.writeBytes("pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS\n")
-			os.writeBytes("exit\n")
-			os.flush()
-			os.close()
+			java.io.DataOutputStream(process.outputStream).use { os ->
+				os.writeBytes("$command\n")
+				os.writeBytes("exit\n")
+				os.flush()
+			}
 
 			val exitCode = process.waitFor()
 			if (exitCode == 0) {
-				RootGrantResult.Success
+				RootCommandResult.Success
 			} else {
-				RootGrantResult.Failure("exit_code_$exitCode")
+				RootCommandResult.Failure(command = command, exitCode = exitCode)
 			}
 		} catch (e: Exception) {
-			RootGrantResult.Failure(e.javaClass.simpleName)
+			RootCommandResult.Unexpected(
+				command = command,
+				throwableName = e.javaClass.simpleName
+			)
 		}
 	}
 
