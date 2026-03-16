@@ -278,7 +278,7 @@ private fun UsbDebuggingCard(
 		showAction = !isEnabled,
 		actionConfig = ActionConfig(
 			labelRes = R.string.setup_action_open_developer_settings,
-			toastResOne = R.string.setup_usb_debugging_toast,
+			toastResOne = R.string.setup_usb_debugging_enable_toast,
 			toastResTwo = null,
 			onAction = onOpenDeveloperSettings,
 			enabled = isDeveloperOptionsEnabled

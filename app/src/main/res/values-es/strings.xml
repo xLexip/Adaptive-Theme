@@ -68,7 +68,7 @@
 	<string name="setup_permission_not_granted">Permiso aún no concedido. Por favor completa la configuración con el otro dispositivo.</string>
 	<string name="setup_usb_debugging_disabled">Habilitar depuración por USB</string>
 	<string name="setup_usb_debugging_enabled">Depuración por USB habilitada</string>
-	<string name="setup_usb_debugging_toast">Habilitar depuración por USB</string>
+	<string name="setup_usb_debugging_enable_toast">Habilita la depuración USB en la configuración de desarrollador.</string>
 	<string name="setup_usb_not_connected">Esperando conexión USB…</string>
 	<string name="setup_usb_connected">USB conectado</string>
 	<string name="setup_why_other_device_title">¿Por qué se requiere otro dispositivo?</string>
