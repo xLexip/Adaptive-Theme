@@ -83,9 +83,8 @@ methods to do so:
   installation required (WebADB).
   👉 **[lexip.dev/setup](https://lexip.dev/setup)**
 
-* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip) installed and
-  configured, you can
-  grant the permission directly within Adaptive Theme.
+* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip)
+  installed and configured, you can grant the permission directly within Adaptive Theme.
 
 * **Root** – If your device is rooted, you can grant the permission directly in Adaptive Theme as
   well.
@@ -191,6 +190,9 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
     * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
     * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
     * El Androide Feliz – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&t=152s)
+    * TechTab – [**Top 10 Android Apps you need to try - March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&t=298s)
+    * Gadget Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&t=306s)
+    * Tech Tricks – [**10 Best New Top Rated Android Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&t=257s)
     * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
 * Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for spanish translation
   strings.
