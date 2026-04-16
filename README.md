@@ -6,10 +6,6 @@ src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fp
 alt="Play Store Download Count >10k">
 </a>
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
-<img
-src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DRating%26m%3D%24rating&color=brightgreen&logo=google-play&logoColor=white"
-alt="Play Store Rating >4,9*">
-</a>
 
 [![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
 
@@ -18,22 +14,21 @@ alt="Play Store Rating >4,9*">
 Adaptive Theme automatically switches between light and dark theme
 using the ambient light sensor — not a fixed schedule.
 
-It adapts to actual lighting conditions to optimize **readability**, **eye comfort**, and **battery
-life**.
+It adapts to actual lighting conditions to optimize readability, eye comfort, and battery
+life.
 
-#### YouTube: [HowToMen – Top 15 Best Android Apps - February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)
 
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
     <img src=".github/resources/get-it-on-google-play.svg" alt="Get it on Google Play" width="200"/>
 </a>
 ‎ ‎ ‎
-<a href="https://github.com/xLexip/Adaptive-Theme/releases/latest">
+<a href="https://github.com/xLexip/Adaptive-Theme/releases">
     <img src=".github/resources/github-releases.png" alt="GitHub Releases" width="200"/>
 </a> 
 ‎ ‎ ‎
 <a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip">
     <img src=".github/resources/works-with-shizuku.png" alt="Shizuku (PlayStore)" width="200"/>
-</a> 
+</a>
 
 ## Quick Start (2 minutes)
 
@@ -41,16 +36,14 @@ life**.
 2. **Grant the permission** with the [web-tool](https://lexip.dev/setup), Shizuku, or other methods.
 3. **Pick your lux threshold** and you’re done.
 
-## Table of Contents
+## Media Coverage
 
-- [Features & Highlights](#features--highlights)
-- [One-Time Setup](#one-time-setup)
-- [Safety](#safety)
-- [How it works](#how-it-works)
-- [FAQ](#faq)
-- [Support the Project](#support-the-project)
-- [Architecture & Tech Stack](#architecture--tech-stack)
-- [Credits](#credits)
+> **Android Authority** – **[This app gives Android the automatic
+dark mode feature it desperately needs](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)**
+
+> **HowToMen (YouTube)** – **[Top 15 Best Android Apps, February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)**
+
+> **Computer World** – **[The Android dark mode upgrade you deserve](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)**
 
 ## Features & Highlights
 
@@ -120,6 +113,10 @@ To avoid screen flicker and unnecessary background work, Adaptive Theme follows 
 * No. It works on stock devices. However, if you have Root, it can be used as an alternative setup
   method.
 
+**What is the minimum Android version required?**
+
+* The app works on Android 14 and above.
+
 **Does it work with custom Android skins (Xiaomi MIUI, Samsung OneUI, etc.)?**
 
 * In most cases, yes. It works with any system that respects the native Android Dark Mode
@@ -138,7 +135,7 @@ To avoid screen flicker and unnecessary background work, Adaptive Theme follows 
 
 * No. Due to a technical detail, Adaptive Theme only works on smartphones.
 
-### Support & Feedback
+## Support & Feedback
 
 If Adaptive Theme doesn’t work for you — or if you have any questions or ideas — please [open an
 issue](https://github.com/xLexip/Adaptive-Theme/issues/new) here or send feedback via the app.
@@ -186,6 +183,11 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
 
 ## Credits
 
+* Thanks to Android Authority for their article:
+  [**This app gives Android the automatic dark mode
+  feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
+* Thanks to Computer World for their article:
+  [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
 * Thanks to the following YouTubers for featuring Adaptive Theme:
     * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
     * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
@@ -194,8 +196,8 @@ broadcasts – ensuring zero unnecessary battery drain in the background.
     * Gadget Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&t=306s)
     * Tech Tricks – [**10 Best New Top Rated Android Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&t=257s)
     * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
-* Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for spanish translation
+* Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for Spanish translation
   strings.
-* Font Credits: [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors
+* Font Credits: [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors.
 
 ### **Made with 🥨 in Germany.**
