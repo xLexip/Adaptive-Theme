@@ -17,6 +17,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.pm.PackageManager
+import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
@@ -28,20 +29,29 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -52,6 +62,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -70,14 +81,28 @@ import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.SetupRequiredCard
 import dev.lexip.hecate.ui.components.ThreeDotMenu
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
+import dev.lexip.hecate.ui.components.preferences.DetailPreferenceCard
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
 import dev.lexip.hecate.ui.components.preferences.SliderDetailCard
+import dev.lexip.hecate.ui.components.preferences.TimePickerPreferenceDialog
 import dev.lexip.hecate.ui.theme.hecateTopAppBarColors
 import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
+import java.util.Calendar
 
 private val ScreenHorizontalMargin = 20.dp
 private val horizontalOffsetPadding = 8.dp
+
+private fun formatMinutesAsLocalTime(context: android.content.Context, totalMinutes: Int): String {
+	val formatter = DateFormat.getTimeFormat(context)
+	val calendar = Calendar.getInstance().apply {
+		set(Calendar.HOUR_OF_DAY, totalMinutes / 60)
+		set(Calendar.MINUTE, totalMinutes % 60)
+		set(Calendar.SECOND, 0)
+		set(Calendar.MILLISECOND, 0)
+	}
+	return formatter.format(calendar.time)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -108,6 +133,8 @@ fun MainScreen(
 	}
 
 	val showCustomDialog = remember { mutableStateOf(false) }
+	val showNightStartPicker = remember { mutableStateOf(false) }
+	val showNightEndPicker = remember { mutableStateOf(false) }
 	val setupShakeKey = remember { mutableIntStateOf(0) }
 	val textShakeKey = remember { mutableIntStateOf(0) }
 
@@ -329,8 +356,92 @@ fun MainScreen(
 					luxSteps = lux,
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = false,
-					lastCard = true
+					lastCard = false
 				)
+
+				DetailPreferenceCard(
+					title = stringResource(id = R.string.title_night_dark_lock),
+					enabled = uiState.adaptiveThemeEnabled,
+					firstCard = false,
+					lastCard = true,
+					toggleableValue = uiState.stayDarkAtNightEnabled,
+					onToggle = { enabled ->
+						mainViewModel.updateStayDarkAtNightEnabled(enabled)
+					}
+				) {
+					Row(
+						modifier = Modifier
+							.fillMaxWidth(),
+						verticalAlignment = Alignment.Top,
+						horizontalArrangement = Arrangement.SpaceBetween
+					) {
+						Text(
+							text = stringResource(id = R.string.description_night_dark_lock),
+							style = MaterialTheme.typography.bodyMedium,
+							modifier = Modifier.weight(1f)
+						)
+						Switch(
+							modifier = Modifier
+								.padding(start = 14.dp, end = 4.dp)
+								.offset(y = (-6).dp)
+								.align(Alignment.Top),
+							checked = uiState.stayDarkAtNightEnabled,
+							enabled = uiState.adaptiveThemeEnabled,
+							onCheckedChange = null,
+							thumbContent = if (uiState.stayDarkAtNightEnabled) {
+								{
+									Icon(
+										imageVector = Icons.Filled.Check,
+										contentDescription = null,
+										modifier = Modifier.size(SwitchDefaults.IconSize)
+									)
+								}
+							} else {
+								{
+									Icon(
+										imageVector = Icons.Filled.Clear,
+										contentDescription = null,
+										modifier = Modifier.size(SwitchDefaults.IconSize)
+									)
+								}
+							}
+						)
+					}
+
+					if (uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled) {
+						val startText = formatMinutesAsLocalTime(context, uiState.nightStartMinutes)
+						val endText = formatMinutesAsLocalTime(context, uiState.nightEndMinutes)
+
+						Row(
+							modifier = Modifier.fillMaxWidth(),
+							horizontalArrangement = Arrangement.spacedBy(8.dp)
+						) {
+							OutlinedButton(
+								modifier = Modifier.weight(1f),
+								onClick = { showNightStartPicker.value = true }
+							) {
+								Text(
+									text = stringResource(
+										id = R.string.action_night_from_time,
+										startText
+									)
+								)
+							}
+
+							OutlinedButton(
+								modifier = Modifier.weight(1f),
+								onClick = { showNightEndPicker.value = true }
+							) {
+								Text(
+									text = stringResource(
+										id = R.string.action_night_to_time,
+										endText
+									)
+								)
+							}
+						}
+					}
+				}
 
 			}
 
@@ -354,5 +465,41 @@ fun MainScreen(
 			}
 		},
 		onDismiss = { showCustomDialog.value = false }
+	)
+
+	TimePickerPreferenceDialog(
+		show = showNightStartPicker.value,
+		title = stringResource(id = R.string.title_night_start_time_picker),
+		initialMinutes = uiState.nightStartMinutes,
+		onConfirm = { selectedMinutes ->
+			mainViewModel.updateNightWindow(
+				startMinutes = selectedMinutes,
+				endMinutes = uiState.nightEndMinutes,
+				onRejected = {
+					Toast.makeText(context, R.string.error_invalid_night_period, Toast.LENGTH_SHORT)
+						.show()
+				}
+			)
+			showNightStartPicker.value = false
+		},
+		onDismiss = { showNightStartPicker.value = false }
+	)
+
+	TimePickerPreferenceDialog(
+		show = showNightEndPicker.value,
+		title = stringResource(id = R.string.title_night_end_time_picker),
+		initialMinutes = uiState.nightEndMinutes,
+		onConfirm = { selectedMinutes ->
+			mainViewModel.updateNightWindow(
+				startMinutes = uiState.nightStartMinutes,
+				endMinutes = selectedMinutes,
+				onRejected = {
+					Toast.makeText(context, R.string.error_invalid_night_period, Toast.LENGTH_SHORT)
+						.show()
+				}
+			)
+			showNightEndPicker.value = false
+		},
+		onDismiss = { showNightEndPicker.value = false }
 	)
 }

@@ -30,6 +30,7 @@
 	<string name="device_covered_message">Theme changes are paused because the light sensor is covered.</string>
 
 	<string name="error_invalid_lux_value">Invalid brightness value.</string>
+	<string name="error_invalid_night_period">Start and end time cannot be equal.</string>
 	<string name="error_negative_lux_value">Value cannot be negative.</string>
 	<string name="error_lux_value_too_large">Value cannot exceed 100,000.</string>
 
@@ -40,6 +41,9 @@
 	<string name="title_current_brightness">Current Brightness</string>
 	<string name="title_custom_threshold">Custom Threshold</string>
 	<string name="title_more">More</string>
+	<string name="title_night_dark_lock">Stay Dark At Night</string>
+	<string name="title_night_start_time_picker">Night Start</string>
+	<string name="title_night_end_time_picker">Night End</string>
 	<string name="title_notification_channel_service">Theme Switching Service</string>
 	<string name="title_send_feedback">Send Feedback</string>
 	<string name="title_support_project">Support the project</string>
@@ -51,6 +55,9 @@
 	<string name="adaptive_threshold_dim">Dim</string>
 	<string name="adaptive_threshold_soft">Soft</string>
 	<string name="adaptive_threshold_direct_sunlight">Direct Sunlight</string>
+	<string name="description_night_dark_lock">Keep dark mode active during configured night hours.</string>
+	<string name="action_night_from_time">From: %1$s</string>
+	<string name="action_night_to_time">To: %1$s</string>
 
 	<string name="hint_custom_threshold_value">Lux value</string>
 

@@ -94,4 +94,8 @@ object Logger {
 	) {
 		// No-op for FOSS build
 	}
+
+	fun logStayDarkAtNightToggled(context: Context, enabled: Boolean, source: String) {
+		// No-op for FOSS build
+	}
 }

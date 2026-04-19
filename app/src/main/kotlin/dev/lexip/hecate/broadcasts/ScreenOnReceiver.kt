@@ -18,6 +18,7 @@ import android.content.Intent
 import android.util.Log
 import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
+import dev.lexip.hecate.util.NightWindowPolicy
 import dev.lexip.hecate.util.ProximitySensorManager
 
 private const val TAG = "ScreenOnReceiver"
@@ -30,8 +31,26 @@ class ScreenOnReceiver(
 	private val proximitySensorManager: ProximitySensorManager,
 	private val lightSensorManager: LightSensorManager,
 	private val darkThemeHandler: DarkThemeHandler,
-	var adaptiveThemeThresholdLux: Float
+	var adaptiveThemeThresholdLux: Float,
+	var stayDarkAtNightEnabled: Boolean,
+	var nightStartMinutes: Int,
+	var nightEndMinutes: Int
 ) : BroadcastReceiver() {
+
+	private fun shouldUseDarkTheme(lightValue: Float): Boolean {
+		if (stayDarkAtNightEnabled &&
+			NightWindowPolicy.isInNightWindow(
+				nowMinutes = NightWindowPolicy.currentMinutes(),
+				startMinutes = nightStartMinutes,
+				endMinutes = nightEndMinutes
+			)
+		) {
+			Log.d(TAG, "Night lock active, forcing dark theme.")
+			return true
+		}
+
+		return lightValue < adaptiveThemeThresholdLux
+	}
 
 	override fun onReceive(context: Context, intent: Intent) {
 		if (intent.action == Intent.ACTION_SCREEN_ON) {
@@ -45,7 +64,7 @@ class ScreenOnReceiver(
 				)
 				lightSensorManager.startListening({ lightValue: Float ->
 					lightSensorManager.stopListening()
-					darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
+					darkThemeHandler.setDarkTheme(shouldUseDarkTheme(lightValue))
 				})
 				return
 			}
@@ -59,7 +78,7 @@ class ScreenOnReceiver(
 				if (distance >= 5f) {
 					lightSensorManager.startListening({ lightValue: Float ->
 						lightSensorManager.stopListening()
-						darkThemeHandler.setDarkTheme(lightValue < adaptiveThemeThresholdLux)
+						darkThemeHandler.setDarkTheme(shouldUseDarkTheme(lightValue))
 					})
 				} else {
 					Log.d(TAG, "Device is covered, skipping adaptive theme checks.")

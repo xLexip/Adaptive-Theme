@@ -57,7 +57,10 @@ data class MainUiState(
 	val hasSetupCompleted: Boolean = false,
 	val isDeviceCovered: Boolean = false,
 	val isShizukuInstalled: Boolean = false,
-	val isInstalledFromPlayStore: Boolean = false
+	val isInstalledFromPlayStore: Boolean = false,
+	val stayDarkAtNightEnabled: Boolean = false,
+	val nightStartMinutes: Int = 21 * 60,
+	val nightEndMinutes: Int = 6 * 60
 )
 
 class MainViewModel(
@@ -193,7 +196,10 @@ class MainViewModel(
 					adaptiveThemeEnabled = userPreferences.adaptiveThemeEnabled,
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
 					customAdaptiveThemeThresholdLux = userPreferences.customAdaptiveThemeThresholdLux,
-					hasSetupCompleted = userPreferences.hasSetupCompleted
+					hasSetupCompleted = userPreferences.hasSetupCompleted,
+					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
+					nightStartMinutes = userPreferences.nightStartMinutes,
+					nightEndMinutes = userPreferences.nightEndMinutes
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) {
@@ -335,6 +341,37 @@ class MainViewModel(
 
 	fun setPendingCustomSliderLux(lux: Float) {
 		customThresholdTemp = lux
+	}
+
+	fun updateStayDarkAtNightEnabled(enabled: Boolean, source: String = "main_screen_toggle") {
+		val wasEnabled = _uiState.value.stayDarkAtNightEnabled
+		if (wasEnabled == enabled) return
+
+		viewModelScope.launch {
+			if (enabled) {
+				// Keep defaults silently on first enable.
+				userPreferencesRepository.ensureNightDefaults()
+			}
+			userPreferencesRepository.updateStayDarkAtNightEnabled(enabled)
+			Logger.logStayDarkAtNightToggled(
+				application.applicationContext,
+				enabled = enabled,
+				source = source
+			)
+		}
+	}
+
+	fun updateNightWindow(startMinutes: Int, endMinutes: Int, onRejected: (() -> Unit)? = null) {
+		if (startMinutes == endMinutes) {
+			onRejected?.invoke()
+			return
+		}
+
+		viewModelScope.launch {
+			if (!userPreferencesRepository.updateNightWindow(startMinutes, endMinutes)) {
+				onRejected?.invoke()
+			}
+		}
 	}
 
 	private fun startBroadcastReceiverService() {

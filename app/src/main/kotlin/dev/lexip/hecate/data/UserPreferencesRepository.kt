@@ -20,18 +20,24 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private const val TAG = "UserPreferencesRepository"
+private const val DEFAULT_NIGHT_START_MINUTES = 21 * 60
+private const val DEFAULT_NIGHT_END_MINUTES = 6 * 60
 
 data class UserPreferences(
 	val adaptiveThemeEnabled: Boolean,
 	val adaptiveThemeThresholdLux: Float,
 	val customAdaptiveThemeThresholdLux: Float? = null,
-	val hasSetupCompleted: Boolean = false
+	val hasSetupCompleted: Boolean = false,
+	val stayDarkAtNightEnabled: Boolean = false,
+	val nightStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
+	val nightEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -42,6 +48,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
 			floatPreferencesKey("custom_adaptive_theme_threshold_lux")
 		val SETUP_COMPLETED = booleanPreferencesKey("setup_completed")
+		val STAY_DARK_AT_NIGHT_ENABLED = booleanPreferencesKey("stay_dark_at_night_enabled")
+		val NIGHT_START_MINUTES = intPreferencesKey("night_start_minutes")
+		val NIGHT_END_MINUTES = intPreferencesKey("night_end_minutes")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -69,6 +78,20 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		}
 	}
 
+	suspend fun ensureNightDefaults(
+		defaultStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
+		defaultEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES
+	) {
+		dataStore.edit { preferences ->
+			if (preferences[PreferencesKeys.NIGHT_START_MINUTES] == null) {
+				preferences[PreferencesKeys.NIGHT_START_MINUTES] = defaultStartMinutes
+			}
+			if (preferences[PreferencesKeys.NIGHT_END_MINUTES] == null) {
+				preferences[PreferencesKeys.NIGHT_END_MINUTES] = defaultEndMinutes
+			}
+		}
+	}
+
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
 		val adaptiveThemeEnabled = preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] == true
 		val adaptiveThemeThresholdLux =
@@ -78,11 +101,19 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX]
 		val hasSetupCompleted =
 			preferences[PreferencesKeys.SETUP_COMPLETED] == true
+		val stayDarkAtNightEnabled = preferences[PreferencesKeys.STAY_DARK_AT_NIGHT_ENABLED] == true
+		val nightStartMinutes =
+			preferences[PreferencesKeys.NIGHT_START_MINUTES] ?: DEFAULT_NIGHT_START_MINUTES
+		val nightEndMinutes =
+			preferences[PreferencesKeys.NIGHT_END_MINUTES] ?: DEFAULT_NIGHT_END_MINUTES
 		return UserPreferences(
 			adaptiveThemeEnabled = adaptiveThemeEnabled,
 			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
 			customAdaptiveThemeThresholdLux = customAdaptiveThemeThresholdLux,
-			hasSetupCompleted = hasSetupCompleted
+			hasSetupCompleted = hasSetupCompleted,
+			stayDarkAtNightEnabled = stayDarkAtNightEnabled,
+			nightStartMinutes = nightStartMinutes,
+			nightEndMinutes = nightEndMinutes
 		)
 	}
 
@@ -112,5 +143,32 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.SETUP_COMPLETED] = completed
 		}
 	}
+
+	suspend fun updateStayDarkAtNightEnabled(enabled: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.STAY_DARK_AT_NIGHT_ENABLED] = enabled
+		}
+	}
+
+	/**
+	 * @return true when values are valid and persisted, false when rejected.
+	 */
+	suspend fun updateNightWindow(startMinutes: Int, endMinutes: Int): Boolean {
+		if (!isValidMinute(startMinutes) || !isValidMinute(endMinutes) || startMinutes == endMinutes) {
+			Log.w(
+				TAG,
+				"Rejected invalid night window update: start=$startMinutes, end=$endMinutes"
+			)
+			return false
+		}
+
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.NIGHT_START_MINUTES] = startMinutes
+			preferences[PreferencesKeys.NIGHT_END_MINUTES] = endMinutes
+		}
+		return true
+	}
+
+	private fun isValidMinute(value: Int): Boolean = value in 0 until 24 * 60
 
 }
