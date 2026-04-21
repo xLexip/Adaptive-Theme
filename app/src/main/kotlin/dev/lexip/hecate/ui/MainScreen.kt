@@ -22,8 +22,10 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -42,6 +44,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -126,6 +131,9 @@ fun MainScreen(
 	val showCustomDialog = remember { mutableStateOf(false) }
 	val showNightStartPicker = remember { mutableStateOf(false) }
 	val showNightEndPicker = remember { mutableStateOf(false) }
+	var isAdvancedSettingsExpanded by remember {
+		mutableStateOf(uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled)
+	}
 	val setupShakeKey = remember { mutableIntStateOf(0) }
 	val textShakeKey = remember { mutableIntStateOf(0) }
 
@@ -392,90 +400,164 @@ fun MainScreen(
 					luxSteps = lux,
 					enabled = uiState.adaptiveThemeEnabled,
 					firstCard = false,
-					lastCard = false
+					lastCard = !isAdvancedSettingsExpanded
 				)
 
-				DetailPreferenceCard(
-					title = stringResource(id = R.string.title_night_dark_lock),
-					enabled = uiState.adaptiveThemeEnabled,
-					firstCard = false,
-					lastCard = true,
-					toggleableValue = uiState.stayDarkAtNightEnabled,
-					onToggle = { enabled ->
-						mainViewModel.updateStayDarkAtNightEnabled(enabled)
-					}
+				AnimatedVisibility(
+					visible = !isAdvancedSettingsExpanded,
+					enter = fadeIn(animationSpec = tween(180)) + expandVertically(
+						animationSpec = tween(
+							220
+						)
+					),
+					exit = fadeOut(animationSpec = tween(120)) + shrinkVertically(
+						animationSpec = tween(
+							180
+						)
+					)
 				) {
 					Row(
 						modifier = Modifier
-							.fillMaxWidth(),
-						verticalAlignment = Alignment.Top,
-						horizontalArrangement = Arrangement.SpaceBetween
+							.fillMaxWidth()
+							.padding(top = 8.dp),
+						horizontalArrangement = Arrangement.Center
 					) {
-						Text(
-							text = stringResource(id = R.string.description_night_dark_lock),
-							style = MaterialTheme.typography.bodyMedium,
-							modifier = Modifier.weight(1f)
-						)
-						Switch(
-							modifier = Modifier
-								.padding(start = 14.dp, end = 4.dp)
-								.offset(y = (-6).dp)
-								.align(Alignment.Top),
-							checked = uiState.stayDarkAtNightEnabled,
+						AssistChip(
+							onClick = {
+								isAdvancedSettingsExpanded = true
+							},
 							enabled = uiState.adaptiveThemeEnabled,
-							onCheckedChange = null,
-							thumbContent = if (uiState.stayDarkAtNightEnabled) {
-								{
-									Icon(
-										imageVector = Icons.Filled.Check,
-										contentDescription = null,
-										modifier = Modifier.size(SwitchDefaults.IconSize)
-									)
-								}
-							} else {
-								{
-									Icon(
-										imageVector = Icons.Filled.Clear,
-										contentDescription = null,
-										modifier = Modifier.size(SwitchDefaults.IconSize)
-									)
-								}
+							shape = RoundedCornerShape(20.dp),
+							label = {
+								Text(text = stringResource(id = R.string.action_advanced_settings))
+							},
+							leadingIcon = {
+								Icon(
+									imageVector = Icons.Filled.KeyboardArrowDown,
+									contentDescription = null
+								)
 							}
 						)
 					}
+				}
 
-					if (uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled) {
-						val startText = formatMinutesAsLocalTime(context, uiState.nightStartMinutes)
-						val endText = formatMinutesAsLocalTime(context, uiState.nightEndMinutes)
-
-						Row(
-							modifier = Modifier.fillMaxWidth(),
-							horizontalArrangement = Arrangement.spacedBy(8.dp)
+				AnimatedVisibility(
+					visible = isAdvancedSettingsExpanded,
+					enter = fadeIn(animationSpec = tween(180)) + expandVertically(
+						animationSpec = tween(
+							260
+						)
+					),
+					exit = fadeOut(animationSpec = tween(120)) + shrinkVertically(
+						animationSpec = tween(
+							200
+						)
+					)
+				) {
+					Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+						DetailPreferenceCard(
+							title = stringResource(id = R.string.title_night_dark_lock),
+							enabled = uiState.adaptiveThemeEnabled,
+							firstCard = false,
+							lastCard = true,
+							toggleableValue = uiState.stayDarkAtNightEnabled,
+							onToggle = { enabled ->
+								mainViewModel.updateStayDarkAtNightEnabled(enabled)
+							}
 						) {
-							OutlinedButton(
-								modifier = Modifier.weight(1f),
-								onClick = { showNightStartPicker.value = true }
+							Row(
+								modifier = Modifier
+									.fillMaxWidth(),
+								verticalAlignment = Alignment.Top,
+								horizontalArrangement = Arrangement.SpaceBetween
 							) {
 								Text(
-									text = stringResource(
-										id = R.string.action_night_from_time,
-										startText
-									)
+									text = stringResource(id = R.string.description_night_dark_lock),
+									style = MaterialTheme.typography.bodyMedium,
+									modifier = Modifier.weight(1f)
+								)
+								Switch(
+									modifier = Modifier
+										.padding(start = 14.dp, end = 4.dp)
+										.offset(y = (-6).dp)
+										.align(Alignment.Top),
+									checked = uiState.stayDarkAtNightEnabled,
+									enabled = uiState.adaptiveThemeEnabled,
+									onCheckedChange = null,
+									thumbContent = if (uiState.stayDarkAtNightEnabled) {
+										{
+											Icon(
+												imageVector = Icons.Filled.Check,
+												contentDescription = null,
+												modifier = Modifier.size(SwitchDefaults.IconSize)
+											)
+										}
+									} else {
+										{
+											Icon(
+												imageVector = Icons.Filled.Clear,
+												contentDescription = null,
+												modifier = Modifier.size(SwitchDefaults.IconSize)
+											)
+										}
+									}
 								)
 							}
 
-							OutlinedButton(
-								modifier = Modifier.weight(1f),
-								onClick = { showNightEndPicker.value = true }
-							) {
-								Text(
-									text = stringResource(
-										id = R.string.action_night_to_time,
-										endText
-									)
-								)
+							if (uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled) {
+								val startText =
+									formatMinutesAsLocalTime(context, uiState.nightStartMinutes)
+								val endText =
+									formatMinutesAsLocalTime(context, uiState.nightEndMinutes)
+
+								Row(
+									modifier = Modifier.fillMaxWidth(),
+									horizontalArrangement = Arrangement.spacedBy(8.dp)
+								) {
+									OutlinedButton(
+										modifier = Modifier.weight(1f),
+										onClick = { showNightStartPicker.value = true }
+									) {
+										Text(
+											text = stringResource(
+												id = R.string.action_night_from_time,
+												startText
+											)
+										)
+									}
+
+									OutlinedButton(
+										modifier = Modifier.weight(1f),
+										onClick = { showNightEndPicker.value = true }
+									) {
+										Text(
+											text = stringResource(
+												id = R.string.action_night_to_time,
+												endText
+											)
+										)
+									}
+								}
 							}
 						}
+
+						AssistChip(
+							modifier = Modifier.align(Alignment.CenterHorizontally),
+							onClick = {
+								isAdvancedSettingsExpanded = false
+							},
+							enabled = uiState.adaptiveThemeEnabled,
+							shape = RoundedCornerShape(20.dp),
+							label = {
+								Text(text = stringResource(id = R.string.action_collapse))
+							},
+							leadingIcon = {
+								Icon(
+									imageVector = Icons.Filled.KeyboardArrowUp,
+									contentDescription = null
+								)
+							}
+						)
 					}
 				}
 

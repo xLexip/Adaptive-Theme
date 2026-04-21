@@ -8,6 +8,8 @@
 	<string name="action_set">Festlegen</string>
 	<string name="action_share_url">Link teilen</string>
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
+	<string name="action_advanced_settings">Erweiterte Einstellungen</string>
+	<string name="action_collapse">Einklappen</string>
 	<string name="action_skip">Überspringen</string>
 
 	<string name="description_service_purpose">

@@ -13,6 +13,8 @@
 	<string name="action_share_url">Share Link</string>
 	<string name="action_skip">Skip</string>
 	<string name="action_use_adaptive_theme">Use %1$s</string>
+	<string name="action_advanced_settings">Advanced Settings</string>
+	<string name="action_collapse">Collapse</string>
 
 	<string name="description_service_purpose">
 		Switches between light and dark mode based on ambient light, optimizing eye comfort and battery life.

@@ -9,6 +9,8 @@
 	<string name="action_share_url">Compartir enlace</string>
 	<string name="action_skip">Omitir</string>
 	<string name="action_use_adaptive_theme">Usar %1$s</string>
+	<string name="action_advanced_settings">Ajustes avanzados</string>
+	<string name="action_collapse">Contraer</string>
 
 	<string name="description_service_purpose">
        Alterna entre el modo claro y oscuro según la luz ambiental, optimizando el confort visual y la batería.
