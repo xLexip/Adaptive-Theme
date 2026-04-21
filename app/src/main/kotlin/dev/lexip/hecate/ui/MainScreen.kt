@@ -219,6 +219,9 @@ fun MainScreen(
 			verticalArrangement = Arrangement.spacedBy(28.dp)
 
 		) {
+			val showBatterySaverWarning =
+				internalUiState.isBatterySaverActive && uiState.adaptiveThemeEnabled
+
 			Text(
 				modifier = Modifier
 					.padding(horizontal = horizontalOffsetPadding)
@@ -246,9 +249,38 @@ fun MainScreen(
 				)
 			}
 
+			// Battery saver warning
+			AnimatedVisibility(
+				visible = showBatterySaverWarning,
+				enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
+				exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
+			) {
+				Card(
+					modifier = Modifier
+						.fillMaxWidth(),
+					colors = CardDefaults.cardColors(
+						containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+						contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+					),
+					shape = RoundedCornerShape(20.dp)
+				) {
+					Column(modifier = Modifier.padding(16.dp)) {
+						Text(
+							text = stringResource(id = R.string.battery_saver_title),
+							style = MaterialTheme.typography.titleMedium
+						)
+						Spacer(modifier = Modifier.padding(top = 4.dp))
+						Text(
+							text = stringResource(id = R.string.battery_saver_message),
+							style = MaterialTheme.typography.bodyMedium
+						)
+					}
+				}
+			}
+
 			// Device-covered warning when the proximity sensor reports covered
 			AnimatedVisibility(
-				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled,
+				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled && !showBatterySaverWarning,
 				enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
 				exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
 			) {

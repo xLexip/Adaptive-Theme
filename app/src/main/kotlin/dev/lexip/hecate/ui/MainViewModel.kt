@@ -12,8 +12,12 @@
 
 package dev.lexip.hecate.ui
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.SensorManager
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
@@ -56,6 +60,7 @@ data class MainUiState(
 	val customAdaptiveThemeThresholdLux: Float? = null,
 	val hasSetupCompleted: Boolean = false,
 	val isDeviceCovered: Boolean = false,
+	val isBatterySaverActive: Boolean = false,
 	val isShizukuInstalled: Boolean = false,
 	val isInstalledFromPlayStore: Boolean = false,
 	val stayDarkAtNightEnabled: Boolean = false,
@@ -105,6 +110,8 @@ class MainViewModel(
 	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
 	private var coveredJob: Job? = null
+	private var batterySaverReceiver: BroadcastReceiver? = null
+	private var isMonitoringBatterySaver = false
 
 	private fun startProximityListening() {
 		if (!proximitySensorManager.hasProximitySensor) {
@@ -163,16 +170,62 @@ class MainViewModel(
 		}
 	}
 
+	private fun updateBatterySaverState(context: Context) {
+		val powerManager = context.getSystemService(PowerManager::class.java)
+		val isActive = powerManager?.isPowerSaveMode == true
+		if (_uiState.value.isBatterySaverActive != isActive) {
+			_uiState.value = _uiState.value.copy(isBatterySaverActive = isActive)
+		}
+	}
+
+	private fun startBatterySaverMonitoring() {
+		if (isMonitoringBatterySaver) return
+		val context = application.applicationContext
+		isMonitoringBatterySaver = true
+		updateBatterySaverState(context)
+
+		batterySaverReceiver = object : BroadcastReceiver() {
+			override fun onReceive(ctx: Context?, intent: Intent?) {
+				if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED) {
+					updateBatterySaverState(context)
+				}
+			}
+		}
+
+		context.registerReceiver(
+			batterySaverReceiver,
+			IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+		)
+	}
+
+	private fun stopBatterySaverMonitoring() {
+		if (!isMonitoringBatterySaver) return
+		isMonitoringBatterySaver = false
+		batterySaverReceiver?.let {
+			try {
+				application.applicationContext.unregisterReceiver(it)
+			} catch (_: IllegalArgumentException) {
+				// Receiver may already be unregistered.
+			}
+		}
+		batterySaverReceiver = null
+		if (_uiState.value.isBatterySaverActive) {
+			_uiState.value = _uiState.value.copy(isBatterySaverActive = false)
+		}
+	}
+
 	fun startSensorsIfEnabled() {
 		if (_uiState.value.adaptiveThemeEnabled) {
 			startLightSensorListening()
 			startProximityListening()
+			startBatterySaverMonitoring()
 		}
 	}
 
 	fun stopSensors() {
 		stopLightSensorListening()
 		stopProximityListening()
+		stopBatterySaverMonitoring()
 	}
 
 	private var customThresholdTemp: Float? = null
@@ -228,8 +281,7 @@ class MainViewModel(
 	}
 
 	override fun onCleared() {
-		stopLightSensorListening()
-		stopProximityListening()
+		stopSensors()
 		super.onCleared()
 	}
 

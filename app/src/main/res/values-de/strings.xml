@@ -24,6 +24,8 @@
 
 	<string name="device_covered_title">Sensor verdeckt</string>
 	<string name="device_covered_message">Theme-Änderungen sind pausiert, da der Lichtsensor verdeckt ist.</string>
+	<string name="battery_saver_title">Akkusparmodus aktiv</string>
+	<string name="battery_saver_message">Der Akkusparmodus des Systems kann das Umschalten des adaptiven Designs verhindern.</string>
 
 	<string name="error_invalid_lux_value">Ungültiger Helligkeitswert.</string>
 	<string name="error_invalid_night_period">Start- und Endzeit dürfen nicht gleich sein.</string>

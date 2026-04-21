@@ -24,6 +24,8 @@
 
 	<string name="device_covered_title">Sensor cubierto</string>
 	<string name="device_covered_message">Los cambios de tema están pausados porque el sensor de luz está cubierto.</string>
+	<string name="battery_saver_title">Ahorro de batería activo</string>
+	<string name="battery_saver_message">El ahorro de batería del sistema puede impedir el cambio del tema adaptativo.</string>
 
 	<string name="error_invalid_lux_value">Valor de brillo no válido.</string>
 	<string name="error_invalid_night_period">La hora de inicio y fin no pueden ser iguales.</string>

@@ -28,6 +28,8 @@
 
 	<string name="device_covered_title">Sensor Covered</string>
 	<string name="device_covered_message">Theme changes are paused because the light sensor is covered.</string>
+	<string name="battery_saver_title">Battery Saver Active</string>
+	<string name="battery_saver_message">The system battery saver can prevent adaptive theme switching.</string>
 
 	<string name="error_invalid_lux_value">Invalid brightness value.</string>
 	<string name="error_invalid_night_period">Start and end time cannot be equal.</string>
