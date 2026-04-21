@@ -102,8 +102,7 @@ data.
 To avoid screen flicker and unnecessary background work, Adaptive Theme follows strict rules:
 
 - **Event-driven:** It checks the light sensor only right after the screen turns on. Combined with
-  hysteresis, this prevents flicker, avoids interruptions while you’re using the phone, and saves
-  battery.
+  hysteresis, this prevents flicker and saves battery. It also prevents theme changes mid-use, as some apps do not handle these live changes well.
 - **Validity check:** It verifies that the sensor is not obstructed (e.g. by a hand or pocket).
 - **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
   interacting with it.
