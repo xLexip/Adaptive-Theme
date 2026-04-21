@@ -46,15 +46,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -62,14 +60,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -110,18 +108,11 @@ fun MainScreen(
 	uiState: MainUiState,
 	mainViewModel: MainViewModel
 ) {
-	// Enable top-app-bar collapsing on small devices
-	val windowInfo = LocalWindowInfo.current
-	val density = LocalDensity.current
-	val screenHeightDp = with(density) { windowInfo.containerSize.height.toDp().value }
-	val enableCollapsing = screenHeightDp < 650f
-	val scrollBehavior = if (enableCollapsing) {
-		TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-	} else null
-
 	val context = LocalContext.current
 	val haptic = LocalHapticFeedback.current
 	val packageName = context.packageName
+	val contentScrollState = rememberScrollState()
+	var isLargeTitleVisible by remember { mutableStateOf(true) }
 
 	val internalUiState by mainViewModel.uiState.collectAsState()
 
@@ -174,31 +165,34 @@ fun MainScreen(
 
 	Scaffold(
 		modifier = Modifier
-			.fillMaxSize()
-			.then(
-				if (scrollBehavior != null) {
-					Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-				} else {
-					Modifier
-				}
-			),
+			.fillMaxSize(),
 		containerColor = MaterialTheme.colorScheme.surfaceContainer,
 		topBar = {
-			val collapsedFraction = scrollBehavior?.state?.collapsedFraction ?: 0f
-			LargeTopAppBar(
+			val showCollapsedTitle = !isLargeTitleVisible
+			TopAppBar(
 				modifier = Modifier
 					.padding(start = ScreenHorizontalMargin - 8.dp)
-					.padding(top = 12.dp, bottom = 12.dp),
+					.padding(top = 12.dp),
 				colors = hecateTopAppBarColors(),
 				title = {
-					Text(
-						text = stringResource(id = R.string.app_name),
-						style = if (collapsedFraction > 0.4f) {
-							MaterialTheme.typography.titleLarge
-						} else {
-							MaterialTheme.typography.displaySmall
-						}
-					)
+					AnimatedVisibility(
+						visible = showCollapsedTitle,
+						enter = fadeIn(animationSpec = tween(180)) +
+								slideInHorizontally(
+									initialOffsetX = { fullWidth -> -fullWidth / 2 },
+									animationSpec = tween(220)
+								),
+						exit = fadeOut(animationSpec = tween(120)) +
+								slideOutHorizontally(
+									targetOffsetX = { fullWidth -> -fullWidth / 3 },
+									animationSpec = tween(160)
+								)
+					) {
+						Text(
+							text = stringResource(id = R.string.app_name),
+							style = MaterialTheme.typography.titleLarge
+						)
+					}
 				},
 				actions = {
 					ThreeDotMenu(
@@ -207,8 +201,7 @@ fun MainScreen(
 						isInstalledFromPlayStore = uiState.isInstalledFromPlayStore,
 						onShowCustomThresholdDialog = { showCustomDialog.value = true }
 					)
-				},
-				scrollBehavior = scrollBehavior
+				}
 			)
 		}
 	) { innerPadding ->
@@ -222,10 +215,21 @@ fun MainScreen(
 				.fillMaxSize()
 				.padding(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
-				.verticalScroll(rememberScrollState()),
+				.verticalScroll(contentScrollState),
 			verticalArrangement = Arrangement.spacedBy(28.dp)
 
 		) {
+			Text(
+				modifier = Modifier
+					.padding(horizontal = horizontalOffsetPadding)
+					.padding(top = 12.dp)
+					.onGloballyPositioned { coordinates ->
+						isLargeTitleVisible = coordinates.boundsInWindow().bottom > 0f
+					},
+				text = stringResource(id = R.string.app_name),
+				style = MaterialTheme.typography.displaySmall
+			)
+
 			Column {
 				Text(
 					modifier = Modifier.padding(horizontal = horizontalOffsetPadding),
