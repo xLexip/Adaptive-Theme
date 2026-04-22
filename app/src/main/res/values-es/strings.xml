@@ -9,6 +9,8 @@
 	<string name="action_share_url">Compartir enlace</string>
 	<string name="action_skip">Omitir</string>
 	<string name="action_use_adaptive_theme">Usar %1$s</string>
+	<string name="action_advanced_settings">Ajustes avanzados</string>
+	<string name="action_collapse">Contraer</string>
 
 	<string name="description_service_purpose">
        Alterna entre el modo claro y oscuro según la luz ambiental, optimizando el confort visual y la batería.
@@ -24,8 +26,11 @@
 
 	<string name="device_covered_title">Sensor cubierto</string>
 	<string name="device_covered_message">Los cambios de tema están pausados porque el sensor de luz está cubierto.</string>
+	<string name="battery_saver_title">Ahorro de batería activo</string>
+	<string name="battery_saver_message">El ahorro de batería del sistema puede impedir el cambio del tema adaptativo.</string>
 
 	<string name="error_invalid_lux_value">Valor de brillo no válido.</string>
+	<string name="error_invalid_night_period">La hora de inicio y fin no pueden ser iguales.</string>
 	<string name="error_negative_lux_value">El valor no puede ser negativo.</string>
 	<string name="error_lux_value_too_large">El valor no puede exceder 100,000.</string>
 
@@ -36,6 +41,9 @@
 	<string name="title_current_brightness">Brillo actual</string>
 	<string name="title_custom_threshold">Umbral personalizado</string>
 	<string name="title_more">Más</string>
+	<string name="title_night_dark_lock">Mantener oscuro por la noche</string>
+	<string name="title_night_start_time_picker">Inicio de la noche</string>
+	<string name="title_night_end_time_picker">Fin de la noche</string>
 	<string name="title_notification_channel_service">Servicio de cambio de tema</string>
 	<string name="title_send_feedback">Enviar comentarios</string>
 	<string name="title_support_project">Apoyar el proyecto</string>
@@ -47,6 +55,9 @@
 	<string name="adaptive_threshold_dim">Tenue</string>
 	<string name="adaptive_threshold_soft">Suave</string>
 	<string name="adaptive_threshold_direct_sunlight">Luz solar directa</string>
+	<string name="description_night_dark_lock">Mantiene el modo oscuro activo durante las horas nocturnas configuradas.</string>
+	<string name="action_night_from_time">Desde: %1$s</string>
+	<string name="action_night_to_time">Hasta: %1$s</string>
 
 	<string name="hint_custom_threshold_value">Valor en Lux</string>
 

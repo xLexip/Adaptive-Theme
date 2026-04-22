@@ -10,6 +10,8 @@ import android.os.Parcel
 import android.util.Log
 import dev.lexip.hecate.logging.Logger
 import rikka.shizuku.Shizuku
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 object ShizukuManager {
 
@@ -115,7 +117,7 @@ object ShizukuManager {
 		val commands = buildAllGrantCommands(packageName)
 
 		return try {
-			val monitor = Object()
+			val monitor = CountDownLatch(1)
 			var result: GrantResult = GrantResult.Unexpected
 
 			val args = createGrantServiceArgs()
@@ -160,7 +162,7 @@ object ShizukuManager {
 		context: Context,
 		args: Shizuku.UserServiceArgs,
 		commands: List<String>,
-		monitor: Object,
+		monitor: CountDownLatch,
 		packageName: String,
 		onResult: (GrantResult) -> Unit
 	): ServiceConnection {
@@ -204,9 +206,7 @@ object ShizukuManager {
 							packageName = packageName
 						)
 					}
-					synchronized(monitor) {
-						monitor.notifyAll()
-					}
+					monitor.countDown()
 				}
 
 				onResult(result)
@@ -257,13 +257,11 @@ object ShizukuManager {
 		}
 	}
 
-	private fun waitForGrantResult(monitor: Object) {
-		synchronized(monitor) {
-			try {
-				monitor.wait(5000)
-			} catch (t: InterruptedException) {
-				Log.w(TAG, "Interrupted while waiting for Shizuku user service", t)
-			}
+	private fun waitForGrantResult(monitor: CountDownLatch) {
+		try {
+			monitor.await(5, TimeUnit.SECONDS)
+		} catch (t: InterruptedException) {
+			Log.w(TAG, "Interrupted while waiting for Shizuku user service", t)
 		}
 	}
 }

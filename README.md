@@ -51,6 +51,8 @@ dark mode feature it desperately needs](https://www.androidauthority.com/automat
   theme.
 * **Custom brightness threshold:** Choose exactly when the theme should flip or use a preset (
   indoor, outdoor, sunlight, etc.).
+* **Stay dark at night:** Optionally keep dark mode active during a custom fixed time window (for
+  example, 9 PM to 6 AM).
 * **Battery Friendly:** The app is passive. Its event-driven architecture only checks the sensor
   when you turn on the screen — zero battery drain in the background.
 * **No Root Required:** Root access is not required (but supported as an alternative setup
@@ -100,8 +102,7 @@ data.
 To avoid screen flicker and unnecessary background work, Adaptive Theme follows strict rules:
 
 - **Event-driven:** It checks the light sensor only right after the screen turns on. Combined with
-  hysteresis, this prevents flicker, avoids interruptions while you’re using the phone, and saves
-  battery.
+  hysteresis, this prevents flicker and saves battery. It also prevents theme changes mid-use, as some apps do not handle these live changes well.
 - **Validity check:** It verifies that the sensor is not obstructed (e.g. by a hand or pocket).
 - **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
   interacting with it.

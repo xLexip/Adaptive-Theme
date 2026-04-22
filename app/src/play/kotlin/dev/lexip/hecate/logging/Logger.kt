@@ -178,4 +178,13 @@ object Logger {
 		}
 	}
 
+	fun logStayDarkAtNightToggled(context: Context, enabled: Boolean, source: String) {
+		ifAllowed {
+			analytics(context).logEvent("stay_dark_at_night_toggled") {
+				param("enabled", if (enabled) 1L else 0L)
+				param("source", source)
+			}
+		}
+	}
+
 }

@@ -59,6 +59,11 @@ fun HecateTheme(
 			fontWeight = FontWeight.Bold,
 			fontSize = 16.sp
 		),
+		titleLarge = TextStyle(
+			fontFamily = nunitoFontFamily,
+			fontWeight = FontWeight.Bold,
+			fontSize = 22.sp
+		),
 		bodyLarge = TextStyle(
 			fontFamily = nunitoFontFamily,
 			fontWeight = FontWeight.Normal,

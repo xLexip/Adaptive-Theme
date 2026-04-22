@@ -8,6 +8,8 @@
 	<string name="action_set">Festlegen</string>
 	<string name="action_share_url">Link teilen</string>
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
+	<string name="action_advanced_settings">Erweiterte Einstellungen</string>
+	<string name="action_collapse">Einklappen</string>
 	<string name="action_skip">Überspringen</string>
 
 	<string name="description_service_purpose">
@@ -24,8 +26,11 @@
 
 	<string name="device_covered_title">Sensor verdeckt</string>
 	<string name="device_covered_message">Theme-Änderungen sind pausiert, da der Lichtsensor verdeckt ist.</string>
+	<string name="battery_saver_title">Akkusparmodus aktiv</string>
+	<string name="battery_saver_message">Der Akkusparmodus des Systems kann das Umschalten des adaptiven Designs verhindern.</string>
 
 	<string name="error_invalid_lux_value">Ungültiger Helligkeitswert.</string>
+	<string name="error_invalid_night_period">Start- und Endzeit dürfen nicht gleich sein.</string>
 	<string name="error_negative_lux_value">Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
 
@@ -35,6 +40,9 @@
 	<string name="title_current_brightness">Aktuelle Helligkeit</string>
 	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
 	<string name="title_more">Mehr</string>
+	<string name="title_night_dark_lock">Nachts dunkel bleiben</string>
+	<string name="title_night_start_time_picker">Nachtbeginn</string>
+	<string name="title_night_end_time_picker">Nachtende</string>
 	<string name="title_notification_channel_service">Hintergrundaktivität</string>
 	<string name="title_send_feedback">Feedback senden</string>
 	<string name="title_support_project">Projekt unterstützen</string>
@@ -46,6 +54,9 @@
 	<string name="adaptive_threshold_dim">Schwach</string>
 	<string name="adaptive_threshold_soft">Leicht</string>
 	<string name="adaptive_threshold_direct_sunlight">Direktes Sonnenlicht</string>
+	<string name="description_night_dark_lock">Dunklen Modus während der festgelegten Nachtzeiten beibehalten.</string>
+	<string name="action_night_from_time">Von: %1$s</string>
+	<string name="action_night_to_time">Bis: %1$s</string>
 
 	<string name="hint_custom_threshold_value">Lux-Wert</string>
 

@@ -15,6 +15,7 @@ package dev.lexip.hecate.ui.components.preferences
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -34,6 +36,8 @@ fun DetailPreferenceCard(
 	enabled: Boolean = true,
 	firstCard: Boolean = false,
 	lastCard: Boolean = false,
+	toggleableValue: Boolean? = null,
+	onToggle: ((Boolean) -> Unit)? = null,
 	content: @Composable () -> Unit
 ) {
 	val largeRadius = 20.dp
@@ -51,7 +55,21 @@ fun DetailPreferenceCard(
 		animationSpec = tween(durationMillis = 250)
 	)
 
+	val toggleValue = toggleableValue
+	val onToggleValue = onToggle
+	val isToggleable = toggleValue != null && onToggleValue != null
+
 	Card(
+		modifier = if (isToggleable) {
+			Modifier.toggleable(
+				value = toggleValue,
+				enabled = enabled,
+				role = Role.Switch,
+				onValueChange = { onToggleValue(it) }
+			)
+		} else {
+			Modifier
+		},
 		shape = shape,
 		colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceBright)
 	) {

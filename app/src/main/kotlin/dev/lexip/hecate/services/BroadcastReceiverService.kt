@@ -113,7 +113,12 @@ class BroadcastReceiverService : Service() {
 			// Create screen-on receiver if adaptive theme is enabled
 			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
 			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
-				createScreenOnReceiver(userPreferences.adaptiveThemeThresholdLux)
+				createScreenOnReceiver(
+					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
+					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
+					nightStartMinutes = userPreferences.nightStartMinutes,
+					nightEndMinutes = userPreferences.nightEndMinutes
+				)
 			}
 
 			// Abort service start when there is no receiver to handle
@@ -129,6 +134,9 @@ class BroadcastReceiverService : Service() {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
 				screenOnReceiver?.adaptiveThemeThresholdLux = prefs.adaptiveThemeThresholdLux
+				screenOnReceiver?.stayDarkAtNightEnabled = prefs.stayDarkAtNightEnabled
+				screenOnReceiver?.nightStartMinutes = prefs.nightStartMinutes
+				screenOnReceiver?.nightEndMinutes = prefs.nightEndMinutes
 			}
 		}
 
@@ -201,12 +209,20 @@ class BroadcastReceiverService : Service() {
 		manager?.createNotificationChannel(serviceChannel)
 	}
 
-	private fun createScreenOnReceiver(adaptiveThemeThresholdLux: Float) {
+	private fun createScreenOnReceiver(
+		adaptiveThemeThresholdLux: Float,
+		stayDarkAtNightEnabled: Boolean,
+		nightStartMinutes: Int,
+		nightEndMinutes: Int
+	) {
 		screenOnReceiver = screenOnReceiver ?: ScreenOnReceiver(
 			proximitySensorManager,
 			lightSensorManager,
 			darkThemeHandler,
-			adaptiveThemeThresholdLux
+			adaptiveThemeThresholdLux,
+			stayDarkAtNightEnabled,
+			nightStartMinutes,
+			nightEndMinutes
 		)
 		Log.d(TAG, "Registering screen-on receiver...")
 		registerReceiver(screenOnReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))
