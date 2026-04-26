@@ -3,7 +3,7 @@
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
 <img
 src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white"
-alt="Play Store Download Count >10k">
+alt="Play Store Download Count">
 </a>
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
 
@@ -38,12 +38,17 @@ life.
 
 ## Media Coverage
 
-> **Android Authority** – **[This app gives Android the automatic
+> **Video: HowToMen** – **[Top 15 Best Android
+Apps, February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s&ref=GitHub_xLexip)**
+
+> **Article: Android Authority** – **[This app gives Android the automatic
 dark mode feature it desperately needs](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)**
 
-> **HowToMen (YouTube)** – **[Top 15 Best Android Apps, February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)**
+> **Article: Computerworld** – **[The Android dark mode
+upgrade you deserve](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)**
 
-> **Computer World** – **[The Android dark mode upgrade you deserve](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)**
+> **Article: How-To Geek** – **[I ditched sunrise/sunset dark mode for this Android app
+> (it uses your light sensor)](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)**
 
 ## Features & Highlights
 
@@ -182,23 +187,44 @@ including haptic feedback.
 **Background Work:** Sensor operations run event-driven – only upon screen-on
 broadcasts – ensuring zero unnecessary battery drain in the background.
 
-## Credits
+## Credits & References
 
-* Thanks to Android Authority for their article:
-  [**This app gives Android the automatic dark mode
-  feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
-* Thanks to Computer World for their article:
-  [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
-* Thanks to the following YouTubers for featuring Adaptive Theme:
-    * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
-    * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
-    * El Androide Feliz – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&t=152s)
-    * TechTab – [**Top 10 Android Apps you need to try - March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&t=298s)
-    * Gadget Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&t=306s)
-    * Tech Tricks – [**10 Best New Top Rated Android Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&t=257s)
-    * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
-* Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for Spanish translation
+* **Article:**
+  Computerworld – [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
+* **Article:** How-To Geek – [**I ditched sunrise/sunset
+  dark mode for this Android app
+  (it uses your light sensor)**](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)
+* **Article:** Android
+  Authority – [**This app gives Android the automatic dark
+  mode feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
+* **Article:** Android
+  Authority – [**10 awesome Shizuku apps I use to level
+  up my Android experience**](https://www.androidauthority.com/best-shizuku-apps-android-3659353/)
+* **Article:** Android
+  Authority – [**5 of the best new Android apps
+  you need to try this April**](https://www.androidauthority.com/best-new-android-apps-games-april-2026-3653008/)
+* **Video:**
+  HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=98s)
+* **Video:** Mr. Android
+  FHD – [**8 INCREDIBLE Apps That Every Android
+  User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
+* **Video:**
+  TechTab – [**Top 10 Android Apps you
+  need to try - March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=298s)
+* **Video:** Gadget
+  Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=306s)
+* **Video:**
+  TechReviewBD – [**5 INSANE Android Apps That Will Change The Way
+  You Use Your Phone**](https://youtu.be/9T895TReCcU?list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&si=HczGvueXQWgIU9aT&t=146)
+* **Video:** Tech Tricks – [**10 Best New Top Rated Android
+  Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=257s)
+* **Video (ES):** El Androide
+  Feliz – [**15 nuevas apps para Shizuku
+  que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=152s)
+* **Video (RU):** Всё про
+  Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh)
+* **Credits**: Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for Spanish translation
   strings.
-* Font Credits: [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors.
+* **Credits**: Font [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors.
 
 ### **Made with 🥨 in Germany.**
