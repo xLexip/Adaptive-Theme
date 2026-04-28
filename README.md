@@ -1,204 +1,164 @@
-[![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases/latest)
-[![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)](#)
-<a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
-<img
-src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white"
-alt="Play Store Download Count >10k">
-</a>
+<div align="center">
+
+## Adaptive Theme – Auto Dark Mode
+
+[![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases)
+[![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)]()
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
+<img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Ddev.lexip.hecate%26l%3DDownloads%26m%3D%24totalinstalls&color=brightgreen&logo=google-play&logoColor=white" alt="Play Store Download Count">
+</a>
 
-[![Feature Graphic / Screenshot](.github/resources/feature-graphic.png)](https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_banner)
+Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** — optimizing readability, eye comfort, and battery life based on actual lighting conditions.
 
-# Adaptive Theme – Auto Dark Mode by Ambient Light
-
-Adaptive Theme automatically switches between light and dark theme
-using the ambient light sensor — not a fixed schedule.
-
-It adapts to actual lighting conditions to optimize readability, eye comfort, and battery
-life.
-
+<br>
 
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate&referrer=utm_source%3Dgithub%26utm_medium%3Dreadme_button">
-    <img src=".github/resources/get-it-on-google-play.svg" alt="Get it on Google Play" width="200"/>
+    <img src=".github/resources/get-it-on-google-play.svg" alt="Get it on Google Play" width="180"/>
 </a>
-‎ ‎ ‎
+&nbsp;&nbsp;
 <a href="https://github.com/xLexip/Adaptive-Theme/releases">
-    <img src=".github/resources/github-releases.png" alt="GitHub Releases" width="200"/>
-</a> 
-‎ ‎ ‎
-<a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip">
-    <img src=".github/resources/works-with-shizuku.png" alt="Shizuku (PlayStore)" width="200"/>
+    <img src=".github/resources/github-releases.png" alt="GitHub Releases" width="180"/>
 </a>
+&nbsp;&nbsp;
+<a href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip">
+    <img src=".github/resources/works-with-shizuku.png" alt="Shizuku" width="180"/>
+</a>
+&nbsp;&nbsp;
+</div>
 
-## Quick Start (2 minutes)
+---
 
-1. **Install** Adaptive Theme.
-2. **Grant the permission** with the [web-tool](https://lexip.dev/setup), Shizuku, or other methods.
-3. **Pick your lux threshold** and you’re done.
+### Featured On
 
-## Media Coverage
+> **[Android Authority](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/): "A brilliant app that once installed
+makes you wonder how you lived without it. [...] This app gives Android the automatic dark mode feature it desperately needs."** – Andy Walker
 
-> **Android Authority** – **[This app gives Android the automatic
-dark mode feature it desperately needs](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)**
+> **[HowToMen (YouTube)](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s&ref=GitHub_xLexip): "No
+tapping, no schedules needed. It just does it on its own. [...] And don't worry, it's not killing your battery either."** – Facundo Holzmeister
 
-> **HowToMen (YouTube)** – **[Top 15 Best Android Apps, February 2026](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s&ref=GitHub_xLexip)**
+> **[Computerworld](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html): "This is how Android's dark mode should have worked
+since the start. Ready for an overdue injection of extra intelligence?"** – JR Raphael
 
-> **Computer World** – **[The Android dark mode upgrade you deserve](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)**
+> **[How-To Geek](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/): "With a simple app,
+you can make dark mode (and light mode) switch with the lighting around you."** – Joe Fedewa
 
-## Features & Highlights
+---
 
-* **Smart Detection:** Uses your devices physical light sensor to switch the system
-  theme.
-* **Custom brightness threshold:** Choose exactly when the theme should flip or use a preset (
-  indoor, outdoor, sunlight, etc.).
-* **Stay dark at night:** Optionally keep dark mode active during a custom fixed time window (for
-  example, 9 PM to 6 AM).
-* **Battery Friendly:** The app is passive. Its event-driven architecture only checks the sensor
-  when you turn on the screen — zero battery drain in the background.
-* **No Root Required:** Root access is not required (but supported as an alternative setup
-  method).
-* **Shizuku Support:** One of multiple setup options is
-  using [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip).
-* **Modern & Native:** Built with best-practices using Kotlin, Jetpack Compose and Material You
-  for a smooth and solid experience.
-* **50+ Languages:** Applied globalization at its best.
-* **Transparent:** Free, open-source, no-ads.
+### Setup
 
-## One-Time Setup
+1. **Install** Adaptive Theme from Google Play or GitHub Releases.
+2. **Grant the permission** using the [web setup tool](https://lexip.dev/setup), or [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api), or Root, or manual ADB.
+3. **Set your lux threshold** or pick a preset, and you're done.
 
-Android restricts apps from changing system themes by default. To unlock this feature, the
-permission (`WRITE_SECURE_SETTINGS`) has to be granted.
+The one-time permission grant is required because Android restricts apps from changing the system theme by default. The permission only allows changing system settings such as the dark mode toggle — it does _not_ grant root access or read any user data, and is fully reversible by uninstalling the
+app.
 
-The app comes with an easy step-by-step setup process, that lets you choose one of the following
-methods to do so:
+---
 
-* **Web Tool (Recommended)** – A browser-based setup tool on a secondary device (Computer,
-  Tablet,
-  or Phone). No code or ADB
-  installation required (WebADB).
-  👉 **[lexip.dev/setup](https://lexip.dev/setup)**
+### Features
 
-* **Shizuku** – If you have [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&referrer=utm_source%3Dgithub_xlexip)
-  installed and configured, you can grant the permission directly within Adaptive Theme.
+- **Sensor-driven switching**: Uses the physical ambient light sensor – not a clock or sunset schedule – to intelligently switch the system theme.
+- **Custom lux threshold**: Dial in exactly when the theme flips, or choose a preset (e.g.indoor, outdoor, sunlight).
+- **Night lock**: Optionally hold dark mode during a fixed time window, e.g. 9 PM – 6 AM.
+- **Battery friendly & Event-driven**: The sensor is only checked once when you turn the screen on. Zero background drain.
+- **50+ languages**: Fully localized for a global audience.
+- **No root required**: Works on stock Android. Root is supported as an optional setup method.
+- **Shizuku support**: Includes native Shizuku integration as one of several setup options.
+- **Free, open-source, no ads**
 
-* **Root** – If your device is rooted, you can grant the permission directly in Adaptive Theme as
-  well.
+---
 
-* **Manual ADB** – If you have ADB installed on your computer, you can simply run the ADB command
-  manually:
-  ```adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS```
+### How It Works
 
-## Safety
+To avoid screen flicker and unnecessary background work, Adaptive Theme follows a strict, event-driven model:
 
-The required permission only allows the app to change system settings such as the dark mode. This is
-absolutely safe and
-completely reversible by uninstalling the app. It does **not** grant root access or read any user
-data.
+- **Screen-on trigger** — The light sensor is only sampled right after the screen turns on, not continuously.
+- **Obstruction check** — Validates that the sensor is not covered (e.g. by a hand or pocket).
+- **Instant apply** — The theme is switched before you start interacting.
 
-## How it works
+This design ensures mid-session theme changes never interrupt your use, since some apps handle live theme changes poorly.
 
-**Wondering why the theme didn't change immediately?**
+---
 
-To avoid screen flicker and unnecessary background work, Adaptive Theme follows strict rules:
+### Support the Project
 
-- **Event-driven:** It checks the light sensor only right after the screen turns on. Combined with
-  hysteresis, this prevents flicker and saves battery. It also prevents theme changes mid-use, as some apps do not handle these live changes well.
-- **Validity check:** It verifies that the sensor is not obstructed (e.g. by a hand or pocket).
-- **Seamless switch:** It switches the theme instantly, ensuring the UI is ready before you start
-  interacting with it.
+Adaptive Theme is completely free, ad-free, and developed in my spare time. If you find it useful, consider to:
 
-## FAQ
+- **Star this repository** at the top to help others find it.
+- **Leave a rating on [**Google Play**](https://play.google.com/store/apps/details?id=dev.lexip.hecate)** — it makes a real difference in discoverability.
+- **Share the app** with anyone who might benefit.
+- **Follow me** [**@xLexip**](https://github.com/xLexip) if you like .
+- **Buy me a coffee** if you're feeling [generous](https://buymeacoffee.com/lexip).
+
+Issues, questions, and feature ideas are welcome — please [open an issue](https://github.com/xLexip/Adaptive-Theme/issues/new) or use the in-app feedback option.
+
+---
+
+### Architecture & Tech Stack
+
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#)
+[![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](#)
+[![Jetpack-Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=Jetpack%20Compose&logoColor=white)](#)
+[![Material-Design](https://img.shields.io/badge/material%20design-757575?style=for-the-badge&logo=material%20design&logoColor=white)](#)
+[![](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)](https://lexip.dev/rr)
+[![SonarQube](https://img.shields.io/badge/Sonarqube-5190cf?style=for-the-badge&logoColor=white&logo=sonarr)](#)
+
+* **Modern UI:** Written in Kotlin using Jetpack Compose and Material 3 (Material You).
+* **Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
+* **Reactive Data:** ViewModels expose data via Kotlin Flows and manage concurrency with Coroutines.
+* **Persistence:** Type-safe settings storage utilizing Jetpack DataStore.
+* **Background Work:** Sensor operations run event-driven – only upon screen-on
+  broadcasts – ensuring zero unnecessary battery drain in the background.
+
+---
+
+### FAQ
+
+**What is the minimum Android version?**
+Adaptive Theme works on Android 14 and above.
+
+**Why didn't the theme change right away?**
+By design, the theme only switches immediately after the screen turns on. This prevents flicker, saves battery, and avoids interrupting an active app session.
+
+**Does it work on tablets?**
+No. Due to a technical limitation, Adaptive Theme is currently limited to smartphones.
 
 **Does this require root?**
+No. It works on stock devices. Root is supported as an optional setup method.
 
-* No. It works on stock devices. However, if you have Root, it can be used as an alternative setup
-  method.
+**Does it work with custom skins (MIUI, OneUI, etc.)?**
+In most cases, yes — any system that respects the native Android dark mode implementation is supported.
 
-**What is the minimum Android version required?**
+---
 
-* The app works on Android 14 and above.
+### References & Credits
 
-**Does it work with custom Android skins (Xiaomi MIUI, Samsung OneUI, etc.)?**
+**International Press**
 
-* In most cases, yes. It works with any system that respects the native Android Dark Mode
-  implementation.
+- androidauthority.com — [**This app gives Android the automatic dark mode feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
+- computerworld.com — [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
+- howtogeek.com — [**I ditched sunrise/sunset dark mode for this Android app (it uses your light sensor)**](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)
+- androidauthority.com — [**5 of the best new Android apps you need to try this April**](https://www.androidauthority.com/best-new-android-apps-games-april-2026-3653008/)
+- androidauthority.com — [**10 awesome Shizuku apps I use to level up my Android experience**](https://www.androidauthority.com/best-shizuku-apps-android-3659353/)
 
-**My theme doesn’t change — what should I check?**
+**YouTube Videos**
 
-* Keep in mind that the theme only switched immediately after the screen is turned on, to optimize
-  sensor usage and to not interrupt
-  your device usage.
-* Check that your sensor isn’t covered when you turn the screen on.
-* Adjust your lux threshold and test in clearly bright/dim conditions.
-* Check if the current lux value is shown correctly in the Adaptive Theme app.
+- HowToMen — [**Top 15 Best Android Apps, February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s)
+- Mr. Android FHD — [**8 INCREDIBLE Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
+- TechTab — [**Top 10 Android Apps you need to try, March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=298s)
+- Gadget Geek — [**Top 10 Best Android Apps, March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=306s)
+- TechReviewBD — [**5 INSANE Android Apps That Will Change The Way You Use Your Phone**](https://youtu.be/9T895TReCcU?list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&si=HczGvueXQWgIU9aT&t=146)
+- Tech Tricks — [**10 Best New Top Rated Android Apps**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=257s)
+- El Androide Feliz (ES) — [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=152s)
+- Всё про Андроид (RU) — [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh)
 
-**Does Adaptive Theme work on tablets?**
+**Acknowledgements**
 
-* No. Due to a technical detail, Adaptive Theme only works on smartphones.
+- [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) — Spanish translation strings
+- [Nunito](https://github.com/googlefonts/nunito) font — SIL Open Font License 1.1, Copyright 2014 The Nunito Project Authors
 
-## Support & Feedback
+---
 
-If Adaptive Theme doesn’t work for you — or if you have any questions or ideas — please [open an
-issue](https://github.com/xLexip/Adaptive-Theme/issues/new) here or send feedback via the app.
-
-## Support the Project
-
-Adaptive Theme is **completely free**, **ad-free**, **open source**, and developed in my free time.
-
-If you enjoy using the app, there are simple ways you can support the project:
-
-⭐ **Star on GitHub:** Give this repository a star to help others find it.
-
-🌟 **Rate on Google Play:**
-A [5-star rating](https://play.google.com/store/apps/details?id=dev.lexip.hecate)
-is the best way to boost the ranking.
-
-☕ **Buy me a Coffee:** If you are feeling generous, you can
-also [buy me a coffee](https://buymeacoffee.com/lexip).
-
-📣 **Spread the Word:** Share the app to help the project grow.
-
-## Architecture & Tech Stack
-
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/)
-[![Kotlin](https://img.shields.io/badge/Kotlin-B125EA?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
-[![Jetpack-Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=Jetpack%20Compose&logoColor=white)](https://developer.android.com/compose)
-[![Material-Design](https://img.shields.io/badge/material%20design-757575?style=for-the-badge&logo=material%20design&logoColor=white)](https://source.android.com/docs/core/display/material)
-[![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)](https://gradle.org/)
-[![SonarQube](https://img.shields.io/badge/Sonarqube-5190cf?style=for-the-badge&logoColor=white&logo=sonarr)](https://sonarcloud.io/)
-
-Adaptive Theme is built with modern Android engineering standards to ensure a lightweight,
-maintainable, and production-ready codebase.
-
-**Modern Codebase:** Written entirely in Kotlin with Jetpack Compose and Material 3 (Material You),
-including haptic feedback.
-
-**Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
-
-**Reactive Data:** ViewModels expose data via Kotlin Flows and manage concurrency with Coroutines.
-
-**Persistence:** Type-safe settings storage with Jetpack DataStore.
-
-**Background Work:** Sensor operations run event-driven – only upon screen-on
-broadcasts – ensuring zero unnecessary battery drain in the background.
-
-## Credits
-
-* Thanks to Android Authority for their article:
-  [**This app gives Android the automatic dark mode
-  feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
-* Thanks to Computer World for their article:
-  [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
-* Thanks to the following YouTubers for featuring Adaptive Theme:
-    * HowToMen – [**Top 15 Best Android Apps - February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&t=98s)
-    * Mr. Android FHD – [**8 Incredible Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&t=459s)
-    * El Androide Feliz – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&t=152s)
-    * TechTab – [**Top 10 Android Apps you need to try - March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&t=298s)
-    * Gadget Geek – [**Top 10 Best Android Apps | March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&t=306s)
-    * Tech Tricks – [**10 Best New Top Rated Android Apps | You Can't Miss**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&t=257s)
-    * Всё про Андроид – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8)
-* Thanks to [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) for Spanish translation
-  strings.
-* Font Credits: [Nunito](https://github.com/googlefonts/nunito), SIL Open Font License, Version 1.1, Copyright 2014 The Nunito Project Authors.
-
-### **Made with 🥨 in Germany.**
+<div align="center">
+<b> Made with 🥨 in Germany </b>
+</div>
