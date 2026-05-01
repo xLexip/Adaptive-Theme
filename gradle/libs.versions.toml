@@ -1,9 +1,9 @@
 [versions]
 activityCompose = "1.13.0"
-agp = "9.1.1"
+agp = "9.2.0"
 appcompat = "1.7.1"
 appUpdateKtx = "2.1.0"
-composeBom = "2026.03.01"
+composeBom = "2026.04.01"
 coreKtx = "1.18.0"
 coreSplashscreenVersion = "1.2.0"
 datastorePreferencesCore = "1.2.1"
@@ -44,7 +44,7 @@ androidx-preference = { group = "androidx.preference", name = "preference", vers
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.10.6" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version = "1.11.0" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
