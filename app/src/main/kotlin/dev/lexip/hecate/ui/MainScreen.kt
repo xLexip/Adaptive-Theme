@@ -224,7 +224,7 @@ fun MainScreen(
 				.padding(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(contentScrollState),
-			verticalArrangement = Arrangement.spacedBy(28.dp)
+			verticalArrangement = Arrangement.spacedBy(29.dp)
 
 		) {
 			val showBatterySaverWarning =
