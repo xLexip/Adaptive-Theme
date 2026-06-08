@@ -3,6 +3,7 @@
 	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
+	<string name="action_learn_more">Weitere Informationen</string>
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
 	<string name="action_finish">Fertig</string>
 	<string name="action_set">Festlegen</string>
@@ -82,7 +83,7 @@
 	<string name="setup_usb_not_connected">Warte auf USB-Verbindung…</string>
 	<string name="setup_usb_connected">USB verbunden</string>
 	<string name="setup_why_other_device_title">Warum ist ein anderes Gerät nötig?</string>
-	<string name="setup_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein anderes Gerät mit einem Webbrowser oder ADB benötigt.</string>
+	<string name="setup_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein weiteres Gerät mit einem Webbrowser oder ADBbenötigt.</string>
 	<string name="setup_is_this_safe_title">Ist das sicher?</string>
 	<string name="setup_is_this_safe_body">Ja. Es erlaubt der App nur, Einstellungen wie den Dark Mode zu ändern. Das ist absolut sicher und vollständig rückgängig zu machen. Außerdem ist der Quellcode öffentlich auf GitHub einsehbar.</string>
 	<string name="setup_shizuku_title">Alternative: Shizuku</string>

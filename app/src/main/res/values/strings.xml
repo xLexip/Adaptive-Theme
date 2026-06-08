@@ -7,6 +7,7 @@
 	<string name="action_cancel">Cancel</string>
 	<string name="action_close">Close</string>
 	<string name="action_continue">Continue</string>
+	<string name="action_learn_more">Learn more</string>
 	<string name="action_disable_notification">Hide Notification</string>
 	<string name="action_finish">Finish</string>
 	<string name="action_set">Set</string>

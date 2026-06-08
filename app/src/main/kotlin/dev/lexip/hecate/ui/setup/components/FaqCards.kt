@@ -35,6 +35,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,13 +54,17 @@ import dev.lexip.hecate.R
 
 @Composable
 internal fun SetupFAQCards() {
-	WhyOtherDeviceCard()
-	IsThisSafeCard()
+	Column(verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+		WhyOtherDeviceCard()
+		IsThisSafeCard()
+	}
 }
 
 @Composable
 internal fun WhyOtherDeviceCard() {
 	var expanded by remember { mutableStateOf(false) }
+	val haptic = LocalHapticFeedback.current
+	val uriHandler = LocalUriHandler.current
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -106,12 +114,23 @@ internal fun WhyOtherDeviceCard() {
 					)
 				)
 			) {
-				Spacer(modifier = Modifier.height(4.dp))
-				Text(
-					text = stringResource(id = R.string.setup_why_other_device),
-					style = MaterialTheme.typography.bodyMedium,
-					color = MaterialTheme.colorScheme.onSurfaceVariant
-				)
+				Column(modifier = Modifier.fillMaxWidth()) {
+					Spacer(modifier = Modifier.height(4.dp))
+					Text(
+						text = stringResource(id = R.string.setup_why_other_device),
+						style = MaterialTheme.typography.bodyMedium,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
+					)
+					TextButton(
+						onClick = {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+							uriHandler.openUri("https://lexip.dev/hecate/docs/setup")
+						},
+						modifier = Modifier.align(Alignment.CenterHorizontally)
+					) {
+						Text(text = stringResource(id = R.string.action_learn_more))
+					}
+				}
 			}
 		}
 	}
@@ -120,6 +139,8 @@ internal fun WhyOtherDeviceCard() {
 @Composable
 internal fun IsThisSafeCard() {
 	var expanded by remember { mutableStateOf(false) }
+	val haptic = LocalHapticFeedback.current
+	val uriHandler = LocalUriHandler.current
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -169,12 +190,23 @@ internal fun IsThisSafeCard() {
 					)
 				)
 			) {
-				Spacer(modifier = Modifier.height(4.dp))
-				Text(
-					text = stringResource(id = R.string.setup_is_this_safe_body),
-					style = MaterialTheme.typography.bodyMedium,
-					color = MaterialTheme.colorScheme.onSurfaceVariant
-				)
+				Column(modifier = Modifier.fillMaxWidth()) {
+					Spacer(modifier = Modifier.height(4.dp))
+					Text(
+						text = stringResource(id = R.string.setup_is_this_safe_body),
+						style = MaterialTheme.typography.bodyMedium,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
+					)
+					TextButton(
+						onClick = {
+							haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+							uriHandler.openUri("https://lexip.dev/hecate/docs/setup")
+						},
+						modifier = Modifier.align(Alignment.CenterHorizontally)
+					) {
+						Text(text = stringResource(id = R.string.action_learn_more))
+					}
+				}
 			}
 		}
 	}
