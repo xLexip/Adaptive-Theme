@@ -425,6 +425,7 @@ fun MainScreen(
 						AssistChip(
 							onClick = {
 								isAdvancedSettingsExpanded = true
+								haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
 							},
 							enabled = uiState.adaptiveThemeEnabled,
 							shape = RoundedCornerShape(20.dp),
@@ -545,6 +546,7 @@ fun MainScreen(
 							modifier = Modifier.align(Alignment.CenterHorizontally),
 							onClick = {
 								isAdvancedSettingsExpanded = false
+								haptic.performHapticFeedback(HapticFeedbackType.ToggleOff)
 							},
 							enabled = uiState.adaptiveThemeEnabled,
 							shape = RoundedCornerShape(20.dp),
