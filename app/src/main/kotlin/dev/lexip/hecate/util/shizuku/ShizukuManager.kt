@@ -37,6 +37,9 @@ object ShizukuManager {
 		try {
 			Shizuku.addBinderReceivedListener { onBinderReceived() }
 			Shizuku.addBinderDeadListener { onBinderDead() }
+			if (Shizuku.pingBinder()) {
+				binderReady = true
+			}
 		} catch (t: Throwable) {
 			Log.w(TAG, "Failed to register Shizuku binder listeners", t)
 		}
@@ -83,10 +86,6 @@ object ShizukuManager {
 		}
 
 		if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-			return
-		}
-
-		if (Shizuku.shouldShowRequestPermissionRationale()) {
 			return
 		}
 

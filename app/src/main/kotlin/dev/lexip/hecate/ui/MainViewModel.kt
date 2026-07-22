@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
 private const val TAG = "MainViewModel"
 private const val REVIEW_MIN_SWITCH_COUNT = 10
 

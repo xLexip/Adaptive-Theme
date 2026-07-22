@@ -56,7 +56,7 @@ internal fun ShizukuOptionCard(
 			)
 			Spacer(modifier = Modifier.height(8.dp))
 			Text(
-				text = stringResource(id = R.string.setup_shizuku_body),
+				text = stringResource(id = R.string.setup_shizuku_description),
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.onSecondaryContainer
 			)

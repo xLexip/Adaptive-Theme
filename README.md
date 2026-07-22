@@ -5,7 +5,7 @@
 [![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases)
 [![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)]()
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
-<img src="https://img.shields.io/badge/Downloads-15,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count">
+<img src="https://img.shields.io/badge/Downloads-16,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 16,000+">
 </a>
 
 Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** — optimizing readability, eye comfort, and battery life based on actual lighting conditions.
@@ -50,10 +50,11 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 2. **Grant the permission** using the [web setup tool](https://lexip.dev/setup), or [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api), or Root, or manual ADB.
 3. **Set your lux threshold** or pick a preset, and you're done.
 
-The app guides you through an easy step-by-step setup wizard. And if you use the WebADB setup website, you don't even need either Shizuku or ADB to set it up.
+> [!TIP]
+> If you don't use Shizuku, the [web setup tool](https://lexip.dev/setup) is the easiest option — no ADB, no Shizuku, just a browser. The app guides you through a step-by-step wizard.
 
-The one-time permission grant is required because Android restricts apps from changing the system theme by default. The permission (`WRITE_SECURE_SETTINGS`) only
-allows changing system settings such as the dark mode toggle — it does _not_ grant root access or read any user data, and is fully reversible by uninstalling the app.
+> [!IMPORTANT]
+> `WRITE_SECURE_SETTINGS` does **not** grant root access or read any user data. It only allows flipping system settings like the system dark mode and is fully reversible by uninstalling the app.
 
 ---
 
@@ -89,7 +90,7 @@ Adaptive Theme is completely free, ad-free, and developed in my spare time. If y
 - **Star this repository** at the top to help others find it.
 - **Leave a rating on [**Google Play**](https://play.google.com/store/apps/details?id=dev.lexip.hecate)** — it makes a real difference in discoverability.
 - **Share the app** with anyone who might benefit.
-- **Follow me** [**@xLexip**](https://github.com/xLexip) if you like .
+- **Follow me** [**@xLexip**](https://github.com/xLexip) if you like.
 - **Buy me a coffee** if you're feeling [generous](https://buymeacoffee.com/lexip).
 
 Issues, questions, and feature ideas are welcome — please [open an issue](https://github.com/xLexip/Adaptive-Theme/issues/new) or use the in-app feedback option.
@@ -131,6 +132,9 @@ No. It works on stock devices. Root is supported as an optional setup method.
 **Does it work with custom skins (MIUI, OneUI, etc.)?**
 In most cases, yes. Any system that respects the native Android dark mode implementation is supported.
 
+**Does it support Shizuku forks?**
+Yes, forks like Nightzuku, Shizuku+, and Shevery are supported.
+
 ---
 
 ### References
@@ -141,8 +145,10 @@ In most cases, yes. Any system that respects the native Android dark mode implem
 - computerworld.com — [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
 - howtogeek.com — [**I ditched sunrise/sunset dark mode for this Android app (it uses your light sensor)**](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)
 - heise.de – [**Android-Dunkelmodus: Open-Source-App passt Systemdesign an Umgebungslicht an**](https://www.heise.de/news/Android-Dunkelmodus-Open-Source-App-passt-Systemdesign-an-Umgebungslicht-an-11282658.html)
+- tchgdns.de — [**Adaptive Theme für Android: Dunkelmodus automatisch per Umgebungslicht aktivieren**](https://tchgdns.de/adaptive-theme-fuer-android-dunkelmodus-automatisch-per-umgebungslicht-aktivieren/)
 - androidauthority.com — [**5 of the best new Android apps you need to try this April**](https://www.androidauthority.com/best-new-android-apps-games-april-2026-3653008/)
 - androidauthority.com — [**10 awesome Shizuku apps I use to level up my Android experience**](https://www.androidauthority.com/best-shizuku-apps-android-3659353/)
+- computerworld.com — [**The Android dark mode power-pack: 5 secrets for a smarter screen setup**](https://www.computerworld.com/article/4187935/android-dark-mode-power-pack.html)
 - androidinsider.ru — [**Автоматическая тёмная тема. Приложение, которого не хватало годами**](https://androidinsider.ru/obzory-prilozhenij/avtomaticheskaya-tyomnaya-tema-na-android-prilozhenie-kotorogo-ne-hvatalo-godami.html)
 - pcguia.pt — [**App do Dia – Adaptive Theme: Modo Escuro**](https://www.pcguia.pt/2026/04/app-do-dia-adaptive-theme-modo-escuro/)
 - android-zone.fr — [**Adaptive Theme Android: mode clair/sombre automatique**](https://www.android-zone.fr/adaptive-theme-android-mode-clair-sombre-automatique/)
@@ -150,6 +156,7 @@ In most cases, yes. Any system that respects the native Android dark mode implem
 **YouTube Videos**
 
 - HowToMen — [**Top 15 Best Android Apps, February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s)
+- HowToMen — [**Top 15 Best Shizuku Apps to Use in 2026**](https://www.youtube.com/watch?v=mDQ8o4JlXjM&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=735s)
 - Mr. Android FHD — [**8 INCREDIBLE Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
 - TechTab — [**Top 10 Android Apps you need to try, March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=298s)
 - Gadget Geek — [**Top 10 Best Android Apps, March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=306s)

@@ -92,7 +92,7 @@
 	<string name="setup_is_this_safe_title">Is this safe?</string>
 	<string name="setup_is_this_safe_body">Yes. It just allows the app to modify settings like the dark mode. This is absolutely safe and completely reversible. Furthermore, the source code is publicly available on GitHub.</string>
 	<string name="setup_shizuku_title">Alternative: Shizuku</string>
-	<string name="setup_shizuku_body">If you already use Shizuku, you won’t need a second device or ADB.</string>
+	<string name="setup_shizuku_description">If you already use Shizuku, you won’t need a second device or ADB. You only need Shizuku once to grant the permission.</string>
 	<string name="setup_shizuku_action">Use Shizuku instead</string>
 	<string name="setup_action_use_root">Use Root</string>
 	<string name="setup_root_request">Requesting root access…</string>
@@ -103,7 +103,7 @@
 	<string name="setup_required_message">%1$s requires a one-time setup to function.</string>
 	<string name="action_start_setup">Start Setup</string>
 
-	<string name="shizuku_not_ready">Start Shizuku and try again.</string>
+	<string name="shizuku_not_running">Start or restart Shizuku and try again.</string>
 	<string name="shizuku_denied">Access denied. Permit this app in Shizuku.</string>
 	<string name="shizuku_request_permission">Requesting permission…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>

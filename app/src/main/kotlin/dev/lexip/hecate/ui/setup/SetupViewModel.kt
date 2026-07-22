@@ -13,7 +13,6 @@
 package dev.lexip.hecate.ui.setup
 
 import android.Manifest
-import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -51,7 +50,12 @@ import rikka.shizuku.Shizuku
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val AUTO_ADVANCE_DELAY = 2
-private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+private val SHIZUKU_FORKS_PRIORITIZED = listOf(
+	"com.hamondev.shevery",
+	"kerneldroid.nightzuku",
+	"af.shizuku.plus.api",
+	"moe.shizuku.privileged.api"
+)
 private const val REQUEST_CODE_SHIZUKU = 1001
 private const val TAG = "SetupViewModel"
 
@@ -509,7 +513,7 @@ class SetupViewModel(
 		exitSetup()
 		val intent = Intent(
 			Intent.ACTION_VIEW,
-			"https://play.google.com/store/apps/details?id=$SHIZUKU_PACKAGE".toUri()
+			"https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api".toUri()
 		).apply {
 			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 		}
@@ -523,7 +527,7 @@ class SetupViewModel(
 		if (!ShizukuManager.isBinderReady()) {
 			Toast.makeText(
 				context,
-				context.getString(R.string.shizuku_not_ready),
+				context.getString(R.string.shizuku_not_running),
 				Toast.LENGTH_LONG
 			).show()
 			openShizukuAppIfInstalled()
@@ -552,7 +556,7 @@ class SetupViewModel(
 					is ShizukuManager.GrantResult.ServiceNotRunning -> {
 						Toast.makeText(
 							context,
-							context.getString(R.string.shizuku_not_ready),
+							context.getString(R.string.shizuku_not_running),
 							Toast.LENGTH_LONG
 						).show()
 						openShizukuAppIfInstalled()
@@ -561,7 +565,7 @@ class SetupViewModel(
 					is ShizukuManager.GrantResult.NotAuthorized -> {
 						Toast.makeText(
 							context,
-							context.getString(R.string.shizuku_not_ready),
+							context.getString(R.string.shizuku_not_running),
 							Toast.LENGTH_LONG
 						).show()
 					}
@@ -682,17 +686,19 @@ class SetupViewModel(
 	private fun openShizukuAppIfInstalled() {
 		val context = application.applicationContext
 		val pm = context.packageManager
-		try {
-			pm.getPackageInfo(SHIZUKU_PACKAGE, 0)
-			val launchIntent = pm.getLaunchIntentForPackage(SHIZUKU_PACKAGE)
-			if (launchIntent != null) {
-				launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-				context.startActivity(launchIntent)
+
+		for (pkg in SHIZUKU_FORKS_PRIORITIZED) {
+			try {
+				pm.getPackageInfo(pkg, 0)
+				val launchIntent = pm.getLaunchIntentForPackage(pkg)
+				if (launchIntent != null) {
+					launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+					context.startActivity(launchIntent)
+					return
+				}
+			} catch (_: Exception) {
+				// Continue to next package
 			}
-		} catch (_: PackageManager.NameNotFoundException) {
-			// Shizuku not installed
-		} catch (_: ActivityNotFoundException) {
-			// No launchable activity
 		}
 	}
 
