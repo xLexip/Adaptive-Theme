@@ -523,7 +523,7 @@ class SetupViewModel(
 		if (!ShizukuManager.isBinderReady()) {
 			Toast.makeText(
 				context,
-				context.getString(R.string.shizuku_not_ready),
+				context.getString(R.string.shizuku_not_running),
 				Toast.LENGTH_LONG
 			).show()
 			openShizukuAppIfInstalled()
@@ -552,7 +552,7 @@ class SetupViewModel(
 					is ShizukuManager.GrantResult.ServiceNotRunning -> {
 						Toast.makeText(
 							context,
-							context.getString(R.string.shizuku_not_ready),
+							context.getString(R.string.shizuku_not_running),
 							Toast.LENGTH_LONG
 						).show()
 						openShizukuAppIfInstalled()
@@ -561,7 +561,7 @@ class SetupViewModel(
 					is ShizukuManager.GrantResult.NotAuthorized -> {
 						Toast.makeText(
 							context,
-							context.getString(R.string.shizuku_not_ready),
+							context.getString(R.string.shizuku_not_running),
 							Toast.LENGTH_LONG
 						).show()
 					}
