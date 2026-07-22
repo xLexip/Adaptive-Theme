@@ -50,10 +50,11 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 2. **Grant the permission** using the [web setup tool](https://lexip.dev/setup), or [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api), or Root, or manual ADB.
 3. **Set your lux threshold** or pick a preset, and you're done.
 
-The app guides you through an easy step-by-step setup wizard. And if you use the WebADB setup website, you don't even need either Shizuku or ADB to set it up.
+> [!TIP]
+> If you don't use Shizuku, the [web setup tool](https://lexip.dev/setup) is the easiest option — no ADB, no Shizuku, just a browser. The app guides you through a step-by-step wizard.
 
-The one-time permission grant is required because Android restricts apps from changing the system theme by default. The permission (`WRITE_SECURE_SETTINGS`) only
-allows changing system settings such as the dark mode toggle — it does _not_ grant root access or read any user data, and is fully reversible by uninstalling the app.
+> [!IMPORTANT]
+> `WRITE_SECURE_SETTINGS` does **not** grant root access or read any user data. It only allows flipping system settings like the system dark mode and is fully reversible by uninstalling the app.
 
 ---
 
