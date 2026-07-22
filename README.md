@@ -131,6 +131,9 @@ No. It works on stock devices. Root is supported as an optional setup method.
 **Does it work with custom skins (MIUI, OneUI, etc.)?**
 In most cases, yes. Any system that respects the native Android dark mode implementation is supported.
 
+**Does it support Shizuku forks?**
+Yes, forks like Nightzuku, Shizuku+, and Shevery are supported.
+
 ---
 
 ### References

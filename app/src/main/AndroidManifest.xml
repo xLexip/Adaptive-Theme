@@ -16,6 +16,9 @@
 
 	<queries>
 		<package android:name="moe.shizuku.privileged.api" />
+		<package android:name="com.hamondev.shevery" />
+		<package android:name="kerneldroid.nightzuku" />
+		<package android:name="af.shizuku.plus.api" />
 	</queries>
 
 	<uses-permission

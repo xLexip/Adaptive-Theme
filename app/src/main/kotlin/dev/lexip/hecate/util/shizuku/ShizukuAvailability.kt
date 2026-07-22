@@ -6,16 +6,25 @@ import android.util.Log
 
 object ShizukuAvailability {
 
-	private const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+	private val SUPPORTED_PACKAGES = listOf(
+		"com.hamondev.shevery",
+		"kerneldroid.nightzuku",
+		"af.shizuku.plus.api",
+		"moe.shizuku.privileged.api"
+	)
 	private const val TAG = "ShizukuAvailability"
 
 	fun isShizukuInstalled(context: Context): Boolean {
+		return SUPPORTED_PACKAGES.any { isPackageInstalled(context, it) }
+	}
+
+	private fun isPackageInstalled(context: Context, packageName: String): Boolean {
 		return try {
-			context.packageManager.getPackageInfo(SHIZUKU_PACKAGE, 0)
-			Log.d(TAG, "Found Shizuku package: $SHIZUKU_PACKAGE")
+			context.packageManager.getPackageInfo(packageName, 0)
+			Log.d(TAG, "Found package: $packageName")
 			true
 		} catch (_: PackageManager.NameNotFoundException) {
-			Log.d(TAG, "Shizuku package not found: $SHIZUKU_PACKAGE")
+			Log.d(TAG, "Package not found: $packageName")
 			false
 		}
 	}
