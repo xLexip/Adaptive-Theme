@@ -5,7 +5,7 @@
 [![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases)
 [![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)]()
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
-<img src="https://img.shields.io/badge/Downloads-15,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count">
+<img src="https://img.shields.io/badge/Downloads-16,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 16,000+">
 </a>
 
 Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** — optimizing readability, eye comfort, and battery life based on actual lighting conditions.
@@ -89,7 +89,7 @@ Adaptive Theme is completely free, ad-free, and developed in my spare time. If y
 - **Star this repository** at the top to help others find it.
 - **Leave a rating on [**Google Play**](https://play.google.com/store/apps/details?id=dev.lexip.hecate)** — it makes a real difference in discoverability.
 - **Share the app** with anyone who might benefit.
-- **Follow me** [**@xLexip**](https://github.com/xLexip) if you like .
+- **Follow me** [**@xLexip**](https://github.com/xLexip) if you like.
 - **Buy me a coffee** if you're feeling [generous](https://buymeacoffee.com/lexip).
 
 Issues, questions, and feature ideas are welcome — please [open an issue](https://github.com/xLexip/Adaptive-Theme/issues/new) or use the in-app feedback option.
