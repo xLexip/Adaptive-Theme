@@ -89,10 +89,6 @@ object ShizukuManager {
 			return
 		}
 
-		if (Shizuku.shouldShowRequestPermissionRationale()) {
-			return
-		}
-
 		Shizuku.requestPermission(REQUEST_CODE)
 	}
 
