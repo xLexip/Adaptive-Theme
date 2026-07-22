@@ -153,6 +153,7 @@ Yes, forks like Nightzuku, Shizuku+, and Shevery are supported.
 **YouTube Videos**
 
 - HowToMen — [**Top 15 Best Android Apps, February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s)
+- HowToMen — [**Top 15 Best Shizuku Apps to Use in 2026**](https://www.youtube.com/watch?v=mDQ8o4JlXjM&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=735s)
 - Mr. Android FHD — [**8 INCREDIBLE Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
 - TechTab — [**Top 10 Android Apps you need to try, March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=298s)
 - Gadget Geek — [**Top 10 Best Android Apps, March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=306s)
