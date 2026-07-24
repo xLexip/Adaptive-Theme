@@ -6,3 +6,14 @@ plugins {
 	id("com.google.gms.google-services") version "4.5.0" apply false
 	alias(libs.plugins.google.firebase.crashlytics) apply false
 }
+
+dependencyLocking {
+	lockAllConfigurations()
+}
+
+subprojects {
+	dependencyLocking {
+		lockAllConfigurations()
+	}
+}
+
