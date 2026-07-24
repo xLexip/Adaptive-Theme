@@ -56,6 +56,9 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 > [!IMPORTANT]
 > The required permission `WRITE_SECURE_SETTINGS` does **not** grant root access or read any user data. It only allows flipping system settings like the system dark mode and is fully reversible by uninstalling the app.
 
+> [!NOTE]
+> If you choose Shizuku: It is **only required once** to grant the permission during setup. The permission persists across reboots, so Shizuku does not need to remain running in the background for Adaptive Theme to function.
+
 ---
 
 ### Features
@@ -135,6 +138,9 @@ In most cases, yes. Any system that respects the native Android dark mode implem
 
 **Does it support Shizuku forks?**
 Yes, forks like Nightzuku, Shizuku+, and Shevery are supported.
+
+**Does Shizuku need to be running all the time or after a reboot?**
+No. Shizuku is only required once to grant the permission. Once granted, the permission persists permanently across reboots, so Shizuku does not need to stay active for the app to function.
 
 ---
 
