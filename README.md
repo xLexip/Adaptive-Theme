@@ -8,7 +8,7 @@
 <img src="https://img.shields.io/badge/Downloads-16,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 16,000+">
 </a>
 
-Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** — optimizing readability, eye comfort, and battery life based on actual lighting conditions.
+Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** – optimizing readability, eye comfort, and battery life based on actual lighting conditions.
 
 <br>
 
@@ -51,10 +51,13 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 3. **Set your lux threshold** or pick a preset, and you're done.
 
 > [!TIP]
-> If you don't use Shizuku, the [web setup tool](https://lexip.dev/setup) is the easiest option — no ADB, no Shizuku, just a browser. The app guides you through a step-by-step wizard.
+> If you don't use Shizuku, the [web setup tool](https://lexip.dev/setup) is the easiest option – no ADB, no Shizuku, just a browser. The app guides you through a step-by-step wizard.
 
 > [!IMPORTANT]
-> `WRITE_SECURE_SETTINGS` does **not** grant root access or read any user data. It only allows flipping system settings like the system dark mode and is fully reversible by uninstalling the app.
+> The required permission `WRITE_SECURE_SETTINGS` does **not** grant root access or read any user data. It only allows flipping system settings like the system dark mode and is fully reversible by uninstalling the app.
+
+> [!NOTE]
+> If you choose Shizuku: It is **only required once** to grant the permission during setup. The permission persists across reboots, so Shizuku does not need to remain running in the background for Adaptive Theme to function.
 
 ---
 
@@ -112,6 +115,7 @@ Issues, questions, and feature ideas are welcome — please [open an issue](http
 * **Persistence:** Type-safe settings storage utilizing Jetpack DataStore.
 * **Background Work:** Sensor operations run event-driven – only upon screen-on
   broadcasts – ensuring zero unnecessary battery drain in the background.
+* **WebADB Setup Website:** Simple browser-based setup tool for permission granting using WebADB ([source code](https://github.com/xLexip/Adaptive-Theme-Setup)).
 
 ---
 
@@ -134,6 +138,9 @@ In most cases, yes. Any system that respects the native Android dark mode implem
 
 **Does it support Shizuku forks?**
 Yes, forks like Nightzuku, Shizuku+, and Shevery are supported.
+
+**Does Shizuku need to be running all the time or after a reboot?**
+No. Shizuku is only required once to grant the permission. Once granted, the permission persists permanently across reboots, so Shizuku does not need to stay active for the app to function.
 
 ---
 
