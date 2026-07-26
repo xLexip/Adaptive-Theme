@@ -70,6 +70,7 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 - **50+ languages**: Fully localized for a global audience.
 - **Shizuku support**: Includes native Shizuku integration as one of several setup options.
 - **Material You design**: Dynamic UI that adapts to your system theme and colors.
+- **Quick Settings Tile**: Toggle the service directly from your quick settings.
 - **Free, open-source, no ads**
 
 ---
