@@ -187,4 +187,22 @@ object Logger {
 		}
 	}
 
+	fun logProcessExit(
+		context: Context,
+		reasonName: String,
+		description: String,
+		pssMb: Long,
+		importanceName: String
+	) {
+		ifAllowed {
+			analytics(context).logEvent("process_killed_by_os") {
+				param("exit_reason", reasonName)
+				param("description", description.take(100))
+				param("pss_mb", pssMb)
+				param("importance", importanceName)
+			}
+		}
+	}
+
 }
+

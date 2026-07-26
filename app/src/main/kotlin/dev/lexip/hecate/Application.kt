@@ -18,20 +18,22 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import dev.lexip.hecate.logging.LoggerGate
+import dev.lexip.hecate.util.ProcessExitDetector
 
 const val USER_PREFERENCES_NAME = "user_preferences"
 private val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
 
 class Application : Application() {
-	/**
-	 * Top level data store to ensure it is maintained as a singleton
-	 * but still accessible in both the app and service.
-	 */
-	val userPreferencesDataStore: DataStore<Preferences>
-		get() = this.dataStore
+    /**
+     * Top level data store to ensure it is maintained as a singleton
+     * but still accessible in both the app and service.
+     */
+    val userPreferencesDataStore: DataStore<Preferences>
+        get() = this.dataStore
 
-	override fun onCreate() {
-		super.onCreate()
-		LoggerGate.init(this)
-	}
+    override fun onCreate() {
+        super.onCreate()
+        LoggerGate.init(this)
+        ProcessExitDetector.checkAndLogProcessExitReasons(this)
+    }
 }

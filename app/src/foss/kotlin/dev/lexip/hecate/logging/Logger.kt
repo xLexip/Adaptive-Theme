@@ -98,4 +98,15 @@ object Logger {
 	fun logStayDarkAtNightToggled(context: Context, enabled: Boolean, source: String) {
 		// No-op for FOSS build
 	}
+
+	fun logProcessExit(
+		context: Context,
+		reasonName: String,
+		description: String,
+		pssMb: Long,
+		importanceName: String
+	) {
+		// No-op for FOSS build
+	}
 }
+
