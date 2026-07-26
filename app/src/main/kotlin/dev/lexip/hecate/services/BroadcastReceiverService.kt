@@ -225,7 +225,11 @@ class BroadcastReceiverService : Service() {
 			nightEndMinutes
 		)
 		Log.d(TAG, "Registering screen-on receiver...")
-		registerReceiver(screenOnReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))
+		registerReceiver(
+			screenOnReceiver,
+			IntentFilter(Intent.ACTION_SCREEN_ON),
+			RECEIVER_EXPORTED // It's a protected broadcast, EXPORTED allows to deliver it
+		)
 	}
 
 	private fun initializeUtils() {

@@ -61,9 +61,10 @@
 		android:supportsRtl="true"
 		android:theme="@style/Theme.App.Starting"
 		android:usesCleartextTraffic="false"
-		android:windowSoftInputMode="adjustResize"
 		android:localeConfig="@xml/locales_config"
-		android:enableOnBackInvokedCallback="true">
+		android:enableOnBackInvokedCallback="true"
+		android:intentMatchingFlags="enforceIntentFilter"
+		android:pageSizeCompat="enabled">
 
 		<!-- Shizuku provider to acquire binder from Shizuku/Sui -->
 		<provider
@@ -78,7 +79,8 @@
 		<activity
 			android:name=".ui.MainActivity"
 			android:exported="true"
-			android:theme="@style/Theme.App.Starting">
+			android:theme="@style/Theme.App.Starting"
+			android:windowSoftInputMode="adjustResize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
