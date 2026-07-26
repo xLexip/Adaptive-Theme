@@ -109,6 +109,7 @@ class SetupViewModel(
 		logSetupStarted()
 		startEnvironmentMonitoring()
 		determineInitialStep()
+		attemptSilentRootGrant()
 	}
 
 	private fun initializeState() {
@@ -585,6 +586,17 @@ class SetupViewModel(
 							Toast.LENGTH_LONG
 						).show()
 					}
+				}
+			}
+		}
+	}
+
+	private fun attemptSilentRootGrant() {
+		viewModelScope.launch(ioDispatcher) {
+			val result = tryGrantViaRoot()
+			if (result is RootGrantResult.Success) {
+				withContext(mainDispatcher) {
+					completeSetup(source = "root_silent")
 				}
 			}
 		}
