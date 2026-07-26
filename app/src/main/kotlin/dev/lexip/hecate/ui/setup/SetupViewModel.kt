@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.hardware.usb.UsbManager
+import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
@@ -462,12 +463,14 @@ class SetupViewModel(
 		val context = application.applicationContext
 		val intent = Intent(Settings.ACTION_DEVICE_INFO_SETTINGS).apply {
 			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			highlightSettingItem("build_number")
 		}
 		try {
 			context.startActivity(intent)
 		} catch (_: Exception) {
 			context.startActivity(Intent(Settings.ACTION_SETTINGS).apply {
 				addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				highlightSettingItem("build_number")
 			})
 		}
 	}
@@ -476,12 +479,14 @@ class SetupViewModel(
 		val context = application.applicationContext
 		val intent = Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS).apply {
 			addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			highlightSettingItem("enable_adb")
 		}
 		try {
 			context.startActivity(intent)
 		} catch (_: Exception) {
 			context.startActivity(Intent(Settings.ACTION_SETTINGS).apply {
 				addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				highlightSettingItem("enable_adb")
 			})
 		}
 	}
@@ -738,5 +743,15 @@ class SetupViewModelFactory(
 		}
 		throw IllegalArgumentException("Unknown ViewModel class")
 	}
+}
+
+private fun Intent.highlightSettingItem(key: String): Intent = apply {
+	putExtra(":settings:fragment_args_key", key)
+	putExtra(
+		":settings:show_fragment_args",
+		Bundle().apply {
+			putString(":settings:fragment_args_key", key)
+		}
+	)
 }
 
