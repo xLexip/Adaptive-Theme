@@ -191,9 +191,11 @@ class MainViewModel(
 			}
 		}
 
-		context.registerReceiver(
+		ContextCompat.registerReceiver(
+			context,
 			batterySaverReceiver,
-			IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+			IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED),
+			ContextCompat.RECEIVER_NOT_EXPORTED
 		)
 	}
 
