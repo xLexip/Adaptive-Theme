@@ -329,6 +329,15 @@ class MainViewModel(
 		return !reviewRequestedInSession && serviceEnabledAtStart == true && daysSinceFirstInstall >= 2
 	}
 
+	fun checkReviewPrompt() {
+		if (shouldPromptForReview()) {
+			reviewRequestedInSession = true
+			viewModelScope.launch {
+				_uiEvents.emit(RequestInAppReview)
+			}
+		}
+	}
+
 	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
 		val threshold = AdaptiveThreshold.fromIndex(index)
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
@@ -341,10 +350,7 @@ class MainViewModel(
 				newLux = threshold.lux
 			)
 
-			if (shouldPromptForReview()) {
-				_uiEvents.emit(RequestInAppReview)
-				reviewRequestedInSession = true
-			}
+			checkReviewPrompt()
 		}
 	}
 

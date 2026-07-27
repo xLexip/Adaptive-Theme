@@ -426,6 +426,7 @@ fun MainScreen(
 							onClick = {
 								isAdvancedSettingsExpanded = true
 								haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
+								mainViewModel.checkReviewPrompt()
 							},
 							enabled = uiState.adaptiveThemeEnabled,
 							shape = RoundedCornerShape(20.dp),
