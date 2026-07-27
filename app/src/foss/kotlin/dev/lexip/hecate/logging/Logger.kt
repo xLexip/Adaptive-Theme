@@ -108,5 +108,17 @@ object Logger {
 	) {
 		// No-op for FOSS build
 	}
+
+	fun logWallpaperSyncToggled(context: Context, enabled: Boolean, source: String = "ui") {
+		// No-op for FOSS build
+	}
+
+	fun logWallpaperPicked(context: Context, mode: String) {
+		// No-op for FOSS build
+	}
+
+	fun logWallpaperSwitched(context: Context, isDark: Boolean, succeeded: Boolean) {
+		// No-op for FOSS build
+	}
 }
 

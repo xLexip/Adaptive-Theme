@@ -150,7 +150,7 @@ tasks.register<DefaultTask>("ensureFileCompleteness") {
 	doLast {
 		if (!handlerFile.exists()) {
 			handlerFile.parentFile.mkdirs()
-			handlerFile.writeText("package dev.lexip.hecate.util; import android.content.Context; class DarkThemeHandler(context: Context) { fun setDarkTheme(enable: Boolean) {} }".trimIndent())
+			handlerFile.writeText("package dev.lexip.hecate.util; import android.content.Context; class DarkThemeHandler(context: Context) { fun setDarkTheme(enable: Boolean) = DarkThemeChangeResult(succeeded = false, changed = false) }")
 		}
 	}
 }

@@ -104,4 +104,14 @@
 	<string name="shizuku_request_permission">Solicitando permiso…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku no pudo ejecutar el comando.</string>
 	<string name="shizuku_grant_unexpected">Error inesperado al usar Shizuku.</string>
+
+	<string name="title_wallpaper_sync">Sincronización del fondo de pantalla</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_wallpaper_sync">Cambia el fondo de pantalla al alternar entre los modos claro y oscuro.</string>
+	<string name="action_select_day_wallpaper">Modo claro:</string>
+	<string name="action_select_night_wallpaper">Modo oscuro:</string>
+	<string name="wallpaper_status_set">Establecido</string>
+	<string name="wallpaper_status_not_set">No establecido</string>
+	<string name="live_wallpaper_warning_title">Fondo de pantalla animado activo</string>
+	<string name="live_wallpaper_warning_message">Activar la sincronización del fondo de pantalla reemplazará tu fondo animado actual por imágenes estáticas para los modos claro y oscuro. ¿Quieres continuar?</string>
 </resources>

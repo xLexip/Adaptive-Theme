@@ -46,6 +46,10 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -53,10 +57,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -128,14 +134,42 @@ fun MainScreen(
 		mainViewModel.setShizukuInstalled(installed)
 	}
 
+	val dayWallpaperPicker = rememberLauncherForActivityResult(
+		contract = ActivityResultContracts.PickVisualMedia()
+	) { uri ->
+		if (uri != null) {
+			mainViewModel.onDayWallpaperPicked(uri)
+		}
+	}
+
+	val nightWallpaperPicker = rememberLauncherForActivityResult(
+		contract = ActivityResultContracts.PickVisualMedia()
+	) { uri ->
+		if (uri != null) {
+			mainViewModel.onNightWallpaperPicked(uri)
+		}
+	}
+
 	val showCustomDialog = remember { mutableStateOf(false) }
 	val showNightStartPicker = remember { mutableStateOf(false) }
 	val showNightEndPicker = remember { mutableStateOf(false) }
 	var isAdvancedSettingsExpanded by remember {
-		mutableStateOf(uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled)
+		mutableStateOf((uiState.stayDarkAtNightEnabled || uiState.wallpaperSyncEnabled) && uiState.adaptiveThemeEnabled)
 	}
 	val setupShakeKey = remember { mutableIntStateOf(0) }
 	val textShakeKey = remember { mutableIntStateOf(0) }
+	val wallpaperButtonsShakeKey = remember { mutableIntStateOf(0) }
+
+	// Shake animation for wallpaper buttons when attempting to enable without set wallpapers
+	val wallpaperButtonsOffsetAnim = remember { Animatable(0f) }
+	LaunchedEffect(wallpaperButtonsShakeKey.intValue) {
+		if (wallpaperButtonsShakeKey.intValue > 0) {
+			val offsets = listOf(-4f, 4f, -3f, 3f, -1.5f, 1.5f, 0f)
+			for (o in offsets) {
+				wallpaperButtonsOffsetAnim.animateTo(o, animationSpec = tween(durationMillis = 60))
+			}
+		}
+	}
 
 	// Text shake animation for the conditions text (shown when the threshold changes)
 	val textOffsetAnim = remember { Animatable(0f) }
@@ -456,12 +490,12 @@ fun MainScreen(
 						)
 					)
 				) {
-					Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+					Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
 						DetailPreferenceCard(
 							title = stringResource(id = R.string.title_night_dark_lock),
 							enabled = uiState.adaptiveThemeEnabled,
 							firstCard = false,
-							lastCard = true,
+							lastCard = false,
 							toggleableValue = uiState.stayDarkAtNightEnabled,
 							onToggle = { enabled ->
 								mainViewModel.updateStayDarkAtNightEnabled(enabled)
@@ -539,6 +573,116 @@ fun MainScreen(
 											)
 										)
 									}
+								}
+							}
+						}
+
+						val isDaySet = !uiState.dayWallpaperUri.isNullOrEmpty()
+						val isNightSet = !uiState.nightWallpaperUri.isNullOrEmpty()
+						val bothWallpapersSet = isDaySet && isNightSet
+
+						DetailPreferenceCard(
+							title = stringResource(id = R.string.title_wallpaper_sync),
+							enabled = uiState.adaptiveThemeEnabled,
+							firstCard = false,
+							lastCard = true,
+							toggleableValue = uiState.wallpaperSyncEnabled,
+							onToggle = { enabled ->
+								if (enabled && !bothWallpapersSet) {
+									wallpaperButtonsShakeKey.intValue += 1
+									haptic.performHapticFeedback(HapticFeedbackType.Reject)
+								} else {
+									mainViewModel.onWallpaperSyncToggleRequested(enabled)
+								}
+							}
+						) {
+							Row(
+								modifier = Modifier.fillMaxWidth(),
+								verticalAlignment = Alignment.Top,
+								horizontalArrangement = Arrangement.SpaceBetween
+							) {
+								Text(
+									text = stringResource(id = R.string.description_wallpaper_sync),
+									style = MaterialTheme.typography.bodyMedium,
+									modifier = Modifier.weight(1f)
+								)
+								Switch(
+									modifier = Modifier
+										.padding(start = 14.dp, end = 4.dp)
+										.offset(y = (-6).dp)
+										.align(Alignment.Top),
+									checked = uiState.wallpaperSyncEnabled,
+									enabled = uiState.adaptiveThemeEnabled,
+									onCheckedChange = { checked ->
+										if (checked && !bothWallpapersSet) {
+											wallpaperButtonsShakeKey.intValue += 1
+											haptic.performHapticFeedback(HapticFeedbackType.Reject)
+										} else {
+											mainViewModel.onWallpaperSyncToggleRequested(checked)
+										}
+									},
+									thumbContent = if (uiState.wallpaperSyncEnabled) {
+										{
+											Icon(
+												imageVector = Icons.Filled.Check,
+												contentDescription = null,
+												modifier = Modifier.size(SwitchDefaults.IconSize)
+											)
+										}
+									} else {
+										{
+											Icon(
+												imageVector = Icons.Filled.Clear,
+												contentDescription = null,
+												modifier = Modifier.size(SwitchDefaults.IconSize)
+											)
+										}
+									}
+								)
+							}
+
+							Row(
+								modifier = Modifier
+									.fillMaxWidth()
+									.padding(top = 8.dp)
+									.offset { IntOffset(wallpaperButtonsOffsetAnim.value.dp.roundToPx(), 0) },
+								horizontalArrangement = Arrangement.spacedBy(8.dp)
+							) {
+								val dayStatus = stringResource(
+									if (isDaySet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
+								)
+								val nightStatus = stringResource(
+									if (isNightSet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
+								)
+
+								OutlinedButton(
+									modifier = Modifier.weight(1f),
+									enabled = uiState.adaptiveThemeEnabled,
+									onClick = {
+										dayWallpaperPicker.launch(
+											PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+										)
+									}
+								) {
+									Text(
+										text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
+										textAlign = TextAlign.Center
+									)
+								}
+
+								OutlinedButton(
+									modifier = Modifier.weight(1f),
+									enabled = uiState.adaptiveThemeEnabled,
+									onClick = {
+										nightWallpaperPicker.launch(
+											PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+										)
+									}
+								) {
+									Text(
+										text = "${stringResource(id = R.string.action_select_night_wallpaper)}\n$nightStatus",
+										textAlign = TextAlign.Center
+									)
 								}
 							}
 						}
@@ -623,4 +767,26 @@ fun MainScreen(
 		},
 		onDismiss = { showNightEndPicker.value = false }
 	)
+
+	if (uiState.showLiveWallpaperWarningDialog) {
+		AlertDialog(
+			onDismissRequest = { mainViewModel.dismissLiveWallpaperWarningDialog() },
+			title = { Text(text = stringResource(id = R.string.live_wallpaper_warning_title)) },
+			text = { Text(text = stringResource(id = R.string.live_wallpaper_warning_message)) },
+			confirmButton = {
+				TextButton(
+					onClick = { mainViewModel.confirmEnableWithLiveWallpaper() }
+				) {
+					Text(text = stringResource(id = R.string.action_continue))
+				}
+			},
+			dismissButton = {
+				TextButton(
+					onClick = { mainViewModel.dismissLiveWallpaperWarningDialog() }
+				) {
+					Text(text = stringResource(id = R.string.action_cancel))
+				}
+			}
+		)
+	}
 }

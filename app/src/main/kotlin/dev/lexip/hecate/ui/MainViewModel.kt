@@ -28,7 +28,8 @@ import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.services.BroadcastReceiverService
-import dev.lexip.hecate.util.DarkThemeHandler
+import android.net.Uri
+import dev.lexip.hecate.util.WallpaperHandler
 import dev.lexip.hecate.util.InstallSourceChecker
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
@@ -64,13 +65,16 @@ data class MainUiState(
 	val isInstalledFromPlayStore: Boolean = false,
 	val stayDarkAtNightEnabled: Boolean = false,
 	val nightStartMinutes: Int = 21 * 60,
-	val nightEndMinutes: Int = 6 * 60
+	val nightEndMinutes: Int = 6 * 60,
+	val wallpaperSyncEnabled: Boolean = false,
+	val dayWallpaperUri: String? = null,
+	val nightWallpaperUri: String? = null,
+	val showLiveWallpaperWarningDialog: Boolean = false
 )
 
 class MainViewModel(
 	private val application: Application,
 	private val userPreferencesRepository: UserPreferencesRepository,
-	private var _darkThemeHandler: DarkThemeHandler,
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -253,7 +257,10 @@ class MainViewModel(
 					hasSetupCompleted = userPreferences.hasSetupCompleted,
 					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
 					nightStartMinutes = userPreferences.nightStartMinutes,
-					nightEndMinutes = userPreferences.nightEndMinutes
+					nightEndMinutes = userPreferences.nightEndMinutes,
+					wallpaperSyncEnabled = userPreferences.wallpaperSyncEnabled,
+					dayWallpaperUri = userPreferences.dayWallpaperUri,
+					nightWallpaperUri = userPreferences.nightWallpaperUri
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) {
@@ -433,6 +440,73 @@ class MainViewModel(
 		}
 	}
 
+	private val wallpaperHandler = WallpaperHandler(application.applicationContext)
+
+	fun onDayWallpaperPicked(uri: Uri) {
+		viewModelScope.launch(ioDispatcher) {
+			try {
+				application.contentResolver.takePersistableUriPermission(
+					uri,
+					Intent.FLAG_GRANT_READ_URI_PERMISSION
+				)
+			} catch (e: Exception) {
+				Log.w(TAG, "Failed to take persistable URI permission for day wallpaper", e)
+			}
+			userPreferencesRepository.updateDayWallpaperUri(uri.toString())
+			Logger.logWallpaperPicked(application.applicationContext, "light")
+		}
+	}
+
+	fun onNightWallpaperPicked(uri: Uri) {
+		viewModelScope.launch(ioDispatcher) {
+			try {
+				application.contentResolver.takePersistableUriPermission(
+					uri,
+					Intent.FLAG_GRANT_READ_URI_PERMISSION
+				)
+			} catch (e: Exception) {
+				Log.w(TAG, "Failed to take persistable URI permission for night wallpaper", e)
+			}
+			userPreferencesRepository.updateNightWallpaperUri(uri.toString())
+			Logger.logWallpaperPicked(application.applicationContext, "dark")
+		}
+	}
+
+	fun onWallpaperSyncToggleRequested(enabled: Boolean) {
+		if (enabled) {
+			if (wallpaperHandler.isLiveWallpaperActive()) {
+				_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = true)
+			} else {
+				enableWallpaperSync()
+			}
+		} else {
+			disableWallpaperSync()
+		}
+	}
+
+	fun confirmEnableWithLiveWallpaper() {
+		_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = false)
+		enableWallpaperSync()
+	}
+
+	fun dismissLiveWallpaperWarningDialog() {
+		_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = false)
+	}
+
+	private fun enableWallpaperSync() {
+		viewModelScope.launch(ioDispatcher) {
+			userPreferencesRepository.updateWallpaperSyncEnabled(true)
+			Logger.logWallpaperSyncToggled(application.applicationContext, enabled = true)
+		}
+	}
+
+	private fun disableWallpaperSync() {
+		viewModelScope.launch(ioDispatcher) {
+			userPreferencesRepository.updateWallpaperSyncEnabled(false)
+			Logger.logWallpaperSyncToggled(application.applicationContext, enabled = false)
+		}
+	}
+
 	private fun startBroadcastReceiverService() {
 		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
 		ContextCompat.startForegroundService(application.applicationContext, intent)
@@ -446,8 +520,7 @@ class MainViewModel(
 
 class MainViewModelFactory(
 	private val application: Application,
-	private val userPreferencesRepository: UserPreferencesRepository,
-	private val darkThemeHandler: DarkThemeHandler
+	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModelProvider.Factory {
 
 
@@ -456,8 +529,7 @@ class MainViewModelFactory(
 			@Suppress("UNCHECKED_CAST")
 			return MainViewModel(
 				application,
-				userPreferencesRepository,
-				darkThemeHandler
+				userPreferencesRepository
 			) as T
 		}
 		throw IllegalArgumentException("Unknown ViewModel class")

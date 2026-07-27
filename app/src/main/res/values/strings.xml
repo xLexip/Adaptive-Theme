@@ -108,4 +108,13 @@
 	<string name="shizuku_request_permission">Requesting permission…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
+
+	<string name="title_wallpaper_sync">Wallpaper Sync (Beta)</string>
+	<string name="description_wallpaper_sync">Swap wallpaper when switching between light and dark mode.</string>
+	<string name="action_select_day_wallpaper">Light mode:</string>
+	<string name="action_select_night_wallpaper">Dark mode:</string>
+	<string name="wallpaper_status_set">Set</string>
+	<string name="wallpaper_status_not_set">Not set</string>
+	<string name="live_wallpaper_warning_title">Live Wallpaper Active</string>
+	<string name="live_wallpaper_warning_message">Enabling wallpaper sync will replace your current live wallpaper with static day and night images. Do you want to continue?</string>
 </resources>
