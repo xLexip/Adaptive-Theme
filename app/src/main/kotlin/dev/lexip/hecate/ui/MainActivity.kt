@@ -24,7 +24,6 @@ import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.theme.HecateTheme
-import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.InAppUpdateManager
 import dev.lexip.hecate.util.InstallSourceChecker
 
@@ -52,8 +51,7 @@ class MainActivity : ComponentActivity() {
 			this,
 			MainViewModelFactory(
 				this.application as Application,
-				UserPreferencesRepository(dataStore),
-				DarkThemeHandler(applicationContext)
+				UserPreferencesRepository(dataStore)
 			)
 		)[MainViewModel::class.java]
 

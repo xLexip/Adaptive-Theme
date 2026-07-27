@@ -29,7 +29,7 @@ import dev.lexip.hecate.R
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +48,7 @@ private var screenOnReceiver: ScreenOnReceiver? = null
 class BroadcastReceiverService : Service() {
 
 	// Utils
-	private lateinit var darkThemeHandler: DarkThemeHandler
+	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
 	private lateinit var lightSensorManager: LightSensorManager
 	private lateinit var proximitySensorManager: ProximitySensorManager
 
@@ -113,6 +113,11 @@ class BroadcastReceiverService : Service() {
 			// Create screen-on receiver if adaptive theme is enabled
 			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
 			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
+				adaptiveAppearanceHandler.configureWallpaperSync(
+					enabled = userPreferences.wallpaperSyncEnabled,
+					dayWallpaperUri = userPreferences.dayWallpaperUri,
+					nightWallpaperUri = userPreferences.nightWallpaperUri
+				)
 				createScreenOnReceiver(
 					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
 					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
@@ -137,6 +142,11 @@ class BroadcastReceiverService : Service() {
 				screenOnReceiver?.stayDarkAtNightEnabled = prefs.stayDarkAtNightEnabled
 				screenOnReceiver?.nightStartMinutes = prefs.nightStartMinutes
 				screenOnReceiver?.nightEndMinutes = prefs.nightEndMinutes
+				adaptiveAppearanceHandler.configureWallpaperSync(
+					enabled = prefs.wallpaperSyncEnabled,
+					dayWallpaperUri = prefs.dayWallpaperUri,
+					nightWallpaperUri = prefs.nightWallpaperUri
+				)
 			}
 		}
 
@@ -218,7 +228,7 @@ class BroadcastReceiverService : Service() {
 		screenOnReceiver = screenOnReceiver ?: ScreenOnReceiver(
 			proximitySensorManager,
 			lightSensorManager,
-			darkThemeHandler,
+			adaptiveAppearanceHandler,
 			adaptiveThemeThresholdLux,
 			stayDarkAtNightEnabled,
 			nightStartMinutes,
@@ -233,8 +243,8 @@ class BroadcastReceiverService : Service() {
 	}
 
 	private fun initializeUtils() {
-		if (!this::darkThemeHandler.isInitialized)
-			darkThemeHandler = DarkThemeHandler(this)
+		if (!this::adaptiveAppearanceHandler.isInitialized)
+			adaptiveAppearanceHandler = AdaptiveAppearanceHandler(this)
 		if (!this::lightSensorManager.isInitialized)
 			lightSensorManager = LightSensorManager(this)
 		if (!this::proximitySensorManager.isInitialized)

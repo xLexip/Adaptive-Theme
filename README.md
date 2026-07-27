@@ -66,6 +66,7 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 - **Sensor-driven switching**: Uses the physical ambient light sensor – not a clock or sunset schedule – to intelligently switch the system theme.
 - **Custom lux threshold**: Dial in exactly when the theme flips, or choose a preset (e.g.indoor, outdoor, sunlight).
 - **Night lock**: Optionally hold dark mode during a fixed time window, e.g. 9 PM – 6 AM.
+- **Wallpaper Theme Sync**: Automatically swap your home and lock screen wallpaper when the system theme switches between light and dark mode.
 - **Battery friendly**: The sensor is only checked once when you turn the screen on. Zero background drain.
 - **50+ languages**: Fully localized for a global audience.
 - **Shizuku support**: Includes native Shizuku integration as one of several setup options.

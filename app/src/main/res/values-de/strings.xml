@@ -104,4 +104,14 @@
 	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
+
+	<string name="title_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_wallpaper_sync">Hintergrundbild beim Wechsel zwischen hellem und dunklem Modus austauschen.</string>
+	<string name="action_select_day_wallpaper">Heller Modus:</string>
+	<string name="action_select_night_wallpaper">Dunkler Modus:</string>
+	<string name="wallpaper_status_set">Festgelegt</string>
+	<string name="wallpaper_status_not_set">Nicht festgelegt</string>
+	<string name="live_wallpaper_warning_title">Live-Hintergrundbild aktiv</string>
+	<string name="live_wallpaper_warning_message">Beim Aktivieren der Hintergrundbild-Synchronisierung wird dein aktuelles Live-Hintergrundbild durch statische Bilder für den hellen und dunklen Modus ersetzt. Möchtest du fortfahren?</string>
 </resources>

@@ -16,7 +16,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.NightWindowPolicy
 import dev.lexip.hecate.util.ProximitySensorManager
@@ -30,7 +30,7 @@ private const val TAG = "ScreenOnReceiver"
 class ScreenOnReceiver(
 	private val proximitySensorManager: ProximitySensorManager,
 	private val lightSensorManager: LightSensorManager,
-	private val darkThemeHandler: DarkThemeHandler,
+	private val adaptiveAppearanceHandler: AdaptiveAppearanceHandler,
 	var adaptiveThemeThresholdLux: Float,
 	var stayDarkAtNightEnabled: Boolean,
 	var nightStartMinutes: Int,
@@ -64,7 +64,7 @@ class ScreenOnReceiver(
 				)
 				lightSensorManager.startListening({ lightValue: Float ->
 					lightSensorManager.stopListening()
-					darkThemeHandler.setDarkTheme(shouldUseDarkTheme(lightValue))
+					adaptiveAppearanceHandler.applyAppearance(shouldUseDarkTheme(lightValue))
 				})
 				return
 			}
@@ -78,7 +78,7 @@ class ScreenOnReceiver(
 				if (distance >= 5f) {
 					lightSensorManager.startListening({ lightValue: Float ->
 						lightSensorManager.stopListening()
-						darkThemeHandler.setDarkTheme(shouldUseDarkTheme(lightValue))
+						adaptiveAppearanceHandler.applyAppearance(shouldUseDarkTheme(lightValue))
 					})
 				} else {
 					Log.d(TAG, "Device is covered, skipping adaptive theme checks.")

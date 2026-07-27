@@ -21,6 +21,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -37,7 +38,10 @@ data class UserPreferences(
 	val hasSetupCompleted: Boolean = false,
 	val stayDarkAtNightEnabled: Boolean = false,
 	val nightStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
-	val nightEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES
+	val nightEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES,
+	val wallpaperSyncEnabled: Boolean = false,
+	val dayWallpaperUri: String? = null,
+	val nightWallpaperUri: String? = null
 )
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
@@ -51,6 +55,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val STAY_DARK_AT_NIGHT_ENABLED = booleanPreferencesKey("stay_dark_at_night_enabled")
 		val NIGHT_START_MINUTES = intPreferencesKey("night_start_minutes")
 		val NIGHT_END_MINUTES = intPreferencesKey("night_end_minutes")
+		val WALLPAPER_SYNC_ENABLED = booleanPreferencesKey("wallpaper_sync_enabled")
+		val DAY_WALLPAPER_URI = stringPreferencesKey("day_wallpaper_uri")
+		val NIGHT_WALLPAPER_URI = stringPreferencesKey("night_wallpaper_uri")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
@@ -106,6 +113,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.NIGHT_START_MINUTES] ?: DEFAULT_NIGHT_START_MINUTES
 		val nightEndMinutes =
 			preferences[PreferencesKeys.NIGHT_END_MINUTES] ?: DEFAULT_NIGHT_END_MINUTES
+		val wallpaperSyncEnabled = preferences[PreferencesKeys.WALLPAPER_SYNC_ENABLED] == true
+		val dayWallpaperUri = preferences[PreferencesKeys.DAY_WALLPAPER_URI]
+		val nightWallpaperUri = preferences[PreferencesKeys.NIGHT_WALLPAPER_URI]
 		return UserPreferences(
 			adaptiveThemeEnabled = adaptiveThemeEnabled,
 			adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
@@ -113,7 +123,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			hasSetupCompleted = hasSetupCompleted,
 			stayDarkAtNightEnabled = stayDarkAtNightEnabled,
 			nightStartMinutes = nightStartMinutes,
-			nightEndMinutes = nightEndMinutes
+			nightEndMinutes = nightEndMinutes,
+			wallpaperSyncEnabled = wallpaperSyncEnabled,
+			dayWallpaperUri = dayWallpaperUri,
+			nightWallpaperUri = nightWallpaperUri
 		)
 	}
 
@@ -147,6 +160,32 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun updateStayDarkAtNightEnabled(enabled: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.STAY_DARK_AT_NIGHT_ENABLED] = enabled
+		}
+	}
+
+	suspend fun updateWallpaperSyncEnabled(enabled: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.WALLPAPER_SYNC_ENABLED] = enabled
+		}
+	}
+
+	suspend fun updateDayWallpaperUri(uri: String?) {
+		dataStore.edit { preferences ->
+			if (uri == null) {
+				preferences.remove(PreferencesKeys.DAY_WALLPAPER_URI)
+			} else {
+				preferences[PreferencesKeys.DAY_WALLPAPER_URI] = uri
+			}
+		}
+	}
+
+	suspend fun updateNightWallpaperUri(uri: String?) {
+		dataStore.edit { preferences ->
+			if (uri == null) {
+				preferences.remove(PreferencesKeys.NIGHT_WALLPAPER_URI)
+			} else {
+				preferences[PreferencesKeys.NIGHT_WALLPAPER_URI] = uri
+			}
 		}
 	}
 
