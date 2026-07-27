@@ -64,7 +64,7 @@
 	<string name="setup_action_open_developer_settings">Entwickleroptionen öffnen</string>
 	<string name="setup_action_open_settings">Einstellungen öffnen</string>
 	<string name="setup_connect_title">Schritt 2: Mit einem anderen Gerät verbinden</string>
-	<string name="setup_connect_body">Um die Berechtigung zu erteilen, benötigst du ein <b>anderes Gerät</b> (Computer, Tablet oder Smartphone). Verbinde dieses Gerät per USB damit.</string>
+	<string name="setup_connect_description">Um die Berechtigung zu erteilen, benötigst du ein <b>zweites Gerät</b> (am besten einen Computer). Verbinde beide Geräte per USB. Alternativ kannst du die unten verlinkte App "Shizuku" verwenden.</string>
 	<string name="setup_developer_mode_title">Schritt 1: Entwicklermodus aktivieren</string>
 	<string name="setup_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="setup_developer_options_unlock">Entwickleroptionen freischalten</string>

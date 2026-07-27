@@ -81,7 +81,7 @@ fun B_ConnectUsbScreen(
 						fontWeight = FontWeight.Bold
 					)
 					Text(
-						text = stringResource(id = R.string.setup_connect_body),
+						text = stringResource(id = R.string.setup_connect_description),
 						style = MaterialTheme.typography.bodyLarge,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)

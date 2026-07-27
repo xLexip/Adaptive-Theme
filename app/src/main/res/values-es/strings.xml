@@ -65,7 +65,7 @@
 	<string name="setup_action_open_developer_settings">Abrir opciones para desarrolladores</string>
 	<string name="setup_action_open_settings">Abrir configuración</string>
 	<string name="setup_connect_title">Paso 2: Conectar a otro dispositivo</string>
-	<string name="setup_connect_body">Para conceder el permiso, necesitas un <b>dispositivo secundario</b> (computadora, tableta o teléfono). Conecta este dispositivo a él mediante USB.</string>
+	<string name="setup_connect_description">Para conceder el permiso, necesitas un <b>segundo dispositivo</b> (lo mejor es una computadora). Conecta ambos dispositivos mediante USB. Como alternativa, puedes usar la aplicación "Shizuku" enlazada a continuación.</string>
 	<string name="setup_developer_mode_title">Paso 1: Habilitar modo desarrollador</string>
 	<string name="setup_developer_mode_body">Habilita la depuración por USB en las opciones para desarrolladores.</string>
 	<string name="setup_developer_options_unlock">Desbloquear opciones para desarrolladores</string>
