@@ -385,12 +385,16 @@ fun MainScreen(
 							checked,
 							hasWriteSecureSettingsPermission
 						).also { wasToggled ->
-							if (wasToggled)
+							if (wasToggled) {
+								if (!checked) {
+									isAdvancedSettingsExpanded = false
+								}
 								haptic.performHapticFeedback(
 									if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
 								)
-							else
+							} else {
 								haptic.performHapticFeedback(HapticFeedbackType.Reject)
+							}
 						}
 					}
 
