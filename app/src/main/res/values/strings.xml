@@ -109,7 +109,8 @@
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
 
-	<string name="title_wallpaper_sync">Wallpaper Sync (Beta)</string>
+	<string name="title_wallpaper_sync">Wallpaper Sync</string>
+	<string name="label_beta">Beta</string>
 	<string name="description_wallpaper_sync">Swap wallpaper when switching between light and dark mode.</string>
 	<string name="action_select_day_wallpaper">Light mode:</string>
 	<string name="action_select_night_wallpaper">Dark mode:</string>
