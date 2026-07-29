@@ -21,7 +21,9 @@ import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -73,6 +75,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -157,6 +161,11 @@ fun MainScreen(
 	var isAdvancedSettingsExpanded by remember {
 		mutableStateOf((uiState.stayDarkAtNightEnabled || uiState.wallpaperSyncEnabled) && uiState.adaptiveThemeEnabled)
 	}
+	var autoScrollAdvancedSettingsTransition by remember { mutableStateOf(false) }
+	val advancedSettingsTransition = updateTransition(
+		targetState = isAdvancedSettingsExpanded,
+		label = "Advanced settings visibility"
+	)
 	val setupShakeKey = remember { mutableIntStateOf(0) }
 	val textShakeKey = remember { mutableIntStateOf(0) }
 	val wallpaperButtonsShakeKey = remember { mutableIntStateOf(0) }
@@ -179,6 +188,25 @@ fun MainScreen(
 			val offsets = listOf(-3f, 3f, -2f, 2f, -1f, 1f, -0.5f, 0.5f, 0f)
 			for (o in offsets) {
 				textOffsetAnim.animateTo(o, animationSpec = tween(durationMillis = 80))
+			}
+		}
+	}
+
+	LaunchedEffect(autoScrollAdvancedSettingsTransition) {
+		if (autoScrollAdvancedSettingsTransition) {
+			withFrameNanos { }
+			snapshotFlow {
+				Triple(
+					advancedSettingsTransition.isRunning,
+					advancedSettingsTransition.currentState == advancedSettingsTransition.targetState,
+					contentScrollState.maxValue
+				)
+			}.collect { (isRunning, isSettled, maxScrollValue) ->
+				contentScrollState.scrollTo(maxScrollValue)
+				if (!isRunning && isSettled) {
+					contentScrollState.scrollTo(contentScrollState.maxValue)
+					autoScrollAdvancedSettingsTransition = false
+				}
 			}
 		}
 	}
@@ -388,6 +416,7 @@ fun MainScreen(
 							if (wasToggled) {
 								if (!checked) {
 									isAdvancedSettingsExpanded = false
+									autoScrollAdvancedSettingsTransition = false
 								}
 								haptic.performHapticFeedback(
 									if (checked) HapticFeedbackType.ToggleOn else HapticFeedbackType.ToggleOff
@@ -413,319 +442,330 @@ fun MainScreen(
 			Column(
 				verticalArrangement = Arrangement.spacedBy(2.dp)
 			) {
-				SliderDetailCard(
-					title = stringResource(id = R.string.title_brightness_threshold),
-					valueIndex = mainViewModel.getIndexForCurrentLux(),
-					steps = labels.size,
-					labels = labels,
-					lux = lux,
-					onValueChange = { index ->
-						mainViewModel.setPendingCustomSliderLux(lux[index])
-						mainViewModel.onSliderValueCommitted(index)
-
-						// Shake the description text when the user could expect an immediate theme switch
-						if ((currentLux > lux[index]) == isSystemDark) {
-							textShakeKey.intValue += 1
-						}
-					},
-					enabled = uiState.adaptiveThemeEnabled,
-					firstCard = true,
-					lastCard = false
-				)
-
-				ProgressDetailCard(
-					title = stringResource(id = R.string.title_current_brightness),
-					currentLux = currentLux,
-					luxSteps = lux,
-					enabled = uiState.adaptiveThemeEnabled,
-					firstCard = false,
-					lastCard = !isAdvancedSettingsExpanded
-				)
-
-				AnimatedVisibility(
-					visible = !isAdvancedSettingsExpanded,
-					enter = fadeIn(animationSpec = tween(180)) + expandVertically(
-						animationSpec = tween(
-							220
-						)
-					),
-					exit = fadeOut(animationSpec = tween(120)) + shrinkVertically(
-						animationSpec = tween(
-							180
-						)
-					)
+				Column(
+					verticalArrangement = Arrangement.spacedBy(2.dp)
 				) {
-					Row(
-						modifier = Modifier
-							.fillMaxWidth()
-							.padding(top = 8.dp),
-						horizontalArrangement = Arrangement.Center
-					) {
-						AssistChip(
-							onClick = {
-								isAdvancedSettingsExpanded = true
-								haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
-								mainViewModel.checkReviewPrompt()
-							},
-							enabled = uiState.adaptiveThemeEnabled,
-							shape = RoundedCornerShape(20.dp),
-							label = {
-								Text(text = stringResource(id = R.string.action_advanced_settings))
-							},
-							leadingIcon = {
-								Icon(
-									imageVector = Icons.Filled.KeyboardArrowDown,
-									contentDescription = null
-								)
+					SliderDetailCard(
+						title = stringResource(id = R.string.title_brightness_threshold),
+						valueIndex = mainViewModel.getIndexForCurrentLux(),
+						steps = labels.size,
+						labels = labels,
+						lux = lux,
+						onValueChange = { index ->
+							mainViewModel.setPendingCustomSliderLux(lux[index])
+							mainViewModel.onSliderValueCommitted(index)
+
+							// Shake the description text when the user could expect an immediate theme switch
+							if ((currentLux > lux[index]) == isSystemDark) {
+								textShakeKey.intValue += 1
 							}
-						)
-					}
+						},
+						enabled = uiState.adaptiveThemeEnabled,
+						firstCard = true,
+						lastCard = false
+					)
+
+					ProgressDetailCard(
+						title = stringResource(id = R.string.title_current_brightness),
+						currentLux = currentLux,
+						luxSteps = lux,
+						enabled = uiState.adaptiveThemeEnabled,
+						firstCard = false,
+						lastCard = !advancedSettingsTransition.currentState &&
+								!advancedSettingsTransition.targetState
+					)
 				}
 
-				AnimatedVisibility(
-					visible = isAdvancedSettingsExpanded,
-					enter = fadeIn(animationSpec = tween(180)) + expandVertically(
+				advancedSettingsTransition.AnimatedVisibility(
+					visible = { expanded -> !expanded },
+					enter = fadeIn(animationSpec = tween(220)) + expandVertically(
 						animationSpec = tween(
-							260
+							durationMillis = 260,
+							easing = FastOutSlowInEasing
 						)
 					),
-					exit = fadeOut(animationSpec = tween(120)) + shrinkVertically(
+					exit = fadeOut(animationSpec = tween(150)) + shrinkVertically(
 						animationSpec = tween(
-							200
+							durationMillis = 220,
+							easing = FastOutSlowInEasing
 						)
 					)
 				) {
-					Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-						DetailPreferenceCard(
-							title = stringResource(id = R.string.title_night_dark_lock),
-							enabled = uiState.adaptiveThemeEnabled,
-							firstCard = false,
-							lastCard = false,
-							toggleableValue = uiState.stayDarkAtNightEnabled,
-							onToggle = { enabled ->
-								mainViewModel.updateStayDarkAtNightEnabled(enabled)
-							}
+						Row(
+							modifier = Modifier
+								.fillMaxWidth()
+								.padding(top = 8.dp),
+							horizontalArrangement = Arrangement.Center
 						) {
-							Row(
-								modifier = Modifier
-									.fillMaxWidth(),
-								verticalAlignment = Alignment.Top,
-								horizontalArrangement = Arrangement.SpaceBetween
+							AssistChip(
+								onClick = {
+									autoScrollAdvancedSettingsTransition = true
+									isAdvancedSettingsExpanded = true
+									haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
+									mainViewModel.checkReviewPrompt()
+								},
+								enabled = uiState.adaptiveThemeEnabled,
+								shape = RoundedCornerShape(20.dp),
+								label = {
+									Text(text = stringResource(id = R.string.action_advanced_settings))
+								},
+								leadingIcon = {
+									Icon(
+										imageVector = Icons.Filled.KeyboardArrowDown,
+										contentDescription = null
+									)
+								}
+							)
+						}
+					}
+
+				advancedSettingsTransition.AnimatedVisibility(
+					visible = { expanded -> expanded },
+					enter = fadeIn(animationSpec = tween(220)) + expandVertically(
+						animationSpec = tween(
+							durationMillis = 360,
+							easing = FastOutSlowInEasing
+						)
+					),
+					exit = fadeOut(animationSpec = tween(150)) + shrinkVertically(
+						animationSpec = tween(
+							durationMillis = 240,
+							easing = FastOutSlowInEasing
+						)
+					)
+				) {
+						Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+							DetailPreferenceCard(
+								title = stringResource(id = R.string.title_night_dark_lock),
+								enabled = uiState.adaptiveThemeEnabled,
+								firstCard = false,
+								lastCard = false,
+								toggleableValue = uiState.stayDarkAtNightEnabled,
+								onToggle = { enabled ->
+									mainViewModel.updateStayDarkAtNightEnabled(enabled)
+								}
 							) {
-								Text(
-									text = stringResource(id = R.string.description_night_dark_lock),
-									style = MaterialTheme.typography.bodyMedium,
-									modifier = Modifier.weight(1f)
-								)
-								Switch(
+								Row(
 									modifier = Modifier
-										.padding(start = 14.dp, end = 4.dp)
-										.offset(y = (-6).dp)
-										.align(Alignment.Top),
-									checked = uiState.stayDarkAtNightEnabled,
-									enabled = uiState.adaptiveThemeEnabled,
-									onCheckedChange = null,
-									thumbContent = if (uiState.stayDarkAtNightEnabled) {
-										{
-											Icon(
-												imageVector = Icons.Filled.Check,
-												contentDescription = null,
-												modifier = Modifier.size(SwitchDefaults.IconSize)
+										.fillMaxWidth(),
+									verticalAlignment = Alignment.Top,
+									horizontalArrangement = Arrangement.SpaceBetween
+								) {
+									Text(
+										text = stringResource(id = R.string.description_night_dark_lock),
+										style = MaterialTheme.typography.bodyMedium,
+										modifier = Modifier.weight(1f)
+									)
+									Switch(
+										modifier = Modifier
+											.padding(start = 14.dp, end = 4.dp)
+											.offset(y = (-6).dp)
+											.align(Alignment.Top),
+										checked = uiState.stayDarkAtNightEnabled,
+										enabled = uiState.adaptiveThemeEnabled,
+										onCheckedChange = null,
+										thumbContent = if (uiState.stayDarkAtNightEnabled) {
+											{
+												Icon(
+													imageVector = Icons.Filled.Check,
+													contentDescription = null,
+													modifier = Modifier.size(SwitchDefaults.IconSize)
+												)
+											}
+										} else {
+											{
+												Icon(
+													imageVector = Icons.Filled.Clear,
+													contentDescription = null,
+													modifier = Modifier.size(SwitchDefaults.IconSize)
+												)
+											}
+										}
+									)
+								}
+
+								if (uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled) {
+									val startText =
+										formatMinutesAsLocalTime(context, uiState.nightStartMinutes)
+									val endText =
+										formatMinutesAsLocalTime(context, uiState.nightEndMinutes)
+
+									Row(
+										modifier = Modifier.fillMaxWidth(),
+										horizontalArrangement = Arrangement.spacedBy(8.dp)
+									) {
+										OutlinedButton(
+											modifier = Modifier.weight(1f),
+											onClick = { showNightStartPicker.value = true }
+										) {
+											Text(
+												text = stringResource(
+													id = R.string.action_night_from_time,
+													startText
+												)
 											)
 										}
-									} else {
-										{
-											Icon(
-												imageVector = Icons.Filled.Clear,
-												contentDescription = null,
-												modifier = Modifier.size(SwitchDefaults.IconSize)
+
+										OutlinedButton(
+											modifier = Modifier.weight(1f),
+											onClick = { showNightEndPicker.value = true }
+										) {
+											Text(
+												text = stringResource(
+													id = R.string.action_night_to_time,
+													endText
+												)
 											)
 										}
 									}
-								)
+								}
 							}
 
-							if (uiState.stayDarkAtNightEnabled && uiState.adaptiveThemeEnabled) {
-								val startText =
-									formatMinutesAsLocalTime(context, uiState.nightStartMinutes)
-								val endText =
-									formatMinutesAsLocalTime(context, uiState.nightEndMinutes)
+							val isDaySet = !uiState.dayWallpaperUri.isNullOrEmpty()
+							val isNightSet = !uiState.nightWallpaperUri.isNullOrEmpty()
+							val bothWallpapersSet = isDaySet && isNightSet
 
+							DetailPreferenceCard(
+								title = stringResource(id = R.string.title_wallpaper_sync),
+								enabled = uiState.adaptiveThemeEnabled,
+								firstCard = false,
+								lastCard = true,
+								toggleableValue = uiState.wallpaperSyncEnabled,
+								onToggle = { enabled ->
+									if (enabled && !bothWallpapersSet) {
+										wallpaperButtonsShakeKey.intValue += 1
+										haptic.performHapticFeedback(HapticFeedbackType.Reject)
+									} else {
+										mainViewModel.onWallpaperSyncToggleRequested(enabled)
+									}
+								},
+								titleTrailingContent = {
+									Surface(
+										modifier = Modifier.padding(start = 8.dp),
+										shape = RoundedCornerShape(50),
+										color = MaterialTheme.colorScheme.tertiaryContainer,
+										contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+									) {
+										Text(
+											text = stringResource(id = R.string.label_beta),
+											modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+											style = MaterialTheme.typography.labelSmall
+										)
+									}
+								}
+							) {
 								Row(
 									modifier = Modifier.fillMaxWidth(),
+									verticalAlignment = Alignment.Top,
+									horizontalArrangement = Arrangement.SpaceBetween
+								) {
+									Text(
+										text = stringResource(id = R.string.description_wallpaper_sync),
+										style = MaterialTheme.typography.bodyMedium,
+										modifier = Modifier.weight(1f)
+									)
+									Switch(
+										modifier = Modifier
+											.padding(start = 14.dp, end = 4.dp)
+											.offset(y = (-6).dp)
+											.align(Alignment.Top),
+										checked = uiState.wallpaperSyncEnabled,
+										enabled = uiState.adaptiveThemeEnabled,
+										onCheckedChange = { checked ->
+											if (checked && !bothWallpapersSet) {
+												wallpaperButtonsShakeKey.intValue += 1
+												haptic.performHapticFeedback(HapticFeedbackType.Reject)
+											} else {
+												mainViewModel.onWallpaperSyncToggleRequested(checked)
+											}
+										},
+										thumbContent = if (uiState.wallpaperSyncEnabled) {
+											{
+												Icon(
+													imageVector = Icons.Filled.Check,
+													contentDescription = null,
+													modifier = Modifier.size(SwitchDefaults.IconSize)
+												)
+											}
+										} else {
+											{
+												Icon(
+													imageVector = Icons.Filled.Clear,
+													contentDescription = null,
+													modifier = Modifier.size(SwitchDefaults.IconSize)
+												)
+											}
+										}
+									)
+								}
+
+								Row(
+									modifier = Modifier
+										.fillMaxWidth()
+										.padding(top = 8.dp)
+										.offset { IntOffset(wallpaperButtonsOffsetAnim.value.dp.roundToPx(), 0) },
 									horizontalArrangement = Arrangement.spacedBy(8.dp)
 								) {
-									OutlinedButton(
-										modifier = Modifier.weight(1f),
-										onClick = { showNightStartPicker.value = true }
-									) {
-										Text(
-											text = stringResource(
-												id = R.string.action_night_from_time,
-												startText
-											)
-										)
-									}
+									val dayStatus = stringResource(
+										if (isDaySet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
+									)
+									val nightStatus = stringResource(
+										if (isNightSet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
+									)
 
 									OutlinedButton(
 										modifier = Modifier.weight(1f),
-										onClick = { showNightEndPicker.value = true }
+										enabled = uiState.adaptiveThemeEnabled,
+										onClick = {
+											dayWallpaperPicker.launch(
+												PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+											)
+										}
 									) {
 										Text(
-											text = stringResource(
-												id = R.string.action_night_to_time,
-												endText
+											text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
+											textAlign = TextAlign.Center
+										)
+									}
+
+									OutlinedButton(
+										modifier = Modifier.weight(1f),
+										enabled = uiState.adaptiveThemeEnabled,
+										onClick = {
+											nightWallpaperPicker.launch(
+												PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
 											)
+										}
+									) {
+										Text(
+											text = "${stringResource(id = R.string.action_select_night_wallpaper)}\n$nightStatus",
+											textAlign = TextAlign.Center
 										)
 									}
 								}
 							}
+
+							AssistChip(
+								modifier = Modifier.align(Alignment.CenterHorizontally),
+								onClick = {
+									autoScrollAdvancedSettingsTransition = true
+									isAdvancedSettingsExpanded = false
+									haptic.performHapticFeedback(HapticFeedbackType.ToggleOff)
+								},
+								enabled = uiState.adaptiveThemeEnabled,
+								shape = RoundedCornerShape(20.dp),
+								label = {
+									Text(text = stringResource(id = R.string.action_collapse))
+								},
+								leadingIcon = {
+									Icon(
+										imageVector = Icons.Filled.KeyboardArrowUp,
+										contentDescription = null
+									)
+								}
+							)
 						}
-
-						val isDaySet = !uiState.dayWallpaperUri.isNullOrEmpty()
-						val isNightSet = !uiState.nightWallpaperUri.isNullOrEmpty()
-						val bothWallpapersSet = isDaySet && isNightSet
-
-						DetailPreferenceCard(
-							title = stringResource(id = R.string.title_wallpaper_sync),
-							enabled = uiState.adaptiveThemeEnabled,
-							firstCard = false,
-							lastCard = true,
-							toggleableValue = uiState.wallpaperSyncEnabled,
-							onToggle = { enabled ->
-								if (enabled && !bothWallpapersSet) {
-									wallpaperButtonsShakeKey.intValue += 1
-									haptic.performHapticFeedback(HapticFeedbackType.Reject)
-								} else {
-									mainViewModel.onWallpaperSyncToggleRequested(enabled)
-								}
-							},
-							titleTrailingContent = {
-								Surface(
-									modifier = Modifier.padding(start = 8.dp),
-									shape = RoundedCornerShape(50),
-									color = MaterialTheme.colorScheme.tertiaryContainer,
-									contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-								) {
-									Text(
-										text = stringResource(id = R.string.label_beta),
-										modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-										style = MaterialTheme.typography.labelSmall
-									)
-								}
-							}
-						) {
-							Row(
-								modifier = Modifier.fillMaxWidth(),
-								verticalAlignment = Alignment.Top,
-								horizontalArrangement = Arrangement.SpaceBetween
-							) {
-								Text(
-									text = stringResource(id = R.string.description_wallpaper_sync),
-									style = MaterialTheme.typography.bodyMedium,
-									modifier = Modifier.weight(1f)
-								)
-								Switch(
-									modifier = Modifier
-										.padding(start = 14.dp, end = 4.dp)
-										.offset(y = (-6).dp)
-										.align(Alignment.Top),
-									checked = uiState.wallpaperSyncEnabled,
-									enabled = uiState.adaptiveThemeEnabled,
-									onCheckedChange = { checked ->
-										if (checked && !bothWallpapersSet) {
-											wallpaperButtonsShakeKey.intValue += 1
-											haptic.performHapticFeedback(HapticFeedbackType.Reject)
-										} else {
-											mainViewModel.onWallpaperSyncToggleRequested(checked)
-										}
-									},
-									thumbContent = if (uiState.wallpaperSyncEnabled) {
-										{
-											Icon(
-												imageVector = Icons.Filled.Check,
-												contentDescription = null,
-												modifier = Modifier.size(SwitchDefaults.IconSize)
-											)
-										}
-									} else {
-										{
-											Icon(
-												imageVector = Icons.Filled.Clear,
-												contentDescription = null,
-												modifier = Modifier.size(SwitchDefaults.IconSize)
-											)
-										}
-									}
-								)
-							}
-
-							Row(
-								modifier = Modifier
-									.fillMaxWidth()
-									.padding(top = 8.dp)
-									.offset { IntOffset(wallpaperButtonsOffsetAnim.value.dp.roundToPx(), 0) },
-								horizontalArrangement = Arrangement.spacedBy(8.dp)
-							) {
-								val dayStatus = stringResource(
-									if (isDaySet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
-								)
-								val nightStatus = stringResource(
-									if (isNightSet) R.string.wallpaper_status_set else R.string.wallpaper_status_not_set
-								)
-
-								OutlinedButton(
-									modifier = Modifier.weight(1f),
-									enabled = uiState.adaptiveThemeEnabled,
-									onClick = {
-										dayWallpaperPicker.launch(
-											PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-										)
-									}
-								) {
-									Text(
-										text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
-										textAlign = TextAlign.Center
-									)
-								}
-
-								OutlinedButton(
-									modifier = Modifier.weight(1f),
-									enabled = uiState.adaptiveThemeEnabled,
-									onClick = {
-										nightWallpaperPicker.launch(
-											PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-										)
-									}
-								) {
-									Text(
-										text = "${stringResource(id = R.string.action_select_night_wallpaper)}\n$nightStatus",
-										textAlign = TextAlign.Center
-									)
-								}
-							}
-						}
-
-						AssistChip(
-							modifier = Modifier.align(Alignment.CenterHorizontally),
-							onClick = {
-								isAdvancedSettingsExpanded = false
-								haptic.performHapticFeedback(HapticFeedbackType.ToggleOff)
-							},
-							enabled = uiState.adaptiveThemeEnabled,
-							shape = RoundedCornerShape(20.dp),
-							label = {
-								Text(text = stringResource(id = R.string.action_collapse))
-							},
-							leadingIcon = {
-								Icon(
-									imageVector = Icons.Filled.KeyboardArrowUp,
-									contentDescription = null
-								)
-							}
-						)
 					}
-				}
 
 			}
 
