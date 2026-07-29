@@ -1,7 +1,6 @@
 plugins {
 	alias(libs.plugins.google.services)
 	alias(libs.plugins.android.application)
-	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.google.firebase.crashlytics)
@@ -71,12 +70,6 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 
-	kotlin {
-		compilerOptions {
-			jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-		}
-	}
-
 	bundle {
 		language {
 			@Suppress("UnstableApiUsage")
@@ -87,14 +80,6 @@ android {
 	buildFeatures {
 		compose = true
 		buildConfig = true
-	}
-
-	sourceSets {
-		getByName("main") {
-			resources {
-				srcDirs("src/main/resources", "src/main/kotlin/components")
-			}
-		}
 	}
 }
 
