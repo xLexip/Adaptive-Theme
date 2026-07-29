@@ -59,6 +59,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -593,6 +594,20 @@ fun MainScreen(
 									haptic.performHapticFeedback(HapticFeedbackType.Reject)
 								} else {
 									mainViewModel.onWallpaperSyncToggleRequested(enabled)
+								}
+							},
+							titleTrailingContent = {
+								Surface(
+									modifier = Modifier.padding(start = 8.dp),
+									shape = RoundedCornerShape(50),
+									color = MaterialTheme.colorScheme.tertiaryContainer,
+									contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+								) {
+									Text(
+										text = stringResource(id = R.string.label_beta),
+										modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+										style = MaterialTheme.typography.labelSmall
+									)
 								}
 							}
 						) {
