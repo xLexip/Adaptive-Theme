@@ -13,7 +13,9 @@
 package dev.lexip.hecate.ui.components.preferences
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.layout.Column
@@ -81,7 +83,12 @@ fun DetailPreferenceCard(
 			modifier = Modifier
 				.fillMaxWidth()
 				.padding(14.dp)
-				.animateContentSize()
+				.animateContentSize(
+					animationSpec = spring(
+						dampingRatio = Spring.DampingRatioMediumBouncy,
+						stiffness = Spring.StiffnessMediumLow
+					)
+				)
 				.alpha(animatedAlpha.value)
 		) {
 			Row(verticalAlignment = Alignment.CenterVertically) {
