@@ -58,9 +58,17 @@ internal fun ForExpertsSectionCard(
 	onShareADBCommand: (() -> Unit)? = null,
 	isShizukuInstalled: Boolean = true,
 	onInstallShizuku: (() -> Unit)? = null,
+	onExpansionStarted: (() -> Unit)? = null,
 ) {
 	val haptic = LocalHapticFeedback.current
 	var expanded by remember { mutableStateOf(false) }
+
+	val toggleExpanded = {
+		expanded = !expanded
+		if (expanded) {
+			onExpansionStarted?.invoke()
+		}
+	}
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -76,7 +84,7 @@ internal fun ForExpertsSectionCard(
 			Row(
 				modifier = Modifier
 					.fillMaxWidth()
-					.clickable { expanded = !expanded },
+					.clickable(onClick = toggleExpanded),
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
@@ -90,7 +98,7 @@ internal fun ForExpertsSectionCard(
 					targetValue = if (expanded) 180f else 0f,
 					animationSpec = tween(durationMillis = 300)
 				)
-				IconButton(onClick = { expanded = !expanded }) {
+				IconButton(onClick = toggleExpanded) {
 					Icon(
 						imageVector = Icons.Outlined.ExpandMore,
 						contentDescription = null,
