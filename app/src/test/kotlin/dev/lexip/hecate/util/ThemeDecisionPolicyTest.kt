@@ -18,18 +18,18 @@ import org.junit.Test
 
 class ThemeDecisionPolicyTest {
 	@Test
-	fun lightBelowThreshold_usesDarkTheme() {
+	fun lightBelowThresholdUsesDarkTheme() {
 		assertTrue(decide(light = 99f, threshold = 100f))
 	}
 
 	@Test
-	fun lightAtOrAboveThreshold_usesLightTheme() {
+	fun lightAtOrAboveThresholdUsesLightTheme() {
 		assertFalse(decide(light = 100f, threshold = 100f))
 		assertFalse(decide(light = 101f, threshold = 100f))
 	}
 
 	@Test
-	fun activeNightWindow_forcesDarkTheme() {
+	fun activeNightWindowForcesDarkTheme() {
 		assertTrue(
 			ThemeDecisionPolicy.shouldUseDarkTheme(
 				lightValue = 10_000f,

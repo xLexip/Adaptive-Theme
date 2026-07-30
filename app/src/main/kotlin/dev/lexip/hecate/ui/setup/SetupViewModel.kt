@@ -626,7 +626,6 @@ class SetupViewModel(
 	override fun onCleared() {
 		registeredShizukuListener?.unregister()
 		stopEnvironmentMonitoring()
-		super.onCleared()
 	}
 }
 

@@ -28,7 +28,7 @@ data class SetupEnvironmentSnapshot(
 	val isUsbConnected: Boolean
 )
 
-interface SetupEnvironmentProvider {
+fun interface SetupEnvironmentProvider {
 	fun snapshot(): SetupEnvironmentSnapshot
 }
 

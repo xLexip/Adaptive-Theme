@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import java.io.InputStream
 import java.lang.ref.WeakReference
 
@@ -102,7 +103,7 @@ internal class WallpaperHandler internal constructor(
 		}
 
 		val succeeded: Boolean = try {
-			val uri = Uri.parse(targetUriStr)
+			val uri = targetUriStr.toUri()
 			val stream = openInputStream(uri)
 			if (stream != null) {
 				stream.use { s ->

@@ -30,6 +30,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
+
 @RunWith(AndroidJUnit4::class)
 class MainScreenContentTest {
 
@@ -190,7 +192,7 @@ class MainScreenContentTest {
 			uiState = MainUiState(
 				adaptiveThemeEnabled = true,
 				wallpaperSyncEnabled = true,
-				dayWallpaperUri = "content://wallpaper/day",
+				dayWallpaperUri = DAY_WALLPAPER_URI,
 				nightWallpaperUri = null
 			),
 			hasPermission = true,
@@ -233,7 +235,7 @@ class MainScreenContentTest {
 		setMainContent(
 			uiState = MainUiState(
 				adaptiveThemeEnabled = true,
-				dayWallpaperUri = "content://wallpaper/day",
+				dayWallpaperUri = DAY_WALLPAPER_URI,
 				nightWallpaperUri = "content://wallpaper/night"
 			),
 			hasPermission = true,
@@ -252,7 +254,7 @@ class MainScreenContentTest {
 			uiState = MainUiState(
 				adaptiveThemeEnabled = true,
 				wallpaperSyncEnabled = true,
-				dayWallpaperUri = "content://wallpaper/day",
+				dayWallpaperUri = DAY_WALLPAPER_URI,
 				nightWallpaperUri = "content://wallpaper/night"
 			),
 			hasPermission = true,

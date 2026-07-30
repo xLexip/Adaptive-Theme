@@ -42,6 +42,9 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
+private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
+private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [36, 37], application = Application::class)
@@ -84,8 +87,8 @@ class MainViewModelTest {
 				nightStartMinutes = 20 * 60,
 				nightEndMinutes = 7 * 60,
 				wallpaperSyncEnabled = true,
-				dayWallpaperUri = "content://wallpaper/day",
-				nightWallpaperUri = "content://wallpaper/night"
+				dayWallpaperUri = DAY_WALLPAPER_URI,
+				nightWallpaperUri = NIGHT_WALLPAPER_URI
 			)
 		)
 		advanceUntilIdle()
@@ -98,8 +101,8 @@ class MainViewModelTest {
 		assertEquals(20 * 60, viewModel.uiState.value.nightStartMinutes)
 		assertEquals(7 * 60, viewModel.uiState.value.nightEndMinutes)
 		assertTrue(viewModel.uiState.value.wallpaperSyncEnabled)
-		assertEquals("content://wallpaper/day", viewModel.uiState.value.dayWallpaperUri)
-		assertEquals("content://wallpaper/night", viewModel.uiState.value.nightWallpaperUri)
+		assertEquals(DAY_WALLPAPER_URI, viewModel.uiState.value.dayWallpaperUri)
+		assertEquals(NIGHT_WALLPAPER_URI, viewModel.uiState.value.nightWallpaperUri)
 	}
 
 	@Test
@@ -227,8 +230,8 @@ class MainViewModelTest {
 	fun wallpaperPicksPersistPermissionAndUris() =
 		runTest(mainDispatcherRule.dispatcher) {
 			val viewModel = createViewModel()
-			val dayUri = Uri.parse("content://wallpaper/day")
-			val nightUri = Uri.parse("content://wallpaper/night")
+			val dayUri = Uri.parse(DAY_WALLPAPER_URI)
+			val nightUri = Uri.parse(NIGHT_WALLPAPER_URI)
 			advanceUntilIdle()
 
 			viewModel.onDayWallpaperPicked(dayUri)
@@ -245,7 +248,7 @@ class MainViewModelTest {
 		runTest(mainDispatcherRule.dispatcher) {
 			wallpaperPlatform.permissionFailure = SecurityException("not persistable")
 			val viewModel = createViewModel()
-			val uri = Uri.parse("content://wallpaper/day")
+			val uri = Uri.parse(DAY_WALLPAPER_URI)
 			advanceUntilIdle()
 
 			viewModel.onDayWallpaperPicked(uri)
