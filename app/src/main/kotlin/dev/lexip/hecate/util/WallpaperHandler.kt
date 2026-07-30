@@ -14,31 +14,71 @@ package dev.lexip.hecate.util
 
 import android.app.WallpaperManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import java.io.InputStream
 import java.lang.ref.WeakReference
 
 import dev.lexip.hecate.logging.Logger
 
 private const val TAG = "WallpaperHandler"
 
+internal interface WallpaperPlatform {
+	fun isLiveWallpaperActive(): Boolean
+	fun takePersistableReadPermission(uri: Uri)
+	fun applyWallpaperForTheme(
+		isDark: Boolean,
+		dayUriStr: String?,
+		nightUriStr: String?
+	): Boolean
+}
+
 /**
  * Handler for theme-synchronized wallpaper swapping.
  */
-class WallpaperHandler(context: Context) {
-	private val contextRef = WeakReference(context.applicationContext)
+internal class WallpaperHandler internal constructor(
+	context: Context,
+	private val liveWallpaperActive: () -> Boolean,
+	private val persistReadPermission: (Uri) -> Unit,
+	private val openInputStream: (Uri) -> InputStream?,
+	private val setStream: (InputStream, Int) -> Unit
+) : WallpaperPlatform {
+	constructor(context: Context) : this(
+		context = context,
+		liveWallpaperActive = {
+			WallpaperManager.getInstance(context.applicationContext).wallpaperInfo != null
+		},
+		persistReadPermission = { uri ->
+			context.applicationContext.contentResolver.takePersistableUriPermission(
+				uri,
+				Intent.FLAG_GRANT_READ_URI_PERMISSION
+			)
+		},
+		openInputStream = context.applicationContext.contentResolver::openInputStream,
+		setStream = { stream, flags ->
+			WallpaperManager.getInstance(context.applicationContext).setStream(
+				stream,
+				null,
+				true,
+				flags
+			)
+		}
+	)
 
-	private val wallpaperManager: WallpaperManager?
-		get() = contextRef.get()?.let { WallpaperManager.getInstance(it) }
+	private val contextRef = WeakReference(context.applicationContext)
 
 	/**
 	 * Checks whether a live wallpaper is currently active.
 	 */
-	fun isLiveWallpaperActive(): Boolean {
-		val wm = wallpaperManager ?: return false
-		val isLive = wm.wallpaperInfo != null
+	override fun isLiveWallpaperActive(): Boolean {
+		val isLive = liveWallpaperActive()
 		Log.d(TAG, "Live wallpaper active: $isLive")
 		return isLive
+	}
+
+	override fun takePersistableReadPermission(uri: Uri) {
+		persistReadPermission(uri)
 	}
 
 	/**
@@ -48,9 +88,12 @@ class WallpaperHandler(context: Context) {
 	 * @param nightUriStr Content URI string for night wallpaper.
 	 * @return true if wallpaper was successfully applied, false otherwise.
 	 */
-	fun applyWallpaperForTheme(isDark: Boolean, dayUriStr: String?, nightUriStr: String?): Boolean {
+	override fun applyWallpaperForTheme(
+		isDark: Boolean,
+		dayUriStr: String?,
+		nightUriStr: String?
+	): Boolean {
 		val context = contextRef.get() ?: return false
-		val wm = wallpaperManager ?: return false
 
 		val targetUriStr = if (isDark) nightUriStr else dayUriStr
 		if (targetUriStr.isNullOrEmpty()) {
@@ -60,14 +103,12 @@ class WallpaperHandler(context: Context) {
 
 		val succeeded: Boolean = try {
 			val uri = Uri.parse(targetUriStr)
-			val stream = context.contentResolver.openInputStream(uri)
+			val stream = openInputStream(uri)
 			if (stream != null) {
 				stream.use { s ->
 					// Future addition: allow separate home screen and lock screen wallpaper configuration
-					wm.setStream(
+					setStream(
 						s,
-						null,
-						true,
 						WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
 					)
 				}

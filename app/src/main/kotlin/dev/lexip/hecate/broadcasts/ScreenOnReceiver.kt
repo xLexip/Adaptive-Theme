@@ -25,6 +25,13 @@ import dev.lexip.hecate.util.SensorReader
 import dev.lexip.hecate.util.SystemMinuteProvider
 import dev.lexip.hecate.util.ThemeController
 
+internal interface ScreenOnReceiverSettings {
+	var adaptiveThemeThresholdLux: Float
+	var stayDarkAtNightEnabled: Boolean
+	var nightStartMinutes: Int
+	var nightEndMinutes: Int
+}
+
 /**
  * Adaptive theme switching logic. Executes when the screen is turned on.
  * The theme is switched based on the environment brightness and proximity sensor values.
@@ -38,7 +45,7 @@ class ScreenOnReceiver(
 	nightStartMinutes: Int,
 	nightEndMinutes: Int,
 	minuteProvider: MinuteProvider = SystemMinuteProvider
-) : BroadcastReceiver() {
+) : BroadcastReceiver(), ScreenOnReceiverSettings {
 
 	constructor(
 		proximitySensorManager: ProximitySensorManager,
@@ -69,25 +76,25 @@ class ScreenOnReceiver(
 		nightEndMinutes = nightEndMinutes
 	)
 
-	var adaptiveThemeThresholdLux: Float
+	override var adaptiveThemeThresholdLux: Float
 		get() = coordinator.adaptiveThemeThresholdLux
 		set(value) {
 			coordinator.adaptiveThemeThresholdLux = value
 		}
 
-	var stayDarkAtNightEnabled: Boolean
+	override var stayDarkAtNightEnabled: Boolean
 		get() = coordinator.stayDarkAtNightEnabled
 		set(value) {
 			coordinator.stayDarkAtNightEnabled = value
 		}
 
-	var nightStartMinutes: Int
+	override var nightStartMinutes: Int
 		get() = coordinator.nightStartMinutes
 		set(value) {
 			coordinator.nightStartMinutes = value
 		}
 
-	var nightEndMinutes: Int
+	override var nightEndMinutes: Int
 		get() = coordinator.nightEndMinutes
 		set(value) {
 			coordinator.nightEndMinutes = value

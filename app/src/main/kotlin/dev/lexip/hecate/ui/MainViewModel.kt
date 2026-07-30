@@ -38,6 +38,7 @@ import dev.lexip.hecate.util.ProximitySensorManager
 import dev.lexip.hecate.util.ProximitySensorReader
 import dev.lexip.hecate.util.SensorReader
 import dev.lexip.hecate.util.WallpaperHandler
+import dev.lexip.hecate.util.WallpaperPlatform
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -77,7 +78,7 @@ data class MainUiState(
 	val showLiveWallpaperWarningDialog: Boolean = false
 )
 
-class MainViewModel(
+class MainViewModel internal constructor(
 	private val application: Application,
 	private val userPreferencesRepository: UserPreferencesDataSource,
 	private val lightSensorManager: SensorReader =
@@ -88,6 +89,8 @@ class MainViewModel(
 		AndroidAdaptiveThemeServiceController(application.applicationContext),
 	private val installMetadataProvider: InstallMetadataProvider =
 		AndroidInstallMetadataProvider(application.applicationContext),
+	private val wallpaperPlatform: WallpaperPlatform =
+		WallpaperHandler(application.applicationContext),
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -450,15 +453,10 @@ class MainViewModel(
 		}
 	}
 
-	private val wallpaperHandler = WallpaperHandler(application.applicationContext)
-
 	fun onDayWallpaperPicked(uri: Uri) {
 		viewModelScope.launch(ioDispatcher) {
 			try {
-				application.contentResolver.takePersistableUriPermission(
-					uri,
-					Intent.FLAG_GRANT_READ_URI_PERMISSION
-				)
+				wallpaperPlatform.takePersistableReadPermission(uri)
 			} catch (e: Exception) {
 				Log.w(TAG, "Failed to take persistable URI permission for day wallpaper", e)
 			}
@@ -470,10 +468,7 @@ class MainViewModel(
 	fun onNightWallpaperPicked(uri: Uri) {
 		viewModelScope.launch(ioDispatcher) {
 			try {
-				application.contentResolver.takePersistableUriPermission(
-					uri,
-					Intent.FLAG_GRANT_READ_URI_PERMISSION
-				)
+				wallpaperPlatform.takePersistableReadPermission(uri)
 			} catch (e: Exception) {
 				Log.w(TAG, "Failed to take persistable URI permission for night wallpaper", e)
 			}
@@ -484,7 +479,7 @@ class MainViewModel(
 
 	fun onWallpaperSyncToggleRequested(enabled: Boolean) {
 		if (enabled) {
-			if (wallpaperHandler.isLiveWallpaperActive()) {
+			if (wallpaperPlatform.isLiveWallpaperActive()) {
 				_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = true)
 			} else {
 				enableWallpaperSync()

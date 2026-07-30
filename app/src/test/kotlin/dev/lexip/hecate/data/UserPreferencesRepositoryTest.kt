@@ -72,6 +72,9 @@ class UserPreferencesRepositoryTest {
 		assertNull(preferences.customAdaptiveThemeThresholdLux)
 		assertEquals(21 * 60, preferences.nightStartMinutes)
 		assertEquals(6 * 60, preferences.nightEndMinutes)
+		assertFalse(preferences.wallpaperSyncEnabled)
+		assertNull(preferences.dayWallpaperUri)
+		assertNull(preferences.nightWallpaperUri)
 	}
 
 	@Test
@@ -121,6 +124,29 @@ class UserPreferencesRepositoryTest {
 		assertTrue(preferences.stayDarkAtNightEnabled)
 		assertEquals(22 * 60, preferences.nightStartMinutes)
 		assertEquals(5 * 60, preferences.nightEndMinutes)
+	}
+
+	@Test
+	fun wallpaperSettingsArePersistedReplacedAndClearedIndependently() = runTest {
+		repository.updateWallpaperSyncEnabled(true)
+		repository.updateDayWallpaperUri("content://wallpaper/day-1")
+		repository.updateNightWallpaperUri("content://wallpaper/night")
+		repository.updateDayWallpaperUri("content://wallpaper/day-2")
+
+		var preferences = repository.fetchInitialPreferences()
+		assertTrue(preferences.wallpaperSyncEnabled)
+		assertEquals("content://wallpaper/day-2", preferences.dayWallpaperUri)
+		assertEquals("content://wallpaper/night", preferences.nightWallpaperUri)
+
+		repository.updateDayWallpaperUri(null)
+		preferences = repository.fetchInitialPreferences()
+		assertNull(preferences.dayWallpaperUri)
+		assertEquals("content://wallpaper/night", preferences.nightWallpaperUri)
+
+		repository.updateNightWallpaperUri(null)
+		preferences = repository.fetchInitialPreferences()
+		assertNull(preferences.dayWallpaperUri)
+		assertNull(preferences.nightWallpaperUri)
 	}
 
 	@Test

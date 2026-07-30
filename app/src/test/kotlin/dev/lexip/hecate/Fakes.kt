@@ -12,6 +12,7 @@
 
 package dev.lexip.hecate
 
+import android.net.Uri
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesDataSource
@@ -24,6 +25,7 @@ import dev.lexip.hecate.ui.setup.SetupPermissionListenerRegistration
 import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.ProximitySensorReader
 import dev.lexip.hecate.util.SensorReader
+import dev.lexip.hecate.util.WallpaperPlatform
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -154,6 +156,25 @@ class FakeInstallMetadataProvider(
 ) : InstallMetadataProvider {
 	override fun isInstalledFromPlayStore(): Boolean = fromPlayStore
 	override fun daysSinceFirstInstall(): Long = installedDaysAgo
+}
+
+class FakeWallpaperPlatform : WallpaperPlatform {
+	var liveWallpaperActive = false
+	var permissionFailure: Exception? = null
+	val persistedUris = mutableListOf<Uri>()
+
+	override fun isLiveWallpaperActive(): Boolean = liveWallpaperActive
+
+	override fun takePersistableReadPermission(uri: Uri) {
+		permissionFailure?.let { throw it }
+		persistedUris += uri
+	}
+
+	override fun applyWallpaperForTheme(
+		isDark: Boolean,
+		dayUriStr: String?,
+		nightUriStr: String?
+	): Boolean = true
 }
 
 class FakeSetupEnvironmentProvider(

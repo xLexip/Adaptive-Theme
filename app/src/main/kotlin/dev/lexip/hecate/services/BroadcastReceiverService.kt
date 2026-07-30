@@ -27,6 +27,7 @@ import androidx.core.app.NotificationCompat
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
+import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
@@ -51,6 +52,7 @@ class BroadcastReceiverService : Service() {
 	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
 	private lateinit var lightSensorManager: LightSensorManager
 	private lateinit var proximitySensorManager: ProximitySensorManager
+	private lateinit var monitoringPreferencesCoordinator: MonitoringPreferencesCoordinator
 
 	// Service-bound scope
 	private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -113,17 +115,7 @@ class BroadcastReceiverService : Service() {
 			// Create screen-on receiver if adaptive theme is enabled
 			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
 			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
-				adaptiveAppearanceHandler.configureWallpaperSync(
-					enabled = userPreferences.wallpaperSyncEnabled,
-					dayWallpaperUri = userPreferences.dayWallpaperUri,
-					nightWallpaperUri = userPreferences.nightWallpaperUri
-				)
-				createScreenOnReceiver(
-					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
-					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
-					nightStartMinutes = userPreferences.nightStartMinutes,
-					nightEndMinutes = userPreferences.nightEndMinutes
-				)
+				createScreenOnReceiver(userPreferences)
 			}
 
 			// Abort service start when there is no receiver to handle
@@ -138,15 +130,7 @@ class BroadcastReceiverService : Service() {
 		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
-				screenOnReceiver?.adaptiveThemeThresholdLux = prefs.adaptiveThemeThresholdLux
-				screenOnReceiver?.stayDarkAtNightEnabled = prefs.stayDarkAtNightEnabled
-				screenOnReceiver?.nightStartMinutes = prefs.nightStartMinutes
-				screenOnReceiver?.nightEndMinutes = prefs.nightEndMinutes
-				adaptiveAppearanceHandler.configureWallpaperSync(
-					enabled = prefs.wallpaperSyncEnabled,
-					dayWallpaperUri = prefs.dayWallpaperUri,
-					nightWallpaperUri = prefs.nightWallpaperUri
-				)
+				monitoringPreferencesCoordinator.apply(prefs, screenOnReceiver)
 			}
 		}
 
@@ -219,24 +203,24 @@ class BroadcastReceiverService : Service() {
 		manager?.createNotificationChannel(serviceChannel)
 	}
 
-	private fun createScreenOnReceiver(
-		adaptiveThemeThresholdLux: Float,
-		stayDarkAtNightEnabled: Boolean,
-		nightStartMinutes: Int,
-		nightEndMinutes: Int
-	) {
-		screenOnReceiver = screenOnReceiver ?: ScreenOnReceiver(
+	private fun createScreenOnReceiver(preferences: UserPreferences) {
+		val isNewReceiver = screenOnReceiver == null
+		val receiver = screenOnReceiver ?: ScreenOnReceiver(
 			proximitySensorManager,
 			lightSensorManager,
 			adaptiveAppearanceHandler,
-			adaptiveThemeThresholdLux,
-			stayDarkAtNightEnabled,
-			nightStartMinutes,
-			nightEndMinutes
+			preferences.adaptiveThemeThresholdLux,
+			preferences.stayDarkAtNightEnabled,
+			preferences.nightStartMinutes,
+			preferences.nightEndMinutes
 		)
+		monitoringPreferencesCoordinator.apply(preferences, receiver)
+		screenOnReceiver = receiver
+		if (!isNewReceiver) return
+
 		Log.d(TAG, "Registering screen-on receiver...")
 		registerReceiver(
-			screenOnReceiver,
+			receiver,
 			IntentFilter(Intent.ACTION_SCREEN_ON),
 			RECEIVER_EXPORTED // It's a protected broadcast, EXPORTED allows to deliver it
 		)
@@ -249,6 +233,11 @@ class BroadcastReceiverService : Service() {
 			lightSensorManager = LightSensorManager(this)
 		if (!this::proximitySensorManager.isInitialized)
 			proximitySensorManager = ProximitySensorManager(this)
+		if (!this::monitoringPreferencesCoordinator.isInitialized) {
+			monitoringPreferencesCoordinator = MonitoringPreferencesCoordinator(
+				adaptiveAppearanceHandler::configureWallpaperSync
+			)
+		}
 
 		// Log proximity sensor availability for debugging and transparency
 		if (proximitySensorManager.hasProximitySensor) {
