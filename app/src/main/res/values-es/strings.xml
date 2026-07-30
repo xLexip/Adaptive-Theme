@@ -12,6 +12,8 @@
 	<string name="action_use_adaptive_theme">Usar %1$s</string>
 	<string name="action_advanced_settings">Ajustes avanzados</string>
 	<string name="action_collapse">Contraer</string>
+	<string name="state_collapsed">Contraído</string>
+	<string name="state_expanded">Expandido</string>
 
 	<string name="description_service_purpose">
        Alterna entre el modo claro y oscuro según la luz ambiental, optimizando el confort visual y la batería.
@@ -104,7 +106,6 @@
 	<string name="shizuku_request_permission">Solicitando permiso…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku no pudo ejecutar el comando.</string>
 	<string name="shizuku_grant_unexpected">Error inesperado al usar Shizuku.</string>
-
 	<string name="title_wallpaper_sync">Sincronización del fondo de pantalla</string>
 	<string name="label_beta">Beta</string>
 	<string name="description_wallpaper_sync">Cambia el fondo de pantalla al alternar entre los modos claro y oscuro.</string>

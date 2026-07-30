@@ -28,12 +28,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -48,6 +48,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
@@ -62,6 +65,9 @@ internal fun ForExpertsSectionCard(
 ) {
 	val haptic = LocalHapticFeedback.current
 	var expanded by remember { mutableStateOf(false) }
+	val expansionStateDescription = stringResource(
+		id = if (expanded) R.string.state_expanded else R.string.state_collapsed
+	)
 
 	val toggleExpanded = {
 		expanded = !expanded
@@ -84,7 +90,13 @@ internal fun ForExpertsSectionCard(
 			Row(
 				modifier = Modifier
 					.fillMaxWidth()
-					.clickable(onClick = toggleExpanded),
+					.semantics {
+						stateDescription = expansionStateDescription
+					}
+					.clickable(
+						role = Role.Button,
+						onClick = toggleExpanded
+					),
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				Text(
@@ -98,13 +110,14 @@ internal fun ForExpertsSectionCard(
 					targetValue = if (expanded) 180f else 0f,
 					animationSpec = tween(durationMillis = 300)
 				)
-				IconButton(onClick = toggleExpanded) {
-					Icon(
-						imageVector = Icons.Outlined.ExpandMore,
-						contentDescription = null,
-						modifier = Modifier.rotate(rotation)
-					)
-				}
+				Icon(
+					imageVector = Icons.Outlined.ExpandMore,
+					contentDescription = null,
+					modifier = Modifier
+						.size(48.dp)
+						.padding(12.dp)
+						.rotate(rotation)
+				)
 			}
 
 			AnimatedVisibility(

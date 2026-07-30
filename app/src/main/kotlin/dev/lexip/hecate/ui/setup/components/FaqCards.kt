@@ -27,12 +27,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -48,6 +48,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
@@ -65,6 +68,9 @@ internal fun WhyOtherDeviceCard() {
 	var expanded by remember { mutableStateOf(false) }
 	val haptic = LocalHapticFeedback.current
 	val uriHandler = LocalUriHandler.current
+	val expansionStateDescription = stringResource(
+		id = if (expanded) R.string.state_expanded else R.string.state_collapsed
+	)
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -79,7 +85,13 @@ internal fun WhyOtherDeviceCard() {
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
 					.fillMaxWidth()
-					.clickable { expanded = !expanded }
+					.semantics {
+						stateDescription = expansionStateDescription
+					}
+					.clickable(
+						role = Role.Button,
+						onClick = { expanded = !expanded }
+					)
 			) {
 				Text(
 					text = stringResource(id = R.string.setup_why_other_device_title),
@@ -92,13 +104,14 @@ internal fun WhyOtherDeviceCard() {
 					targetValue = if (expanded) 180f else 0f,
 					animationSpec = tween(durationMillis = 300)
 				)
-				IconButton(onClick = { expanded = !expanded }) {
-					Icon(
-						imageVector = Icons.Outlined.ExpandMore,
-						contentDescription = null,
-						modifier = Modifier.rotate(rotation)
-					)
-				}
+				Icon(
+					imageVector = Icons.Outlined.ExpandMore,
+					contentDescription = null,
+					modifier = Modifier
+						.size(48.dp)
+						.padding(12.dp)
+						.rotate(rotation)
+				)
 			}
 
 			AnimatedVisibility(
@@ -141,6 +154,9 @@ internal fun IsThisSafeCard() {
 	var expanded by remember { mutableStateOf(false) }
 	val haptic = LocalHapticFeedback.current
 	val uriHandler = LocalUriHandler.current
+	val expansionStateDescription = stringResource(
+		id = if (expanded) R.string.state_expanded else R.string.state_collapsed
+	)
 
 	Card(
 		modifier = Modifier.fillMaxWidth(),
@@ -155,7 +171,13 @@ internal fun IsThisSafeCard() {
 				verticalAlignment = Alignment.CenterVertically,
 				modifier = Modifier
 					.fillMaxWidth()
-					.clickable { expanded = !expanded }
+					.semantics {
+						stateDescription = expansionStateDescription
+					}
+					.clickable(
+						role = Role.Button,
+						onClick = { expanded = !expanded }
+					)
 			) {
 				Text(
 					text = stringResource(id = R.string.setup_is_this_safe_title),
@@ -168,13 +190,14 @@ internal fun IsThisSafeCard() {
 					targetValue = if (expanded) 180f else 0f,
 					animationSpec = tween(durationMillis = 300)
 				)
-				IconButton(onClick = { expanded = !expanded }) {
-					Icon(
-						imageVector = Icons.Outlined.ExpandMore,
-						contentDescription = null,
-						modifier = Modifier.rotate(rotation)
-					)
-				}
+				Icon(
+					imageVector = Icons.Outlined.ExpandMore,
+					contentDescription = null,
+					modifier = Modifier
+						.size(48.dp)
+						.padding(12.dp)
+						.rotate(rotation)
+				)
 			}
 
 			AnimatedVisibility(
