@@ -104,13 +104,23 @@ android {
 			localDevices {
 				create("pixelApi34") {
 					device = "Pixel 2"
-					apiLevel = 34
+					sdkVersion = 34
 					systemImageSource = "aosp-atd"
 				}
 				create("pixelApi35") {
 					device = "Pixel 2"
-					apiLevel = 35
+					sdkVersion = 35
 					systemImageSource = "aosp-atd"
+				}
+				create("pixelApi36") {
+					device = "Pixel 2"
+					sdkVersion = 36
+					systemImageSource = "aosp"
+				}
+				create("pixelApi37") {
+					device = "Pixel 2"
+					sdkVersion = 37
+					systemImageSource = "google"
 				}
 			}
 		}

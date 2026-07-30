@@ -1,12 +1,24 @@
 name: CI
+
 on:
-  push: { }
+  push:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: android-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Lint
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     permissions:
       contents: read
     steps:
@@ -18,7 +30,8 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-          mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
+          # Long-lived branches seed shared Gradle dependencies for later jobs and runs.
+          gradle-cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/testing' }}
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v6
@@ -27,27 +40,52 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Run Lint and Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew lint assembleFossRelease --info
+      - name: Run JVM tests, coverage, and lint
+        run: >-
+          ./gradlew
+          testFossDebugUnitTest
+          createFossDebugUnitTestCoverageReport
+          lint
+          --info
+
+      - name: Upload JVM test reports
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: foss-jvm-test-reports
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            app/build/reports/tests/testFossDebugUnitTest/
+            app/build/test-results/testFossDebugUnitTest/
+
+      - name: Upload unit coverage
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: foss-unit-coverage
+          retention-days: 14
+          if-no-files-found: warn
+          path: app/build/reports/coverage/test/foss/debug/
 
       - name: SonarCloud Scan
+        if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarqube-scan-action@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >-
             -Dsonar.projectKey=xLexip_Hecate
             -Dsonar.projectVersion=1.3.0
             -Dsonar.organization=xlexip
             -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.androidLint.reportPaths=app/build/reports/lint-results-fossDebug.html
-
+            -Dsonar.androidLint.reportPaths=app/build/reports/lint-results-fossDebug.xml
+            -Dsonar.junit.reportPaths=app/build/test-results/testFossDebugUnitTest
+            -Dsonar.coverage.jacoco.xmlReportPaths=app/build/reports/coverage/test/foss/debug/report.xml
 
   build_play:
     name: Build Play
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -58,13 +96,13 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-          mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Build Play
         run: ./gradlew assemblePlayRelease --info
 
   build_foss:
     name: Build FOSS
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -75,7 +113,60 @@ jobs:
         uses: ./.github/actions/setup-env
         with:
           google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-          mock-dark-theme-handler: ${{ secrets.MOCK_DARK_THEME_HANDLER }}
 
       - name: Build FOSS
-        run: ./gradlew assembleFossRelease
+        run: ./gradlew assembleFossRelease --info
+
+  device:
+    name: Device API ${{ matrix.api }}
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule' ||
+      (github.event_name == 'pull_request' && github.base_ref == 'main') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/testing')
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 34
+            task: pixelApi34FossDebugAndroidTest
+          - api: 35
+            task: pixelApi35FossDebugAndroidTest
+          - api: 36
+            task: pixelApi36FossDebugAndroidTest
+          - api: 37
+            task: pixelApi37FossDebugAndroidTest
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+        with:
+          # One matrix leg writes; the other APIs restore the shared cache without duplicating it.
+          gradle-cache-read-only: ${{ matrix.api != 37 || (github.ref != 'refs/heads/main' && github.ref != 'refs/heads/testing') }}
+
+      - name: Enable KVM
+        run: sudo chmod 666 /dev/kvm
+
+      - name: Run API ${{ matrix.api }} Compose tests
+        run: >-
+          ./gradlew
+          ${{ matrix.task }}
+          -Pandroid.testoptions.manageddevices.emulator.gpu=swiftshader_indirect
+          --info
+
+      - name: Upload API ${{ matrix.api }} reports and logcat
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: foss-device-api-${{ matrix.api }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            app/build/reports/androidTests/managedDevice/
+            app/build/outputs/androidTest-results/managedDevice/
+            app/build/outputs/managed_device_android_test_additional_output/

@@ -39,7 +39,7 @@ import java.io.File
 import java.nio.file.Files
 
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35])
+@Config(sdk = [36, 37])
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserPreferencesRepositoryTest {
 	private lateinit var directory: File
