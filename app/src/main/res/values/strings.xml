@@ -16,6 +16,8 @@
 	<string name="action_use_adaptive_theme">Use %1$s</string>
 	<string name="action_advanced_settings">Advanced Settings</string>
 	<string name="action_collapse">Collapse</string>
+	<string name="state_collapsed">Collapsed</string>
+	<string name="state_expanded">Expanded</string>
 
 	<string name="description_service_purpose">
 		Switches between light and dark mode based on ambient light, optimizing eye comfort and battery life.
@@ -108,7 +110,6 @@
 	<string name="shizuku_request_permission">Requesting permission…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
-
 	<string name="title_wallpaper_sync">Wallpaper Sync</string>
 	<string name="label_beta">Beta</string>
 	<string name="description_wallpaper_sync">Swap wallpaper when switching between light and dark mode.</string>

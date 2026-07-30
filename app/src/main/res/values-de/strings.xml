@@ -11,6 +11,8 @@
 	<string name="action_use_adaptive_theme">%1$s verwenden</string>
 	<string name="action_advanced_settings">Erweiterte Einstellungen</string>
 	<string name="action_collapse">Einklappen</string>
+	<string name="state_collapsed">Eingeklappt</string>
+	<string name="state_expanded">Ausgeklappt</string>
 	<string name="action_skip">Überspringen</string>
 
 	<string name="description_service_purpose">
@@ -104,7 +106,6 @@
 	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
-
 	<string name="title_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
 	<string name="label_beta">Beta</string>
 	<string name="description_wallpaper_sync">Hintergrundbild beim Wechsel zwischen hellem und dunklem Modus austauschen.</string>
