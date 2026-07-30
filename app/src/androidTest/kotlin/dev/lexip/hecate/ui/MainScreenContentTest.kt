@@ -122,7 +122,7 @@ class MainScreenContentTest {
 	}
 
 	@Test
-	fun advancedSettingsExpandAndCollapseDeterministicallyAndRequestReviewOnce() {
+	fun advancedSettingsExpandAndCollapseAndRequestReviewOnce() {
 		var reviewCalls = 0
 		val advancedSettingsText = context.getString(R.string.action_advanced_settings)
 		val collapseText = context.getString(R.string.action_collapse)
@@ -132,12 +132,13 @@ class MainScreenContentTest {
 			callbacks = callbacks(onReview = { reviewCalls++ })
 		)
 
-		clickAndFinishAdvancedSettingsAnimation(advancedSettingsText)
+		expandAdvancedSettings()
 		scrollToText(collapseText)
 		composeRule.onNodeWithText(collapseText)
 			.assertIsDisplayed()
+			.performClick()
+		composeRule.waitForIdle()
 
-		clickAndFinishAdvancedSettingsAnimation(collapseText)
 		scrollToText(advancedSettingsText)
 		composeRule.onNodeWithText(advancedSettingsText)
 			.assertIsDisplayed()
@@ -348,8 +349,8 @@ class MainScreenContentTest {
 
 	private fun expandAdvancedSettings() {
 		clickTextAfterScroll(context.getString(R.string.action_advanced_settings))
-		waitForText(context.getString(R.string.action_collapse))
 		composeRule.waitForIdle()
+		waitForText(context.getString(R.string.action_collapse))
 	}
 
 	private fun clickTextAfterScroll(text: String) {
@@ -366,18 +367,6 @@ class MainScreenContentTest {
 		composeRule.waitUntil(timeoutMillis = 5_000) {
 			composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
 		}
-	}
-
-	private fun clickAndFinishAdvancedSettingsAnimation(text: String) {
-		composeRule.mainClock.autoAdvance = false
-		try {
-			composeRule.onNodeWithText(text).performClick()
-			composeRule.mainClock.advanceTimeByFrame()
-			composeRule.mainClock.advanceTimeBy(1_000)
-		} finally {
-			composeRule.mainClock.autoAdvance = true
-		}
-		composeRule.waitForIdle()
 	}
 
 	private fun wallpaperButtonText(day: Boolean, isSet: Boolean): String {
