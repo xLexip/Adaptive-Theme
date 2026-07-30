@@ -124,29 +124,26 @@ class MainScreenContentTest {
 	@Test
 	fun advancedSettingsExpandAndCollapseDeterministicallyAndRequestReviewOnce() {
 		var reviewCalls = 0
+		val advancedSettingsText = context.getString(R.string.action_advanced_settings)
+		val collapseText = context.getString(R.string.action_collapse)
 		setMainContent(
 			uiState = MainUiState(adaptiveThemeEnabled = true),
 			hasPermission = true,
 			callbacks = callbacks(onReview = { reviewCalls++ })
 		)
 
-		composeRule.mainClock.autoAdvance = false
-		try {
-			composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
-				.performClick()
-			composeRule.mainClock.advanceTimeBy(1_000)
-		} finally {
-			composeRule.mainClock.autoAdvance = true
-		}
-
-		scrollToText(context.getString(R.string.action_collapse))
-		composeRule.onNodeWithText(context.getString(R.string.action_collapse))
+		clickAndFinishAdvancedSettingsAnimation(advancedSettingsText)
+		scrollToText(collapseText)
+		composeRule.onNodeWithText(collapseText)
 			.assertIsDisplayed()
-			.performClick()
 
-		scrollToText(context.getString(R.string.action_advanced_settings))
-		composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
+		clickAndFinishAdvancedSettingsAnimation(collapseText)
+		scrollToText(advancedSettingsText)
+		composeRule.onNodeWithText(advancedSettingsText)
 			.assertIsDisplayed()
+		composeRule.onAllNodesWithText(collapseText)
+			.assertCountEquals(0)
+
 		assertEquals(1, reviewCalls)
 	}
 
@@ -369,6 +366,18 @@ class MainScreenContentTest {
 		composeRule.waitUntil(timeoutMillis = 5_000) {
 			composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
 		}
+	}
+
+	private fun clickAndFinishAdvancedSettingsAnimation(text: String) {
+		composeRule.mainClock.autoAdvance = false
+		try {
+			composeRule.onNodeWithText(text).performClick()
+			composeRule.mainClock.advanceTimeByFrame()
+			composeRule.mainClock.advanceTimeBy(1_000)
+		} finally {
+			composeRule.mainClock.autoAdvance = true
+		}
+		composeRule.waitForIdle()
 	}
 
 	private fun wallpaperButtonText(day: Boolean, isSet: Boolean): String {
