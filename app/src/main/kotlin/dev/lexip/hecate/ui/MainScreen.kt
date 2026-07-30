@@ -107,6 +107,24 @@ import java.util.Calendar
 private val ScreenHorizontalMargin = 20.dp
 private val horizontalOffsetPadding = 8.dp
 
+data class MainScreenCallbacks(
+	val onServiceToggleRequested: (checked: Boolean, hasPermission: Boolean) -> Boolean,
+	val onThresholdSelected: (index: Int, lux: Float) -> Unit,
+	val onCheckReviewPrompt: () -> Unit,
+	val onStayDarkAtNightChanged: (Boolean) -> Unit,
+	val onWallpaperSyncToggleRequested: (Boolean) -> Unit,
+	val onSelectDayWallpaper: () -> Unit,
+	val onSelectNightWallpaper: () -> Unit,
+	val onConfirmLiveWallpaper: () -> Unit,
+	val onDismissLiveWallpaperWarning: () -> Unit,
+	val onCustomThresholdConfirmed: (Float) -> Unit,
+	val onNightWindowChanged: (
+		startMinutes: Int,
+		endMinutes: Int,
+		onRejected: (() -> Unit)?
+	) -> Unit
+)
+
 private fun formatMinutesAsLocalTime(context: android.content.Context, totalMinutes: Int): String {
 	val formatter = DateFormat.getTimeFormat(context)
 	val calendar = Calendar.getInstance().apply {
@@ -125,14 +143,14 @@ fun MainScreen(
 	mainViewModel: MainViewModel
 ) {
 	val context = LocalContext.current
-	val haptic = LocalHapticFeedback.current
-	val packageName = context.packageName
-	val contentScrollState = rememberScrollState()
-	var isLargeTitleVisible by remember { mutableStateOf(true) }
-
 	val internalUiState by mainViewModel.uiState.collectAsState()
-
-	val isSystemDark = isSystemInDarkTheme()
+	val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(
+		initial = mainViewModel.currentSensorLux
+	)
+	val hasWriteSecureSettingsPermission = ContextCompat.checkSelfPermission(
+		context,
+		Manifest.permission.WRITE_SECURE_SETTINGS
+	) == PackageManager.PERMISSION_GRANTED
 
 	LaunchedEffect(Unit) {
 		val installed = ShizukuAvailability.isShizukuInstalled(context)
@@ -154,63 +172,6 @@ fun MainScreen(
 			mainViewModel.onNightWallpaperPicked(uri)
 		}
 	}
-
-	val showCustomDialog = remember { mutableStateOf(false) }
-	val showNightStartPicker = remember { mutableStateOf(false) }
-	val showNightEndPicker = remember { mutableStateOf(false) }
-	var isAdvancedSettingsExpanded by remember {
-		mutableStateOf((uiState.stayDarkAtNightEnabled || uiState.wallpaperSyncEnabled) && uiState.adaptiveThemeEnabled)
-	}
-	var autoScrollAdvancedSettingsTransition by remember { mutableStateOf(false) }
-	val advancedSettingsTransition = updateTransition(
-		targetState = isAdvancedSettingsExpanded,
-		label = "Advanced settings visibility"
-	)
-	val setupShakeKey = remember { mutableIntStateOf(0) }
-	val textShakeKey = remember { mutableIntStateOf(0) }
-	val wallpaperButtonsShakeKey = remember { mutableIntStateOf(0) }
-
-	// Shake animation for wallpaper buttons when attempting to enable without set wallpapers
-	val wallpaperButtonsOffsetAnim = remember { Animatable(0f) }
-	LaunchedEffect(wallpaperButtonsShakeKey.intValue) {
-		if (wallpaperButtonsShakeKey.intValue > 0) {
-			val offsets = listOf(-4f, 4f, -3f, 3f, -1.5f, 1.5f, 0f)
-			for (o in offsets) {
-				wallpaperButtonsOffsetAnim.animateTo(o, animationSpec = tween(durationMillis = 60))
-			}
-		}
-	}
-
-	// Text shake animation for the conditions text (shown when the threshold changes)
-	val textOffsetAnim = remember { Animatable(0f) }
-	LaunchedEffect(textShakeKey.intValue) {
-		if (textShakeKey.intValue > 0) {
-			val offsets = listOf(-3f, 3f, -2f, 2f, -1f, 1f, -0.5f, 0.5f, 0f)
-			for (o in offsets) {
-				textOffsetAnim.animateTo(o, animationSpec = tween(durationMillis = 80))
-			}
-		}
-	}
-
-	LaunchedEffect(autoScrollAdvancedSettingsTransition) {
-		if (autoScrollAdvancedSettingsTransition) {
-			withFrameNanos { }
-			snapshotFlow {
-				Triple(
-					advancedSettingsTransition.isRunning,
-					advancedSettingsTransition.currentState == advancedSettingsTransition.targetState,
-					contentScrollState.maxValue
-				)
-			}.collect { (isRunning, isSettled, maxScrollValue) ->
-				contentScrollState.scrollTo(maxScrollValue)
-				if (!isRunning && isSettled) {
-					contentScrollState.scrollTo(contentScrollState.maxValue)
-					autoScrollAdvancedSettingsTransition = false
-				}
-			}
-		}
-	}
-
 	LaunchedEffect(mainViewModel) {
 		mainViewModel.uiEvents.collect { event ->
 			when (event) {
@@ -229,6 +190,118 @@ fun MainScreen(
 					if (activity != null) {
 						InAppReviewHandler.triggerReview(activity)
 					}
+				}
+			}
+		}
+	}
+
+	MainScreenContent(
+		uiState = uiState,
+		currentSensorLux = currentLux,
+		isDeviceCovered = internalUiState.isDeviceCovered,
+		isBatterySaverActive = internalUiState.isBatterySaverActive,
+		hasWriteSecureSettingsPermission = hasWriteSecureSettingsPermission,
+		packageName = context.packageName,
+		callbacks = MainScreenCallbacks(
+			onServiceToggleRequested = mainViewModel::onServiceToggleRequested,
+			onThresholdSelected = { index, lux ->
+				mainViewModel.setPendingCustomSliderLux(lux)
+				mainViewModel.onSliderValueCommitted(index)
+			},
+			onCheckReviewPrompt = mainViewModel::checkReviewPrompt,
+			onStayDarkAtNightChanged = { enabled ->
+				mainViewModel.updateStayDarkAtNightEnabled(enabled)
+			},
+			onWallpaperSyncToggleRequested = mainViewModel::onWallpaperSyncToggleRequested,
+			onSelectDayWallpaper = {
+				dayWallpaperPicker.launch(
+					PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+				)
+			},
+			onSelectNightWallpaper = {
+				nightWallpaperPicker.launch(
+					PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+				)
+			},
+			onConfirmLiveWallpaper = mainViewModel::confirmEnableWithLiveWallpaper,
+			onDismissLiveWallpaperWarning = mainViewModel::dismissLiveWallpaperWarningDialog,
+			onCustomThresholdConfirmed = mainViewModel::setCustomAdaptiveThemeThreshold,
+			onNightWindowChanged = mainViewModel::updateNightWindow
+		)
+	)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreenContent(
+	uiState: MainUiState,
+	currentSensorLux: Float,
+	isDeviceCovered: Boolean,
+	isBatterySaverActive: Boolean,
+	hasWriteSecureSettingsPermission: Boolean,
+	packageName: String,
+	callbacks: MainScreenCallbacks
+) {
+	val context = LocalContext.current
+	val haptic = LocalHapticFeedback.current
+	val contentScrollState = rememberScrollState()
+	var isLargeTitleVisible by remember { mutableStateOf(true) }
+	val isSystemDark = isSystemInDarkTheme()
+	val showCustomDialog = remember { mutableStateOf(false) }
+	val showNightStartPicker = remember { mutableStateOf(false) }
+	val showNightEndPicker = remember { mutableStateOf(false) }
+	var isAdvancedSettingsExpanded by remember {
+		mutableStateOf(
+			(uiState.stayDarkAtNightEnabled || uiState.wallpaperSyncEnabled) &&
+					uiState.adaptiveThemeEnabled
+		)
+	}
+	var autoScrollAdvancedSettingsTransition by remember { mutableStateOf(false) }
+	val advancedSettingsTransition = updateTransition(
+		targetState = isAdvancedSettingsExpanded,
+		label = "Advanced settings visibility"
+	)
+	val setupShakeKey = remember { mutableIntStateOf(0) }
+	val textShakeKey = remember { mutableIntStateOf(0) }
+	val wallpaperButtonsShakeKey = remember { mutableIntStateOf(0) }
+
+	val wallpaperButtonsOffsetAnim = remember { Animatable(0f) }
+	LaunchedEffect(wallpaperButtonsShakeKey.intValue) {
+		if (wallpaperButtonsShakeKey.intValue > 0) {
+			val offsets = listOf(-4f, 4f, -3f, 3f, -1.5f, 1.5f, 0f)
+			for (offset in offsets) {
+				wallpaperButtonsOffsetAnim.animateTo(
+					offset,
+					animationSpec = tween(durationMillis = 60)
+				)
+			}
+		}
+	}
+
+	val textOffsetAnim = remember { Animatable(0f) }
+	LaunchedEffect(textShakeKey.intValue) {
+		if (textShakeKey.intValue > 0) {
+			val offsets = listOf(-3f, 3f, -2f, 2f, -1f, 1f, -0.5f, 0.5f, 0f)
+			for (offset in offsets) {
+				textOffsetAnim.animateTo(offset, animationSpec = tween(durationMillis = 80))
+			}
+		}
+	}
+
+	LaunchedEffect(autoScrollAdvancedSettingsTransition) {
+		if (autoScrollAdvancedSettingsTransition) {
+			withFrameNanos { }
+			snapshotFlow {
+				Triple(
+					advancedSettingsTransition.isRunning,
+					advancedSettingsTransition.currentState == advancedSettingsTransition.targetState,
+					contentScrollState.maxValue
+				)
+			}.collect { (isRunning, isSettled, maxScrollValue) ->
+				contentScrollState.scrollTo(maxScrollValue)
+				if (!isRunning && isSettled) {
+					contentScrollState.scrollTo(contentScrollState.maxValue)
+					autoScrollAdvancedSettingsTransition = false
 				}
 			}
 		}
@@ -276,11 +349,6 @@ fun MainScreen(
 			)
 		}
 	) { innerPadding ->
-		val hasWriteSecureSettingsPermission = ContextCompat.checkSelfPermission(
-			context,
-			Manifest.permission.WRITE_SECURE_SETTINGS
-		) == PackageManager.PERMISSION_GRANTED
-
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
@@ -291,7 +359,7 @@ fun MainScreen(
 
 		) {
 			val showBatterySaverWarning =
-				internalUiState.isBatterySaverActive && uiState.adaptiveThemeEnabled
+				isBatterySaverActive && uiState.adaptiveThemeEnabled
 
 			Text(
 				modifier = Modifier
@@ -351,7 +419,7 @@ fun MainScreen(
 
 			// Device-covered warning when the proximity sensor reports covered
 			AnimatedVisibility(
-				visible = internalUiState.isDeviceCovered && uiState.adaptiveThemeEnabled && !showBatterySaverWarning,
+				visible = isDeviceCovered && uiState.adaptiveThemeEnabled && !showBatterySaverWarning,
 				enter = fadeIn() + slideInHorizontally(initialOffsetX = { it }),
 				exit = fadeOut() + slideOutHorizontally(targetOffsetX = { it })
 			) {
@@ -388,9 +456,9 @@ fun MainScreen(
 						stringResource(id = R.string.app_name)
 					),
 					onLaunchSetup = {
-						mainViewModel.onServiceToggleRequested(
-							checked = true,
-							hasPermission = false
+						callbacks.onServiceToggleRequested(
+							true,
+							false
 						)
 					},
 					shakeKey = setupShakeKey.intValue,
@@ -409,7 +477,7 @@ fun MainScreen(
 						setupShakeKey.intValue += 1
 						haptic.performHapticFeedback(HapticFeedbackType.Reject)
 					} else {
-						mainViewModel.onServiceToggleRequested(
+						callbacks.onServiceToggleRequested(
 							checked,
 							hasWriteSecureSettingsPermission
 						).also { wasToggled ->
@@ -431,13 +499,23 @@ fun MainScreen(
 			)
 
 			val customLabel = stringResource(id = R.string.adaptive_threshold_custom)
-			val labels = mainViewModel.getDisplayLabels(
-				AdaptiveThreshold.entries.map { stringResource(id = it.labelRes) },
-				customLabel
-			)
+			val currentThresholdIndex =
+				AdaptiveThreshold.fromLux(uiState.adaptiveThemeThresholdLux).ordinal
+			val labels = AdaptiveThreshold.entries.mapIndexed { index, threshold ->
+				if (uiState.customAdaptiveThemeThresholdLux != null &&
+					index == currentThresholdIndex
+				) {
+					customLabel
+				} else {
+					stringResource(id = threshold.labelRes)
+				}
+			}
 			val baseLux = AdaptiveThreshold.entries.map { it.lux }
-			val lux = mainViewModel.getDisplayLuxSteps(baseLux)
-			val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(initial = mainViewModel.currentSensorLux)
+			val lux = uiState.customAdaptiveThemeThresholdLux?.let { customLux ->
+				baseLux.mapIndexed { index, value ->
+					if (index == currentThresholdIndex) customLux else value
+				}
+			} ?: baseLux
 
 			Column(
 				verticalArrangement = Arrangement.spacedBy(2.dp)
@@ -447,16 +525,15 @@ fun MainScreen(
 				) {
 					SliderDetailCard(
 						title = stringResource(id = R.string.title_brightness_threshold),
-						valueIndex = mainViewModel.getIndexForCurrentLux(),
+						valueIndex = currentThresholdIndex,
 						steps = labels.size,
 						labels = labels,
 						lux = lux,
 						onValueChange = { index ->
-							mainViewModel.setPendingCustomSliderLux(lux[index])
-							mainViewModel.onSliderValueCommitted(index)
+							callbacks.onThresholdSelected(index, lux[index])
 
 							// Shake the description text when the user could expect an immediate theme switch
-							if ((currentLux > lux[index]) == isSystemDark) {
+							if ((currentSensorLux > lux[index]) == isSystemDark) {
 								textShakeKey.intValue += 1
 							}
 						},
@@ -467,7 +544,7 @@ fun MainScreen(
 
 					ProgressDetailCard(
 						title = stringResource(id = R.string.title_current_brightness),
-						currentLux = currentLux,
+						currentLux = currentSensorLux,
 						luxSteps = lux,
 						enabled = uiState.adaptiveThemeEnabled,
 						firstCard = false,
@@ -491,18 +568,18 @@ fun MainScreen(
 						)
 					)
 				) {
-						Row(
-							modifier = Modifier
-								.fillMaxWidth()
-								.padding(top = 8.dp),
-							horizontalArrangement = Arrangement.Center
-						) {
+					Row(
+						modifier = Modifier
+							.fillMaxWidth()
+							.padding(top = 8.dp),
+						horizontalArrangement = Arrangement.Center
+					) {
 							AssistChip(
 								onClick = {
 									autoScrollAdvancedSettingsTransition = true
 									isAdvancedSettingsExpanded = true
 									haptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
-									mainViewModel.checkReviewPrompt()
+									callbacks.onCheckReviewPrompt()
 								},
 								enabled = uiState.adaptiveThemeEnabled,
 								shape = RoundedCornerShape(20.dp),
@@ -542,7 +619,7 @@ fun MainScreen(
 								lastCard = false,
 								toggleableValue = uiState.stayDarkAtNightEnabled,
 								onToggle = { enabled ->
-									mainViewModel.updateStayDarkAtNightEnabled(enabled)
+									callbacks.onStayDarkAtNightChanged(enabled)
 								}
 							) {
 								Row(
@@ -634,9 +711,9 @@ fun MainScreen(
 								onToggle = { enabled ->
 									if (enabled && !bothWallpapersSet) {
 										wallpaperButtonsShakeKey.intValue += 1
-										haptic.performHapticFeedback(HapticFeedbackType.Reject)
-									} else {
-										mainViewModel.onWallpaperSyncToggleRequested(enabled)
+									haptic.performHapticFeedback(HapticFeedbackType.Reject)
+								} else {
+									callbacks.onWallpaperSyncToggleRequested(enabled)
 									}
 								},
 								titleTrailingContent = {
@@ -676,7 +753,7 @@ fun MainScreen(
 												wallpaperButtonsShakeKey.intValue += 1
 												haptic.performHapticFeedback(HapticFeedbackType.Reject)
 											} else {
-												mainViewModel.onWallpaperSyncToggleRequested(checked)
+												callbacks.onWallpaperSyncToggleRequested(checked)
 											}
 										},
 										thumbContent = if (uiState.wallpaperSyncEnabled) {
@@ -716,11 +793,7 @@ fun MainScreen(
 									OutlinedButton(
 										modifier = Modifier.weight(1f),
 										enabled = uiState.adaptiveThemeEnabled,
-										onClick = {
-											dayWallpaperPicker.launch(
-												PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-											)
-										}
+										onClick = callbacks.onSelectDayWallpaper
 									) {
 										Text(
 											text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
@@ -731,11 +804,7 @@ fun MainScreen(
 									OutlinedButton(
 										modifier = Modifier.weight(1f),
 										enabled = uiState.adaptiveThemeEnabled,
-										onClick = {
-											nightWallpaperPicker.launch(
-												PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-											)
-										}
+										onClick = callbacks.onSelectNightWallpaper
 									) {
 										Text(
 											text = "${stringResource(id = R.string.action_select_night_wallpaper)}\n$nightStatus",
@@ -778,7 +847,7 @@ fun MainScreen(
 		show = showCustomDialog.value,
 		currentLux = uiState.customAdaptiveThemeThresholdLux ?: uiState.adaptiveThemeThresholdLux,
 		onConfirm = { luxValue: Float ->
-			mainViewModel.setCustomAdaptiveThemeThreshold(luxValue)
+			callbacks.onCustomThresholdConfirmed(luxValue)
 			showCustomDialog.value = false
 			if (luxValue.toInt() == 42) {
 				Toast.makeText(
@@ -796,10 +865,10 @@ fun MainScreen(
 		title = stringResource(id = R.string.title_night_start_time_picker),
 		initialMinutes = uiState.nightStartMinutes,
 		onConfirm = { selectedMinutes ->
-			mainViewModel.updateNightWindow(
-				startMinutes = selectedMinutes,
-				endMinutes = uiState.nightEndMinutes,
-				onRejected = {
+			callbacks.onNightWindowChanged(
+				selectedMinutes,
+				uiState.nightEndMinutes,
+				{
 					Toast.makeText(context, R.string.error_invalid_night_period, Toast.LENGTH_SHORT)
 						.show()
 				}
@@ -814,10 +883,10 @@ fun MainScreen(
 		title = stringResource(id = R.string.title_night_end_time_picker),
 		initialMinutes = uiState.nightEndMinutes,
 		onConfirm = { selectedMinutes ->
-			mainViewModel.updateNightWindow(
-				startMinutes = uiState.nightStartMinutes,
-				endMinutes = selectedMinutes,
-				onRejected = {
+			callbacks.onNightWindowChanged(
+				uiState.nightStartMinutes,
+				selectedMinutes,
+				{
 					Toast.makeText(context, R.string.error_invalid_night_period, Toast.LENGTH_SHORT)
 						.show()
 				}
@@ -829,19 +898,19 @@ fun MainScreen(
 
 	if (uiState.showLiveWallpaperWarningDialog) {
 		AlertDialog(
-			onDismissRequest = { mainViewModel.dismissLiveWallpaperWarningDialog() },
+			onDismissRequest = callbacks.onDismissLiveWallpaperWarning,
 			title = { Text(text = stringResource(id = R.string.live_wallpaper_warning_title)) },
 			text = { Text(text = stringResource(id = R.string.live_wallpaper_warning_message)) },
 			confirmButton = {
 				TextButton(
-					onClick = { mainViewModel.confirmEnableWithLiveWallpaper() }
+					onClick = callbacks.onConfirmLiveWallpaper
 				) {
 					Text(text = stringResource(id = R.string.action_continue))
 				}
 			},
 			dismissButton = {
 				TextButton(
-					onClick = { mainViewModel.dismissLiveWallpaperWarningDialog() }
+					onClick = callbacks.onDismissLiveWallpaperWarning
 				) {
 					Text(text = stringResource(id = R.string.action_cancel))
 				}

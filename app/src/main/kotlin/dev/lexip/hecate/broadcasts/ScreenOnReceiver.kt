@@ -15,75 +15,87 @@ package dev.lexip.hecate.broadcasts
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import dev.lexip.hecate.util.AdaptiveAppearanceController
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.LightSensorManager
-import dev.lexip.hecate.util.NightWindowPolicy
+import dev.lexip.hecate.util.MinuteProvider
 import dev.lexip.hecate.util.ProximitySensorManager
-
-private const val TAG = "ScreenOnReceiver"
+import dev.lexip.hecate.util.ProximitySensorReader
+import dev.lexip.hecate.util.SensorReader
+import dev.lexip.hecate.util.SystemMinuteProvider
+import dev.lexip.hecate.util.ThemeController
 
 /**
  * Adaptive theme switching logic. Executes when the screen is turned on.
  * The theme is switched based on the environment brightness and proximity sensor values.
  */
 class ScreenOnReceiver(
-	private val proximitySensorManager: ProximitySensorManager,
-	private val lightSensorManager: LightSensorManager,
-	private val adaptiveAppearanceHandler: AdaptiveAppearanceHandler,
-	var adaptiveThemeThresholdLux: Float,
-	var stayDarkAtNightEnabled: Boolean,
-	var nightStartMinutes: Int,
-	var nightEndMinutes: Int
+	proximitySensorManager: ProximitySensorReader,
+	lightSensorManager: SensorReader,
+	themeController: ThemeController,
+	adaptiveThemeThresholdLux: Float,
+	stayDarkAtNightEnabled: Boolean,
+	nightStartMinutes: Int,
+	nightEndMinutes: Int,
+	minuteProvider: MinuteProvider = SystemMinuteProvider
 ) : BroadcastReceiver() {
 
-	private fun shouldUseDarkTheme(lightValue: Float): Boolean {
-		if (stayDarkAtNightEnabled &&
-			NightWindowPolicy.isInNightWindow(
-				nowMinutes = NightWindowPolicy.currentMinutes(),
-				startMinutes = nightStartMinutes,
-				endMinutes = nightEndMinutes
-			)
-		) {
-			Log.d(TAG, "Night lock active, forcing dark theme.")
-			return true
+	constructor(
+		proximitySensorManager: ProximitySensorManager,
+		lightSensorManager: LightSensorManager,
+		adaptiveAppearanceHandler: AdaptiveAppearanceHandler,
+		adaptiveThemeThresholdLux: Float,
+		stayDarkAtNightEnabled: Boolean,
+		nightStartMinutes: Int,
+		nightEndMinutes: Int
+	) : this(
+		proximitySensorManager = proximitySensorManager,
+		lightSensorManager = lightSensorManager,
+		themeController = AdaptiveAppearanceController(adaptiveAppearanceHandler),
+		adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
+		stayDarkAtNightEnabled = stayDarkAtNightEnabled,
+		nightStartMinutes = nightStartMinutes,
+		nightEndMinutes = nightEndMinutes
+	)
+
+	private val coordinator = ScreenOnCoordinator(
+		proximitySensor = proximitySensorManager,
+		lightSensor = lightSensorManager,
+		themeController = themeController,
+		minuteProvider = minuteProvider,
+		adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
+		stayDarkAtNightEnabled = stayDarkAtNightEnabled,
+		nightStartMinutes = nightStartMinutes,
+		nightEndMinutes = nightEndMinutes
+	)
+
+	var adaptiveThemeThresholdLux: Float
+		get() = coordinator.adaptiveThemeThresholdLux
+		set(value) {
+			coordinator.adaptiveThemeThresholdLux = value
 		}
 
-		return lightValue < adaptiveThemeThresholdLux
-	}
+	var stayDarkAtNightEnabled: Boolean
+		get() = coordinator.stayDarkAtNightEnabled
+		set(value) {
+			coordinator.stayDarkAtNightEnabled = value
+		}
+
+	var nightStartMinutes: Int
+		get() = coordinator.nightStartMinutes
+		set(value) {
+			coordinator.nightStartMinutes = value
+		}
+
+	var nightEndMinutes: Int
+		get() = coordinator.nightEndMinutes
+		set(value) {
+			coordinator.nightEndMinutes = value
+		}
 
 	override fun onReceive(context: Context, intent: Intent) {
 		if (intent.action == Intent.ACTION_SCREEN_ON) {
-			Log.d(TAG, "Screen turned on, checking adaptive theme conditions...")
-
-			// If no proximity sensor is available, fall back to light-sensor-only behavior
-			if (!proximitySensorManager.hasProximitySensor) {
-				Log.d(
-					TAG,
-					"No proximity sensor available; using light sensor only for adaptive theme."
-				)
-				lightSensorManager.startListening({ lightValue: Float ->
-					lightSensorManager.stopListening()
-					adaptiveAppearanceHandler.applyAppearance(shouldUseDarkTheme(lightValue))
-				})
-				return
-			}
-
-			// Check if the device is covered using the proximity sensor
-			Log.d(TAG, "Starting proximity sensor check for adaptive theme.")
-			proximitySensorManager.startListening({ distance: Float ->
-				proximitySensorManager.stopListening()
-
-				// If the device is not covered, change the device theme based on the environment
-				if (distance >= 5f) {
-					lightSensorManager.startListening({ lightValue: Float ->
-						lightSensorManager.stopListening()
-						adaptiveAppearanceHandler.applyAppearance(shouldUseDarkTheme(lightValue))
-					})
-				} else {
-					Log.d(TAG, "Device is covered, skipping adaptive theme checks.")
-				}
-			})
+			coordinator.onScreenOn()
 		}
 	}
 }

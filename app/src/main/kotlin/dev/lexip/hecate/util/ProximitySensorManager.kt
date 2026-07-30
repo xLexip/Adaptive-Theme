@@ -21,19 +21,19 @@ import android.util.Log
 
 private const val TAG = "ProximitySensorManager"
 
-class ProximitySensorManager(context: Context) : SensorEventListener {
+class ProximitySensorManager(context: Context) : SensorEventListener, ProximitySensorReader {
 
 	private val sensorManager: SensorManager =
 		context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 	private val proximitySensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
 	private lateinit var callback: (Float) -> Unit
 
-	val hasProximitySensor: Boolean
+	override val hasProximitySensor: Boolean
 		get() = proximitySensor != null
 
-	fun startListening(
+	override fun startListening(
 		callback: (Float) -> Unit,
-		sensorDelay: Int = SensorManager.SENSOR_DELAY_FASTEST
+		sensorDelay: Int
 	) {
 		if (!hasProximitySensor) {
 			Log.w(
@@ -50,7 +50,7 @@ class ProximitySensorManager(context: Context) : SensorEventListener {
 		}
 	}
 
-	fun stopListening() {
+	override fun stopListening() {
 		sensorManager.unregisterListener(this)
 	}
 

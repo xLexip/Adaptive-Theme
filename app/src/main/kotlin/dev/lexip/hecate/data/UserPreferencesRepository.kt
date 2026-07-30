@@ -44,7 +44,30 @@ data class UserPreferences(
 	val nightWallpaperUri: String? = null
 )
 
-class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
+interface UserPreferencesDataSource {
+	val userPreferencesFlow: Flow<UserPreferences>
+
+	suspend fun fetchInitialPreferences(): UserPreferences
+	suspend fun ensureAdaptiveThemeThresholdDefault(default: Float = AdaptiveThreshold.DAYLIGHT.lux)
+	suspend fun ensureNightDefaults(
+		defaultStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
+		defaultEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES
+	)
+
+	suspend fun updateAdaptiveThemeEnabled(enabled: Boolean)
+	suspend fun updateAdaptiveThemeThresholdLux(lux: Float)
+	suspend fun updateCustomAdaptiveThemeThresholdLux(lux: Float)
+	suspend fun updateSetupCompleted(completed: Boolean)
+	suspend fun updateStayDarkAtNightEnabled(enabled: Boolean)
+	suspend fun updateNightWindow(startMinutes: Int, endMinutes: Int): Boolean
+	suspend fun updateWallpaperSyncEnabled(enabled: Boolean)
+	suspend fun updateDayWallpaperUri(uri: String?)
+	suspend fun updateNightWallpaperUri(uri: String?)
+}
+
+class UserPreferencesRepository(
+	private val dataStore: DataStore<Preferences>
+) : UserPreferencesDataSource {
 
 	private object PreferencesKeys {
 		val ADAPTIVE_THEME_ENABLED = booleanPreferencesKey("adaptive_theme_enabled")
@@ -60,7 +83,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val NIGHT_WALLPAPER_URI = stringPreferencesKey("night_wallpaper_uri")
 	}
 
-	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
+	override val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
 			// dataStore.data throws an IOException when an error is encountered when reading data
 			if (exception is IOException) {
@@ -73,11 +96,11 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			mapUserPreferences(preferences)
 		}
 
-	suspend fun fetchInitialPreferences() =
+	override suspend fun fetchInitialPreferences() =
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
 
-	suspend fun ensureAdaptiveThemeThresholdDefault(default: Float = AdaptiveThreshold.DAYLIGHT.lux) {
+	override suspend fun ensureAdaptiveThemeThresholdDefault(default: Float) {
 		dataStore.edit { preferences ->
 			if (preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] == null) {
 				preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = default
@@ -85,9 +108,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		}
 	}
 
-	suspend fun ensureNightDefaults(
-		defaultStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
-		defaultEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES
+	override suspend fun ensureNightDefaults(
+		defaultStartMinutes: Int,
+		defaultEndMinutes: Int
 	) {
 		dataStore.edit { preferences ->
 			if (preferences[PreferencesKeys.NIGHT_START_MINUTES] == null) {
@@ -130,20 +153,20 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		)
 	}
 
-	suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {
+	override suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.ADAPTIVE_THEME_ENABLED] = enabled
 		}
 	}
 
-	suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
+	override suspend fun updateAdaptiveThemeThresholdLux(lux: Float) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
 			preferences.remove(PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX)
 		}
 	}
 
-	suspend fun updateCustomAdaptiveThemeThresholdLux(lux: Float) {
+	override suspend fun updateCustomAdaptiveThemeThresholdLux(lux: Float) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.ADAPTIVE_THEME_THRESHOLD_LUX] = lux
 			preferences[PreferencesKeys.CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX] = lux
@@ -151,25 +174,25 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	}
 
 
-	suspend fun updateSetupCompleted(completed: Boolean) {
+	override suspend fun updateSetupCompleted(completed: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.SETUP_COMPLETED] = completed
 		}
 	}
 
-	suspend fun updateStayDarkAtNightEnabled(enabled: Boolean) {
+	override suspend fun updateStayDarkAtNightEnabled(enabled: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.STAY_DARK_AT_NIGHT_ENABLED] = enabled
 		}
 	}
 
-	suspend fun updateWallpaperSyncEnabled(enabled: Boolean) {
+	override suspend fun updateWallpaperSyncEnabled(enabled: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.WALLPAPER_SYNC_ENABLED] = enabled
 		}
 	}
 
-	suspend fun updateDayWallpaperUri(uri: String?) {
+	override suspend fun updateDayWallpaperUri(uri: String?) {
 		dataStore.edit { preferences ->
 			if (uri == null) {
 				preferences.remove(PreferencesKeys.DAY_WALLPAPER_URI)
@@ -179,7 +202,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		}
 	}
 
-	suspend fun updateNightWallpaperUri(uri: String?) {
+	override suspend fun updateNightWallpaperUri(uri: String?) {
 		dataStore.edit { preferences ->
 			if (uri == null) {
 				preferences.remove(PreferencesKeys.NIGHT_WALLPAPER_URI)
@@ -192,7 +215,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	/**
 	 * @return true when values are valid and persisted, false when rejected.
 	 */
-	suspend fun updateNightWindow(startMinutes: Int, endMinutes: Int): Boolean {
+	override suspend fun updateNightWindow(startMinutes: Int, endMinutes: Int): Boolean {
 		if (!isValidMinute(startMinutes) || !isValidMinute(endMinutes) || startMinutes == endMinutes) {
 			Log.w(
 				TAG,
