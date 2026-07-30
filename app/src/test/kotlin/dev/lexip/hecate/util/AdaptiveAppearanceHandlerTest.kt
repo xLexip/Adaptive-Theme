@@ -119,6 +119,62 @@ class AdaptiveAppearanceHandlerTest {
 		assertFalse(wallpaperApplied)
 	}
 
+	@Test
+	fun `applies day wallpaper for a light theme transition`() {
+		var appliedTheme: Boolean? = null
+		val lightHandler = AdaptiveAppearanceHandler(
+			setDarkTheme = { DarkThemeChangeResult(succeeded = true, changed = true) },
+			applyWallpaperForTheme = { isDark, _, _ ->
+				appliedTheme = isDark
+				true
+			}
+		)
+		lightHandler.configureWallpaperSync(
+			enabled = true,
+			dayWallpaperUri = "content://wallpaper/day",
+			nightWallpaperUri = "content://wallpaper/night"
+		)
+
+		lightHandler.applyAppearance(useDarkTheme = false)
+
+		assertEquals(false, appliedTheme)
+	}
+
+	@Test
+	fun `uses the latest wallpaper configuration`() {
+		var appliedUris: Pair<String?, String?>? = null
+		val handler = AdaptiveAppearanceHandler(
+			setDarkTheme = { DarkThemeChangeResult(succeeded = true, changed = true) },
+			applyWallpaperForTheme = { _, dayUri, nightUri ->
+				appliedUris = dayUri to nightUri
+				true
+			}
+		)
+		handler.configureWallpaperSync(true, "content://old/day", "content://old/night")
+		handler.configureWallpaperSync(true, "content://new/day", "content://new/night")
+
+		handler.applyAppearance(useDarkTheme = true)
+
+		assertEquals(
+			"content://new/day" to "content://new/night",
+			appliedUris
+		)
+	}
+
+	@Test
+	fun `wallpaper failure does not change successful theme result`() {
+		val handler = AdaptiveAppearanceHandler(
+			setDarkTheme = { DarkThemeChangeResult(succeeded = true, changed = true) },
+			applyWallpaperForTheme = { _, _, _ -> false }
+		)
+		handler.configureWallpaperSync(true, "content://day", "content://night")
+
+		val result = handler.applyAppearance(useDarkTheme = true)
+
+		assertTrue(result.succeeded)
+		assertTrue(result.changed)
+	}
+
 	private fun createHandler(
 		themeResult: DarkThemeChangeResult,
 		onWallpaperApplied: () -> Unit

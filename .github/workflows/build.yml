@@ -44,7 +44,7 @@ jobs:
         run: >-
           ./gradlew
           testFossDebugUnitTest
-          createFossDebugUnitTestCoverageReport
+          verifyFossDebugCoverage
           lint
           --info
 

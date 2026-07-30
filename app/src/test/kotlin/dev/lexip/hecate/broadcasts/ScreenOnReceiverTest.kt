@@ -27,6 +27,33 @@ import org.robolectric.annotation.Config
 class ScreenOnReceiverTest {
 
 	@Test
+	fun screenOnBroadcastReadsLightAndAppliesAppearance() {
+		val proximity = FakeProximitySensorReader(hasProximitySensor = false)
+		val light = FakeSensorReader()
+		var requestedTheme: Boolean? = null
+		val receiver = ScreenOnReceiver(
+			proximitySensorManager = proximity,
+			lightSensorManager = light,
+			themeController = { requestedTheme = it },
+			adaptiveThemeThresholdLux = 100f,
+			stayDarkAtNightEnabled = false,
+			nightStartMinutes = 21 * 60,
+			nightEndMinutes = 6 * 60,
+			minuteProvider = { 12 * 60 }
+		)
+
+		receiver.onReceive(
+			ApplicationProvider.getApplicationContext(),
+			Intent(Intent.ACTION_SCREEN_ON)
+		)
+		light.emit(25f)
+
+		assertEquals(1, light.startCalls)
+		assertEquals(1, light.stopCalls)
+		assertEquals(true, requestedTheme)
+	}
+
+	@Test
 	fun unrelatedBroadcastIsIgnored() {
 		val proximity = FakeProximitySensorReader()
 		val light = FakeSensorReader()

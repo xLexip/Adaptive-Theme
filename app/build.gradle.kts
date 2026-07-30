@@ -1,9 +1,63 @@
 plugins {
+	jacoco
 	alias(libs.plugins.google.services)
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.compose)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.google.firebase.crashlytics)
+}
+
+abstract class VerifyJacocoCoverageTask : DefaultTask() {
+	@get:org.gradle.api.tasks.InputFile
+	abstract val reportFile: org.gradle.api.file.RegularFileProperty
+
+	@get:org.gradle.api.tasks.Input
+	abstract val requiredClasses: org.gradle.api.provider.ListProperty<String>
+
+	@org.gradle.api.tasks.TaskAction
+	fun verifyCoverage() {
+		val report = reportFile.get().asFile
+		check(report.isFile) {
+			"JaCoCo XML report was not generated at ${report.absolutePath}"
+		}
+
+		val documentFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance().apply {
+			setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+			setFeature("http://xml.org/sax/features/validation", false)
+		}
+		val document = documentFactory.newDocumentBuilder().parse(report)
+		val classNodes = document.getElementsByTagName("class")
+
+		requiredClasses.get().forEach { className ->
+			var coveredInstructions: Int? = null
+			for (classIndex in 0 until classNodes.length) {
+				val classElement = classNodes.item(classIndex) as org.w3c.dom.Element
+				if (classElement.getAttribute("name") != className) continue
+
+				val counters = classElement.getElementsByTagName("counter")
+				for (counterIndex in 0 until counters.length) {
+					val counter = counters.item(counterIndex) as org.w3c.dom.Element
+					if (counter.getAttribute("type") == "INSTRUCTION") {
+						coveredInstructions = counter.getAttribute("covered").toInt()
+						break
+					}
+				}
+				break
+			}
+
+			check(coveredInstructions != null) {
+				"Required class $className is missing from the JaCoCo report."
+			}
+			check(coveredInstructions > 0) {
+				"Required class $className has zero covered instructions. " +
+						"Robolectric coverage instrumentation is not working."
+			}
+		}
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.13"
 }
 
 android {
@@ -133,6 +187,28 @@ android {
 			}
 		}
 	}
+}
+
+tasks.withType<Test>().configureEach {
+	extensions.configure<org.gradle.testing.jacoco.plugins.JacocoTaskExtension> {
+		isIncludeNoLocationClasses = true
+		excludes = listOf("jdk.internal.*")
+	}
+}
+
+tasks.register<VerifyJacocoCoverageTask>("verifyFossDebugCoverage") {
+	group = "verification"
+	description = "Verifies that Robolectric-backed FOSS tests are represented in JaCoCo XML."
+	dependsOn("createFossDebugUnitTestCoverageReport")
+	reportFile.set(layout.buildDirectory.file("reports/coverage/test/foss/debug/report.xml"))
+	requiredClasses.set(
+		listOf(
+			"dev/lexip/hecate/ui/MainViewModel",
+			"dev/lexip/hecate/data/UserPreferencesRepository",
+			"dev/lexip/hecate/util/WallpaperHandler",
+			"dev/lexip/hecate/services/MonitoringPreferencesCoordinator"
+		)
+	)
 }
 
 dependencies {

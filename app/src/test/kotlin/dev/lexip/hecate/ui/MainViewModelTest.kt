@@ -12,6 +12,7 @@
 
 package dev.lexip.hecate.ui
 
+import android.net.Uri
 import androidx.test.core.app.ApplicationProvider
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.FakeAdaptiveThemeServiceController
@@ -19,6 +20,7 @@ import dev.lexip.hecate.FakeInstallMetadataProvider
 import dev.lexip.hecate.FakeProximitySensorReader
 import dev.lexip.hecate.FakeSensorReader
 import dev.lexip.hecate.FakeUserPreferencesDataSource
+import dev.lexip.hecate.FakeWallpaperPlatform
 import dev.lexip.hecate.MainDispatcherRule
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferences
@@ -54,6 +56,7 @@ class MainViewModelTest {
 	private lateinit var proximitySensor: FakeProximitySensorReader
 	private lateinit var serviceController: FakeAdaptiveThemeServiceController
 	private lateinit var installMetadata: FakeInstallMetadataProvider
+	private lateinit var wallpaperPlatform: FakeWallpaperPlatform
 
 	@Before
 	fun setUp() {
@@ -63,6 +66,7 @@ class MainViewModelTest {
 		proximitySensor = FakeProximitySensorReader()
 		serviceController = FakeAdaptiveThemeServiceController()
 		installMetadata = FakeInstallMetadataProvider()
+		wallpaperPlatform = FakeWallpaperPlatform()
 	}
 
 	@Test
@@ -78,7 +82,10 @@ class MainViewModelTest {
 				hasSetupCompleted = true,
 				stayDarkAtNightEnabled = true,
 				nightStartMinutes = 20 * 60,
-				nightEndMinutes = 7 * 60
+				nightEndMinutes = 7 * 60,
+				wallpaperSyncEnabled = true,
+				dayWallpaperUri = "content://wallpaper/day",
+				nightWallpaperUri = "content://wallpaper/night"
 			)
 		)
 		advanceUntilIdle()
@@ -90,6 +97,9 @@ class MainViewModelTest {
 		assertTrue(viewModel.uiState.value.stayDarkAtNightEnabled)
 		assertEquals(20 * 60, viewModel.uiState.value.nightStartMinutes)
 		assertEquals(7 * 60, viewModel.uiState.value.nightEndMinutes)
+		assertTrue(viewModel.uiState.value.wallpaperSyncEnabled)
+		assertEquals("content://wallpaper/day", viewModel.uiState.value.dayWallpaperUri)
+		assertEquals("content://wallpaper/night", viewModel.uiState.value.nightWallpaperUri)
 	}
 
 	@Test
@@ -213,6 +223,86 @@ class MainViewModelTest {
 			viewModel.stopSensors()
 		}
 
+	@Test
+	fun wallpaperPicksPersistPermissionAndUris() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			val dayUri = Uri.parse("content://wallpaper/day")
+			val nightUri = Uri.parse("content://wallpaper/night")
+			advanceUntilIdle()
+
+			viewModel.onDayWallpaperPicked(dayUri)
+			viewModel.onNightWallpaperPicked(nightUri)
+			advanceUntilIdle()
+
+			assertEquals(listOf(dayUri, nightUri), wallpaperPlatform.persistedUris)
+			assertEquals(dayUri.toString(), preferences.current.dayWallpaperUri)
+			assertEquals(nightUri.toString(), preferences.current.nightWallpaperUri)
+		}
+
+	@Test
+	fun wallpaperPickIsStoredWhenPersistablePermissionFails() =
+		runTest(mainDispatcherRule.dispatcher) {
+			wallpaperPlatform.permissionFailure = SecurityException("not persistable")
+			val viewModel = createViewModel()
+			val uri = Uri.parse("content://wallpaper/day")
+			advanceUntilIdle()
+
+			viewModel.onDayWallpaperPicked(uri)
+			advanceUntilIdle()
+
+			assertTrue(wallpaperPlatform.persistedUris.isEmpty())
+			assertEquals(uri.toString(), preferences.current.dayWallpaperUri)
+		}
+
+	@Test
+	fun wallpaperSyncEnablesImmediatelyWithoutLiveWallpaperAndDisables() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.onWallpaperSyncToggleRequested(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.wallpaperSyncEnabled)
+			assertFalse(viewModel.uiState.value.showLiveWallpaperWarningDialog)
+
+			viewModel.onWallpaperSyncToggleRequested(false)
+			advanceUntilIdle()
+			assertFalse(preferences.current.wallpaperSyncEnabled)
+		}
+
+	@Test
+	fun liveWallpaperRequiresConfirmationBeforeEnablingSync() =
+		runTest(mainDispatcherRule.dispatcher) {
+			wallpaperPlatform.liveWallpaperActive = true
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.onWallpaperSyncToggleRequested(true)
+			assertTrue(viewModel.uiState.value.showLiveWallpaperWarningDialog)
+			assertFalse(preferences.current.wallpaperSyncEnabled)
+
+			viewModel.confirmEnableWithLiveWallpaper()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.showLiveWallpaperWarningDialog)
+			assertTrue(preferences.current.wallpaperSyncEnabled)
+		}
+
+	@Test
+	fun liveWallpaperWarningCanBeDismissedWithoutEnablingSync() =
+		runTest(mainDispatcherRule.dispatcher) {
+			wallpaperPlatform.liveWallpaperActive = true
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.onWallpaperSyncToggleRequested(true)
+			viewModel.dismissLiveWallpaperWarningDialog()
+			advanceUntilIdle()
+
+			assertFalse(viewModel.uiState.value.showLiveWallpaperWarningDialog)
+			assertFalse(preferences.current.wallpaperSyncEnabled)
+		}
+
 	private fun createViewModel(): MainViewModel = MainViewModel(
 		application = application,
 		userPreferencesRepository = preferences,
@@ -220,6 +310,7 @@ class MainViewModelTest {
 		proximitySensorManager = proximitySensor,
 		serviceController = serviceController,
 		installMetadataProvider = installMetadata,
+		wallpaperPlatform = wallpaperPlatform,
 		ioDispatcher = mainDispatcherRule.dispatcher,
 		mainDispatcher = mainDispatcherRule.dispatcher
 	)

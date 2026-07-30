@@ -13,10 +13,13 @@
 package dev.lexip.hecate.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.lexip.hecate.R
@@ -38,6 +41,7 @@ class MainScreenContentTest {
 
 	@Before
 	fun enableAccessibilityValidation() {
+		composeRule.mainClock.autoAdvance = true
 		composeRule.enableAccessibilityChecks()
 	}
 
@@ -117,6 +121,182 @@ class MainScreenContentTest {
 		assertEquals(true to true, toggleRequest)
 	}
 
+	@Test
+	fun advancedSettingsExpandAndCollapseDeterministicallyAndRequestReviewOnce() {
+		var reviewCalls = 0
+		composeRule.mainClock.autoAdvance = false
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			callbacks = callbacks(onReview = { reviewCalls++ })
+		)
+
+		clickTextAfterScroll(context.getString(R.string.action_advanced_settings))
+		composeRule.mainClock.advanceTimeBy(1_000)
+		scrollToText(context.getString(R.string.action_collapse))
+		composeRule.onNodeWithText(context.getString(R.string.action_collapse))
+			.assertIsDisplayed()
+			.performClick()
+		composeRule.mainClock.advanceTimeBy(1_000)
+
+		scrollToText(context.getString(R.string.action_advanced_settings))
+		composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
+			.assertIsDisplayed()
+		assertEquals(1, reviewCalls)
+	}
+
+	@Test
+	fun successfulServiceDisableCollapsesAdvancedSettings() {
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			callbacks = callbacks(onToggle = { _, _ -> true })
+		)
+		expandAdvancedSettings()
+
+		clickTextAfterScroll(adaptiveThemeAction())
+
+		scrollToText(context.getString(R.string.action_advanced_settings))
+		composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
+			.assertIsDisplayed()
+		composeRule.onAllNodesWithText(context.getString(R.string.action_collapse))
+			.assertCountEquals(0)
+	}
+
+	@Test
+	fun rejectedServiceDisableKeepsAdvancedSettingsExpanded() {
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			callbacks = callbacks(onToggle = { _, _ -> false })
+		)
+		expandAdvancedSettings()
+
+		clickTextAfterScroll(adaptiveThemeAction())
+
+		scrollToText(context.getString(R.string.action_collapse))
+		composeRule.onNodeWithText(context.getString(R.string.action_collapse))
+			.assertIsDisplayed()
+	}
+
+	@Test
+	fun enabledWallpaperSyncInitiallyExpandsAndShowsStatusAndPickerActions() {
+		var daySelectionCalls = 0
+		var nightSelectionCalls = 0
+		setMainContent(
+			uiState = MainUiState(
+				adaptiveThemeEnabled = true,
+				wallpaperSyncEnabled = true,
+				dayWallpaperUri = "content://wallpaper/day",
+				nightWallpaperUri = null
+			),
+			hasPermission = true,
+			callbacks = callbacks(
+				onSelectDay = { daySelectionCalls++ },
+				onSelectNight = { nightSelectionCalls++ }
+			)
+		)
+
+		scrollToText(context.getString(R.string.title_wallpaper_sync))
+		composeRule.onNodeWithText(context.getString(R.string.title_wallpaper_sync))
+			.assertIsDisplayed()
+		scrollToText(context.getString(R.string.label_beta))
+		composeRule.onNodeWithText(context.getString(R.string.label_beta))
+			.assertIsDisplayed()
+		clickTextAfterScroll(wallpaperButtonText(day = true, isSet = true))
+		clickTextAfterScroll(wallpaperButtonText(day = false, isSet = false))
+
+		assertEquals(1, daySelectionCalls)
+		assertEquals(1, nightSelectionCalls)
+	}
+
+	@Test
+	fun wallpaperSyncRejectsIncompleteSelection() {
+		val toggleRequests = mutableListOf<Boolean>()
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
+		)
+		expandAdvancedSettings()
+		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+
+		assertEquals(emptyList<Boolean>(), toggleRequests)
+	}
+
+	@Test
+	fun wallpaperSyncEnablesWhenBothImagesAreSelected() {
+		val toggleRequests = mutableListOf<Boolean>()
+		setMainContent(
+			uiState = MainUiState(
+				adaptiveThemeEnabled = true,
+				dayWallpaperUri = "content://wallpaper/day",
+				nightWallpaperUri = "content://wallpaper/night"
+			),
+			hasPermission = true,
+			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
+		)
+		expandAdvancedSettings()
+		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+
+		assertEquals(listOf(true), toggleRequests)
+	}
+
+	@Test
+	fun wallpaperSyncDispatchesDisable() {
+		val toggleRequests = mutableListOf<Boolean>()
+		setMainContent(
+			uiState = MainUiState(
+				adaptiveThemeEnabled = true,
+				wallpaperSyncEnabled = true,
+				dayWallpaperUri = "content://wallpaper/day",
+				nightWallpaperUri = "content://wallpaper/night"
+			),
+			hasPermission = true,
+			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
+		)
+		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+
+		assertEquals(listOf(false), toggleRequests)
+	}
+
+	@Test
+	fun liveWallpaperWarningDispatchesConfirm() {
+		var confirmCalls = 0
+		var dismissCalls = 0
+		setMainContent(
+			uiState = MainUiState(showLiveWallpaperWarningDialog = true),
+			hasPermission = true,
+			callbacks = callbacks(
+				onConfirmLiveWallpaper = { confirmCalls++ },
+				onDismissLiveWallpaper = { dismissCalls++ }
+			)
+		)
+
+		composeRule.onNodeWithText(context.getString(R.string.live_wallpaper_warning_title))
+			.assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.action_continue)).performClick()
+		assertEquals(1, confirmCalls)
+		assertEquals(0, dismissCalls)
+	}
+
+	@Test
+	fun liveWallpaperWarningDispatchesDismiss() {
+		var confirmCalls = 0
+		var dismissCalls = 0
+		setMainContent(
+			uiState = MainUiState(showLiveWallpaperWarningDialog = true),
+			hasPermission = true,
+			callbacks = callbacks(
+				onConfirmLiveWallpaper = { confirmCalls++ },
+				onDismissLiveWallpaper = { dismissCalls++ }
+			)
+		)
+		composeRule.onNodeWithText(context.getString(R.string.action_cancel)).performClick()
+		assertEquals(0, confirmCalls)
+		assertEquals(1, dismissCalls)
+	}
+
 	private fun setMainContent(
 		uiState: MainUiState,
 		hasPermission: Boolean,
@@ -138,12 +318,23 @@ class MainScreenContentTest {
 	}
 
 	private fun callbacks(
-		onToggle: (Boolean, Boolean) -> Boolean = { _, _ -> true }
+		onToggle: (Boolean, Boolean) -> Boolean = { _, _ -> true },
+		onReview: () -> Unit = {},
+		onWallpaperToggle: (Boolean) -> Unit = {},
+		onSelectDay: () -> Unit = {},
+		onSelectNight: () -> Unit = {},
+		onConfirmLiveWallpaper: () -> Unit = {},
+		onDismissLiveWallpaper: () -> Unit = {}
 	): MainScreenCallbacks = MainScreenCallbacks(
 		onServiceToggleRequested = onToggle,
 		onThresholdSelected = { _, _ -> },
-		onCheckReviewPrompt = {},
+		onCheckReviewPrompt = onReview,
 		onStayDarkAtNightChanged = {},
+		onWallpaperSyncToggleRequested = onWallpaperToggle,
+		onSelectDayWallpaper = onSelectDay,
+		onSelectNightWallpaper = onSelectNight,
+		onConfirmLiveWallpaper = onConfirmLiveWallpaper,
+		onDismissLiveWallpaperWarning = onDismissLiveWallpaper,
 		onCustomThresholdConfirmed = {},
 		onNightWindowChanged = { _, _, _ -> }
 	)
@@ -152,4 +343,38 @@ class MainScreenContentTest {
 		R.string.action_use_adaptive_theme,
 		context.getString(R.string.app_name)
 	)
+
+	private fun expandAdvancedSettings() {
+		clickTextAfterScroll(context.getString(R.string.action_advanced_settings))
+		waitForText(context.getString(R.string.action_collapse))
+		composeRule.waitForIdle()
+	}
+
+	private fun clickTextAfterScroll(text: String) {
+		scrollToText(text)
+		composeRule.onNodeWithText(text).performClick()
+	}
+
+	private fun scrollToText(text: String) {
+		waitForText(text)
+		composeRule.onNodeWithText(text).performScrollTo()
+	}
+
+	private fun waitForText(text: String) {
+		composeRule.waitUntil(timeoutMillis = 5_000) {
+			composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
+		}
+	}
+
+	private fun wallpaperButtonText(day: Boolean, isSet: Boolean): String {
+		val label = context.getString(
+			if (day) R.string.action_select_day_wallpaper
+			else R.string.action_select_night_wallpaper
+		)
+		val status = context.getString(
+			if (isSet) R.string.wallpaper_status_set
+			else R.string.wallpaper_status_not_set
+		)
+		return "$label\n$status"
+	}
 }

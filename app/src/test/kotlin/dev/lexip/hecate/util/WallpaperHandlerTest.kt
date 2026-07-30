@@ -1,0 +1,150 @@
+/*
+ * Copyright (C) 2026 xLexip <https://lexip.dev>
+ *
+ * Licensed under the GNU General Public License, Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ */
+
+package dev.lexip.hecate.util
+
+import android.app.WallpaperManager
+import android.content.Context
+import android.net.Uri
+import androidx.test.core.app.ApplicationProvider
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import java.io.ByteArrayInputStream
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [36, 37])
+class WallpaperHandlerTest {
+	private val context: Context = ApplicationProvider.getApplicationContext()
+
+	@Test
+	fun selectsDayAndNightUrisForTheirMatchingThemes() {
+		val openedUris = mutableListOf<String>()
+		val handler = handler(
+			openInputStream = { uri ->
+				openedUris += uri.toString()
+				ByteArrayInputStream(byteArrayOf(1))
+			}
+		)
+
+		assertTrue(
+			handler.applyWallpaperForTheme(
+				isDark = false,
+				dayUriStr = "content://wallpaper/day",
+				nightUriStr = "content://wallpaper/night"
+			)
+		)
+		assertTrue(
+			handler.applyWallpaperForTheme(
+				isDark = true,
+				dayUriStr = "content://wallpaper/day",
+				nightUriStr = "content://wallpaper/night"
+			)
+		)
+
+		assertEquals(
+			listOf("content://wallpaper/day", "content://wallpaper/night"),
+			openedUris
+		)
+	}
+
+	@Test
+	fun missingTargetUriSkipsPlatformIo() {
+		var openCalls = 0
+		val handler = handler(
+			openInputStream = {
+				openCalls++
+				ByteArrayInputStream(byteArrayOf(1))
+			}
+		)
+
+		assertFalse(handler.applyWallpaperForTheme(false, null, "content://wallpaper/night"))
+		assertFalse(handler.applyWallpaperForTheme(true, "content://wallpaper/day", ""))
+		assertEquals(0, openCalls)
+	}
+
+	@Test
+	fun nullStreamAndPlatformExceptionsReturnFailure() {
+		val nullStreamHandler = handler(openInputStream = { null })
+		val openFailureHandler = handler(
+			openInputStream = { throw SecurityException("denied") }
+		)
+		val setFailureHandler = handler(
+			setStream = { _, _ -> throw IllegalStateException("set failed") }
+		)
+
+		assertFalse(nullStreamHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
+		assertFalse(openFailureHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
+		assertFalse(setFailureHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
+	}
+
+	@Test
+	fun successfulApplicationUsesSystemAndLockFlagsAndClosesStream() {
+		val stream = CloseTrackingInputStream()
+		var appliedFlags = 0
+		val handler = handler(
+			openInputStream = { stream },
+			setStream = { _, flags -> appliedFlags = flags }
+		)
+
+		val succeeded = handler.applyWallpaperForTheme(
+			isDark = false,
+			dayUriStr = "content://wallpaper/day",
+			nightUriStr = "content://wallpaper/night"
+		)
+
+		assertTrue(succeeded)
+		assertEquals(
+			WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK,
+			appliedFlags
+		)
+		assertTrue(stream.closed)
+	}
+
+	@Test
+	fun delegatesLiveWallpaperAndPersistablePermissionChecks() {
+		val persisted = mutableListOf<Uri>()
+		val handler = handler(
+			liveWallpaperActive = { true },
+			persistReadPermission = { persisted += it }
+		)
+		val uri = Uri.parse("content://wallpaper/day")
+
+		assertTrue(handler.isLiveWallpaperActive())
+		handler.takePersistableReadPermission(uri)
+
+		assertEquals(listOf(uri), persisted)
+	}
+
+	private fun handler(
+		liveWallpaperActive: () -> Boolean = { false },
+		persistReadPermission: (Uri) -> Unit = {},
+		openInputStream: (Uri) -> ByteArrayInputStream? = {
+			ByteArrayInputStream(byteArrayOf(1))
+		},
+		setStream: (java.io.InputStream, Int) -> Unit = { _, _ -> }
+	) = WallpaperHandler(
+		context = context,
+		liveWallpaperActive = liveWallpaperActive,
+		persistReadPermission = persistReadPermission,
+		openInputStream = openInputStream,
+		setStream = setStream
+	)
+}
+
+private class CloseTrackingInputStream : ByteArrayInputStream(byteArrayOf(1)) {
+	var closed = false
+
+	override fun close() {
+		closed = true
+		super.close()
+	}
+}

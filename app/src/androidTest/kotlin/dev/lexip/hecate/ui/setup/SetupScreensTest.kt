@@ -12,19 +12,30 @@
 
 package dev.lexip.hecate.ui.setup
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.setup.screens.A_DeveloperModeScreen
 import dev.lexip.hecate.ui.setup.screens.B_ConnectUsbScreen
 import dev.lexip.hecate.ui.setup.screens.C_GrantPermissionScreen
+import dev.lexip.hecate.ui.setup.components.ForExpertsSectionCard
 import dev.lexip.hecate.ui.theme.HecateTheme
+import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -107,6 +118,75 @@ class SetupScreensTest {
 			.assertIsEnabled()
 			.performClick()
 		assertEquals(1, finishCalls)
+	}
+
+	@Test
+	fun expertSectionReportsExpansionStateAndOnlyCallsExpansionHookWhenOpening() {
+		var expansionCalls = 0
+		composeRule.setContent {
+			HecateTheme {
+				ForExpertsSectionCard(onExpansionStarted = { expansionCalls++ })
+			}
+		}
+		val section = composeRule.onNodeWithText(
+			context.getString(R.string.setup_alternative_methods)
+		)
+
+		section.assert(
+			SemanticsMatcher.expectValue(
+				SemanticsProperties.StateDescription,
+				context.getString(R.string.state_collapsed)
+			)
+		)
+		section.performClick()
+		composeRule.waitForIdle()
+		section.assert(
+			SemanticsMatcher.expectValue(
+				SemanticsProperties.StateDescription,
+				context.getString(R.string.state_expanded)
+			)
+		)
+		section.performClick()
+		composeRule.waitForIdle()
+
+		section.assert(
+			SemanticsMatcher.expectValue(
+				SemanticsProperties.StateDescription,
+				context.getString(R.string.state_collapsed)
+			)
+		)
+		assertEquals(1, expansionCalls)
+	}
+
+	@Test
+	fun expandingAlternativeMethodsAutoScrollsExpertActionsIntoView() {
+		composeRule.setContent {
+			HecateTheme {
+				Box(
+					modifier = Modifier
+						.width(360.dp)
+						.height(500.dp)
+				) {
+					B_ConnectUsbScreen(
+						uiState = SetupUiState(),
+						onGrantViaShizuku = {},
+						onNext = {},
+						onBack = {},
+						onShareExpertCommand = {},
+						onUseRoot = {},
+						onInstallShizuku = {}
+					)
+				}
+			}
+		}
+
+		composeRule.onNodeWithText(context.getString(R.string.setup_alternative_methods))
+			.performScrollTo()
+			.performClick()
+		composeRule.waitForIdle()
+
+		composeRule.onNodeWithText(context.getString(R.string.setup_action_adb_command))
+			.assertIsDisplayed()
 	}
 
 	private fun setDeveloperScreen(
