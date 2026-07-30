@@ -124,20 +124,25 @@ class MainScreenContentTest {
 	@Test
 	fun advancedSettingsExpandAndCollapseDeterministicallyAndRequestReviewOnce() {
 		var reviewCalls = 0
-		composeRule.mainClock.autoAdvance = false
 		setMainContent(
 			uiState = MainUiState(adaptiveThemeEnabled = true),
 			hasPermission = true,
 			callbacks = callbacks(onReview = { reviewCalls++ })
 		)
 
-		clickTextAfterScroll(context.getString(R.string.action_advanced_settings))
-		composeRule.mainClock.advanceTimeBy(1_000)
+		composeRule.mainClock.autoAdvance = false
+		try {
+			composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
+				.performClick()
+			composeRule.mainClock.advanceTimeBy(1_000)
+		} finally {
+			composeRule.mainClock.autoAdvance = true
+		}
+
 		scrollToText(context.getString(R.string.action_collapse))
 		composeRule.onNodeWithText(context.getString(R.string.action_collapse))
 			.assertIsDisplayed()
 			.performClick()
-		composeRule.mainClock.advanceTimeBy(1_000)
 
 		scrollToText(context.getString(R.string.action_advanced_settings))
 		composeRule.onNodeWithText(context.getString(R.string.action_advanced_settings))
