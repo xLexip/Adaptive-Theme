@@ -853,14 +853,14 @@ private fun WallpaperSelectionButtons(
 		horizontalArrangement = Arrangement.spacedBy(8.dp)
 	) {
 		WallpaperSelectionButton(
-			text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
-			enabled = enabled,
-			onClick = onSelectDayWallpaper
-		)
-		WallpaperSelectionButton(
 			text = "${stringResource(id = R.string.action_select_night_wallpaper)}\n$nightStatus",
 			enabled = enabled,
 			onClick = onSelectNightWallpaper
+		)
+		WallpaperSelectionButton(
+			text = "${stringResource(id = R.string.action_select_day_wallpaper)}\n$dayStatus",
+			enabled = enabled,
+			onClick = onSelectDayWallpaper
 		)
 	}
 }
