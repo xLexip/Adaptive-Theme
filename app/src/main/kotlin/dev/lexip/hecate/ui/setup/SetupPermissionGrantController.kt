@@ -103,7 +103,7 @@ class AndroidSetupPermissionGrantController : SetupPermissionGrantController {
 	}
 
 	private fun executeSingleRootCommand(command: String): RootCommandResult = try {
-		val process = Runtime.getRuntime().exec("su")
+		val process = ProcessBuilder("su").start()
 		DataOutputStream(process.outputStream).use { output ->
 			output.writeBytes("$command\n")
 			output.writeBytes("exit\n")

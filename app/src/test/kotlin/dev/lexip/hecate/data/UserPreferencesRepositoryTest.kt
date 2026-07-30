@@ -38,6 +38,8 @@ import org.robolectric.annotation.Config
 import java.io.File
 import java.nio.file.Files
 
+private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
+
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [36, 37])
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -64,7 +66,7 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
-	fun emptyStore_exposesApplicationDefaults() = runTest {
+	fun emptyStoreExposesApplicationDefaults() = runTest {
 		val preferences = repository.userPreferencesFlow.first()
 
 		assertFalse(preferences.adaptiveThemeEnabled)
@@ -78,7 +80,7 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
-	fun ensureDefaults_doesNotOverwriteExistingValues() = runTest {
+	fun ensureDefaultsDoesNotOverwriteExistingValues() = runTest {
 		repository.updateAdaptiveThemeThresholdLux(100f)
 		repository.updateNightWindow(20 * 60, 7 * 60)
 
@@ -92,7 +94,7 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
-	fun presetThreshold_clearsCustomThreshold() = runTest {
+	fun presetThresholdClearsCustomThreshold() = runTest {
 		repository.updateCustomAdaptiveThemeThresholdLux(42f)
 		repository.updateAdaptiveThemeThresholdLux(100f)
 
@@ -102,7 +104,7 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
-	fun invalidNightWindow_isRejectedWithoutChangingStoredValues() = runTest {
+	fun invalidNightWindowIsRejectedWithoutChangingStoredValues() = runTest {
 		val updated = repository.updateNightWindow(60, 60)
 
 		assertFalse(updated)
@@ -112,7 +114,7 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
-	fun updates_arePersistedTogether() = runTest {
+	fun updatesArePersistedTogether() = runTest {
 		repository.updateAdaptiveThemeEnabled(true)
 		repository.updateSetupCompleted(true)
 		repository.updateStayDarkAtNightEnabled(true)
@@ -130,18 +132,18 @@ class UserPreferencesRepositoryTest {
 	fun wallpaperSettingsArePersistedReplacedAndClearedIndependently() = runTest {
 		repository.updateWallpaperSyncEnabled(true)
 		repository.updateDayWallpaperUri("content://wallpaper/day-1")
-		repository.updateNightWallpaperUri("content://wallpaper/night")
+		repository.updateNightWallpaperUri(NIGHT_WALLPAPER_URI)
 		repository.updateDayWallpaperUri("content://wallpaper/day-2")
 
 		var preferences = repository.fetchInitialPreferences()
 		assertTrue(preferences.wallpaperSyncEnabled)
 		assertEquals("content://wallpaper/day-2", preferences.dayWallpaperUri)
-		assertEquals("content://wallpaper/night", preferences.nightWallpaperUri)
+		assertEquals(NIGHT_WALLPAPER_URI, preferences.nightWallpaperUri)
 
 		repository.updateDayWallpaperUri(null)
 		preferences = repository.fetchInitialPreferences()
 		assertNull(preferences.dayWallpaperUri)
-		assertEquals("content://wallpaper/night", preferences.nightWallpaperUri)
+		assertEquals(NIGHT_WALLPAPER_URI, preferences.nightWallpaperUri)
 
 		repository.updateNightWallpaperUri(null)
 		preferences = repository.fetchInitialPreferences()

@@ -20,6 +20,11 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.ByteArrayInputStream
 
+private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
+private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
+private const val SHORT_DAY_URI = "content://day"
+private const val SHORT_NIGHT_URI = "content://night"
+
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [36, 37])
 class WallpaperHandlerTest {
@@ -38,20 +43,20 @@ class WallpaperHandlerTest {
 		assertTrue(
 			handler.applyWallpaperForTheme(
 				isDark = false,
-				dayUriStr = "content://wallpaper/day",
-				nightUriStr = "content://wallpaper/night"
+				dayUriStr = DAY_WALLPAPER_URI,
+				nightUriStr = NIGHT_WALLPAPER_URI
 			)
 		)
 		assertTrue(
 			handler.applyWallpaperForTheme(
 				isDark = true,
-				dayUriStr = "content://wallpaper/day",
-				nightUriStr = "content://wallpaper/night"
+				dayUriStr = DAY_WALLPAPER_URI,
+				nightUriStr = NIGHT_WALLPAPER_URI
 			)
 		)
 
 		assertEquals(
-			listOf("content://wallpaper/day", "content://wallpaper/night"),
+			listOf(DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI),
 			openedUris
 		)
 	}
@@ -66,8 +71,8 @@ class WallpaperHandlerTest {
 			}
 		)
 
-		assertFalse(handler.applyWallpaperForTheme(false, null, "content://wallpaper/night"))
-		assertFalse(handler.applyWallpaperForTheme(true, "content://wallpaper/day", ""))
+		assertFalse(handler.applyWallpaperForTheme(false, null, NIGHT_WALLPAPER_URI))
+		assertFalse(handler.applyWallpaperForTheme(true, DAY_WALLPAPER_URI, ""))
 		assertEquals(0, openCalls)
 	}
 
@@ -81,9 +86,9 @@ class WallpaperHandlerTest {
 			setStream = { _, _ -> throw IllegalStateException("set failed") }
 		)
 
-		assertFalse(nullStreamHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
-		assertFalse(openFailureHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
-		assertFalse(setFailureHandler.applyWallpaperForTheme(false, "content://day", "content://night"))
+		assertFalse(nullStreamHandler.applyWallpaperForTheme(false, SHORT_DAY_URI, SHORT_NIGHT_URI))
+		assertFalse(openFailureHandler.applyWallpaperForTheme(false, SHORT_DAY_URI, SHORT_NIGHT_URI))
+		assertFalse(setFailureHandler.applyWallpaperForTheme(false, SHORT_DAY_URI, SHORT_NIGHT_URI))
 	}
 
 	@Test
@@ -97,8 +102,8 @@ class WallpaperHandlerTest {
 
 		val succeeded = handler.applyWallpaperForTheme(
 			isDark = false,
-			dayUriStr = "content://wallpaper/day",
-			nightUriStr = "content://wallpaper/night"
+			dayUriStr = DAY_WALLPAPER_URI,
+			nightUriStr = NIGHT_WALLPAPER_URI
 		)
 
 		assertTrue(succeeded)
@@ -116,7 +121,7 @@ class WallpaperHandlerTest {
 			liveWallpaperActive = { true },
 			persistReadPermission = { persisted += it }
 		)
-		val uri = Uri.parse("content://wallpaper/day")
+		val uri = Uri.parse(DAY_WALLPAPER_URI)
 
 		assertTrue(handler.isLiveWallpaperActive())
 		handler.takePersistableReadPermission(uri)

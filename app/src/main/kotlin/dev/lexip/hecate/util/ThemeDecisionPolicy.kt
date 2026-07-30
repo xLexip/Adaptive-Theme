@@ -16,9 +16,7 @@ fun interface MinuteProvider {
 	fun currentMinutes(): Int
 }
 
-object SystemMinuteProvider : MinuteProvider {
-	override fun currentMinutes(): Int = NightWindowPolicy.currentMinutes()
-}
+val SystemMinuteProvider = MinuteProvider(NightWindowPolicy::currentMinutes)
 
 object ThemeDecisionPolicy {
 	fun shouldUseDarkTheme(

@@ -304,7 +304,6 @@ class MainViewModel internal constructor(
 
 	override fun onCleared() {
 		stopSensors()
-		super.onCleared()
 	}
 
 	/**

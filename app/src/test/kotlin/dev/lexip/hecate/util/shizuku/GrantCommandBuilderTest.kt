@@ -17,7 +17,7 @@ import org.junit.Test
 
 class GrantCommandBuilderTest {
 	@Test
-	fun all_buildsCommandsInRequiredOrder() {
+	fun allBuildsCommandsInRequiredOrder() {
 		assertEquals(
 			listOf(
 				"pm grant dev.example android.permission.WRITE_SECURE_SETTINGS",
@@ -29,7 +29,7 @@ class GrantCommandBuilderTest {
 	}
 
 	@Test
-	fun adbCommand_prefixesShellInvocation() {
+	fun adbCommandPrefixesShellInvocation() {
 		assertEquals(
 			"adb shell pm grant dev.example android.permission.WRITE_SECURE_SETTINGS",
 			GrantCommandBuilder.adbGrantWriteSecureSettings("dev.example")

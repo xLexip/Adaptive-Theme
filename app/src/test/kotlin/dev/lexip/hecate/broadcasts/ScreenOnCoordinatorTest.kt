@@ -20,7 +20,7 @@ import org.junit.Test
 
 class ScreenOnCoordinatorTest {
 	@Test
-	fun noProximitySensor_readsLightAndAppliesThemeOnce() {
+	fun noProximitySensorReadsLightAndAppliesThemeOnce() {
 		val proximity = FakeProximitySensor(hasProximitySensor = false)
 		val light = FakeSensor()
 		var requestedTheme: Boolean? = null
@@ -35,7 +35,7 @@ class ScreenOnCoordinatorTest {
 	}
 
 	@Test
-	fun coveredDevice_stopsAfterProximityReading() {
+	fun coveredDeviceStopsAfterProximityReading() {
 		val proximity = FakeProximitySensor()
 		val light = FakeSensor()
 		var requestedTheme: Boolean? = null
@@ -50,7 +50,7 @@ class ScreenOnCoordinatorTest {
 	}
 
 	@Test
-	fun uncoveredDevice_readsLightAfterProximity() {
+	fun uncoveredDeviceReadsLightAfterProximity() {
 		val proximity = FakeProximitySensor()
 		val light = FakeSensor()
 		var requestedTheme: Boolean? = null

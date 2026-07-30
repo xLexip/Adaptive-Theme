@@ -17,20 +17,20 @@ import org.junit.Test
 
 class AdaptiveThresholdTest {
 	@Test
-	fun fromIndex_clampsOutsideRange() {
+	fun fromIndexClampsOutsideRange() {
 		assertEquals(AdaptiveThreshold.DARK, AdaptiveThreshold.fromIndex(-1))
 		assertEquals(AdaptiveThreshold.SUNLIGHT, AdaptiveThreshold.fromIndex(Int.MAX_VALUE))
 	}
 
 	@Test
-	fun fromLux_returnsExactAndNearestThresholds() {
+	fun fromLuxReturnsExactAndNearestThresholds() {
 		assertEquals(AdaptiveThreshold.BRIGHT, AdaptiveThreshold.fromLux(100f))
 		assertEquals(AdaptiveThreshold.SOFT, AdaptiveThreshold.fromLux(40f))
 		assertEquals(AdaptiveThreshold.BRIGHT, AdaptiveThreshold.fromLux(60f))
 	}
 
 	@Test
-	fun fromLux_usesFirstThresholdWhenDistanceIsEqual() {
+	fun fromLuxUsesFirstThresholdWhenDistanceIsEqual() {
 		assertEquals(AdaptiveThreshold.DARK, AdaptiveThreshold.fromLux(0.5f))
 	}
 }
