@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.SensorManager
+import android.net.Uri
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -25,14 +26,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.AdaptiveThreshold
+import dev.lexip.hecate.data.UserPreferencesDataSource
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.services.BroadcastReceiverService
-import android.net.Uri
-import dev.lexip.hecate.util.WallpaperHandler
-import dev.lexip.hecate.util.InstallSourceChecker
+import dev.lexip.hecate.services.AdaptiveThemeServiceController
+import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
+import dev.lexip.hecate.util.AndroidInstallMetadataProvider
+import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
+import dev.lexip.hecate.util.ProximitySensorReader
+import dev.lexip.hecate.util.SensorReader
+import dev.lexip.hecate.util.WallpaperHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -74,7 +79,15 @@ data class MainUiState(
 
 class MainViewModel(
 	private val application: Application,
-	private val userPreferencesRepository: UserPreferencesRepository,
+	private val userPreferencesRepository: UserPreferencesDataSource,
+	private val lightSensorManager: SensorReader =
+		LightSensorManager(application.applicationContext),
+	private val proximitySensorManager: ProximitySensorReader =
+		ProximitySensorManager(application.applicationContext),
+	private val serviceController: AdaptiveThemeServiceController =
+		AndroidAdaptiveThemeServiceController(application.applicationContext),
+	private val installMetadataProvider: InstallMetadataProvider =
+		AndroidInstallMetadataProvider(application.applicationContext),
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -98,7 +111,6 @@ class MainViewModel(
 	val uiEvents = _uiEvents.asSharedFlow()
 
 	// Light Sensor
-	private val lightSensorManager = LightSensorManager(application.applicationContext)
 	private var isListeningToSensor = false
 
 	private val _currentSensorLux = MutableStateFlow(0f)
@@ -110,7 +122,6 @@ class MainViewModel(
 	}
 
 	// Proximity Sensor
-	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
 	private var coveredJob: Job? = null
 	private var batterySaverReceiver: BroadcastReceiver? = null
@@ -241,7 +252,7 @@ class MainViewModel(
 
 	init {
 		viewModelScope.launch(ioDispatcher) {
-			val fromPlayStore = InstallSourceChecker.fromPlayStore(application)
+			val fromPlayStore = installMetadataProvider.isInstalledFromPlayStore()
 			_uiState.value = _uiState.value.copy(isInstalledFromPlayStore = fromPlayStore)
 		}
 
@@ -333,8 +344,7 @@ class MainViewModel(
 	}
 
 	private fun shouldPromptForReview(): Boolean {
-		val daysSinceFirstInstall =
-			InstallSourceChecker.getDaysSinceFirstInstall(application.applicationContext)
+		val daysSinceFirstInstall = installMetadataProvider.daysSinceFirstInstall()
 		return !reviewRequestedInSession && serviceEnabledAtStart == true && daysSinceFirstInstall >= 2
 	}
 
@@ -508,13 +518,11 @@ class MainViewModel(
 	}
 
 	private fun startBroadcastReceiverService() {
-		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
-		ContextCompat.startForegroundService(application.applicationContext, intent)
+		serviceController.start()
 	}
 
 	private fun stopBroadcastReceiverService() {
-		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
-		application.applicationContext.stopService(intent)
+		serviceController.stop()
 	}
 }
 

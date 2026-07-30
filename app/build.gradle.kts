@@ -51,6 +51,7 @@ android {
 		debug {
 			versionNameSuffix = "-debug"
 			isDebuggable = true
+			enableUnitTestCoverage = true
 			ndk {
 				debugSymbolLevel = "FULL"
 			}
@@ -80,6 +81,47 @@ android {
 	buildFeatures {
 		compose = true
 		buildConfig = true
+	}
+	testOptions {
+		animationsDisabled = true
+		unitTests {
+			isIncludeAndroidResources = true
+			all {
+				it.jvmArgs(
+					"--add-opens=java.base/java.lang=ALL-UNNAMED",
+					"--add-opens=java.base/java.util=ALL-UNNAMED",
+					"--add-opens=java.base/java.io=ALL-UNNAMED",
+					"--add-opens=java.base/java.net=ALL-UNNAMED",
+					"--add-opens=java.base/java.security=ALL-UNNAMED",
+					"--add-opens=java.base/java.text=ALL-UNNAMED",
+					"--add-opens=java.base/jdk.internal.access=ALL-UNNAMED",
+					"--add-opens=java.desktop/java.awt.font=ALL-UNNAMED",
+					"--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED"
+				)
+			}
+		}
+		managedDevices {
+			localDevices {
+				create("pixelApi34") {
+					device = "Pixel 2"
+					apiLevel = 34
+					systemImageSource = "aosp-atd"
+				}
+				create("pixelApi35") {
+					device = "Pixel 2"
+					apiLevel = 35
+					systemImageSource = "aosp-atd"
+				}
+			}
+		}
+	}
+
+	sourceSets {
+		getByName("main") {
+			resources {
+				srcDirs("src/main/resources", "src/main/kotlin/components")
+			}
+		}
 	}
 }
 
@@ -111,10 +153,14 @@ dependencies {
 	"playImplementation"(libs.review)
 	"playImplementation"(libs.review.ktx)
 	testImplementation(libs.junit)
+	testImplementation(libs.kotlinx.coroutines.test)
+	testImplementation(libs.robolectric)
+	testImplementation(libs.androidx.test.core.ktx)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)
 	androidTestImplementation(platform(libs.androidx.compose.bom))
 	androidTestImplementation(libs.androidx.ui.test.junit4)
+	androidTestImplementation(libs.androidx.ui.test.junit4.accessibility)
 	debugImplementation(libs.androidx.ui.tooling)
 	debugImplementation(libs.androidx.ui.test.manifest)
 }
