@@ -5,7 +5,7 @@
 [![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases)
 [![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)]()
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
-<img src="https://img.shields.io/badge/Downloads-16,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 16,000+">
+<img src="https://img.shields.io/badge/Downloads-17,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 17,000+">
 </a>
 
 Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** – optimizing readability, eye comfort, and battery life based on actual lighting conditions.
@@ -133,6 +133,13 @@ No. Due to a technical limitation, Adaptive Theme is currently limited to smartp
 
 **Does this require root?**
 No. It works on stock devices. Root is supported as an optional setup method.
+
+**How can I grant the required permission manually with ADB?**
+Connect your device with USB debugging enabled, then run:
+
+```shell
+adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS
+```
 
 **Does it work with custom skins (MIUI, OneUI, etc.)?**
 In most cases, yes. Any system that respects the native Android dark mode implementation is supported.
