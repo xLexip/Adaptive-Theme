@@ -64,7 +64,7 @@ class ScreenOnCoordinatorTest {
 		assertEquals(1, proximity.stopCount)
 		assertEquals(1, light.startCount)
 		assertEquals(1, light.stopCount)
-		assertEquals(false, requestedTheme)
+		assertEquals(true, requestedTheme)
 	}
 
 	private fun coordinator(

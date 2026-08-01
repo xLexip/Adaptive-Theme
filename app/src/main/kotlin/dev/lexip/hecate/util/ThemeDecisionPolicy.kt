@@ -38,6 +38,6 @@ object ThemeDecisionPolicy {
 			return true
 		}
 
-		return lightValue < thresholdLux
+		return lightValue <= thresholdLux
 	}
 }

@@ -23,8 +23,17 @@ class ThemeDecisionPolicyTest {
 	}
 
 	@Test
-	fun lightAtOrAboveThresholdUsesLightTheme() {
-		assertFalse(decide(light = 100f, threshold = 100f))
+	fun lightAtThresholdUsesDarkTheme() {
+		assertTrue(decide(light = 100f, threshold = 100f))
+	}
+
+	@Test
+	fun zeroLightAtZeroThresholdUsesDarkTheme() {
+		assertTrue(decide(light = 0f, threshold = 0f))
+	}
+
+	@Test
+	fun lightAboveThresholdUsesLightTheme() {
 		assertFalse(decide(light = 101f, threshold = 100f))
 	}
 
