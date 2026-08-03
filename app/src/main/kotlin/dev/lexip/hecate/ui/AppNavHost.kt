@@ -18,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -28,6 +29,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
 import dev.lexip.hecate.Application
+import dev.lexip.hecate.R
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.ui.navigation.DeepLinks
 import dev.lexip.hecate.ui.navigation.MainRoute
@@ -56,6 +58,7 @@ fun AppNavHost(
 ) {
 	val navController = rememberNavController()
 	val context = LocalContext.current
+	val shareSetupTitle = stringResource(R.string.title_share_setup)
 
 	// Handle navigation events from ViewModel via NavigationManager
 	LaunchedEffect(Unit) {
@@ -128,6 +131,7 @@ fun AppNavHost(
 		// Setup flow nested graph
 		setupNavGraph(
 			context = context,
+			shareSetupTitle = shareSetupTitle,
 			navigationManager = navigationManager,
 			navController = navController
 		)
@@ -140,6 +144,7 @@ fun AppNavHost(
  */
 private fun NavGraphBuilder.setupNavGraph(
 	context: android.content.Context,
+	shareSetupTitle: String,
 	navigationManager: NavigationManager,
 	navController: NavHostController
 ) {
@@ -238,7 +243,7 @@ private fun NavGraphBuilder.setupNavGraph(
 				onShareSetupUrl = {
 					context.shareText(
 						"https://lexip.dev/setup",
-						"Setup - Adaptive Theme"
+						shareSetupTitle
 					)
 				},
 				onShareExpertCommand = setupViewModel::shareAdbCommand,

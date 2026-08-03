@@ -26,7 +26,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import dev.lexip.hecate.R
 import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
@@ -55,6 +57,7 @@ fun MainScreen(
 	mainViewModel: MainViewModel
 ) {
 	val context = LocalContext.current
+	val adbCommandLabel = stringResource(R.string.setup_action_adb_command)
 	val internalUiState by mainViewModel.uiState.collectAsState()
 	val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(
 		initial = mainViewModel.currentSensorLux
@@ -84,12 +87,17 @@ fun MainScreen(
 		}
 	}
 
-	LaunchedEffect(mainViewModel) {
+	LaunchedEffect(mainViewModel, adbCommandLabel) {
 		mainViewModel.uiEvents.collect { event ->
 			when (event) {
 				is CopyToClipboard -> {
 					val clipboard = context.getSystemService(ClipboardManager::class.java)
-					clipboard?.setPrimaryClip(ClipData.newPlainText("ADB Command", event.text))
+					clipboard?.setPrimaryClip(
+						ClipData.newPlainText(
+							adbCommandLabel,
+							event.text
+						)
+					)
 				}
 
 				is NavigateToSetup -> Unit

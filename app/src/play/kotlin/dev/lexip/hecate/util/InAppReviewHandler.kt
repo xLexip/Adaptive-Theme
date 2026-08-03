@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.android.play.core.review.testing.FakeReviewManager
 import dev.lexip.hecate.BuildConfig
+import dev.lexip.hecate.R
 import dev.lexip.hecate.logging.Logger
 
 object InAppReviewHandler {
@@ -39,7 +40,11 @@ object InAppReviewHandler {
 				val flow = manager.launchReviewFlow(activity, reviewInfo)
 				flow.addOnCompleteListener { flowTask ->
 					if (BuildConfig.DEBUG) {
-						Toast.makeText(activity, "Fake Review Flow Completed", Toast.LENGTH_SHORT)
+						Toast.makeText(
+							activity,
+							R.string.debug_review_flow_completed,
+							Toast.LENGTH_SHORT
+						)
 							.show()
 					}
 					if (flowTask.isSuccessful) {

@@ -3,7 +3,7 @@
 	<string name="action_cancel">Abbrechen</string>
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
-	<string name="action_learn_more">Weitere Informationen</string>
+	<string name="action_learn_more">Mehr erfahren</string>
 	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
 	<string name="action_finish">Fertig</string>
 	<string name="action_set">Festlegen</string>
@@ -14,48 +14,51 @@
 	<string name="state_collapsed">Eingeklappt</string>
 	<string name="state_expanded">Ausgeklappt</string>
 	<string name="action_skip">Überspringen</string>
+	<string name="title_share_setup">Einrichtungslink teilen</string>
+	<string name="debug_review_flow_completed">Test-Bewertungsdialog abgeschlossen</string>
+	<string name="easter_egg_answer">Die Antwort auf die ultimative Frage nach dem Leben, dem Universum und dem ganzen Rest.</string>
 
 	<string name="description_service_purpose">
-        Wechselt je nach Helligkeit der Umgebung zwischen dem hellen und dunklen Modus und optimiert so Augenkomfort und Akkulaufzeit.
+        Wechselt Android je nach Umgebungslicht zwischen dem hellen und dunklen Modus.
     </string>
 
 	<string name="description_switching_conditions">
-		Änderungen erfolgen nur direkt nach Einschalten des Bildschirms, sofern der Sensor nicht bedeckt ist.
+		Der Wechsel erfolgt nur nach dem Einschalten des Bildschirms und nur, wenn der Sensor nicht verdeckt ist.
 	</string>
 
 	<string name="description_notification_service_running">
-       Passt das Systemdesign an die Umgebungshelligkeit an.
+       Bereit, das Systemdesign beim Einschalten des Bildschirms anzupassen.
     </string>
 
 	<string name="device_covered_title">Sensor verdeckt</string>
-	<string name="device_covered_message">Theme-Änderungen sind pausiert, da der Lichtsensor verdeckt ist.</string>
+	<string name="device_covered_message">Der Designwechsel wurde pausiert, weil der Lichtsensor verdeckt ist.</string>
 	<string name="battery_saver_title">Akkusparmodus aktiv</string>
-	<string name="battery_saver_message">Der Akkusparmodus des Systems kann das Umschalten des adaptiven Designs verhindern.</string>
+	<string name="battery_saver_message">Der Android-Akkusparmodus kann den automatischen Designwechsel verhindern.</string>
 
-	<string name="error_invalid_lux_value">Ungültiger Helligkeitswert.</string>
+	<string name="error_invalid_lux_value">Gib einen gültigen Lux-Wert ein.</string>
 	<string name="error_invalid_night_period">Start- und Endzeit dürfen nicht gleich sein.</string>
 	<string name="error_negative_lux_value">Wert darf nicht negativ sein.</string>
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
 
-	<string name="title_about_github">Über / GitHub</string>
-	<string name="title_brightness_threshold">Helligkeitsschwelle</string>
+	<string name="title_about_github">Über die App / GitHub</string>
+	<string name="title_brightness_threshold">Schwellenwert für Umgebungslicht</string>
 	<string name="title_change_language">Sprache ändern</string>
-	<string name="title_current_brightness">Aktuelle Helligkeit</string>
+	<string name="title_current_brightness">Aktuelles Umgebungslicht</string>
 	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
 	<string name="title_more">Mehr</string>
-	<string name="title_night_dark_lock">Nachts dunkel bleiben</string>
+	<string name="title_night_dark_lock">Dunklen Modus nachts beibehalten</string>
 	<string name="title_night_start_time_picker">Nachtbeginn</string>
 	<string name="title_night_end_time_picker">Nachtende</string>
-	<string name="title_notification_channel_service">Hintergrundaktivität</string>
+	<string name="title_notification_channel_service">Dienst für den Designwechsel</string>
 	<string name="title_send_feedback">Feedback senden</string>
 	<string name="title_support_project">Projekt unterstützen</string>
 
-	<string name="adaptive_threshold_bright">Hell</string>
+	<string name="adaptive_threshold_bright">Helles Licht</string>
 	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
-	<string name="adaptive_threshold_dark">Dunkel</string>
+	<string name="adaptive_threshold_dark">Dunkelheit</string>
 	<string name="adaptive_threshold_daylight">Tageslicht</string>
-	<string name="adaptive_threshold_dim">Schwach</string>
-	<string name="adaptive_threshold_soft">Leicht</string>
+	<string name="adaptive_threshold_dim">Dämmerlicht</string>
+	<string name="adaptive_threshold_soft">Sanftes Licht</string>
 	<string name="adaptive_threshold_direct_sunlight">Direktes Sonnenlicht</string>
 	<string name="description_night_dark_lock">Dunklen Modus während der festgelegten Nachtzeiten beibehalten.</string>
 	<string name="action_night_from_time">Von: %1$s</string>
@@ -65,36 +68,36 @@
 
 	<string name="setup_action_open_developer_settings">Entwickleroptionen öffnen</string>
 	<string name="setup_action_open_settings">Einstellungen öffnen</string>
-	<string name="setup_connect_title">Schritt 2: Mit einem anderen Gerät verbinden</string>
-	<string name="setup_connect_description">Um die Berechtigung zu erteilen, benötigst du ein <b>zweites Gerät</b> (am besten einen Computer). Verbinde beide Geräte per USB. Alternativ kannst du die unten verlinkte App "Shizuku" verwenden.</string>
-	<string name="setup_developer_mode_title">Schritt 1: Entwicklermodus aktivieren</string>
+	<string name="setup_connect_title">Schritt 2: Zweites Gerät verbinden</string>
+	<string name="setup_connect_description">Um die Berechtigung zu erteilen, benötigst du ein <b>zweites Gerät</b> (am besten einen Computer). Verbinde beide Geräte per USB. Alternativ kannst du die unten verlinkte Shizuku-App verwenden.</string>
+	<string name="setup_developer_mode_title">Schritt 1: Entwickleroptionen aktivieren</string>
 	<string name="setup_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="setup_developer_options_unlock">Entwickleroptionen freischalten</string>
 	<string name="setup_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="setup_dev_options_toast_one">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
 	<string name="setup_dev_options_toast_two">Nutze die Suchfunktion, wenn du sie nicht findest.</string>
 	<string name="setup_alternative_methods">Alternative Methoden</string>
-	<string name="setup_grant_title">Schritt 3: Berechtigung mit dem anderen Gerät erteilen</string>
-	<string name="setup_grant_body">Öffne den folgenden Link auf deinem anderen Gerät und folge den Anweisungen:</string>
-	<string name="setup_alternatives">Alternativ kannst du einen ADB-Command ausführen oder Root benutzen. Shizuku wird ebenfalls unterstützt.</string>
+	<string name="setup_grant_title">Schritt 3: Berechtigung vom zweiten Gerät erteilen</string>
+	<string name="setup_grant_body">Öffne diesen Link auf dem zweiten Gerät und folge den Anweisungen:</string>
+	<string name="setup_alternatives">Alternativ kannst du selbst einen ADB-Befehl ausführen oder die Berechtigung mit Root erteilen. Shizuku wird ebenfalls unterstützt.</string>
 	<string name="setup_permission_granted">Berechtigung erteilt.</string>
-	<string name="setup_permission_not_granted">Berechtigung noch nicht erteilt. Bitte schließe die Einrichtung mit dem anderen Gerät ab.</string>
+	<string name="setup_permission_not_granted">Berechtigung noch nicht erteilt. Schließe die Einrichtung mit dem zweiten Gerät ab.</string>
 	<string name="setup_usb_debugging_disabled">USB-Debugging aktivieren</string>
 	<string name="setup_usb_debugging_enabled">USB-Debugging aktiviert</string>
 	<string name="setup_usb_debugging_enable_toast">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
 	<string name="setup_usb_not_connected">Warte auf USB-Verbindung…</string>
 	<string name="setup_usb_connected">USB verbunden</string>
-	<string name="setup_why_other_device_title">Warum ist ein anderes Gerät nötig?</string>
-	<string name="setup_why_other_device">Android verhindert, dass Apps sich die benötigte Berechtigung selbst erteilen. Es wird ein weiteres Gerät mit einem Webbrowser oder ADBbenötigt.</string>
+	<string name="setup_why_other_device_title">Warum ist ein zweites Gerät nötig?</string>
+	<string name="setup_why_other_device">Android erlaubt Apps nicht, sich die benötigte Berechtigung selbst zu erteilen. Du brauchst ein zweites Gerät mit einem Webbrowser oder ADB.</string>
 	<string name="setup_is_this_safe_title">Ist das sicher?</string>
-	<string name="setup_is_this_safe_body">Ja. Es erlaubt der App nur, Einstellungen wie den Dark Mode zu ändern. Das ist absolut sicher und vollständig rückgängig zu machen. Außerdem ist der Quellcode öffentlich auf GitHub einsehbar.</string>
+	<string name="setup_is_this_safe_body">Diese Berechtigung erlaubt Apps, geschützte Systemeinstellungen zu ändern. Adaptive Theme nutzt sie nur für Funktionen wie den Wechsel des dunklen Modus. Beim Deinstallieren der App wird die Berechtigung entzogen. Der Quellcode ist auf GitHub öffentlich einsehbar.</string>
 	<string name="setup_shizuku_title">Alternative: Shizuku</string>
 	<string name="setup_shizuku_description">Wenn du Shizuku bereits verwendest, benötigst du weder ein zweites Gerät noch ADB. Du brauchst Shizuku nur einmalig, um die Berechtigung zu erteilen.</string>
 	<string name="setup_shizuku_action">Shizuku verwenden</string>
 	<string name="setup_action_use_root">Root verwenden</string>
-	<string name="setup_root_request">Root-Zugriff angefragt…</string>
-	<string name="setup_root_grant_failed">Root-Vergabe fehlgeschlagen.</string>
-	<string name="setup_root_question">Ist das Gerät gerooted?</string>
+	<string name="setup_root_request">Root-Zugriff wird angefordert…</string>
+	<string name="setup_root_grant_failed">Die Berechtigung konnte nicht über den Root-Zugriff erteilt werden.</string>
+	<string name="setup_root_question">Hat das Gerät Root-Zugriff?</string>
 
 	<string name="setup_required_title">Einrichtung erforderlich</string>
 	<string name="setup_required_message">%1$s benötigt eine einmalige Einrichtung, um zu funktionieren.</string>
@@ -102,17 +105,17 @@
 
 	<string name="title_live_measurement">Live-Wert</string>
 	<string name="shizuku_not_running">Starte Shizuku (neu) und versuche es erneut.</string>
-	<string name="shizuku_denied">Zugriff verweigert. Erlauben Sie diese App in Shizuku.</string>
+	<string name="shizuku_denied">Zugriff verweigert. Erlaube Adaptive Theme in Shizuku und versuche es erneut.</string>
 	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
-	<string name="shizuku_grant_shell_failed">Shizuku konnte den Command nicht ausführen.</string>
-	<string name="shizuku_grant_unexpected">Unerwarteter Fehler mit Shizuku.</string>
+	<string name="shizuku_grant_shell_failed">Shizuku konnte den Befehl nicht ausführen.</string>
+	<string name="shizuku_grant_unexpected">Unerwarteter Fehler bei der Verwendung von Shizuku.</string>
 	<string name="title_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
 	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Hintergrundbild beim Wechsel zwischen hellem und dunklem Modus austauschen.</string>
+	<string name="description_wallpaper_sync">Zwischen separaten Hintergrundbildern für den hellen und dunklen Modus wechseln.</string>
 	<string name="action_select_day_wallpaper">Heller Modus:</string>
 	<string name="action_select_night_wallpaper">Dunkler Modus:</string>
 	<string name="wallpaper_status_set">Festgelegt</string>
 	<string name="wallpaper_status_not_set">Nicht festgelegt</string>
 	<string name="live_wallpaper_warning_title">Live-Hintergrundbild aktiv</string>
-	<string name="live_wallpaper_warning_message">Beim Aktivieren der Hintergrundbild-Synchronisierung wird dein aktuelles Live-Hintergrundbild durch statische Bilder für den hellen und dunklen Modus ersetzt. Möchtest du fortfahren?</string>
+	<string name="live_wallpaper_warning_message">Beim Aktivieren der Hintergrundbild-Synchronisierung wird dein aktuelles Live-Hintergrundbild durch statische Hintergrundbilder für den hellen und dunklen Modus ersetzt. Möchtest du fortfahren?</string>
 </resources>

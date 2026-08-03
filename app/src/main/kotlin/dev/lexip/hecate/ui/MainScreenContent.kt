@@ -920,7 +920,7 @@ private fun showThresholdEasterEgg(context: Context, luxValue: Float) {
 	if (luxValue.toInt() == 42) {
 		Toast.makeText(
 			context,
-			"The answer to the ultimate question of life, the universe, and everything.",
+			context.getString(R.string.easter_egg_answer),
 			Toast.LENGTH_LONG
 		).show()
 	}
