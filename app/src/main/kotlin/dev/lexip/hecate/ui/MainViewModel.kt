@@ -254,6 +254,7 @@ class MainViewModel internal constructor(
 	// In-app reviews
 	private var serviceEnabledAtStart: Boolean? = null
 	private var reviewRequestedInSession: Boolean = false
+	private var hasChangedBrightnessThresholdInSession: Boolean = false
 	private val wallpaperSelectionMutex = Mutex()
 
 	init {
@@ -365,6 +366,8 @@ class MainViewModel internal constructor(
 	fun updateAdaptiveThemeThresholdByIndex(index: Int) {
 		val threshold = AdaptiveThreshold.fromIndex(index)
 		val oldLux = _uiState.value.adaptiveThemeThresholdLux
+		val shouldCheckReviewPrompt = hasChangedBrightnessThresholdInSession
+		hasChangedBrightnessThresholdInSession = true
 		viewModelScope.launch {
 			userPreferencesRepository.updateAdaptiveThemeThresholdLux(threshold.lux)
 
@@ -374,7 +377,9 @@ class MainViewModel internal constructor(
 				newLux = threshold.lux
 			)
 
-			checkReviewPrompt()
+			if (shouldCheckReviewPrompt) {
+				checkReviewPrompt()
+			}
 		}
 	}
 

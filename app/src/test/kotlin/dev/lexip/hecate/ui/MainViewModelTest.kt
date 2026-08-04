@@ -227,6 +227,28 @@ class MainViewModelTest {
 		}
 
 	@Test
+	fun firstBrightnessThresholdChangeDoesNotRequestReview() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(preferences.current.copy(adaptiveThemeEnabled = true))
+			installMetadata.installedDaysAgo = 3
+			val viewModel = createViewModel()
+			val events = mutableListOf<UiEvent>()
+			backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+				viewModel.uiEvents.toList(events)
+			}
+			advanceUntilIdle()
+
+			viewModel.updateAdaptiveThemeThresholdByIndex(AdaptiveThreshold.BRIGHT.ordinal)
+			advanceUntilIdle()
+			assertTrue(events.isEmpty())
+
+			viewModel.updateAdaptiveThemeThresholdByIndex(AdaptiveThreshold.SOFT.ordinal)
+			advanceUntilIdle()
+			assertEquals(listOf(RequestInAppReview), events)
+			viewModel.stopSensors()
+		}
+
+	@Test
 	fun wallpaperPicksPersistPermissionAndUris() =
 		runTest(mainDispatcherRule.dispatcher) {
 			val viewModel = createViewModel()
