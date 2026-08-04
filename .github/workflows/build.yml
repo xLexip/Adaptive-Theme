@@ -50,7 +50,7 @@ jobs:
 
       - name: Upload JVM test reports
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: foss-jvm-test-reports
           retention-days: 14
@@ -61,7 +61,7 @@ jobs:
 
       - name: Upload unit coverage
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: foss-unit-coverage
           retention-days: 14
@@ -161,7 +161,7 @@ jobs:
 
       - name: Upload API ${{ matrix.api }} reports and logcat
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: foss-device-api-${{ matrix.api }}
           retention-days: 14
