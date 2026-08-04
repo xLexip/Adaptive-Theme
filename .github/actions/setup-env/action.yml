@@ -5,6 +5,10 @@ inputs:
     required: false
     default: ''
     description: 'Optional trusted google-services.json; CI uses a non-production fixture otherwise.'
+  create-firebase-config:
+    required: false
+    default: 'true'
+    description: 'Whether to create Firebase configuration files for a Play build.'
   gradle-cache-read-only:
     required: false
     default: 'true'
@@ -13,6 +17,7 @@ runs:
   using: "composite"
   steps:
     - name: Create Firebase configuration
+      if: inputs.create-firebase-config == 'true'
       shell: bash
       env:
         GOOGLE_SERVICES_JSON: ${{ inputs.google-services-json }}
