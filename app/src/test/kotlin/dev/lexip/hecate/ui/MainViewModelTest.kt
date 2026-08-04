@@ -241,6 +241,39 @@ class MainViewModelTest {
 			assertEquals(listOf(dayUri, nightUri), wallpaperPlatform.persistedUris)
 			assertEquals(dayUri.toString(), preferences.current.dayWallpaperUri)
 			assertEquals(nightUri.toString(), preferences.current.nightWallpaperUri)
+			assertTrue(preferences.current.wallpaperSyncEnabled)
+		}
+
+	@Test
+	fun wallpaperSyncStaysDisabledUntilBothWallpapersAreSelected() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.onDayWallpaperPicked(Uri.parse(DAY_WALLPAPER_URI))
+			advanceUntilIdle()
+
+			assertEquals(DAY_WALLPAPER_URI, preferences.current.dayWallpaperUri)
+			assertFalse(preferences.current.wallpaperSyncEnabled)
+		}
+
+	@Test
+	fun replacingWallpaperInCompletePairDoesNotReEnableDisabledSync() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperSyncEnabled = false
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.onDayWallpaperPicked(Uri.parse("$DAY_WALLPAPER_URI/replacement"))
+			advanceUntilIdle()
+
+			assertFalse(preferences.current.wallpaperSyncEnabled)
 		}
 
 	@Test

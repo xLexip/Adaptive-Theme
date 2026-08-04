@@ -50,6 +50,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 private const val TAG = "MainViewModel"
 private const val REVIEW_MIN_SWITCH_COUNT = 10
@@ -252,6 +254,7 @@ class MainViewModel internal constructor(
 	// In-app reviews
 	private var serviceEnabledAtStart: Boolean? = null
 	private var reviewRequestedInSession: Boolean = false
+	private val wallpaperSelectionMutex = Mutex()
 
 	init {
 		viewModelScope.launch(ioDispatcher) {
@@ -454,25 +457,44 @@ class MainViewModel internal constructor(
 
 	fun onDayWallpaperPicked(uri: Uri) {
 		viewModelScope.launch(ioDispatcher) {
-			try {
-				wallpaperPlatform.takePersistableReadPermission(uri)
-			} catch (e: Exception) {
-				Log.w(TAG, "Failed to take persistable URI permission for day wallpaper", e)
-			}
-			userPreferencesRepository.updateDayWallpaperUri(uri.toString())
-			Logger.logWallpaperPicked(application.applicationContext, "light")
+			storeWallpaperSelection(uri, isDayWallpaper = true)
 		}
 	}
 
 	fun onNightWallpaperPicked(uri: Uri) {
 		viewModelScope.launch(ioDispatcher) {
+			storeWallpaperSelection(uri, isDayWallpaper = false)
+		}
+	}
+
+	private suspend fun storeWallpaperSelection(uri: Uri, isDayWallpaper: Boolean) {
+		wallpaperSelectionMutex.withLock {
+			val preferencesBefore = userPreferencesRepository.fetchInitialPreferences()
 			try {
 				wallpaperPlatform.takePersistableReadPermission(uri)
 			} catch (e: Exception) {
-				Log.w(TAG, "Failed to take persistable URI permission for night wallpaper", e)
+				val wallpaperType = if (isDayWallpaper) "day" else "night"
+				Log.w(TAG, "Failed to take persistable URI permission for $wallpaperType wallpaper", e)
 			}
-			userPreferencesRepository.updateNightWallpaperUri(uri.toString())
-			Logger.logWallpaperPicked(application.applicationContext, "dark")
+
+			if (isDayWallpaper) {
+				userPreferencesRepository.updateDayWallpaperUri(uri.toString())
+			} else {
+				userPreferencesRepository.updateNightWallpaperUri(uri.toString())
+			}
+			Logger.logWallpaperPicked(
+				application.applicationContext,
+				if (isDayWallpaper) "light" else "dark"
+			)
+
+			val preferencesAfter = userPreferencesRepository.fetchInitialPreferences()
+			val bothWereSet = !preferencesBefore.dayWallpaperUri.isNullOrEmpty() &&
+				!preferencesBefore.nightWallpaperUri.isNullOrEmpty()
+			val bothAreSet = !preferencesAfter.dayWallpaperUri.isNullOrEmpty() &&
+				!preferencesAfter.nightWallpaperUri.isNullOrEmpty()
+			if (!bothWereSet && bothAreSet && !preferencesAfter.wallpaperSyncEnabled) {
+				onWallpaperSyncToggleRequested(true)
+			}
 		}
 	}
 
