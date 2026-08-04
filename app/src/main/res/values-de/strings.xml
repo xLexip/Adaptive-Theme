@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Befehl nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler bei der Verwendung von Shizuku.</string>
-	<string name="title_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Zwischen separaten Hintergrundbildern für den hellen und dunklen Modus wechseln.</string>
+	<string name="title_device_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
+	<string name="label_experimental_feature">Experimentell</string>
+	<string name="description_device_wallpaper_sync">Verwende separate Hintergrundbilder für den hellen und dunklen Modus. Der Wechsel kann kurzzeitig die Leistung und Entsperrgeschwindigkeit beeinträchtigen.</string>
 	<string name="action_select_day_wallpaper">Heller Modus:</string>
 	<string name="action_select_night_wallpaper">Dunkler Modus:</string>
 	<string name="wallpaper_status_set">Festgelegt</string>

@@ -113,9 +113,9 @@
 	<string name="shizuku_request_permission">Requesting permission…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku could not run the command.</string>
 	<string name="shizuku_grant_unexpected">Unexpected error while using Shizuku.</string>
-	<string name="title_wallpaper_sync">Wallpaper Sync</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Switch between separate wallpapers for light and dark mode.</string>
+	<string name="title_device_wallpaper_sync">Wallpaper</string>
+	<string name="label_experimental_feature">Experimental</string>
+	<string name="description_device_wallpaper_sync">Use separate light and dark mode wallpapers. Switching may briefly affect performance and unlock speed.</string>
 	<string name="action_select_day_wallpaper">Light mode:</string>
 	<string name="action_select_night_wallpaper">Dark mode:</string>
 	<string name="wallpaper_status_set">Set</string>

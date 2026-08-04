@@ -202,11 +202,11 @@ class MainScreenContentTest {
 			)
 		)
 
-		scrollToText(context.getString(R.string.title_wallpaper_sync))
-		composeRule.onNodeWithText(context.getString(R.string.title_wallpaper_sync))
+		scrollToText(context.getString(R.string.title_device_wallpaper_sync))
+		composeRule.onNodeWithText(context.getString(R.string.title_device_wallpaper_sync))
 			.assertIsDisplayed()
-		scrollToText(context.getString(R.string.label_beta))
-		composeRule.onNodeWithText(context.getString(R.string.label_beta))
+		scrollToText(context.getString(R.string.label_experimental_feature))
+		composeRule.onNodeWithText(context.getString(R.string.label_experimental_feature))
 			.assertIsDisplayed()
 		clickTextAfterScroll(wallpaperButtonText(day = true, isSet = true))
 		clickTextAfterScroll(wallpaperButtonText(day = false, isSet = false))
@@ -224,7 +224,7 @@ class MainScreenContentTest {
 			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
 		)
 		expandAdvancedSettings()
-		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+		clickTextAfterScroll(context.getString(R.string.title_device_wallpaper_sync))
 
 		assertEquals(emptyList<Boolean>(), toggleRequests)
 	}
@@ -242,7 +242,7 @@ class MainScreenContentTest {
 			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
 		)
 		expandAdvancedSettings()
-		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+		clickTextAfterScroll(context.getString(R.string.title_device_wallpaper_sync))
 
 		assertEquals(listOf(true), toggleRequests)
 	}
@@ -260,7 +260,7 @@ class MainScreenContentTest {
 			hasPermission = true,
 			callbacks = callbacks(onWallpaperToggle = toggleRequests::add)
 		)
-		clickTextAfterScroll(context.getString(R.string.title_wallpaper_sync))
+		clickTextAfterScroll(context.getString(R.string.title_device_wallpaper_sync))
 
 		assertEquals(listOf(false), toggleRequests)
 	}

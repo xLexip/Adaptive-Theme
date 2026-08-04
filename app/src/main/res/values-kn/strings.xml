@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">ಅನುಮತಿಯನ್ನು ವಿನಂತಿಸಲಾಗುತ್ತಿದೆ…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku ಕಮಾಂಡ್ ಚಲಾಯಿಸಲಾಗಲಿಲ್ಲ.</string>
 	<string name="shizuku_grant_unexpected">Shizuku ಬಳಸುವಾಗ ಅನಿರೀಕ್ಷಿತ ದೋಷ ಸಂಭವಿಸಿದೆ.</string>
-	<string name="title_wallpaper_sync">ವಾಲ್‌ಪೇಪರ್ ಸಿಂಕ್</string>
-	<string name="label_beta">ಬೀಟಾ</string>
-	<string name="description_wallpaper_sync">ಲೈಟ್ ಮತ್ತು ಡಾರ್ಕ್ ಮೋಡ್‌ಗಳಿಗೆ ಪ್ರತ್ಯೇಕ ವಾಲ್‌ಪೇಪರ್‌ಗಳ ನಡುವೆ ಬದಲಾಯಿಸುತ್ತದೆ.</string>
+	<string name="title_device_wallpaper_sync">ವಾಲ್‌ಪೇಪರ್ ಸಿಂಕ್</string>
+	<string name="label_experimental_feature">ಪ್ರಾಯೋಗಿಕ ವೈಶಿಷ್ಟ್ಯ</string>
+	<string name="description_device_wallpaper_sync">ಲೈಟ್ ಮತ್ತು ಡಾರ್ಕ್ ಮೋಡ್‌ಗಳಿಗೆ ಪ್ರತ್ಯೇಕ ವಾಲ್‌ಪೇಪರ್‌ಗಳನ್ನು ಬಳಸಿ. ಬದಲಾಯಿಸುವಾಗ ಕಾರ್ಯಕ್ಷಮತೆ ಮತ್ತು ಅನ್‌ಲಾಕ್ ವೇಗದ ಮೇಲೆ ಸ್ವಲ್ಪ ಸಮಯ ಪರಿಣಾಮ ಬೀರಬಹುದು.</string>
 	<string name="action_select_day_wallpaper">ಲೈಟ್ ಮೋಡ್:</string>
 	<string name="action_select_night_wallpaper">ಡಾರ್ಕ್ ಮೋಡ್:</string>
 	<string name="wallpaper_status_set">ಹೊಂದಿಸಲಾಗಿದೆ</string>

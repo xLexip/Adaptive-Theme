@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Žádost o oprávnění…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku nemohlo příkaz spustit.</string>
 	<string name="shizuku_grant_unexpected">Při použití Shizuku došlo k neočekávané chybě.</string>
-	<string name="title_wallpaper_sync">Synchronizace tapet</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Přepíná mezi samostatnými tapetami pro světlý a tmavý režim.</string>
+	<string name="title_device_wallpaper_sync">Synchronizace tapet</string>
+	<string name="label_experimental_feature">Experimentální</string>
+	<string name="description_device_wallpaper_sync">Používejte samostatné tapety pro světlý a tmavý režim. Přepnutí může krátce ovlivnit výkon a rychlost odemykání.</string>
 	<string name="action_select_day_wallpaper">Světlý režim:</string>
 	<string name="action_select_night_wallpaper">Tmavý režim:</string>
 	<string name="wallpaper_status_set">Nastavena</string>

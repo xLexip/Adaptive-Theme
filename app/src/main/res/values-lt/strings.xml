@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Prašoma leidimo…</string>
 	<string name="shizuku_grant_shell_failed">„Shizuku“ nepavyko įvykdyti komandos.</string>
 	<string name="shizuku_grant_unexpected">Naudojant „Shizuku“ įvyko netikėta klaida.</string>
-	<string name="title_wallpaper_sync">Ekrano fonų sinchronizavimas</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Perjungia atskirus šviesaus ir tamsaus režimo ekrano fonus.</string>
+	<string name="title_device_wallpaper_sync">Ekrano fonų sinchronizavimas</string>
+	<string name="label_experimental_feature">Eksperimentinė</string>
+	<string name="description_device_wallpaper_sync">Naudokite atskirus šviesaus ir tamsaus režimo ekrano fonus. Perjungimas gali trumpam paveikti našumą ir atrakinimo greitį.</string>
 	<string name="action_select_day_wallpaper">Šviesus režimas:</string>
 	<string name="action_select_night_wallpaper">Tamsus režimas:</string>
 	<string name="wallpaper_status_set">Nustatytas</string>

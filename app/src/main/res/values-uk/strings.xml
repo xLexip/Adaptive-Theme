@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Запит дозволу…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku не вдалося виконати команду.</string>
 	<string name="shizuku_grant_unexpected">Під час використання Shizuku сталася неочікувана помилка.</string>
-	<string name="title_wallpaper_sync">Синхронізація шпалер</string>
-	<string name="label_beta">Бета</string>
-	<string name="description_wallpaper_sync">Перемикає окремі шпалери для світлого й темного режимів.</string>
+	<string name="title_device_wallpaper_sync">Синхронізація шпалер</string>
+	<string name="label_experimental_feature">Експериментальна функція</string>
+	<string name="description_device_wallpaper_sync">Використовуйте окремі шпалери для світлого й темного режимів. Перемикання може ненадовго вплинути на продуктивність і швидкість розблокування.</string>
 	<string name="action_select_day_wallpaper">Світлий режим:</string>
 	<string name="action_select_night_wallpaper">Темний режим:</string>
 	<string name="wallpaper_status_set">Установлено</string>

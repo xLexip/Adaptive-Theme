@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">అనుమతి కోరుతోంది…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku కమాండ్‌ను అమలు చేయలేకపోయింది.</string>
 	<string name="shizuku_grant_unexpected">Shizuku ఉపయోగిస్తున్నప్పుడు ఊహించని లోపం సంభవించింది.</string>
-	<string name="title_wallpaper_sync">వాల్‌పేపర్ సింక్</string>
-	<string name="label_beta">బీటా</string>
-	<string name="description_wallpaper_sync">లైట్ మరియు డార్క్ మోడ్‌ల కోసం వేర్వేరు వాల్‌పేపర్‌ల మధ్య మారుస్తుంది.</string>
+	<string name="title_device_wallpaper_sync">వాల్‌పేపర్ సింక్</string>
+	<string name="label_experimental_feature">ప్రయోగాత్మక ఫీచర్</string>
+	<string name="description_device_wallpaper_sync">లైట్ మరియు డార్క్ మోడ్‌ల కోసం వేర్వేరు వాల్‌పేపర్‌లను ఉపయోగించండి. మారేటప్పుడు పనితీరు మరియు అన్‌లాక్ వేగం కొద్దిసేపు ప్రభావితం కావచ్చు.</string>
 	<string name="action_select_day_wallpaper">లైట్ మోడ్:</string>
 	<string name="action_select_night_wallpaper">డార్క్ మోడ్:</string>
 	<string name="wallpaper_status_set">సెట్ చేయబడింది</string>

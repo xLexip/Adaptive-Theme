@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Αίτημα άδειας…</string>
 	<string name="shizuku_grant_shell_failed">Το Shizuku δεν μπόρεσε να εκτελέσει την εντολή.</string>
 	<string name="shizuku_grant_unexpected">Παρουσιάστηκε απροσδόκητο σφάλμα κατά τη χρήση του Shizuku.</string>
-	<string name="title_wallpaper_sync">Συγχρονισμός ταπετσαριών</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Εναλλάσσει διαφορετικές ταπετσαρίες για φωτεινή και σκοτεινή λειτουργία.</string>
+	<string name="title_device_wallpaper_sync">Συγχρονισμός ταπετσαριών</string>
+	<string name="label_experimental_feature">Πειραματικό</string>
+	<string name="description_device_wallpaper_sync">Χρησιμοποιήστε ξεχωριστές ταπετσαρίες για φωτεινή και σκοτεινή λειτουργία. Η εναλλαγή ενδέχεται να επηρεάσει στιγμιαία την απόδοση και την ταχύτητα ξεκλειδώματος.</string>
 	<string name="action_select_day_wallpaper">Φωτεινή λειτουργία:</string>
 	<string name="action_select_night_wallpaper">Σκοτεινή λειτουργία:</string>
 	<string name="wallpaper_status_set">Ορίστηκε</string>

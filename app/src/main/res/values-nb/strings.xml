@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Ber om tillatelse…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku kunne ikke kjøre kommandoen.</string>
 	<string name="shizuku_grant_unexpected">Det oppsto en uventet feil ved bruk av Shizuku.</string>
-	<string name="title_wallpaper_sync">Synkronisering av bakgrunner</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Bytter mellom separate bakgrunner for lys og mørk modus.</string>
+	<string name="title_device_wallpaper_sync">Synkronisering av bakgrunner</string>
+	<string name="label_experimental_feature">Eksperimentell</string>
+	<string name="description_device_wallpaper_sync">Bruk separate bakgrunner for lys og mørk modus. Bytte kan påvirke ytelsen og opplåsingshastigheten en kort stund.</string>
 	<string name="action_select_day_wallpaper">Lys modus:</string>
 	<string name="action_select_night_wallpaper">Mørk modus:</string>
 	<string name="wallpaper_status_set">Angitt</string>

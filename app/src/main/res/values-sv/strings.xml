@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Begär behörighet…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku kunde inte köra kommandot.</string>
 	<string name="shizuku_grant_unexpected">Ett oväntat fel inträffade när Shizuku användes.</string>
-	<string name="title_wallpaper_sync">Synkronisering av bakgrunder</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Växlar mellan separata bakgrunder för ljust och mörkt läge.</string>
+	<string name="title_device_wallpaper_sync">Synkronisering av bakgrunder</string>
+	<string name="label_experimental_feature">Experimentell</string>
+	<string name="description_device_wallpaper_sync">Använd separata bakgrunder för ljust och mörkt läge. Växling kan kortvarigt påverka prestandan och upplåsningshastigheten.</string>
 	<string name="action_select_day_wallpaper">Ljust läge:</string>
 	<string name="action_select_night_wallpaper">Mörkt läge:</string>
 	<string name="wallpaper_status_set">Inställd</string>

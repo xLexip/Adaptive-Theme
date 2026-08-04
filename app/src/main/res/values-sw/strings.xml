@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Inaomba ruhusa…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku haikuweza kutekeleza amri.</string>
 	<string name="shizuku_grant_unexpected">Hitilafu isiyotarajiwa imetokea wakati wa kutumia Shizuku.</string>
-	<string name="title_wallpaper_sync">Usawazishaji wa mandhari-nyuma</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Hubadilisha kati ya mandhari-nyuma tofauti za hali angavu na nyeusi.</string>
+	<string name="title_device_wallpaper_sync">Usawazishaji wa mandhari-nyuma</string>
+	<string name="label_experimental_feature">Kipengele cha majaribio</string>
+	<string name="description_device_wallpaper_sync">Tumia mandhari-nyuma tofauti kwa hali angavu na nyeusi. Kubadilisha kunaweza kuathiri utendaji na kasi ya kufungua kwa muda mfupi.</string>
 	<string name="action_select_day_wallpaper">Hali angavu:</string>
 	<string name="action_select_night_wallpaper">Hali nyeusi:</string>
 	<string name="wallpaper_status_set">Imewekwa</string>

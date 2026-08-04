@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Тражи се дозвола…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku није могао да изврши команду.</string>
 	<string name="shizuku_grant_unexpected">Дошло је до неочекиване грешке при коришћењу Shizuku-а.</string>
-	<string name="title_wallpaper_sync">Синхронизација позадина</string>
-	<string name="label_beta">Бета</string>
-	<string name="description_wallpaper_sync">Пребацује засебне позадине за светли и тамни режим.</string>
+	<string name="title_device_wallpaper_sync">Синхронизација позадина</string>
+	<string name="label_experimental_feature">Експериментално</string>
+	<string name="description_device_wallpaper_sync">Користите засебне позадине за светли и тамни режим. Пребацивање може накратко да утиче на перформансе и брзину откључавања.</string>
 	<string name="action_select_day_wallpaper">Светли режим:</string>
 	<string name="action_select_night_wallpaper">Тамни режим:</string>
 	<string name="wallpaper_status_set">Постављено</string>

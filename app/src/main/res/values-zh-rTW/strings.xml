@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">正在要求權限…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku 無法執行指令。</string>
 	<string name="shizuku_grant_unexpected">使用 Shizuku 時發生未預期的錯誤。</string>
-	<string name="title_wallpaper_sync">桌布同步</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">在淺色與深色模式之間切換不同的桌布。</string>
+	<string name="title_device_wallpaper_sync">桌布同步</string>
+	<string name="label_experimental_feature">實驗性功能</string>
+	<string name="description_device_wallpaper_sync">為淺色與深色模式使用不同的桌布。切換時可能會短暫影響效能和解鎖速度。</string>
 	<string name="action_select_day_wallpaper">淺色模式：</string>
 	<string name="action_select_night_wallpaper">深色模式：</string>
 	<string name="wallpaper_status_set">已設定</string>

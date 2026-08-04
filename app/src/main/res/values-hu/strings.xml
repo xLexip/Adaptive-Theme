@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Engedély kérése…</string>
 	<string name="shizuku_grant_shell_failed">A Shizuku nem tudta futtatni a parancsot.</string>
 	<string name="shizuku_grant_unexpected">Váratlan hiba történt a Shizuku használata közben.</string>
-	<string name="title_wallpaper_sync">Háttérképek szinkronizálása</string>
-	<string name="label_beta">Béta</string>
-	<string name="description_wallpaper_sync">Külön háttérképek között vált világos és sötét módban.</string>
+	<string name="title_device_wallpaper_sync">Háttérképek szinkronizálása</string>
+	<string name="label_experimental_feature">Kísérleti</string>
+	<string name="description_device_wallpaper_sync">Használjon külön háttérképeket világos és sötét módban. A váltás rövid időre hatással lehet a teljesítményre és a feloldás sebességére.</string>
 	<string name="action_select_day_wallpaper">Világos mód:</string>
 	<string name="action_select_night_wallpaper">Sötét mód:</string>
 	<string name="wallpaper_status_set">Beállítva</string>

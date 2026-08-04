@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Biður um heimild…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku gat ekki keyrt skipunina.</string>
 	<string name="shizuku_grant_unexpected">Óvænt villa kom upp við notkun Shizuku.</string>
-	<string name="title_wallpaper_sync">Samstilling veggfóðurs</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Skiptir á milli aðskilinna veggfóðursmynda fyrir ljósa og dökka stillingu.</string>
+	<string name="title_device_wallpaper_sync">Samstilling veggfóðurs</string>
+	<string name="label_experimental_feature">Tilraunakennt</string>
+	<string name="description_device_wallpaper_sync">Notaðu aðskildar veggfóðursmyndir fyrir ljósa og dökka stillingu. Skipting getur haft tímabundin áhrif á afköst og hraða aflæsingar.</string>
 	<string name="action_select_day_wallpaper">Ljós stilling:</string>
 	<string name="action_select_night_wallpaper">Dökk stilling:</string>
 	<string name="wallpaper_status_set">Stillt</string>

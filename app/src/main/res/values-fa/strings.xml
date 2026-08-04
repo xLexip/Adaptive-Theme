@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">در حال درخواست مجوز…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku نتوانست فرمان را اجرا کند.</string>
 	<string name="shizuku_grant_unexpected">هنگام استفاده از Shizuku خطای غیرمنتظره‌ای رخ داد.</string>
-	<string name="title_wallpaper_sync">همگام‌سازی پس‌زمینه‌ها</string>
-	<string name="label_beta">آزمایشی</string>
-	<string name="description_wallpaper_sync">بین پس‌زمینه‌های جداگانه برای حالت روشن و تیره جابه‌جا می‌شود.</string>
+	<string name="title_device_wallpaper_sync">همگام‌سازی پس‌زمینه‌ها</string>
+	<string name="label_experimental_feature">ویژگی آزمایشی</string>
+	<string name="description_device_wallpaper_sync">برای حالت روشن و تیره از پس‌زمینه‌های جداگانه استفاده کنید. جابه‌جایی ممکن است برای مدت کوتاهی بر عملکرد و سرعت باز کردن قفل تأثیر بگذارد.</string>
 	<string name="action_select_day_wallpaper">حالت روشن:</string>
 	<string name="action_select_night_wallpaper">حالت تیره:</string>
 	<string name="wallpaper_status_set">تنظیم‌شده</string>

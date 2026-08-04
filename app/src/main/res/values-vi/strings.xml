@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Đang yêu cầu quyền…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku không thể chạy lệnh.</string>
 	<string name="shizuku_grant_unexpected">Đã xảy ra lỗi không mong muốn khi dùng Shizuku.</string>
-	<string name="title_wallpaper_sync">Đồng bộ hóa hình nền</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Chuyển đổi giữa các hình nền riêng cho chế độ sáng và tối.</string>
+	<string name="title_device_wallpaper_sync">Đồng bộ hóa hình nền</string>
+	<string name="label_experimental_feature">Tính năng thử nghiệm</string>
+	<string name="description_device_wallpaper_sync">Sử dụng hình nền riêng cho chế độ sáng và tối. Việc chuyển đổi có thể ảnh hưởng đôi chút đến hiệu suất và tốc độ mở khóa.</string>
 	<string name="action_select_day_wallpaper">Chế độ sáng:</string>
 	<string name="action_select_night_wallpaper">Chế độ tối:</string>
 	<string name="wallpaper_status_set">Đã đặt</string>

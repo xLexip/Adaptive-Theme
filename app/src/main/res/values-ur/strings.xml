@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">اجازت کی درخواست کی جا رہی ہے…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku کمانڈ نہیں چلا سکا۔</string>
 	<string name="shizuku_grant_unexpected">Shizuku استعمال کرتے ہوئے غیر متوقع خرابی پیش آئی۔</string>
-	<string name="title_wallpaper_sync">وال پیپر سنک</string>
-	<string name="label_beta">بیٹا</string>
-	<string name="description_wallpaper_sync">روشن اور گہرے موڈ کے لیے الگ وال پیپرز کے درمیان تبدیل کرتا ہے۔</string>
+	<string name="title_device_wallpaper_sync">وال پیپر سنک</string>
+	<string name="label_experimental_feature">تجرباتی خصوصیت</string>
+	<string name="description_device_wallpaper_sync">روشن اور گہرے موڈ کے لیے الگ وال پیپرز استعمال کریں۔ تبدیلی سے مختصر وقت کے لیے کارکردگی اور اَن لاک کی رفتار متاثر ہو سکتی ہے۔</string>
 	<string name="action_select_day_wallpaper">روشن موڈ:</string>
 	<string name="action_select_night_wallpaper">گہرا موڈ:</string>
 	<string name="wallpaper_status_set">سیٹ ہے</string>

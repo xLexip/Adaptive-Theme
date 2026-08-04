@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">מתבצעת בקשת הרשאה…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku לא הצליח להריץ את הפקודה.</string>
 	<string name="shizuku_grant_unexpected">אירעה שגיאה לא צפויה במהלך השימוש ב-Shizuku.</string>
-	<string name="title_wallpaper_sync">סנכרון טפטים</string>
-	<string name="label_beta">בטא</string>
-	<string name="description_wallpaper_sync">מחליף בין טפטים נפרדים למצב בהיר ולמצב כהה.</string>
+	<string name="title_device_wallpaper_sync">סנכרון טפטים</string>
+	<string name="label_experimental_feature">תכונה ניסיונית</string>
+	<string name="description_device_wallpaper_sync">יש להשתמש בטפטים נפרדים למצב בהיר ולמצב כהה. ההחלפה עשויה להשפיע לזמן קצר על הביצועים ועל מהירות ביטול הנעילה.</string>
 	<string name="action_select_day_wallpaper">מצב בהיר:</string>
 	<string name="action_select_night_wallpaper">מצב כהה:</string>
 	<string name="wallpaper_status_set">הוגדר</string>

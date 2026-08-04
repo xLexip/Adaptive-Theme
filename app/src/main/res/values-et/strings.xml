@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Loa taotlemine…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku ei saanud käsku käivitada.</string>
 	<string name="shizuku_grant_unexpected">Shizuku kasutamisel tekkis ootamatu viga.</string>
-	<string name="title_wallpaper_sync">Taustapiltide sünkroonimine</string>
-	<string name="label_beta">Beeta</string>
-	<string name="description_wallpaper_sync">Vahetab heleda ja tumeda režiimi eraldi taustapiltide vahel.</string>
+	<string name="title_device_wallpaper_sync">Taustapiltide sünkroonimine</string>
+	<string name="label_experimental_feature">Eksperimentaalne</string>
+	<string name="description_device_wallpaper_sync">Kasuta heleda ja tumeda režiimi jaoks eraldi taustapilte. Vahetamine võib lühiajaliselt mõjutada jõudlust ja avamiskiirust.</string>
 	<string name="action_select_day_wallpaper">Hele režiim:</string>
 	<string name="action_select_night_wallpaper">Tume režiim:</string>
 	<string name="wallpaper_status_set">Määratud</string>

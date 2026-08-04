@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">جارٍ طلب الإذن…</string>
 	<string name="shizuku_grant_shell_failed">تعذّر على Shizuku تشغيل الأمر.</string>
 	<string name="shizuku_grant_unexpected">حدث خطأ غير متوقع أثناء استخدام Shizuku.</string>
-	<string name="title_wallpaper_sync">مزامنة الخلفيات</string>
-	<string name="label_beta">تجريبي</string>
-	<string name="description_wallpaper_sync">يبدّل بين خلفيتين منفصلتين للوضعين الفاتح والداكن.</string>
+	<string name="title_device_wallpaper_sync">مزامنة الخلفيات</string>
+	<string name="label_experimental_feature">ميزة تجريبية</string>
+	<string name="description_device_wallpaper_sync">استخدم خلفيات منفصلة للوضعين الفاتح والداكن. قد يؤثر التبديل لفترة وجيزة في الأداء وسرعة فتح القفل.</string>
 	<string name="action_select_day_wallpaper">الوضع الفاتح:</string>
 	<string name="action_select_night_wallpaper">الوضع الداكن:</string>
 	<string name="wallpaper_status_set">تم الضبط</string>

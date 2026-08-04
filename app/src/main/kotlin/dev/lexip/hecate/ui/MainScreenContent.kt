@@ -738,7 +738,7 @@ private fun WallpaperSyncPreference(
 	}
 
 	DetailPreferenceCard(
-		title = stringResource(id = R.string.title_wallpaper_sync),
+		title = stringResource(id = R.string.title_device_wallpaper_sync),
 		enabled = uiState.adaptiveThemeEnabled,
 		firstCard = false,
 		lastCard = true,
@@ -747,7 +747,7 @@ private fun WallpaperSyncPreference(
 		titleTrailingContent = { BetaLabel() }
 	) {
 		PreferenceDescriptionSwitch(
-			description = stringResource(id = R.string.description_wallpaper_sync),
+			description = stringResource(id = R.string.description_device_wallpaper_sync),
 			checked = uiState.wallpaperSyncEnabled,
 			enabled = uiState.adaptiveThemeEnabled,
 			onCheckedChange = requestToggle
@@ -823,7 +823,7 @@ private fun BetaLabel() {
 		contentColor = MaterialTheme.colorScheme.onTertiaryContainer
 	) {
 		Text(
-			text = stringResource(id = R.string.label_beta),
+			text = stringResource(id = R.string.label_experimental_feature),
 			modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
 			style = MaterialTheme.typography.labelSmall
 		)

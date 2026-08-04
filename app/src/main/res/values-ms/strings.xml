@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Meminta kebenaran…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku tidak dapat menjalankan perintah.</string>
 	<string name="shizuku_grant_unexpected">Ralat tidak dijangka berlaku semasa menggunakan Shizuku.</string>
-	<string name="title_wallpaper_sync">Penyegerakan hias latar</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Menukar antara hias latar berasingan untuk mod cerah dan gelap.</string>
+	<string name="title_device_wallpaper_sync">Penyegerakan hias latar</string>
+	<string name="label_experimental_feature">Eksperimental</string>
+	<string name="description_device_wallpaper_sync">Gunakan hias latar berasingan untuk mod cerah dan gelap. Penukaran mungkin menjejaskan prestasi dan kelajuan nyahkunci buat seketika.</string>
 	<string name="action_select_day_wallpaper">Mod cerah:</string>
 	<string name="action_select_night_wallpaper">Mod gelap:</string>
 	<string name="wallpaper_status_set">Ditetapkan</string>

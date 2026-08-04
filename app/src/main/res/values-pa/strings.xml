@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">ਇਜਾਜ਼ਤ ਦੀ ਬੇਨਤੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku ਕਮਾਂਡ ਨਹੀਂ ਚਲਾ ਸਕਿਆ।</string>
 	<string name="shizuku_grant_unexpected">Shizuku ਵਰਤਦਿਆਂ ਅਚਾਨਕ ਗਲਤੀ ਆਈ।</string>
-	<string name="title_wallpaper_sync">ਵਾਲਪੇਪਰ ਸਿੰਕ</string>
-	<string name="label_beta">ਬੀਟਾ</string>
-	<string name="description_wallpaper_sync">ਹਲਕੇ ਅਤੇ ਗੂੜ੍ਹੇ ਮੋਡ ਲਈ ਵੱਖਰੇ ਵਾਲਪੇਪਰਾਂ ਵਿਚਕਾਰ ਬਦਲਦਾ ਹੈ।</string>
+	<string name="title_device_wallpaper_sync">ਵਾਲਪੇਪਰ ਸਿੰਕ</string>
+	<string name="label_experimental_feature">ਪ੍ਰਯੋਗਾਤਮਕ ਵਿਸ਼ੇਸ਼ਤਾ</string>
+	<string name="description_device_wallpaper_sync">ਹਲਕੇ ਅਤੇ ਗੂੜ੍ਹੇ ਮੋਡ ਲਈ ਵੱਖਰੇ ਵਾਲਪੇਪਰ ਵਰਤੋ। ਬਦਲਣ ਨਾਲ ਕੁਝ ਸਮੇਂ ਲਈ ਕਾਰਗੁਜ਼ਾਰੀ ਅਤੇ ਅਨਲੌਕ ਕਰਨ ਦੀ ਗਤੀ ਪ੍ਰਭਾਵਿਤ ਹੋ ਸਕਦੀ ਹੈ।</string>
 	<string name="action_select_day_wallpaper">ਹਲਕਾ ਮੋਡ:</string>
 	<string name="action_select_night_wallpaper">ਗੂੜ੍ਹਾ ਮੋਡ:</string>
 	<string name="wallpaper_status_set">ਸੈੱਟ ਹੈ</string>

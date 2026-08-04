@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">権限をリクエストしています…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku でコマンドを実行できませんでした。</string>
 	<string name="shizuku_grant_unexpected">Shizuku の使用中に予期しないエラーが発生しました。</string>
-	<string name="title_wallpaper_sync">壁紙の同期</string>
-	<string name="label_beta">ベータ版</string>
-	<string name="description_wallpaper_sync">ライトモードとダークモードで別々の壁紙を切り替えます。</string>
+	<string name="title_device_wallpaper_sync">壁紙の同期</string>
+	<string name="label_experimental_feature">試験運用機能</string>
+	<string name="description_device_wallpaper_sync">ライトモードとダークモードで別々の壁紙を使用します。切り替え時にパフォーマンスやロック解除速度が一時的に低下する場合があります。</string>
 	<string name="action_select_day_wallpaper">ライトモード:</string>
 	<string name="action_select_night_wallpaper">ダークモード:</string>
 	<string name="wallpaper_status_set">設定済み</string>

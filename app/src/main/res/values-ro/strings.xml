@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Se solicită permisiunea…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku nu a putut executa comanda.</string>
 	<string name="shizuku_grant_unexpected">A apărut o eroare neașteptată la folosirea Shizuku.</string>
-	<string name="title_wallpaper_sync">Sincronizarea imaginilor de fundal</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Comută între imagini de fundal separate pentru modul luminos și cel întunecat.</string>
+	<string name="title_device_wallpaper_sync">Sincronizarea imaginilor de fundal</string>
+	<string name="label_experimental_feature">Funcție experimentală</string>
+	<string name="description_device_wallpaper_sync">Folosește imagini de fundal separate pentru modul luminos și cel întunecat. Comutarea poate afecta temporar performanța și viteza de deblocare.</string>
 	<string name="action_select_day_wallpaper">Mod luminos:</string>
 	<string name="action_select_night_wallpaper">Mod întunecat:</string>
 	<string name="wallpaper_status_set">Setată</string>

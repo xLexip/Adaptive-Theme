@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Zahtevanje dovoljenja…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku ni mogel izvesti ukaza.</string>
 	<string name="shizuku_grant_unexpected">Pri uporabi aplikacije Shizuku je prišlo do nepričakovane napake.</string>
-	<string name="title_wallpaper_sync">Sinhronizacija ozadij</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Preklaplja med ločenima ozadjema za svetli in temni način.</string>
+	<string name="title_device_wallpaper_sync">Sinhronizacija ozadij</string>
+	<string name="label_experimental_feature">Poskusno</string>
+	<string name="description_device_wallpaper_sync">Uporabljajte ločeni ozadji za svetli in temni način. Preklop lahko za kratek čas vpliva na delovanje in hitrost odklepanja.</string>
 	<string name="action_select_day_wallpaper">Svetli način:</string>
 	<string name="action_select_night_wallpaper">Temni način:</string>
 	<string name="wallpaper_status_set">Nastavljeno</string>

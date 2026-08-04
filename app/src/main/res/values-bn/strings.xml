@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">অনুমতি চাওয়া হচ্ছে…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku কমান্ডটি চালাতে পারেনি।</string>
 	<string name="shizuku_grant_unexpected">Shizuku ব্যবহার করার সময় অপ্রত্যাশিত ত্রুটি হয়েছে।</string>
-	<string name="title_wallpaper_sync">ওয়ালপেপার সিঙ্ক</string>
-	<string name="label_beta">বিটা</string>
-	<string name="description_wallpaper_sync">হালকা ও গাঢ় মোডের জন্য আলাদা ওয়ালপেপারের মধ্যে পরিবর্তন করে।</string>
+	<string name="title_device_wallpaper_sync">ওয়ালপেপার সিঙ্ক</string>
+	<string name="label_experimental_feature">পরীক্ষামূলক</string>
+	<string name="description_device_wallpaper_sync">হালকা ও গাঢ় মোডের জন্য আলাদা ওয়ালপেপার ব্যবহার করুন। পরিবর্তনের সময় সাময়িকভাবে পারফরম্যান্স ও আনলক করার গতি প্রভাবিত হতে পারে।</string>
 	<string name="action_select_day_wallpaper">হালকা মোড:</string>
 	<string name="action_select_night_wallpaper">গাঢ় মোড:</string>
 	<string name="wallpaper_status_set">সেট করা</string>

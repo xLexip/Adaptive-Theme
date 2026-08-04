@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">İzin isteniyor…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku komutu çalıştıramadı.</string>
 	<string name="shizuku_grant_unexpected">Shizuku kullanılırken beklenmeyen bir hata oluştu.</string>
-	<string name="title_wallpaper_sync">Duvar kâğıdı eşitleme</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları arasında geçiş yapar.</string>
+	<string name="title_device_wallpaper_sync">Duvar kâğıdı eşitleme</string>
+	<string name="label_experimental_feature">Deneysel</string>
+	<string name="description_device_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları kullanın. Geçiş, performansı ve kilit açma hızını kısa süreliğine etkileyebilir.</string>
 	<string name="action_select_day_wallpaper">Açık mod:</string>
 	<string name="action_select_night_wallpaper">Koyu mod:</string>
 	<string name="wallpaper_status_set">Ayarlandı</string>

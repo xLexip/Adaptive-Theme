@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Demande d’autorisation…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku n’a pas pu exécuter la commande.</string>
 	<string name="shizuku_grant_unexpected">Erreur inattendue lors de l’utilisation de Shizuku.</string>
-	<string name="title_wallpaper_sync">Synchronisation des fonds d’écran</string>
-	<string name="label_beta">Bêta</string>
-	<string name="description_wallpaper_sync">Alterne entre des fonds d’écran distincts pour les modes clair et sombre.</string>
+	<string name="title_device_wallpaper_sync">Synchronisation des fonds d’écran</string>
+	<string name="label_experimental_feature">Expérimental</string>
+	<string name="description_device_wallpaper_sync">Utilisez des fonds d’écran distincts pour les modes clair et sombre. Le changement peut brièvement affecter les performances et la vitesse de déverrouillage.</string>
 	<string name="action_select_day_wallpaper">Mode clair :</string>
 	<string name="action_select_night_wallpaper">Mode sombre :</string>
 	<string name="wallpaper_status_set">Défini</string>

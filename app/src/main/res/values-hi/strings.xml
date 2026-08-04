@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">अनुमति का अनुरोध किया जा रहा है…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku कमांड नहीं चला सका।</string>
 	<string name="shizuku_grant_unexpected">Shizuku का इस्तेमाल करते समय कोई अनचाही गड़बड़ी हुई।</string>
-	<string name="title_wallpaper_sync">वॉलपेपर सिंक</string>
-	<string name="label_beta">बीटा</string>
-	<string name="description_wallpaper_sync">लाइट और डार्क मोड के लिए अलग-अलग वॉलपेपर के बीच बदलता है।</string>
+	<string name="title_device_wallpaper_sync">वॉलपेपर सिंक</string>
+	<string name="label_experimental_feature">प्रयोगात्मक</string>
+	<string name="description_device_wallpaper_sync">लाइट और डार्क मोड के लिए अलग-अलग वॉलपेपर इस्तेमाल करें। बदलने से कुछ समय के लिए परफ़ॉर्मेंस और अनलॉक की गति प्रभावित हो सकती है।</string>
 	<string name="action_select_day_wallpaper">लाइट मोड:</string>
 	<string name="action_select_night_wallpaper">डार्क मोड:</string>
 	<string name="wallpaper_status_set">सेट किया गया</string>

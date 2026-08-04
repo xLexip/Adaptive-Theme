@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Machtiging aanvragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku kon de opdracht niet uitvoeren.</string>
 	<string name="shizuku_grant_unexpected">Onverwachte fout bij het gebruik van Shizuku.</string>
-	<string name="title_wallpaper_sync">Achtergrondsynchronisatie</string>
-	<string name="label_beta">Bèta</string>
-	<string name="description_wallpaper_sync">Wisselt tussen afzonderlijke achtergronden voor de lichte en donkere modus.</string>
+	<string name="title_device_wallpaper_sync">Achtergrondsynchronisatie</string>
+	<string name="label_experimental_feature">Experimenteel</string>
+	<string name="description_device_wallpaper_sync">Gebruik afzonderlijke achtergronden voor de lichte en donkere modus. Wisselen kan de prestaties en ontgrendelsnelheid kort beïnvloeden.</string>
 	<string name="action_select_day_wallpaper">Lichte modus:</string>
 	<string name="action_select_night_wallpaper">Donkere modus:</string>
 	<string name="wallpaper_status_set">Ingesteld</string>

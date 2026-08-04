@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">परवानगीची विनंती करत आहे…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku कमांड चालवू शकले नाही.</string>
 	<string name="shizuku_grant_unexpected">Shizuku वापरताना अनपेक्षित त्रुटी आली.</string>
-	<string name="title_wallpaper_sync">वॉलपेपर सिंक</string>
-	<string name="label_beta">बीटा</string>
-	<string name="description_wallpaper_sync">फिकट आणि गडद मोडसाठी वेगवेगळ्या वॉलपेपरमध्ये बदलते.</string>
+	<string name="title_device_wallpaper_sync">वॉलपेपर सिंक</string>
+	<string name="label_experimental_feature">प्रायोगिक वैशिष्ट्य</string>
+	<string name="description_device_wallpaper_sync">फिकट आणि गडद मोडसाठी वेगवेगळे वॉलपेपर वापरा. बदलताना काही काळासाठी कार्यप्रदर्शन आणि अनलॉक करण्याच्या गतीवर परिणाम होऊ शकतो.</string>
 	<string name="action_select_day_wallpaper">फिकट मोड:</string>
 	<string name="action_select_night_wallpaper">गडद मोड:</string>
 	<string name="wallpaper_status_set">सेट केले</string>

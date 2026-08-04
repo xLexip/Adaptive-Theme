@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Заявяване на разрешение…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku не можа да изпълни командата.</string>
 	<string name="shizuku_grant_unexpected">Възникна неочаквана грешка при използване на Shizuku.</string>
-	<string name="title_wallpaper_sync">Синхронизиране на тапетите</string>
-	<string name="label_beta">Бета</string>
-	<string name="description_wallpaper_sync">Превключва между отделни тапети за светъл и тъмен режим.</string>
+	<string name="title_device_wallpaper_sync">Синхронизиране на тапетите</string>
+	<string name="label_experimental_feature">Експериментално</string>
+	<string name="description_device_wallpaper_sync">Използвайте отделни тапети за светъл и тъмен режим. Превключването може за кратко да повлияе на производителността и скоростта на отключване.</string>
 	<string name="action_select_day_wallpaper">Светъл режим:</string>
 	<string name="action_select_night_wallpaper">Тъмен режим:</string>
 	<string name="wallpaper_status_set">Зададен</string>

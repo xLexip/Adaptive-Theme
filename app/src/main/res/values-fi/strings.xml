@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Pyydetään lupaa…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku ei voinut suorittaa komentoa.</string>
 	<string name="shizuku_grant_unexpected">Shizukun käytössä tapahtui odottamaton virhe.</string>
-	<string name="title_wallpaper_sync">Taustakuvien synkronointi</string>
-	<string name="label_beta">Beeta</string>
-	<string name="description_wallpaper_sync">Vaihtaa vaalean ja tumman tilan erillisten taustakuvien välillä.</string>
+	<string name="title_device_wallpaper_sync">Taustakuvien synkronointi</string>
+	<string name="label_experimental_feature">Kokeellinen</string>
+	<string name="description_device_wallpaper_sync">Käytä erillisiä taustakuvia vaaleassa ja tummassa tilassa. Vaihtaminen voi hetkellisesti vaikuttaa suorituskykyyn ja lukituksen avausnopeuteen.</string>
 	<string name="action_select_day_wallpaper">Vaalea tila:</string>
 	<string name="action_select_night_wallpaper">Tumma tila:</string>
 	<string name="wallpaper_status_set">Asetettu</string>

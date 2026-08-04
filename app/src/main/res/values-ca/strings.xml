@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">S’està sol·licitant permís…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku no ha pogut executar l’ordre.</string>
 	<string name="shizuku_grant_unexpected">S’ha produït un error inesperat en utilitzar Shizuku.</string>
-	<string name="title_wallpaper_sync">Sincronització de fons de pantalla</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Alterna entre fons de pantalla diferents per als modes clar i fosc.</string>
+	<string name="title_device_wallpaper_sync">Sincronització de fons de pantalla</string>
+	<string name="label_experimental_feature">Experimental</string>
+	<string name="description_device_wallpaper_sync">Utilitza fons de pantalla separats per als modes clar i fosc. El canvi pot afectar breument el rendiment i la velocitat de desbloqueig.</string>
 	<string name="action_select_day_wallpaper">Mode clar:</string>
 	<string name="action_select_night_wallpaper">Mode fosc:</string>
 	<string name="wallpaper_status_set">Definit</string>

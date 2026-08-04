@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">પરવાનગીની વિનંતી થઈ રહી છે…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku કમાન્ડ ચલાવી શક્યું નહીં.</string>
 	<string name="shizuku_grant_unexpected">Shizuku વાપરતી વખતે અનપેક્ષિત ભૂલ થઈ.</string>
-	<string name="title_wallpaper_sync">વૉલપેપર સિંક</string>
-	<string name="label_beta">બીટા</string>
-	<string name="description_wallpaper_sync">લાઇટ અને ડાર્ક મોડ માટે અલગ વૉલપેપર વચ્ચે બદલે છે.</string>
+	<string name="title_device_wallpaper_sync">વૉલપેપર સિંક</string>
+	<string name="label_experimental_feature">પ્રાયોગિક સુવિધા</string>
+	<string name="description_device_wallpaper_sync">લાઇટ અને ડાર્ક મોડ માટે અલગ વૉલપેપર વાપરો. બદલવાથી થોડા સમય માટે પરફોર્મન્સ અને અનલૉકની ઝડપ પર અસર થઈ શકે છે.</string>
 	<string name="action_select_day_wallpaper">લાઇટ મોડ:</string>
 	<string name="action_select_night_wallpaper">ડાર્ક મોડ:</string>
 	<string name="wallpaper_status_set">સેટ છે</string>

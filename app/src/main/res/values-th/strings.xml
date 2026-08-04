@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">กำลังขอสิทธิ์…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku เรียกใช้คำสั่งไม่ได้</string>
 	<string name="shizuku_grant_unexpected">เกิดข้อผิดพลาดที่ไม่คาดคิดขณะใช้ Shizuku</string>
-	<string name="title_wallpaper_sync">การซิงค์วอลเปเปอร์</string>
-	<string name="label_beta">เบต้า</string>
-	<string name="description_wallpaper_sync">สลับระหว่างวอลเปเปอร์แยกสำหรับโหมดสว่างและโหมดมืด</string>
+	<string name="title_device_wallpaper_sync">การซิงค์วอลเปเปอร์</string>
+	<string name="label_experimental_feature">ฟีเจอร์ทดลอง</string>
+	<string name="description_device_wallpaper_sync">ใช้วอลเปเปอร์แยกสำหรับโหมดสว่างและโหมดมืด การสลับอาจส่งผลต่อประสิทธิภาพและความเร็วในการปลดล็อกชั่วครู่</string>
 	<string name="action_select_day_wallpaper">โหมดสว่าง:</string>
 	<string name="action_select_night_wallpaper">โหมดมืด:</string>
 	<string name="wallpaper_status_set">ตั้งค่าแล้ว</string>

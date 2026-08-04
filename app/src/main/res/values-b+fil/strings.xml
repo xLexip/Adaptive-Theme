@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Humihiling ng pahintulot…</string>
 	<string name="shizuku_grant_shell_failed">Hindi mapatakbo ng Shizuku ang command.</string>
 	<string name="shizuku_grant_unexpected">Nagkaroon ng hindi inaasahang error habang ginagamit ang Shizuku.</string>
-	<string name="title_wallpaper_sync">Pag-sync ng wallpaper</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Nagpapalit sa magkahiwalay na wallpaper para sa light at dark mode.</string>
+	<string name="title_device_wallpaper_sync">Pag-sync ng wallpaper</string>
+	<string name="label_experimental_feature">Eksperimental</string>
+	<string name="description_device_wallpaper_sync">Gumamit ng magkahiwalay na wallpaper para sa light at dark mode. Maaaring panandaliang maapektuhan ng pagpapalit ang performance at bilis ng pag-unlock.</string>
 	<string name="action_select_day_wallpaper">Maliwanag na mode:</string>
 	<string name="action_select_night_wallpaper">Madilim na mode:</string>
 	<string name="wallpaper_status_set">Nakatakda</string>

@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">Pieprasa atļauju…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku nevarēja izpildīt komandu.</string>
 	<string name="shizuku_grant_unexpected">Izmantojot Shizuku, radās neparedzēta kļūda.</string>
-	<string name="title_wallpaper_sync">Fona attēlu sinhronizācija</string>
-	<string name="label_beta">Beta</string>
-	<string name="description_wallpaper_sync">Pārslēdz atsevišķus fona attēlus gaišajam un tumšajam režīmam.</string>
+	<string name="title_device_wallpaper_sync">Fona attēlu sinhronizācija</string>
+	<string name="label_experimental_feature">Eksperimentāla</string>
+	<string name="description_device_wallpaper_sync">Izmantojiet atsevišķus fona attēlus gaišajam un tumšajam režīmam. Pārslēgšana var īslaicīgi ietekmēt veiktspēju un atbloķēšanas ātrumu.</string>
 	<string name="action_select_day_wallpaper">Gaišais režīms:</string>
 	<string name="action_select_night_wallpaper">Tumšais režīms:</string>
 	<string name="wallpaper_status_set">Iestatīts</string>

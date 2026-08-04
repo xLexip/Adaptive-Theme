@@ -92,9 +92,9 @@
 	<string name="shizuku_request_permission">അനുമതി അഭ്യർഥിക്കുന്നു…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku-വിന് കമാൻഡ് പ്രവർത്തിപ്പിക്കാനായില്ല.</string>
 	<string name="shizuku_grant_unexpected">Shizuku ഉപയോഗിക്കുമ്പോൾ അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു.</string>
-	<string name="title_wallpaper_sync">വാൾപേപ്പർ സമന്വയം</string>
-	<string name="label_beta">ബീറ്റ</string>
-	<string name="description_wallpaper_sync">ലൈറ്റ്, ഡാർക്ക് മോഡുകൾക്കുള്ള വ്യത്യസ്ത വാൾപേപ്പറുകൾക്കിടയിൽ മാറ്റുന്നു.</string>
+	<string name="title_device_wallpaper_sync">വാൾപേപ്പർ സമന്വയം</string>
+	<string name="label_experimental_feature">പരീക്ഷണാത്മക ഫീച്ചർ</string>
+	<string name="description_device_wallpaper_sync">ലൈറ്റ്, ഡാർക്ക് മോഡുകൾക്ക് വെവ്വേറെ വാൾപേപ്പറുകൾ ഉപയോഗിക്കുക. മാറ്റുമ്പോൾ പ്രകടനത്തെയും അൺലോക്ക് വേഗത്തെയും കുറച്ചുനേരത്തേക്ക് ബാധിച്ചേക്കാം.</string>
 	<string name="action_select_day_wallpaper">ലൈറ്റ് മോഡ്:</string>
 	<string name="action_select_night_wallpaper">ഡാർക്ക് മോഡ്:</string>
 	<string name="wallpaper_status_set">സജ്ജമാക്കി</string>
