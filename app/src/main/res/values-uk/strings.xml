@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Назад</string>
+	<string name="action_cancel">Скасувати</string>
+	<string name="action_close">Закрити</string>
+	<string name="action_continue">Продовжити</string>
+	<string name="action_learn_more">Докладніше</string>
+	<string name="action_disable_notification">Сховати сповіщення</string>
+	<string name="action_finish">Завершити</string>
+	<string name="action_set">Установити</string>
+	<string name="action_share_url">Поділитися посиланням</string>
+	<string name="action_skip">Пропустити</string>
+	<string name="action_use_adaptive_theme">Використовувати %1$s</string>
+	<string name="action_advanced_settings">Розширені налаштування</string>
+	<string name="action_collapse">Згорнути</string>
+	<string name="state_collapsed">Згорнуто</string>
+	<string name="state_expanded">Розгорнуто</string>
+	<string name="title_share_setup">Поділитися посиланням для налаштування</string>
+	<string name="debug_review_flow_completed">Тестовий процес оцінювання завершено</string>
+	<string name="easter_egg_answer">Відповідь на головне питання життя, Всесвіту й усього іншого.</string>
+
+	<string name="description_service_purpose">
+		Перемикає Android між світлим і темним режимами залежно від навколишнього освітлення.
+	</string>
+
+	<string name="description_switching_conditions">
+		Перемикання відбувається лише після ввімкнення екрана й тільки якщо датчик не закритий.
+	</string>
+
+	<string name="description_notification_service_running">
+		Готово змінити тему системи після ввімкнення екрана.
+	</string>
+
+	<string name="device_covered_title">Датчик закритий</string>
+	<string name="device_covered_message">Перемикання теми призупинено, оскільки датчик освітлення закритий.</string>
+	<string name="battery_saver_title">Заощадження заряду ввімкнено</string>
+	<string name="battery_saver_message">Системне заощадження заряду може перешкоджати автоматичному перемиканню теми.</string>
+
+	<string name="error_invalid_lux_value">Введіть припустиме значення в люксах.</string>
+	<string name="error_invalid_night_period">Час початку й завершення має відрізнятися.</string>
+	<string name="error_negative_lux_value">Значення не може бути від’ємним.</string>
+	<string name="error_lux_value_too_large">Значення не може перевищувати 100 000.</string>
+
+	<string name="title_about_github">Про застосунок / GitHub</string>
+	<string name="title_brightness_threshold">Поріг навколишнього освітлення</string>
+	<string name="title_live_measurement">Поточне значення</string>
+	<string name="title_change_language">Змінити мову</string>
+	<string name="title_current_brightness">Поточне навколишнє освітлення</string>
+	<string name="title_custom_threshold">Власний поріг</string>
+	<string name="title_more">Більше</string>
+	<string name="title_night_dark_lock">Зберігати темний режим уночі</string>
+	<string name="title_night_start_time_picker">Початок ночі</string>
+	<string name="title_night_end_time_picker">Кінець ночі</string>
+	<string name="title_notification_channel_service">Служба перемикання теми</string>
+	<string name="title_send_feedback">Надіслати відгук</string>
+	<string name="title_support_project">Підтримати проєкт</string>
+
+	<string name="adaptive_threshold_bright">Яскраве світло</string>
+	<string name="adaptive_threshold_custom">Власний</string>
+	<string name="adaptive_threshold_dark">Темрява</string>
+	<string name="adaptive_threshold_daylight">Денне світло</string>
+	<string name="adaptive_threshold_dim">Сутінки</string>
+	<string name="adaptive_threshold_soft">М’яке світло</string>
+	<string name="adaptive_threshold_direct_sunlight">Пряме сонячне світло</string>
+	<string name="description_night_dark_lock">Зберігає темний режим протягом указаного нічного періоду.</string>
+	<string name="action_night_from_time">З: %1$s</string>
+	<string name="action_night_to_time">До: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Значення в люксах</string>
+
+	<string name="setup_action_open_developer_settings">Відкрити параметри розробника</string>
+	<string name="setup_action_open_settings">Відкрити налаштування</string>
+	<string name="setup_connect_title">Крок 2: підключіть другий пристрій</string>
+	<string name="setup_connect_description">Щоб надати дозвіл, потрібен <b>другий пристрій</b> (бажано комп’ютер). З’єднайте обидва пристрої через USB. Або скористайтеся застосунком Shizuku, указаним нижче.</string>
+	<string name="setup_developer_mode_title">Крок 1: увімкніть параметри розробника</string>
+	<string name="setup_developer_mode_body">Увімкніть налагодження через USB у параметрах розробника.</string>
+	<string name="setup_developer_options_unlock">Розблокувати параметри розробника</string>
+	<string name="setup_developer_options_enabled">Параметри розробника ввімкнено</string>
+	<string name="setup_dev_options_toast_one">Знайдіть номер складання й торкніться його 7 разів, щоб увімкнути параметри розробника.</string>
+	<string name="setup_dev_options_toast_two">Скористайтеся пошуком, якщо не можете його знайти.</string>
+	<string name="setup_alternative_methods">Інші способи</string>
+	<string name="setup_grant_title">Крок 3: надайте дозвіл із другого пристрою</string>
+	<string name="setup_grant_body">Відкрийте це посилання на другому пристрої й дотримуйтеся вказівок:</string>
+	<string name="setup_alternatives">Також можна самостійно виконати команду ADB або надати дозвіл за допомогою root-доступу. Shizuku теж підтримується.</string>
+	<string name="setup_permission_granted">Дозвіл надано.</string>
+	<string name="setup_permission_not_granted">Дозвіл ще не надано. Завершіть налаштування за допомогою другого пристрою.</string>
+	<string name="setup_usb_debugging_disabled">Увімкнути налагодження через USB</string>
+	<string name="setup_usb_debugging_enabled">Налагодження через USB увімкнено</string>
+	<string name="setup_usb_debugging_enable_toast">Увімкніть налагодження через USB у параметрах розробника.</string>
+	<string name="setup_usb_not_connected">Очікування підключення через USB…</string>
+	<string name="setup_usb_connected">USB підключено</string>
+	<string name="setup_why_other_device_title">Навіщо потрібен другий пристрій?</string>
+	<string name="setup_why_other_device">Android не дозволяє застосункам самостійно надавати собі потрібний дозвіл. Необхідний другий пристрій із браузером або ADB.</string>
+	<string name="setup_is_this_safe_title">Це безпечно?</string>
+	<string name="setup_is_this_safe_body">Цей дозвіл дає застосункам змогу змінювати захищені системні налаштування. Adaptive Theme використовує його лише для таких функцій, як перемикання темного режиму. Видалення застосунку відкликає дозвіл. Вихідний код загальнодоступний на GitHub.</string>
+	<string name="setup_shizuku_title">Інший спосіб: Shizuku</string>
+	<string name="setup_shizuku_description">Якщо ви вже користуєтеся Shizuku, другий пристрій і ADB не потрібні. Shizuku потрібен лише один раз, щоб надати дозвіл.</string>
+	<string name="setup_shizuku_action">Використати Shizuku</string>
+	<string name="setup_action_use_root">Використати root-доступ</string>
+	<string name="setup_root_request">Запит root-доступу…</string>
+	<string name="setup_root_grant_failed">Не вдалося надати дозвіл за допомогою root-доступу.</string>
+	<string name="setup_root_question">Пристрій має root-доступ?</string>
+
+	<string name="setup_required_title">Потрібне налаштування</string>
+	<string name="setup_required_message">Для роботи %1$s потрібне одноразове налаштування.</string>
+	<string name="action_start_setup">Почати налаштування</string>
+
+	<string name="shizuku_not_running">Запустіть або перезапустіть Shizuku й повторіть спробу.</string>
+	<string name="shizuku_denied">Доступ відхилено. Дозвольте Adaptive Theme у Shizuku й повторіть спробу.</string>
+	<string name="shizuku_request_permission">Запит дозволу…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku не вдалося виконати команду.</string>
+	<string name="shizuku_grant_unexpected">Під час використання Shizuku сталася неочікувана помилка.</string>
+	<string name="title_device_wallpaper_sync">Синхронізація шпалер</string>
+	<string name="label_experimental_feature">Експериментальна функція</string>
+	<string name="description_device_wallpaper_sync">Використовуйте окремі шпалери для світлого й темного режимів. Перемикання може ненадовго вплинути на продуктивність і швидкість розблокування.</string>
+	<string name="action_select_day_wallpaper">Світлий режим:</string>
+	<string name="action_select_night_wallpaper">Темний режим:</string>
+	<string name="wallpaper_status_set">Установлено</string>
+	<string name="wallpaper_status_not_set">Не встановлено</string>
+	<string name="live_wallpaper_warning_title">Живі шпалери активні</string>
+	<string name="live_wallpaper_warning_message">Увімкнення синхронізації замінить поточні живі шпалери статичними для світлого й темного режимів. Продовжити?</string>
+</resources>

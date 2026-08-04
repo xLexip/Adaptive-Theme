@@ -17,6 +17,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.SensorManager
+import android.net.Uri
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -25,13 +26,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.AdaptiveThreshold
+import dev.lexip.hecate.data.UserPreferencesDataSource
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.services.BroadcastReceiverService
-import dev.lexip.hecate.util.DarkThemeHandler
-import dev.lexip.hecate.util.InstallSourceChecker
+import dev.lexip.hecate.services.AdaptiveThemeServiceController
+import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
+import dev.lexip.hecate.util.AndroidInstallMetadataProvider
+import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
+import dev.lexip.hecate.util.ProximitySensorReader
+import dev.lexip.hecate.util.SensorReader
+import dev.lexip.hecate.util.WallpaperHandler
+import dev.lexip.hecate.util.WallpaperPlatform
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -43,6 +50,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 private const val TAG = "MainViewModel"
 private const val REVIEW_MIN_SWITCH_COUNT = 10
@@ -64,13 +73,26 @@ data class MainUiState(
 	val isInstalledFromPlayStore: Boolean = false,
 	val stayDarkAtNightEnabled: Boolean = false,
 	val nightStartMinutes: Int = 21 * 60,
-	val nightEndMinutes: Int = 6 * 60
+	val nightEndMinutes: Int = 6 * 60,
+	val wallpaperSyncEnabled: Boolean = false,
+	val dayWallpaperUri: String? = null,
+	val nightWallpaperUri: String? = null,
+	val showLiveWallpaperWarningDialog: Boolean = false
 )
 
-class MainViewModel(
+class MainViewModel internal constructor(
 	private val application: Application,
-	private val userPreferencesRepository: UserPreferencesRepository,
-	private var _darkThemeHandler: DarkThemeHandler,
+	private val userPreferencesRepository: UserPreferencesDataSource,
+	private val lightSensorManager: SensorReader =
+		LightSensorManager(application.applicationContext),
+	private val proximitySensorManager: ProximitySensorReader =
+		ProximitySensorManager(application.applicationContext),
+	private val serviceController: AdaptiveThemeServiceController =
+		AndroidAdaptiveThemeServiceController(application.applicationContext),
+	private val installMetadataProvider: InstallMetadataProvider =
+		AndroidInstallMetadataProvider(application.applicationContext),
+	private val wallpaperPlatform: WallpaperPlatform =
+		WallpaperHandler(application.applicationContext),
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -94,7 +116,6 @@ class MainViewModel(
 	val uiEvents = _uiEvents.asSharedFlow()
 
 	// Light Sensor
-	private val lightSensorManager = LightSensorManager(application.applicationContext)
 	private var isListeningToSensor = false
 
 	private val _currentSensorLux = MutableStateFlow(0f)
@@ -106,7 +127,6 @@ class MainViewModel(
 	}
 
 	// Proximity Sensor
-	private val proximitySensorManager = ProximitySensorManager(application.applicationContext)
 	private var isListeningToProximity = false
 	private var coveredJob: Job? = null
 	private var batterySaverReceiver: BroadcastReceiver? = null
@@ -191,9 +211,11 @@ class MainViewModel(
 			}
 		}
 
-		context.registerReceiver(
+		ContextCompat.registerReceiver(
+			context,
 			batterySaverReceiver,
-			IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
+			IntentFilter(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED),
+			ContextCompat.RECEIVER_NOT_EXPORTED
 		)
 	}
 
@@ -232,10 +254,11 @@ class MainViewModel(
 	// In-app reviews
 	private var serviceEnabledAtStart: Boolean? = null
 	private var reviewRequestedInSession: Boolean = false
+	private val wallpaperSelectionMutex = Mutex()
 
 	init {
 		viewModelScope.launch(ioDispatcher) {
-			val fromPlayStore = InstallSourceChecker.fromPlayStore(application)
+			val fromPlayStore = installMetadataProvider.isInstalledFromPlayStore()
 			_uiState.value = _uiState.value.copy(isInstalledFromPlayStore = fromPlayStore)
 		}
 
@@ -251,7 +274,10 @@ class MainViewModel(
 					hasSetupCompleted = userPreferences.hasSetupCompleted,
 					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
 					nightStartMinutes = userPreferences.nightStartMinutes,
-					nightEndMinutes = userPreferences.nightEndMinutes
+					nightEndMinutes = userPreferences.nightEndMinutes,
+					wallpaperSyncEnabled = userPreferences.wallpaperSyncEnabled,
+					dayWallpaperUri = userPreferences.dayWallpaperUri,
+					nightWallpaperUri = userPreferences.nightWallpaperUri
 				)
 
 				if (userPreferences.adaptiveThemeEnabled) {
@@ -281,7 +307,6 @@ class MainViewModel(
 
 	override fun onCleared() {
 		stopSensors()
-		super.onCleared()
 	}
 
 	/**
@@ -324,8 +349,7 @@ class MainViewModel(
 	}
 
 	private fun shouldPromptForReview(): Boolean {
-		val daysSinceFirstInstall =
-			InstallSourceChecker.getDaysSinceFirstInstall(application.applicationContext)
+		val daysSinceFirstInstall = installMetadataProvider.daysSinceFirstInstall()
 		return !reviewRequestedInSession && serviceEnabledAtStart == true && daysSinceFirstInstall >= 2
 	}
 
@@ -431,21 +455,96 @@ class MainViewModel(
 		}
 	}
 
+	fun onDayWallpaperPicked(uri: Uri) {
+		viewModelScope.launch(ioDispatcher) {
+			storeWallpaperSelection(uri, isDayWallpaper = true)
+		}
+	}
+
+	fun onNightWallpaperPicked(uri: Uri) {
+		viewModelScope.launch(ioDispatcher) {
+			storeWallpaperSelection(uri, isDayWallpaper = false)
+		}
+	}
+
+	private suspend fun storeWallpaperSelection(uri: Uri, isDayWallpaper: Boolean) {
+		wallpaperSelectionMutex.withLock {
+			val preferencesBefore = userPreferencesRepository.fetchInitialPreferences()
+			try {
+				wallpaperPlatform.takePersistableReadPermission(uri)
+			} catch (e: Exception) {
+				val wallpaperType = if (isDayWallpaper) "day" else "night"
+				Log.w(TAG, "Failed to take persistable URI permission for $wallpaperType wallpaper", e)
+			}
+
+			if (isDayWallpaper) {
+				userPreferencesRepository.updateDayWallpaperUri(uri.toString())
+			} else {
+				userPreferencesRepository.updateNightWallpaperUri(uri.toString())
+			}
+			Logger.logWallpaperPicked(
+				application.applicationContext,
+				if (isDayWallpaper) "light" else "dark"
+			)
+
+			val preferencesAfter = userPreferencesRepository.fetchInitialPreferences()
+			val bothWereSet = !preferencesBefore.dayWallpaperUri.isNullOrEmpty() &&
+				!preferencesBefore.nightWallpaperUri.isNullOrEmpty()
+			val bothAreSet = !preferencesAfter.dayWallpaperUri.isNullOrEmpty() &&
+				!preferencesAfter.nightWallpaperUri.isNullOrEmpty()
+			if (!bothWereSet && bothAreSet && !preferencesAfter.wallpaperSyncEnabled) {
+				onWallpaperSyncToggleRequested(true)
+			}
+		}
+	}
+
+	fun onWallpaperSyncToggleRequested(enabled: Boolean) {
+		if (enabled) {
+			if (wallpaperPlatform.isLiveWallpaperActive()) {
+				_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = true)
+			} else {
+				enableWallpaperSync()
+			}
+		} else {
+			disableWallpaperSync()
+		}
+	}
+
+	fun confirmEnableWithLiveWallpaper() {
+		_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = false)
+		enableWallpaperSync()
+	}
+
+	fun dismissLiveWallpaperWarningDialog() {
+		_uiState.value = _uiState.value.copy(showLiveWallpaperWarningDialog = false)
+	}
+
+	private fun enableWallpaperSync() {
+		viewModelScope.launch(ioDispatcher) {
+			userPreferencesRepository.updateWallpaperSyncEnabled(true)
+			Logger.logWallpaperSyncToggled(application.applicationContext, enabled = true)
+		}
+	}
+
+	private fun disableWallpaperSync() {
+		viewModelScope.launch(ioDispatcher) {
+			userPreferencesRepository.updateWallpaperSyncEnabled(false)
+			Logger.logWallpaperSyncToggled(application.applicationContext, enabled = false)
+		}
+	}
+
 	private fun startBroadcastReceiverService() {
-		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
-		ContextCompat.startForegroundService(application.applicationContext, intent)
+		serviceController.start()
 	}
 
 	private fun stopBroadcastReceiverService() {
-		val intent = Intent(application.applicationContext, BroadcastReceiverService::class.java)
-		application.applicationContext.stopService(intent)
+		serviceController.stop()
 	}
 }
 
 class MainViewModelFactory(
 	private val application: Application,
-	private val userPreferencesRepository: UserPreferencesRepository,
-	private val darkThemeHandler: DarkThemeHandler
+	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModelProvider.Factory {
 
 
@@ -454,8 +553,7 @@ class MainViewModelFactory(
 			@Suppress("UNCHECKED_CAST")
 			return MainViewModel(
 				application,
-				userPreferencesRepository,
-				darkThemeHandler
+				userPreferencesRepository
 			) as T
 		}
 		throw IllegalArgumentException("Unknown ViewModel class")

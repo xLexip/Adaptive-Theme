@@ -12,32 +12,29 @@
 
 package dev.lexip.hecate.ui.setup
 
-import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.hardware.usb.UsbManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
+import dev.lexip.hecate.data.UserPreferencesDataSource
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.services.BroadcastReceiverService
+import dev.lexip.hecate.services.AdaptiveThemeServiceController
+import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
 import dev.lexip.hecate.ui.navigation.NavigationEvent
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.navigation.SetupRoute
-import dev.lexip.hecate.util.shizuku.ShizukuAvailability
-import dev.lexip.hecate.util.shizuku.ShizukuManager
+import dev.lexip.hecate.util.shizuku.GrantCommandBuilder
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -47,7 +44,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import rikka.shizuku.Shizuku
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val AUTO_ADVANCE_DELAY = 2
@@ -83,8 +79,14 @@ data class SetupUiState(
  */
 class SetupViewModel(
 	private val application: Application,
-	private val userPreferencesRepository: UserPreferencesRepository,
+	private val userPreferencesRepository: UserPreferencesDataSource,
 	private val navigationManager: NavigationManager,
+	private val environmentProvider: SetupEnvironmentProvider =
+		AndroidSetupEnvironmentProvider(application.applicationContext),
+	private val permissionGrantController: SetupPermissionGrantController =
+		AndroidSetupPermissionGrantController(),
+	private val serviceController: AdaptiveThemeServiceController =
+		AndroidAdaptiveThemeServiceController(application.applicationContext),
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -92,7 +94,7 @@ class SetupViewModel(
 	private val _uiState = MutableStateFlow(SetupUiState())
 	val uiState: StateFlow<SetupUiState> = _uiState.asStateFlow()
 
-	private var registeredShizukuListener: Shizuku.OnRequestPermissionResultListener? = null
+	private var registeredShizukuListener: SetupPermissionListenerRegistration? = null
 	private var usbReceiver: BroadcastReceiver? = null
 	private val setupCompletionHandled = AtomicBoolean(false)
 	private var isMonitoring = false
@@ -115,25 +117,28 @@ class SetupViewModel(
 
 	private fun initializeState() {
 		val context = application.applicationContext
-		val hasShizuku = ShizukuAvailability.isShizukuInstalled(context)
+		val environment = environmentProvider.snapshot()
 		val packageName = context.packageName
 
 		_uiState.update { current ->
 			current.copy(
-				isShizukuInstalled = hasShizuku,
-				pendingAdbCommand = "adb shell pm grant $packageName android.permission.WRITE_SECURE_SETTINGS",
-				isDeveloperOptionsEnabled = checkDeveloperOptionsEnabled(context),
-				isUsbDebuggingEnabled = checkUsbDebuggingEnabled(context),
-				hasWriteSecureSettings = checkWriteSecureSettingsPermission(context)
+				isShizukuInstalled = environment.isShizukuInstalled,
+				pendingAdbCommand = GrantCommandBuilder.adbGrantWriteSecureSettings(packageName),
+				isDeveloperOptionsEnabled = environment.isDeveloperOptionsEnabled,
+				isUsbDebuggingEnabled = environment.isUsbDebuggingEnabled,
+				isUsbConnected = environment.isUsbConnected,
+				hasWriteSecureSettings = environment.hasWriteSecureSettings
 			)
 		}
 	}
 
 	private fun determineInitialStep() {
 		val context = application.applicationContext
-		val step1Done = checkDeveloperOptionsEnabled(context) && checkUsbDebuggingEnabled(context)
+		val environment = environmentProvider.snapshot()
+		val step1Done =
+			environment.isDeveloperOptionsEnabled && environment.isUsbDebuggingEnabled
 		// We don't skip step 2 based on USB connection alone, as the user might need to see the instructions.
-		val step3Done = checkWriteSecureSettingsPermission(context)
+		val step3Done = environment.hasWriteSecureSettings
 
 		if (step3Done) {
 			_uiState.update {
@@ -157,8 +162,8 @@ class SetupViewModel(
 	}
 
 	private fun registerShizukuListener() {
-		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
-			val granted = grantResult == PackageManager.PERMISSION_GRANTED
+		registeredShizukuListener =
+			permissionGrantController.registerShizukuPermissionListener { requestCode, granted ->
 			if (granted && requestCode == REQUEST_CODE_SHIZUKU) {
 				Logger.logServiceEnabled(
 					application.applicationContext,
@@ -174,8 +179,6 @@ class SetupViewModel(
 				openShizukuAppIfInstalled()
 			}
 		}
-		registeredShizukuListener = listener
-		Shizuku.addRequestPermissionResultListener(listener)
 	}
 
 	private fun logSetupStarted() {
@@ -307,13 +310,13 @@ class SetupViewModel(
 	}
 
 	private fun updateEnvironmentState() {
-		val context = application.applicationContext
+		val environment = environmentProvider.snapshot()
 		_uiState.update { current ->
 			current.copy(
-				isDeveloperOptionsEnabled = checkDeveloperOptionsEnabled(context),
-				isUsbDebuggingEnabled = checkUsbDebuggingEnabled(context),
-				hasWriteSecureSettings = checkWriteSecureSettingsPermission(context),
-				isUsbConnected = current.isUsbConnected || checkUsbConnectedViaManager(context)
+				isDeveloperOptionsEnabled = environment.isDeveloperOptionsEnabled,
+				isUsbDebuggingEnabled = environment.isUsbDebuggingEnabled,
+				hasWriteSecureSettings = environment.hasWriteSecureSettings,
+				isUsbConnected = current.isUsbConnected || environment.isUsbConnected
 			)
 		}
 	}
@@ -327,45 +330,6 @@ class SetupViewModel(
 		val adb = extras.getBoolean("adb", false)
 		val hostConnected = extras.getBoolean("host_connected", false)
 		return connected && (configured || dataConnected || adb || hostConnected)
-	}
-
-	private fun checkDeveloperOptionsEnabled(context: Context): Boolean {
-		return try {
-			Settings.Global.getInt(
-				context.contentResolver,
-				Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
-				0
-			) == 1
-		} catch (_: Exception) {
-			false
-		}
-	}
-
-	private fun checkUsbDebuggingEnabled(context: Context): Boolean {
-		return try {
-			Settings.Global.getInt(
-				context.contentResolver,
-				Settings.Global.ADB_ENABLED,
-				0
-			) == 1
-		} catch (_: Exception) {
-			false
-		}
-	}
-
-	private fun checkWriteSecureSettingsPermission(context: Context): Boolean {
-		return ContextCompat.checkSelfPermission(
-			context, Manifest.permission.WRITE_SECURE_SETTINGS
-		) == PackageManager.PERMISSION_GRANTED
-	}
-
-	private fun checkUsbConnectedViaManager(context: Context): Boolean {
-		return try {
-			val usbManager = context.getSystemService(Context.USB_SERVICE) as? UsbManager
-			usbManager?.deviceList?.isNotEmpty() == true
-		} catch (_: Exception) {
-			false
-		}
 	}
 
 	/**
@@ -439,11 +403,8 @@ class SetupViewModel(
 				userPreferencesRepository.ensureAdaptiveThemeThresholdDefault()
 				userPreferencesRepository.updateAdaptiveThemeEnabled(true)
 
-				// Start Service
-				val intent =
-					Intent(application.applicationContext, BroadcastReceiverService::class.java)
 				try {
-					ContextCompat.startForegroundService(application.applicationContext, intent)
+					serviceController.start()
 				} catch (e: Exception) {
 					Logger.logException(e)
 				}
@@ -505,8 +466,7 @@ class SetupViewModel(
 	}
 
 	fun checkPermissionAndComplete() {
-		val context = application.applicationContext
-		val nowGranted = checkWriteSecureSettingsPermission(context)
+		val nowGranted = environmentProvider.snapshot().hasWriteSecureSettings
 		_uiState.update { it.copy(hasWriteSecureSettings = nowGranted) }
 
 		if (nowGranted) {
@@ -530,7 +490,7 @@ class SetupViewModel(
 		val context = application.applicationContext
 		val packageName = application.packageName
 
-		if (!ShizukuManager.isBinderReady()) {
+		if (!permissionGrantController.isShizukuBinderReady()) {
 			Toast.makeText(
 				context,
 				context.getString(R.string.shizuku_not_running),
@@ -540,26 +500,25 @@ class SetupViewModel(
 			return
 		}
 
-		if (!ShizukuManager.hasPermission(context)) {
+		if (!permissionGrantController.hasShizukuPermission(context)) {
 			Toast.makeText(
 				context,
 				context.getString(R.string.shizuku_request_permission),
 				Toast.LENGTH_SHORT
 			).show()
-			ShizukuManager.requestPermission()
+			permissionGrantController.requestShizukuPermission()
 			return
 		}
 
 		viewModelScope.launch(ioDispatcher) {
-			val result = ShizukuManager.executeGrantViaShizuku(context, packageName)
-			Logger.logShizukuGrantResult(context, result, packageName)
+			val result = permissionGrantController.grantViaShizuku(context, packageName)
 			withContext(mainDispatcher) {
 				when (result) {
-					is ShizukuManager.GrantResult.Success -> {
+					SetupGrantResult.Success -> {
 						completeSetup(source = "shizuku")
 					}
 
-					is ShizukuManager.GrantResult.ServiceNotRunning -> {
+					SetupGrantResult.ServiceNotRunning -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_not_running),
@@ -568,7 +527,7 @@ class SetupViewModel(
 						openShizukuAppIfInstalled()
 					}
 
-					is ShizukuManager.GrantResult.NotAuthorized -> {
+					SetupGrantResult.NotAuthorized -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_not_running),
@@ -576,7 +535,7 @@ class SetupViewModel(
 						).show()
 					}
 
-					is ShizukuManager.GrantResult.ShellCommandFailed -> {
+					is SetupGrantResult.Failed -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_grant_shell_failed),
@@ -584,7 +543,7 @@ class SetupViewModel(
 						).show()
 					}
 
-					is ShizukuManager.GrantResult.Unexpected -> {
+					is SetupGrantResult.Unexpected -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_grant_unexpected),
@@ -598,8 +557,8 @@ class SetupViewModel(
 
 	private fun attemptSilentRootGrant() {
 		viewModelScope.launch(ioDispatcher) {
-			val result = tryGrantViaRoot()
-			if (result is RootGrantResult.Success) {
+			val result = permissionGrantController.grantViaRoot(application.packageName)
+			if (result is SetupGrantResult.Success) {
 				withContext(mainDispatcher) {
 					completeSetup(source = "root_silent")
 				}
@@ -612,10 +571,10 @@ class SetupViewModel(
 		Toast.makeText(context, R.string.setup_root_request, Toast.LENGTH_SHORT).show()
 
 		viewModelScope.launch(ioDispatcher) {
-			val result = tryGrantViaRoot()
+			val result = permissionGrantController.grantViaRoot(application.packageName)
 			withContext(mainDispatcher) {
 				when (result) {
-					RootGrantResult.Success -> {
+					SetupGrantResult.Success -> {
 						completeSetup(source = "root")
 						Toast.makeText(
 							context,
@@ -624,8 +583,11 @@ class SetupViewModel(
 						).show()
 					}
 
-					is RootGrantResult.Failure -> {
-						Log.w(TAG, "Root setup commands failed: ${result.reason}")
+					is SetupGrantResult.Failed,
+					is SetupGrantResult.Unexpected,
+					SetupGrantResult.ServiceNotRunning,
+					SetupGrantResult.NotAuthorized -> {
+						Log.w(TAG, "Root setup commands failed: $result")
 						Toast.makeText(
 							context,
 							R.string.setup_root_grant_failed,
@@ -639,64 +601,6 @@ class SetupViewModel(
 					}
 				}
 			}
-		}
-	}
-
-	private sealed interface RootGrantResult {
-		data object Success : RootGrantResult
-		data class Failure(val reason: String) : RootGrantResult
-	}
-
-	private fun tryGrantViaRoot(): RootGrantResult {
-		val packageName = application.packageName
-		val commands = ShizukuManager.buildAllGrantCommands(packageName)
-
-		for ((index, command) in commands.withIndex()) {
-			val result = executeSingleRootCommand(command)
-			when (result) {
-				is RootCommandResult.Success -> Unit
-				is RootCommandResult.Failure -> {
-					return RootGrantResult.Failure(
-						"command_${index + 1}_exit_${result.exitCode}: ${result.command}"
-					)
-				}
-				is RootCommandResult.Unexpected -> {
-					return RootGrantResult.Failure(
-						"command_${index + 1}_${result.throwableName}: ${result.command}"
-					)
-				}
-			}
-		}
-
-		return RootGrantResult.Success
-	}
-
-	private sealed interface RootCommandResult {
-		data object Success : RootCommandResult
-		data class Failure(val command: String, val exitCode: Int) : RootCommandResult
-		data class Unexpected(val command: String, val throwableName: String) : RootCommandResult
-	}
-
-	private fun executeSingleRootCommand(command: String): RootCommandResult {
-		return try {
-			val process = Runtime.getRuntime().exec("su")
-			java.io.DataOutputStream(process.outputStream).use { os ->
-				os.writeBytes("$command\n")
-				os.writeBytes("exit\n")
-				os.flush()
-			}
-
-			val exitCode = process.waitFor()
-			if (exitCode == 0) {
-				RootCommandResult.Success
-			} else {
-				RootCommandResult.Failure(command = command, exitCode = exitCode)
-			}
-		} catch (e: Exception) {
-			RootCommandResult.Unexpected(
-				command = command,
-				throwableName = e.javaClass.simpleName
-			)
 		}
 	}
 
@@ -720,9 +624,8 @@ class SetupViewModel(
 	}
 
 	override fun onCleared() {
-		registeredShizukuListener?.let { Shizuku.removeRequestPermissionResultListener(it) }
+		registeredShizukuListener?.unregister()
 		stopEnvironmentMonitoring()
-		super.onCleared()
 	}
 }
 

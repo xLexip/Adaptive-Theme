@@ -29,7 +29,6 @@ render.experimental.xml
 
 # Secrets (e.g. APIs or Firebase)
 google-services.json
-**/DarkThemeHandler.kt
 
 # Android Profiling
 *.hprof

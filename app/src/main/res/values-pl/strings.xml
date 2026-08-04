@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Wstecz</string>
+	<string name="action_cancel">Anuluj</string>
+	<string name="action_close">Zamknij</string>
+	<string name="action_continue">Dalej</string>
+	<string name="action_learn_more">Więcej informacji</string>
+	<string name="action_disable_notification">Ukryj powiadomienie</string>
+	<string name="action_finish">Zakończ</string>
+	<string name="action_set">Ustaw</string>
+	<string name="action_share_url">Udostępnij link</string>
+	<string name="action_skip">Pomiń</string>
+	<string name="action_use_adaptive_theme">Używaj %1$s</string>
+	<string name="action_advanced_settings">Ustawienia zaawansowane</string>
+	<string name="action_collapse">Zwiń</string>
+	<string name="state_collapsed">Zwinięte</string>
+	<string name="state_expanded">Rozwinięte</string>
+	<string name="title_share_setup">Udostępnij link do konfiguracji</string>
+	<string name="debug_review_flow_completed">Testowy proces oceny zakończony</string>
+	<string name="easter_egg_answer">Odpowiedź na ostateczne pytanie o życie, wszechświat i całą resztę.</string>
+
+	<string name="description_service_purpose">
+		Przełącza Androida między trybem jasnym i ciemnym zależnie od światła otoczenia.
+	</string>
+
+	<string name="description_switching_conditions">
+		Przełączenie następuje tylko po włączeniu ekranu i gdy czujnik nie jest zasłonięty.
+	</string>
+
+	<string name="description_notification_service_running">
+		Gotowe do zmiany motywu systemu po włączeniu ekranu.
+	</string>
+
+	<string name="device_covered_title">Czujnik zasłonięty</string>
+	<string name="device_covered_message">Zmiana motywu jest wstrzymana, ponieważ czujnik światła jest zasłonięty.</string>
+	<string name="battery_saver_title">Oszczędzanie baterii włączone</string>
+	<string name="battery_saver_message">Systemowe oszczędzanie baterii może uniemożliwić automatyczną zmianę motywu.</string>
+
+	<string name="error_invalid_lux_value">Wpisz prawidłową wartość w luksach.</string>
+	<string name="error_invalid_night_period">Godzina rozpoczęcia i zakończenia muszą być różne.</string>
+	<string name="error_negative_lux_value">Wartość nie może być ujemna.</string>
+	<string name="error_lux_value_too_large">Wartość nie może przekraczać 100 000.</string>
+
+	<string name="title_about_github">O aplikacji / GitHub</string>
+	<string name="title_brightness_threshold">Próg światła otoczenia</string>
+	<string name="title_live_measurement">Pomiar na żywo</string>
+	<string name="title_change_language">Zmień język</string>
+	<string name="title_current_brightness">Bieżące światło otoczenia</string>
+	<string name="title_custom_threshold">Własny próg</string>
+	<string name="title_more">Więcej</string>
+	<string name="title_night_dark_lock">Utrzymuj tryb ciemny w nocy</string>
+	<string name="title_night_start_time_picker">Początek nocy</string>
+	<string name="title_night_end_time_picker">Koniec nocy</string>
+	<string name="title_notification_channel_service">Usługa zmiany motywu</string>
+	<string name="title_send_feedback">Prześlij opinię</string>
+	<string name="title_support_project">Wesprzyj projekt</string>
+
+	<string name="adaptive_threshold_bright">Jasno</string>
+	<string name="adaptive_threshold_custom">Własny</string>
+	<string name="adaptive_threshold_dark">Ciemno</string>
+	<string name="adaptive_threshold_daylight">Światło dzienne</string>
+	<string name="adaptive_threshold_dim">Półmrok</string>
+	<string name="adaptive_threshold_soft">Przytłumione światło</string>
+	<string name="adaptive_threshold_direct_sunlight">Bezpośrednie słońce</string>
+	<string name="description_night_dark_lock">Utrzymuje tryb ciemny w ustalonych godzinach nocnych.</string>
+	<string name="action_night_from_time">Od: %1$s</string>
+	<string name="action_night_to_time">Do: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Wartość w luksach</string>
+
+	<string name="setup_action_open_developer_settings">Otwórz Opcje programistyczne</string>
+	<string name="setup_action_open_settings">Otwórz Ustawienia</string>
+	<string name="setup_connect_title">Krok 2: połącz drugie urządzenie</string>
+	<string name="setup_connect_description">Do przyznania uprawnienia potrzebne jest <b>drugie urządzenie</b> (najlepiej komputer). Połącz oba urządzenia przez USB. Możesz też użyć aplikacji Shizuku wskazanej poniżej.</string>
+	<string name="setup_developer_mode_title">Krok 1: włącz Opcje programistyczne</string>
+	<string name="setup_developer_mode_body">Włącz Debugowanie USB w Opcjach programistycznych.</string>
+	<string name="setup_developer_options_unlock">Odblokuj Opcje programistyczne</string>
+	<string name="setup_developer_options_enabled">Opcje programistyczne włączone</string>
+	<string name="setup_dev_options_toast_one">Znajdź Numer kompilacji i dotknij go 7 razy, aby włączyć Opcje programistyczne.</string>
+	<string name="setup_dev_options_toast_two">Jeśli nie możesz go znaleźć, użyj wyszukiwarki.</string>
+	<string name="setup_alternative_methods">Inne metody</string>
+	<string name="setup_grant_title">Krok 3: przyznaj uprawnienie z drugiego urządzenia</string>
+	<string name="setup_grant_body">Otwórz ten link na drugim urządzeniu i wykonaj instrukcje:</string>
+	<string name="setup_alternatives">Możesz też samodzielnie wykonać polecenie ADB lub przyznać uprawnienie z użyciem roota. Obsługiwany jest również Shizuku.</string>
+	<string name="setup_permission_granted">Uprawnienie przyznane.</string>
+	<string name="setup_permission_not_granted">Uprawnienie nie zostało jeszcze przyznane. Dokończ konfigurację przy użyciu drugiego urządzenia.</string>
+	<string name="setup_usb_debugging_disabled">Włącz Debugowanie USB</string>
+	<string name="setup_usb_debugging_enabled">Debugowanie USB włączone</string>
+	<string name="setup_usb_debugging_enable_toast">Włącz Debugowanie USB w Opcjach programistycznych.</string>
+	<string name="setup_usb_not_connected">Oczekiwanie na połączenie USB…</string>
+	<string name="setup_usb_connected">Połączono przez USB</string>
+	<string name="setup_why_other_device_title">Dlaczego potrzebne jest drugie urządzenie?</string>
+	<string name="setup_why_other_device">Android nie zezwala aplikacjom na samodzielne przyznawanie wymaganego uprawnienia. Potrzebne jest drugie urządzenie z przeglądarką internetową lub ADB.</string>
+	<string name="setup_is_this_safe_title">Czy to jest bezpieczne?</string>
+	<string name="setup_is_this_safe_body">To uprawnienie pozwala aplikacjom zmieniać chronione ustawienia systemu. Adaptive Theme używa go tylko do funkcji takich jak przełączanie trybu ciemnego. Odinstalowanie aplikacji cofa uprawnienie. Kod źródłowy jest publicznie dostępny w serwisie GitHub.</string>
+	<string name="setup_shizuku_title">Inna metoda: Shizuku</string>
+	<string name="setup_shizuku_description">Jeśli używasz już Shizuku, nie potrzebujesz drugiego urządzenia ani ADB. Shizuku jest potrzebny tylko raz, aby przyznać uprawnienie.</string>
+	<string name="setup_shizuku_action">Użyj Shizuku</string>
+	<string name="setup_action_use_root">Użyj roota</string>
+	<string name="setup_root_request">Żądanie dostępu do roota…</string>
+	<string name="setup_root_grant_failed">Nie udało się przyznać uprawnienia z użyciem roota.</string>
+	<string name="setup_root_question">Czy urządzenie jest zrootowane?</string>
+
+	<string name="setup_required_title">Wymagana konfiguracja</string>
+	<string name="setup_required_message">Aplikacja %1$s wymaga jednorazowej konfiguracji.</string>
+	<string name="action_start_setup">Rozpocznij konfigurację</string>
+
+	<string name="shizuku_not_running">Uruchom lub ponownie uruchom Shizuku i spróbuj jeszcze raz.</string>
+	<string name="shizuku_denied">Odmowa dostępu. Zezwól aplikacji Adaptive Theme w Shizuku i spróbuj ponownie.</string>
+	<string name="shizuku_request_permission">Żądanie uprawnienia…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku nie mógł wykonać polecenia.</string>
+	<string name="shizuku_grant_unexpected">Nieoczekiwany błąd podczas używania Shizuku.</string>
+	<string name="title_device_wallpaper_sync">Synchronizacja tapet</string>
+	<string name="label_experimental_feature">Eksperymentalne</string>
+	<string name="description_device_wallpaper_sync">Używaj osobnych tapet dla trybu jasnego i ciemnego. Przełączanie może na krótko wpłynąć na wydajność i szybkość odblokowywania.</string>
+	<string name="action_select_day_wallpaper">Tryb jasny:</string>
+	<string name="action_select_night_wallpaper">Tryb ciemny:</string>
+	<string name="wallpaper_status_set">Ustawiona</string>
+	<string name="wallpaper_status_not_set">Nieustawiona</string>
+	<string name="live_wallpaper_warning_title">Aktywna animowana tapeta</string>
+	<string name="live_wallpaper_warning_message">Włączenie synchronizacji tapet zastąpi bieżącą animowaną tapetę statycznymi tapetami dla trybu jasnego i ciemnego. Czy chcesz kontynuować?</string>
+</resources>

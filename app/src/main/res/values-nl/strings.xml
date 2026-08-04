@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Terug</string>
+	<string name="action_cancel">Annuleren</string>
+	<string name="action_close">Sluiten</string>
+	<string name="action_continue">Doorgaan</string>
+	<string name="action_learn_more">Meer informatie</string>
+	<string name="action_disable_notification">Melding verbergen</string>
+	<string name="action_finish">Voltooien</string>
+	<string name="action_set">Instellen</string>
+	<string name="action_share_url">Link delen</string>
+	<string name="action_skip">Overslaan</string>
+	<string name="action_use_adaptive_theme">%1$s gebruiken</string>
+	<string name="action_advanced_settings">Geavanceerde instellingen</string>
+	<string name="action_collapse">Samenvouwen</string>
+	<string name="state_collapsed">Samengevouwen</string>
+	<string name="state_expanded">Uitgevouwen</string>
+	<string name="title_share_setup">Installatielink delen</string>
+	<string name="debug_review_flow_completed">Testbeoordeling voltooid</string>
+	<string name="easter_egg_answer">Het antwoord op de ultieme vraag over het leven, het heelal en alles.</string>
+
+	<string name="description_service_purpose">
+		Schakelt Android op basis van het omgevingslicht tussen de lichte en donkere modus.
+	</string>
+
+	<string name="description_switching_conditions">
+		Er wordt alleen geschakeld wanneer het scherm aangaat en de sensor niet bedekt is.
+	</string>
+
+	<string name="description_notification_service_running">
+		Klaar om het systeemthema aan te passen wanneer het scherm aangaat.
+	</string>
+
+	<string name="device_covered_title">Sensor bedekt</string>
+	<string name="device_covered_message">Het wisselen van thema is onderbroken omdat de lichtsensor bedekt is.</string>
+	<string name="battery_saver_title">Batterijbesparing actief</string>
+	<string name="battery_saver_message">De batterijbesparing van het systeem kan automatisch wisselen van thema verhinderen.</string>
+
+	<string name="error_invalid_lux_value">Voer een geldige luxwaarde in.</string>
+	<string name="error_invalid_night_period">De begin- en eindtijd moeten verschillend zijn.</string>
+	<string name="error_negative_lux_value">De waarde mag niet negatief zijn.</string>
+	<string name="error_lux_value_too_large">De waarde mag niet hoger zijn dan 100.000.</string>
+
+	<string name="title_about_github">Over / GitHub</string>
+	<string name="title_brightness_threshold">Drempel voor omgevingslicht</string>
+	<string name="title_live_measurement">Livewaarde</string>
+	<string name="title_change_language">Taal wijzigen</string>
+	<string name="title_current_brightness">Huidig omgevingslicht</string>
+	<string name="title_custom_threshold">Aangepaste drempel</string>
+	<string name="title_more">Meer</string>
+	<string name="title_night_dark_lock">Donkere modus ’s nachts aanhouden</string>
+	<string name="title_night_start_time_picker">Begin van de nacht</string>
+	<string name="title_night_end_time_picker">Einde van de nacht</string>
+	<string name="title_notification_channel_service">Service voor themawisseling</string>
+	<string name="title_send_feedback">Feedback sturen</string>
+	<string name="title_support_project">Project steunen</string>
+
+	<string name="adaptive_threshold_bright">Helder</string>
+	<string name="adaptive_threshold_custom">Aangepast</string>
+	<string name="adaptive_threshold_dark">Donker</string>
+	<string name="adaptive_threshold_daylight">Daglicht</string>
+	<string name="adaptive_threshold_dim">Zwak licht</string>
+	<string name="adaptive_threshold_soft">Zacht licht</string>
+	<string name="adaptive_threshold_direct_sunlight">Direct zonlicht</string>
+	<string name="description_night_dark_lock">Houdt de donkere modus tijdens de ingestelde nachtelijke uren actief.</string>
+	<string name="action_night_from_time">Van: %1$s</string>
+	<string name="action_night_to_time">Tot: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Luxwaarde</string>
+
+	<string name="setup_action_open_developer_settings">Opties voor ontwikkelaars openen</string>
+	<string name="setup_action_open_settings">Instellingen openen</string>
+	<string name="setup_connect_title">Stap 2: verbind een tweede apparaat</string>
+	<string name="setup_connect_description">Je hebt een <b>tweede apparaat</b> nodig om de machtiging te verlenen (bij voorkeur een computer). Verbind beide apparaten via USB. Je kunt ook de hieronder vermelde Shizuku-app gebruiken.</string>
+	<string name="setup_developer_mode_title">Stap 1: schakel Opties voor ontwikkelaars in</string>
+	<string name="setup_developer_mode_body">Schakel USB-foutopsporing in bij Opties voor ontwikkelaars.</string>
+	<string name="setup_developer_options_unlock">Opties voor ontwikkelaars ontgrendelen</string>
+	<string name="setup_developer_options_enabled">Opties voor ontwikkelaars ingeschakeld</string>
+	<string name="setup_dev_options_toast_one">Zoek het buildnummer en tik er 7 keer op om Opties voor ontwikkelaars in te schakelen.</string>
+	<string name="setup_dev_options_toast_two">Gebruik de zoekfunctie als je het niet kunt vinden.</string>
+	<string name="setup_alternative_methods">Alternatieve methoden</string>
+	<string name="setup_grant_title">Stap 3: verleen de machtiging vanaf het tweede apparaat</string>
+	<string name="setup_grant_body">Open deze link op het tweede apparaat en volg de instructies:</string>
+	<string name="setup_alternatives">Je kunt ook zelf een ADB-opdracht uitvoeren of roottoegang gebruiken om de machtiging te verlenen. Shizuku wordt eveneens ondersteund.</string>
+	<string name="setup_permission_granted">Machtiging verleend.</string>
+	<string name="setup_permission_not_granted">Machtiging nog niet verleend. Voltooi de installatie met het tweede apparaat.</string>
+	<string name="setup_usb_debugging_disabled">USB-foutopsporing inschakelen</string>
+	<string name="setup_usb_debugging_enabled">USB-foutopsporing ingeschakeld</string>
+	<string name="setup_usb_debugging_enable_toast">Schakel USB-foutopsporing in bij Opties voor ontwikkelaars.</string>
+	<string name="setup_usb_not_connected">Wachten op USB-verbinding…</string>
+	<string name="setup_usb_connected">USB verbonden</string>
+	<string name="setup_why_other_device_title">Waarom is een tweede apparaat nodig?</string>
+	<string name="setup_why_other_device">Android staat niet toe dat apps zichzelf de vereiste machtiging verlenen. Je hebt een tweede apparaat met een webbrowser of ADB nodig.</string>
+	<string name="setup_is_this_safe_title">Is dit veilig?</string>
+	<string name="setup_is_this_safe_body">Met deze machtiging kunnen apps beveiligde systeeminstellingen wijzigen. Adaptive Theme gebruikt de machtiging alleen voor functies zoals het wisselen van de donkere modus. Als je de app verwijdert, wordt de machtiging ingetrokken. De broncode is openbaar op GitHub.</string>
+	<string name="setup_shizuku_title">Alternatief: Shizuku</string>
+	<string name="setup_shizuku_description">Als je Shizuku al gebruikt, heb je geen tweede apparaat of ADB nodig. Shizuku is slechts één keer nodig om de machtiging te verlenen.</string>
+	<string name="setup_shizuku_action">Shizuku gebruiken</string>
+	<string name="setup_action_use_root">Roottoegang gebruiken</string>
+	<string name="setup_root_request">Roottoegang aanvragen…</string>
+	<string name="setup_root_grant_failed">Kan de machtiging niet met roottoegang verlenen.</string>
+	<string name="setup_root_question">Heeft het apparaat roottoegang?</string>
+
+	<string name="setup_required_title">Installatie vereist</string>
+	<string name="setup_required_message">%1$s moet eenmalig worden ingesteld om te kunnen werken.</string>
+	<string name="action_start_setup">Installatie starten</string>
+
+	<string name="shizuku_not_running">Start of herstart Shizuku en probeer het opnieuw.</string>
+	<string name="shizuku_denied">Toegang geweigerd. Sta Adaptive Theme toe in Shizuku en probeer het opnieuw.</string>
+	<string name="shizuku_request_permission">Machtiging aanvragen…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku kon de opdracht niet uitvoeren.</string>
+	<string name="shizuku_grant_unexpected">Onverwachte fout bij het gebruik van Shizuku.</string>
+	<string name="title_device_wallpaper_sync">Achtergrondsynchronisatie</string>
+	<string name="label_experimental_feature">Experimenteel</string>
+	<string name="description_device_wallpaper_sync">Gebruik afzonderlijke achtergronden voor de lichte en donkere modus. Wisselen kan de prestaties en ontgrendelsnelheid kort beïnvloeden.</string>
+	<string name="action_select_day_wallpaper">Lichte modus:</string>
+	<string name="action_select_night_wallpaper">Donkere modus:</string>
+	<string name="wallpaper_status_set">Ingesteld</string>
+	<string name="wallpaper_status_not_set">Niet ingesteld</string>
+	<string name="live_wallpaper_warning_title">Live achtergrond actief</string>
+	<string name="live_wallpaper_warning_message">Als je achtergrondsynchronisatie inschakelt, wordt je huidige live achtergrond vervangen door statische achtergronden voor de lichte en donkere modus. Wil je doorgaan?</string>
+</resources>

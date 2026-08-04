@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Zpět</string>
+	<string name="action_cancel">Zrušit</string>
+	<string name="action_close">Zavřít</string>
+	<string name="action_continue">Pokračovat</string>
+	<string name="action_learn_more">Další informace</string>
+	<string name="action_disable_notification">Skrýt oznámení</string>
+	<string name="action_finish">Dokončit</string>
+	<string name="action_set">Nastavit</string>
+	<string name="action_share_url">Sdílet odkaz</string>
+	<string name="action_skip">Přeskočit</string>
+	<string name="action_use_adaptive_theme">Používat %1$s</string>
+	<string name="action_advanced_settings">Pokročilá nastavení</string>
+	<string name="action_collapse">Sbalit</string>
+	<string name="state_collapsed">Sbaleno</string>
+	<string name="state_expanded">Rozbaleno</string>
+	<string name="title_share_setup">Sdílet odkaz k nastavení</string>
+	<string name="debug_review_flow_completed">Testovací proces hodnocení dokončen</string>
+	<string name="easter_egg_answer">Odpověď na základní otázku života, vesmíru a vůbec.</string>
+
+	<string name="description_service_purpose">
+		Přepíná Android mezi světlým a tmavým režimem podle okolního světla.
+	</string>
+
+	<string name="description_switching_conditions">
+		K přepnutí dojde pouze po zapnutí obrazovky a pokud není snímač zakrytý.
+	</string>
+
+	<string name="description_notification_service_running">
+		Připraveno upravit motiv systému po zapnutí obrazovky.
+	</string>
+
+	<string name="device_covered_title">Snímač je zakrytý</string>
+	<string name="device_covered_message">Přepínání motivu je pozastaveno, protože je snímač světla zakrytý.</string>
+	<string name="battery_saver_title">Spořič baterie je aktivní</string>
+	<string name="battery_saver_message">Systémový spořič baterie může zabránit automatickému přepnutí motivu.</string>
+
+	<string name="error_invalid_lux_value">Zadejte platnou hodnotu v luxech.</string>
+	<string name="error_invalid_night_period">Čas začátku a konce musí být odlišný.</string>
+	<string name="error_negative_lux_value">Hodnota nesmí být záporná.</string>
+	<string name="error_lux_value_too_large">Hodnota nesmí překročit 100 000.</string>
+
+	<string name="title_about_github">O aplikaci / GitHub</string>
+	<string name="title_brightness_threshold">Práh okolního světla</string>
+	<string name="title_live_measurement">Aktuální hodnota</string>
+	<string name="title_change_language">Změnit jazyk</string>
+	<string name="title_current_brightness">Aktuální okolní světlo</string>
+	<string name="title_custom_threshold">Vlastní práh</string>
+	<string name="title_more">Další</string>
+	<string name="title_night_dark_lock">Ponechat v noci tmavý režim</string>
+	<string name="title_night_start_time_picker">Začátek noci</string>
+	<string name="title_night_end_time_picker">Konec noci</string>
+	<string name="title_notification_channel_service">Služba přepínání motivu</string>
+	<string name="title_send_feedback">Poslat zpětnou vazbu</string>
+	<string name="title_support_project">Podpořit projekt</string>
+
+	<string name="adaptive_threshold_bright">Jasno</string>
+	<string name="adaptive_threshold_custom">Vlastní</string>
+	<string name="adaptive_threshold_dark">Tma</string>
+	<string name="adaptive_threshold_daylight">Denní světlo</string>
+	<string name="adaptive_threshold_dim">Přítmí</string>
+	<string name="adaptive_threshold_soft">Tlumené světlo</string>
+	<string name="adaptive_threshold_direct_sunlight">Přímé slunce</string>
+	<string name="description_night_dark_lock">Ponechá tmavý režim aktivní v nastavených nočních hodinách.</string>
+	<string name="action_night_from_time">Od: %1$s</string>
+	<string name="action_night_to_time">Do: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Hodnota v luxech</string>
+
+	<string name="setup_action_open_developer_settings">Otevřít Možnosti pro vývojáře</string>
+	<string name="setup_action_open_settings">Otevřít Nastavení</string>
+	<string name="setup_connect_title">Krok 2: připojte druhé zařízení</string>
+	<string name="setup_connect_description">K udělení oprávnění potřebujete <b>druhé zařízení</b> (nejlépe počítač). Propojte obě zařízení přes USB. Případně použijte níže uvedenou aplikaci Shizuku.</string>
+	<string name="setup_developer_mode_title">Krok 1: zapněte Možnosti pro vývojáře</string>
+	<string name="setup_developer_mode_body">Zapněte Ladění USB v Možnostech pro vývojáře.</string>
+	<string name="setup_developer_options_unlock">Odemknout Možnosti pro vývojáře</string>
+	<string name="setup_developer_options_enabled">Možnosti pro vývojáře zapnuty</string>
+	<string name="setup_dev_options_toast_one">Najděte Číslo sestavení a sedmkrát na něj klepněte, abyste zapnuli Možnosti pro vývojáře.</string>
+	<string name="setup_dev_options_toast_two">Pokud ho nemůžete najít, použijte vyhledávání.</string>
+	<string name="setup_alternative_methods">Jiné způsoby</string>
+	<string name="setup_grant_title">Krok 3: udělte oprávnění z druhého zařízení</string>
+	<string name="setup_grant_body">Otevřete tento odkaz na druhém zařízení a postupujte podle pokynů:</string>
+	<string name="setup_alternatives">Můžete také sami spustit příkaz ADB nebo oprávnění udělit pomocí přístupu root. Podporováno je i Shizuku.</string>
+	<string name="setup_permission_granted">Oprávnění uděleno.</string>
+	<string name="setup_permission_not_granted">Oprávnění zatím nebylo uděleno. Dokončete nastavení pomocí druhého zařízení.</string>
+	<string name="setup_usb_debugging_disabled">Zapnout Ladění USB</string>
+	<string name="setup_usb_debugging_enabled">Ladění USB zapnuto</string>
+	<string name="setup_usb_debugging_enable_toast">Zapněte Ladění USB v Možnostech pro vývojáře.</string>
+	<string name="setup_usb_not_connected">Čekání na připojení USB…</string>
+	<string name="setup_usb_connected">USB připojeno</string>
+	<string name="setup_why_other_device_title">Proč je potřeba druhé zařízení?</string>
+	<string name="setup_why_other_device">Android nedovoluje aplikacím, aby si samy udělily požadované oprávnění. Potřebujete druhé zařízení s webovým prohlížečem nebo ADB.</string>
+	<string name="setup_is_this_safe_title">Je to bezpečné?</string>
+	<string name="setup_is_this_safe_body">Toto oprávnění umožňuje aplikacím měnit chráněná systémová nastavení. Adaptive Theme ho používá pouze pro funkce, jako je přepínání tmavého režimu. Odinstalováním aplikace se oprávnění odebere. Zdrojový kód je veřejně dostupný na GitHubu.</string>
+	<string name="setup_shizuku_title">Jiný způsob: Shizuku</string>
+	<string name="setup_shizuku_description">Pokud již používáte Shizuku, nepotřebujete druhé zařízení ani ADB. Shizuku je k udělení oprávnění potřeba pouze jednou.</string>
+	<string name="setup_shizuku_action">Použít Shizuku</string>
+	<string name="setup_action_use_root">Použít přístup root</string>
+	<string name="setup_root_request">Žádost o přístup root…</string>
+	<string name="setup_root_grant_failed">Oprávnění se nepodařilo udělit pomocí přístupu root.</string>
+	<string name="setup_root_question">Má zařízení přístup root?</string>
+
+	<string name="setup_required_title">Je vyžadováno nastavení</string>
+	<string name="setup_required_message">Aplikace %1$s vyžaduje jednorázové nastavení.</string>
+	<string name="action_start_setup">Spustit nastavení</string>
+
+	<string name="shizuku_not_running">Spusťte nebo restartujte Shizuku a zkuste to znovu.</string>
+	<string name="shizuku_denied">Přístup zamítnut. Povolte Adaptive Theme v Shizuku a zkuste to znovu.</string>
+	<string name="shizuku_request_permission">Žádost o oprávnění…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku nemohlo příkaz spustit.</string>
+	<string name="shizuku_grant_unexpected">Při použití Shizuku došlo k neočekávané chybě.</string>
+	<string name="title_device_wallpaper_sync">Synchronizace tapet</string>
+	<string name="label_experimental_feature">Experimentální</string>
+	<string name="description_device_wallpaper_sync">Používejte samostatné tapety pro světlý a tmavý režim. Přepnutí může krátce ovlivnit výkon a rychlost odemykání.</string>
+	<string name="action_select_day_wallpaper">Světlý režim:</string>
+	<string name="action_select_night_wallpaper">Tmavý režim:</string>
+	<string name="wallpaper_status_set">Nastavena</string>
+	<string name="wallpaper_status_not_set">Nenastavena</string>
+	<string name="live_wallpaper_warning_title">Je aktivní živá tapeta</string>
+	<string name="live_wallpaper_warning_message">Zapnutím synchronizace tapet nahradíte aktuální živou tapetu statickými tapetami pro světlý a tmavý režim. Chcete pokračovat?</string>
+</resources>

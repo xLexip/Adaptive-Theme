@@ -13,12 +13,10 @@
 package dev.lexip.hecate.services
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
-import androidx.core.content.ContextCompat
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
@@ -56,7 +54,10 @@ class QuickSettingsTileService : TileService() {
 		val tile = qsTile ?: return
 
 		if (!hasWriteSecureSettingsPermission()) {
-			tile.state = Tile.STATE_UNAVAILABLE
+			tile.state = QuickSettingsStatePolicy.from(
+				hasPermission = false,
+				adaptiveThemeEnabled = false
+			).toTileState()
 			tile.updateTile()
 			return
 		}
@@ -67,7 +68,10 @@ class QuickSettingsTileService : TileService() {
 			val dataStore = (applicationContext as Application).userPreferencesDataStore
 			val repo = UserPreferencesRepository(dataStore)
 			val prefs = repo.fetchInitialPreferences()
-			tile.state = if (prefs.adaptiveThemeEnabled) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+			tile.state = QuickSettingsStatePolicy.from(
+				hasPermission = true,
+				adaptiveThemeEnabled = prefs.adaptiveThemeEnabled
+			).toTileState()
 			tile.updateTile()
 		}
 	}
@@ -95,38 +99,35 @@ class QuickSettingsTileService : TileService() {
 		toggleJob = serviceScope.launch(dispatchers.io) {
 			val dataStore = (applicationContext as Application).userPreferencesDataStore
 			val repo = UserPreferencesRepository(dataStore)
+			val coordinator = QuickSettingsToggleCoordinator(
+				preferences = repo,
+				serviceController = AndroidAdaptiveThemeServiceController(applicationContext)
+			)
 
-			// Start/stop the service
-			val intent = Intent(applicationContext, BroadcastReceiverService::class.java)
-			if (newEnabled) {
-				intent.putExtra(EXTRA_ENABLE_MONITORING, true)
-				try {
-					ContextCompat.startForegroundService(applicationContext, intent)
+			when (val result = coordinator.toggle(currentlyEnabled = isEnabled)) {
+				QuickSettingsToggleResult.Enabled -> {
 					Logger.logServiceEnabled(
 						applicationContext,
 						source = "quick_settings_tile"
 					)
-				} catch (e: Exception) {
-					Log.e(TAG, "Failed to start service", e)
-					// Revert UI if service start fails
+				}
+
+				QuickSettingsToggleResult.Disabled -> {
+					Logger.logServiceDisabled(
+						applicationContext,
+						source = "quick_settings_tile"
+					)
+				}
+
+				is QuickSettingsToggleResult.StartFailed -> {
+					Log.e(TAG, "Failed to start service", result.cause)
 					launch(dispatchers.main) {
 						tile.state = Tile.STATE_INACTIVE
 						tile.updateTile()
 					}
 					return@launch
 				}
-			} else {
-				applicationContext.stopService(intent)
-				Logger.logServiceDisabled(
-					applicationContext,
-					source = "quick_settings_tile"
-				)
 			}
-
-			if (newEnabled) {
-				repo.ensureAdaptiveThemeThresholdDefault()
-			}
-			repo.updateAdaptiveThemeEnabled(newEnabled)
 		}
 	}
 
@@ -136,4 +137,10 @@ class QuickSettingsTileService : TileService() {
 		toggleJob?.cancel()
 	}
 
+}
+
+private fun QuickSettingsState.toTileState(): Int = when (this) {
+	QuickSettingsState.UNAVAILABLE -> Tile.STATE_UNAVAILABLE
+	QuickSettingsState.INACTIVE -> Tile.STATE_INACTIVE
+	QuickSettingsState.ACTIVE -> Tile.STATE_ACTIVE
 }
