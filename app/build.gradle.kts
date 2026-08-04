@@ -1,10 +1,17 @@
 plugins {
     jacoco
-    alias(libs.plugins.google.services)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.google.firebase.crashlytics)
+}
+
+val withPlayServices = providers.gradleProperty("withPlayServices")
+    .map { it.toBoolean() }
+    .orElse(false)
+
+if (withPlayServices.get()) {
+    pluginManager.apply("com.google.gms.google-services")
+    pluginManager.apply("com.google.firebase.crashlytics")
 }
 
 android {

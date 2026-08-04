@@ -1,0 +1,59 @@
+name: FOSS APK
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+  workflow_dispatch:
+
+concurrency:
+  group: foss-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build clean FOSS APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup FOSS build environment
+        uses: ./.github/actions/setup-env
+        with:
+          create-firebase-config: 'false'
+          gradle-cache-read-only: 'false'
+
+      - name: Build clean unsigned FOSS APK
+        run: ./gradlew clean assembleFossRelease --no-daemon --info
+
+      - name: Prepare APK and checksum
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/foss/release/app-foss-release-unsigned.apk \
+            "dist/AdaptiveTheme-${GITHUB_SHA::7}-foss-unsigned.apk"
+          cd dist
+          sha256sum ./*.apk > SHA256SUMS.txt
+
+      - name: Upload FOSS APK
+        id: upload-apk
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: adaptive-theme-foss-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Add APK link to workflow summary
+        shell: bash
+        run: |
+          echo '## FOSS APK' >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo '[Download APK artifact](${{ steps.upload-apk.outputs.artifact-url }})' >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo 'This CI artifact is unsigned and intended for reproducibility checks. Publish only an APK signed with the release key.' >> "$GITHUB_STEP_SUMMARY"

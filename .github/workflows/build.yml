@@ -29,7 +29,7 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
         with:
-          google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          create-firebase-config: 'false'
           # Long-lived branches seed shared Gradle dependencies for later jobs and runs.
           gradle-cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/testing' }}
 
@@ -45,7 +45,7 @@ jobs:
           ./gradlew
           testFossDebugUnitTest
           verifyFossDebugCoverage
-          lint
+          lintFossDebug
           --info
 
       - name: Upload JVM test reports
@@ -98,7 +98,7 @@ jobs:
           google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
       - name: Build Play
-        run: ./gradlew assemblePlayRelease --info
+        run: ./gradlew assemblePlayRelease -PwithPlayServices=true --info
 
   build_foss:
     name: Build FOSS
@@ -112,7 +112,7 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
         with:
-          google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          create-firebase-config: 'false'
 
       - name: Build FOSS
         run: ./gradlew assembleFossRelease --info
@@ -146,6 +146,7 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
         with:
+          create-firebase-config: 'false'
           # One matrix leg writes; the other APIs restore the shared cache without duplicating it.
           gradle-cache-read-only: ${{ matrix.api != 37 || (github.ref != 'refs/heads/main' && github.ref != 'refs/heads/testing') }}
 
