@@ -24,10 +24,8 @@ runs:
       run: |
         mkdir -p app
         if [ -n "${GOOGLE_SERVICES_JSON:-}" ]; then
-          printf '%s' "$GOOGLE_SERVICES_JSON" > google-services.json
           printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
         else
-          cp .github/fixtures/google-services.ci.json google-services.json
           cp .github/fixtures/google-services.ci.json app/google-services.json
         fi
 
