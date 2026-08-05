@@ -25,4 +25,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Adaptive Theme"
-include(":app")

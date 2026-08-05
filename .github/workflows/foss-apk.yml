@@ -29,6 +29,7 @@ jobs:
           gradle-cache-read-only: 'false'
 
       - name: Build clean unsigned FOSS APK
+        working-directory: app
         run: ./gradlew clean assembleFossRelease --no-daemon --info
 
       - name: Prepare APK and checksum

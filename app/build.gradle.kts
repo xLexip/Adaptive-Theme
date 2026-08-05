@@ -3,6 +3,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.google.firebase.crashlytics) apply false
+}
+
+dependencyLocking {
+    lockAllConfigurations()
 }
 
 val withPlayServices = providers.gradleProperty("withPlayServices")

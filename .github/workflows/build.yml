@@ -41,6 +41,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Run JVM tests, coverage, and lint
+        working-directory: app
         run: >-
           ./gradlew
           testFossDebugUnitTest
@@ -98,6 +99,7 @@ jobs:
           google-services-json: ${{ secrets.GOOGLE_SERVICES_JSON }}
 
       - name: Build Play
+        working-directory: app
         run: ./gradlew assemblePlayRelease -PwithPlayServices=true --info
 
   build_foss:
@@ -115,6 +117,7 @@ jobs:
           create-firebase-config: 'false'
 
       - name: Build FOSS
+        working-directory: app
         run: ./gradlew assembleFossRelease --info
 
   device:
@@ -154,6 +157,7 @@ jobs:
         run: sudo chmod 666 /dev/kvm
 
       - name: Run API ${{ matrix.api }} Compose tests
+        working-directory: app
         run: >-
           ./gradlew
           ${{ matrix.task }}
