@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Setup Android SDK command-line tools
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4
+
       - name: Setup FOSS build environment
         uses: ./.github/actions/setup-env
         with:
@@ -52,8 +55,21 @@ jobs:
           test -n "$FOSS_SIGNING_KEYSTORE_PASSWORD"
           test -n "$FOSS_SIGNING_KEY_PASSWORD"
           mkdir -p dist
+          mapfile -t unsigned_apks < <(
+            find app/build/outputs/apk/foss/release \
+              -maxdepth 1 \
+              -type f \
+              -name '*.apk' \
+              -print
+          )
+          if [ "${#unsigned_apks[@]}" -ne 1 ]; then
+            echo "Expected exactly one FOSS release APK, found ${#unsigned_apks[@]}" >&2
+            find app/build/outputs/apk/foss/release -maxdepth 1 -type f -print >&2
+            exit 1
+          fi
+          unsigned_apk="${unsigned_apks[0]}"
           "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 \
-            app/build/outputs/apk/foss/release/app-foss-release-unsigned.apk \
+            "$unsigned_apk" \
             dist/AdaptiveTheme-foss-aligned.apk
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
             --ks "$RUNNER_TEMP/adaptive-theme-signing/release-b.jks" \
@@ -62,6 +78,10 @@ jobs:
             --key-pass "env:FOSS_SIGNING_KEY_PASSWORD" \
             --lineage .github/signing/adaptive-theme-a-to-b.lineage \
             --min-sdk-version 34 \
+            --v1-signing-enabled false \
+            --v2-signing-enabled false \
+            --v3-signing-enabled true \
+            --v4-signing-enabled false \
             --out dist/AdaptiveTheme-foss.apk \
             dist/AdaptiveTheme-foss-aligned.apk
           rm -f dist/AdaptiveTheme-foss-aligned.apk
@@ -69,12 +89,13 @@ jobs:
       - name: Verify FOSS APK signature and lineage
         shell: bash
         run: |
+          expected_certificate_sha256="1a21e8104bce8e90a591b5527d01a5320b2a0d46fc8f97ea3d5af4225c9afd07"
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose --print-certs dist/AdaptiveTheme-foss.apk
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" lineage \
             --in .github/signing/adaptive-theme-a-to-b.lineage \
             --print-certs --verbose
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs dist/AdaptiveTheme-foss.apk \
-            | grep -F "1A:21:E8:10:4B:CE:8E:90:A5:91:B5:52:7D:01:A5:32:0B:2A:0D:46:FC:8F:97:EA:3D:5A:F4:22:5C:9A:FD:07"
+            | grep -F "$expected_certificate_sha256"
 
       - name: Prepare checksum
         shell: bash
