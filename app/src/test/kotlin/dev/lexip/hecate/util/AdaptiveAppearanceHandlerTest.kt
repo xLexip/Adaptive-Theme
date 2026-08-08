@@ -12,6 +12,9 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
+private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
+
 class AdaptiveAppearanceHandlerTest {
 	@Test
 	fun `applies matching wallpaper after successful theme transition`() {
@@ -30,8 +33,8 @@ class AdaptiveAppearanceHandlerTest {
 		)
 		handler.configureWallpaperSync(
 			enabled = true,
-			dayWallpaperUri = "content://wallpaper/day",
-			nightWallpaperUri = "content://wallpaper/night"
+			dayWallpaperUri = DAY_WALLPAPER_URI,
+			nightWallpaperUri = NIGHT_WALLPAPER_URI
 		)
 
 		val result = handler.applyAppearance(useDarkTheme = true)
@@ -39,8 +42,8 @@ class AdaptiveAppearanceHandlerTest {
 		assertTrue(result.succeeded)
 		assertTrue(result.changed)
 		assertEquals(true, appliedTheme)
-		assertEquals("content://wallpaper/day", appliedDayUri)
-		assertEquals("content://wallpaper/night", appliedNightUri)
+		assertEquals(DAY_WALLPAPER_URI, appliedDayUri)
+		assertEquals(NIGHT_WALLPAPER_URI, appliedNightUri)
 	}
 
 	@Test
@@ -85,8 +88,8 @@ class AdaptiveAppearanceHandlerTest {
 		)
 		handler.configureWallpaperSync(
 			enabled = false,
-			dayWallpaperUri = "content://wallpaper/day",
-			nightWallpaperUri = "content://wallpaper/night"
+			dayWallpaperUri = DAY_WALLPAPER_URI,
+			nightWallpaperUri = NIGHT_WALLPAPER_URI
 		)
 
 		handler.applyAppearance(useDarkTheme = true)
@@ -107,7 +110,7 @@ class AdaptiveAppearanceHandlerTest {
 		)
 		handler.configureWallpaperSync(
 			enabled = true,
-			dayWallpaperUri = "content://wallpaper/day",
+			dayWallpaperUri = DAY_WALLPAPER_URI,
 			nightWallpaperUri = null
 		)
 
@@ -127,8 +130,8 @@ class AdaptiveAppearanceHandlerTest {
 		)
 		lightHandler.configureWallpaperSync(
 			enabled = true,
-			dayWallpaperUri = "content://wallpaper/day",
-			nightWallpaperUri = "content://wallpaper/night"
+			dayWallpaperUri = DAY_WALLPAPER_URI,
+			nightWallpaperUri = NIGHT_WALLPAPER_URI
 		)
 
 		lightHandler.applyAppearance(useDarkTheme = false)
@@ -182,8 +185,8 @@ class AdaptiveAppearanceHandlerTest {
 		).apply {
 			configureWallpaperSync(
 				enabled = true,
-				dayWallpaperUri = "content://wallpaper/day",
-				nightWallpaperUri = "content://wallpaper/night"
+				dayWallpaperUri = DAY_WALLPAPER_URI,
+				nightWallpaperUri = NIGHT_WALLPAPER_URI
 			)
 		}
 	}
