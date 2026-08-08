@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'app/**'
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    name: Build clean FOSS APK
+    name: Build and sign FOSS APK
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -32,16 +32,60 @@ jobs:
         working-directory: app
         run: ./gradlew clean assembleFossRelease --no-daemon --info
 
-      - name: Prepare APK and checksum
+      - name: Install reproducible-signing tools
         shell: bash
         run: |
-          mkdir -p dist
-          cp app/build/outputs/apk/foss/release/app-foss-release-unsigned.apk \
-            "dist/AdaptiveTheme-${GITHUB_SHA::7}-foss-unsigned.apk"
-          cd dist
-          sha256sum ./*.apk > SHA256SUMS.txt
+          sdkmanager --install "build-tools;34.0.0"
 
-      - name: Upload FOSS APK
+      - name: Restore FOSS signing key
+        shell: bash
+        env:
+          FOSS_SIGNING_KEYSTORE_B64: ${{ secrets.FOSS_SIGNING_KEYSTORE_B64 }}
+        run: |
+          test -n "$FOSS_SIGNING_KEYSTORE_B64"
+          mkdir -p "$RUNNER_TEMP/adaptive-theme-signing"
+          printf '%s' "$FOSS_SIGNING_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/adaptive-theme-signing/release-b.jks"
+
+      - name: Align and sign FOSS APK
+        shell: bash
+        env:
+          FOSS_SIGNING_KEYSTORE_PASSWORD: ${{ secrets.FOSS_SIGNING_KEYSTORE_PASSWORD }}
+          FOSS_SIGNING_KEY_PASSWORD: ${{ secrets.FOSS_SIGNING_KEY_PASSWORD }}
+        run: |
+          test -n "$FOSS_SIGNING_KEYSTORE_PASSWORD"
+          test -n "$FOSS_SIGNING_KEY_PASSWORD"
+          mkdir -p dist
+          "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 \
+            app/build/outputs/apk/foss/release/app-foss-release-unsigned.apk \
+            dist/AdaptiveTheme-foss-aligned.apk
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
+            --ks "$RUNNER_TEMP/adaptive-theme-signing/release-b.jks" \
+            --ks-key-alias "adaptive-theme-app-signing" \
+            --ks-pass "env:FOSS_SIGNING_KEYSTORE_PASSWORD" \
+            --key-pass "env:FOSS_SIGNING_KEY_PASSWORD" \
+            --lineage .github/signing/adaptive-theme-a-to-b.lineage \
+            --min-sdk-version 34 \
+            --out dist/AdaptiveTheme-foss.apk \
+            dist/AdaptiveTheme-foss-aligned.apk
+          rm -f dist/AdaptiveTheme-foss-aligned.apk
+
+      - name: Verify FOSS APK signature and lineage
+        shell: bash
+        run: |
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose --print-certs dist/AdaptiveTheme-foss.apk
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" lineage \
+            --in .github/signing/adaptive-theme-a-to-b.lineage \
+            --print-certs --verbose
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs dist/AdaptiveTheme-foss.apk \
+            | grep -F "1A:21:E8:10:4B:CE:8E:90:A5:91:B5:52:7D:01:A5:32:0B:2A:0D:46:FC:8F:97:EA:3D:5A:F4:22:5C:9A:FD:07"
+
+      - name: Prepare checksum
+        shell: bash
+        run: |
+          cd dist
+          sha256sum AdaptiveTheme-foss.apk > SHA256SUMS.txt
+
+      - name: Upload signed FOSS APK
         id: upload-apk
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -53,8 +97,37 @@ jobs:
       - name: Add APK link to workflow summary
         shell: bash
         run: |
-          echo '## FOSS APK' >> "$GITHUB_STEP_SUMMARY"
+          echo '## Signed FOSS APK' >> "$GITHUB_STEP_SUMMARY"
           echo >> "$GITHUB_STEP_SUMMARY"
           echo '[Download APK artifact](${{ steps.upload-apk.outputs.artifact-url }})' >> "$GITHUB_STEP_SUMMARY"
           echo >> "$GITHUB_STEP_SUMMARY"
-          echo 'This CI artifact is unsigned and intended for reproducibility checks. Publish only an APK signed with the release key.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Signed with developer key B and the documented A-to-B signing lineage.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove restored signing key
+        if: always()
+        shell: bash
+        run: rm -rf "$RUNNER_TEMP/adaptive-theme-signing"
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download signed FOSS APK
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v8.0.1
+        with:
+          name: adaptive-theme-foss-${{ github.sha }}
+          path: dist
+
+      - name: Create GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/AdaptiveTheme-foss.apk \
+            dist/SHA256SUMS.txt \
+            --generate-notes
