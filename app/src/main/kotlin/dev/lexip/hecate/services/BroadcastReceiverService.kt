@@ -31,8 +31,11 @@ import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
+import dev.lexip.hecate.util.DarkThemeHandler
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
+import dev.lexip.hecate.util.WallpaperHandler
+import dev.lexip.hecate.util.WallpaperUpdateScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,6 +53,7 @@ class BroadcastReceiverService : Service() {
 
 	// Utils
 	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
+	private lateinit var wallpaperUpdateScheduler: WallpaperUpdateScheduler
 	private lateinit var lightSensorManager: LightSensorManager
 	private lateinit var proximitySensorManager: ProximitySensorManager
 	private lateinit var monitoringPreferencesCoordinator: MonitoringPreferencesCoordinator
@@ -227,8 +231,18 @@ class BroadcastReceiverService : Service() {
 	}
 
 	private fun initializeUtils() {
-		if (!this::adaptiveAppearanceHandler.isInitialized)
-			adaptiveAppearanceHandler = AdaptiveAppearanceHandler(this)
+		if (!this::adaptiveAppearanceHandler.isInitialized) {
+			val wallpaperHandler = WallpaperHandler(this)
+			wallpaperUpdateScheduler = WallpaperUpdateScheduler(
+				scope = serviceScope,
+				dispatcher = Dispatchers.IO.limitedParallelism(1),
+				applyWallpaper = wallpaperHandler::applyWallpaperForTheme
+			)
+			adaptiveAppearanceHandler = AdaptiveAppearanceHandler(
+				setDarkTheme = DarkThemeHandler(this)::setDarkTheme,
+				scheduleWallpaperForTheme = wallpaperUpdateScheduler::schedule
+			)
+		}
 		if (!this::lightSensorManager.isInitialized)
 			lightSensorManager = LightSensorManager(this)
 		if (!this::proximitySensorManager.isInitialized)

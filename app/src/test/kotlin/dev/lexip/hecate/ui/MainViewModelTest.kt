@@ -21,9 +21,11 @@ import dev.lexip.hecate.FakeProximitySensorReader
 import dev.lexip.hecate.FakeSensorReader
 import dev.lexip.hecate.FakeUserPreferencesDataSource
 import dev.lexip.hecate.FakeWallpaperPlatform
+import dev.lexip.hecate.FakeWallpaperImagePreparer
 import dev.lexip.hecate.MainDispatcherRule
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferences
+import dev.lexip.hecate.util.WallpaperSlot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -60,6 +62,7 @@ class MainViewModelTest {
 	private lateinit var serviceController: FakeAdaptiveThemeServiceController
 	private lateinit var installMetadata: FakeInstallMetadataProvider
 	private lateinit var wallpaperPlatform: FakeWallpaperPlatform
+	private lateinit var wallpaperImagePreparer: FakeWallpaperImagePreparer
 
 	@Before
 	fun setUp() {
@@ -70,6 +73,7 @@ class MainViewModelTest {
 		serviceController = FakeAdaptiveThemeServiceController()
 		installMetadata = FakeInstallMetadataProvider()
 		wallpaperPlatform = FakeWallpaperPlatform()
+		wallpaperImagePreparer = FakeWallpaperImagePreparer()
 	}
 
 	@Test
@@ -267,6 +271,22 @@ class MainViewModelTest {
 		}
 
 	@Test
+	fun wallpaperPickStoresPreparedLocalUri() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			val sourceUri = Uri.parse(DAY_WALLPAPER_URI)
+			val preparedUri = Uri.parse("file:///data/user/0/dev.lexip.hecate/files/day_wallpaper.jpg")
+			wallpaperImagePreparer.preparedUri = preparedUri
+			advanceUntilIdle()
+
+			viewModel.onDayWallpaperPicked(sourceUri)
+			advanceUntilIdle()
+
+			assertEquals(preparedUri.toString(), preferences.current.dayWallpaperUri)
+			assertEquals(listOf(sourceUri to WallpaperSlot.DAY), wallpaperImagePreparer.prepared)
+		}
+
+	@Test
 	fun wallpaperSyncStaysDisabledUntilBothWallpapersAreSelected() =
 		runTest(mainDispatcherRule.dispatcher) {
 			val viewModel = createViewModel()
@@ -369,6 +389,7 @@ class MainViewModelTest {
 		serviceController = serviceController,
 		installMetadataProvider = installMetadata,
 		wallpaperPlatform = wallpaperPlatform,
+		wallpaperImagePreparer = wallpaperImagePreparer,
 		ioDispatcher = mainDispatcherRule.dispatcher,
 		mainDispatcher = mainDispatcherRule.dispatcher
 	)

@@ -38,7 +38,10 @@ import dev.lexip.hecate.util.ProximitySensorManager
 import dev.lexip.hecate.util.ProximitySensorReader
 import dev.lexip.hecate.util.SensorReader
 import dev.lexip.hecate.util.WallpaperHandler
+import dev.lexip.hecate.util.WallpaperImagePreparer
+import dev.lexip.hecate.util.WallpaperImagePreprocessor
 import dev.lexip.hecate.util.WallpaperPlatform
+import dev.lexip.hecate.util.WallpaperSlot
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -93,6 +96,8 @@ class MainViewModel internal constructor(
 		AndroidInstallMetadataProvider(application.applicationContext),
 	private val wallpaperPlatform: WallpaperPlatform =
 		WallpaperHandler(application.applicationContext),
+	private val wallpaperImagePreparer: WallpaperImagePreparer =
+		WallpaperImagePreprocessor(application.applicationContext),
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
@@ -481,11 +486,20 @@ class MainViewModel internal constructor(
 				val wallpaperType = if (isDayWallpaper) "day" else "night"
 				Log.w(TAG, "Failed to take persistable URI permission for $wallpaperType wallpaper", e)
 			}
+			val storedUri = try {
+				wallpaperImagePreparer.prepare(
+					source = uri,
+					slot = if (isDayWallpaper) WallpaperSlot.DAY else WallpaperSlot.NIGHT
+				)
+			} catch (e: Exception) {
+				Log.w(TAG, "Failed to prepare selected wallpaper; using the original URI", e)
+				uri
+			}
 
 			if (isDayWallpaper) {
-				userPreferencesRepository.updateDayWallpaperUri(uri.toString())
+				userPreferencesRepository.updateDayWallpaperUri(storedUri.toString())
 			} else {
-				userPreferencesRepository.updateNightWallpaperUri(uri.toString())
+				userPreferencesRepository.updateNightWallpaperUri(storedUri.toString())
 			}
 			Logger.logWallpaperPicked(
 				application.applicationContext,

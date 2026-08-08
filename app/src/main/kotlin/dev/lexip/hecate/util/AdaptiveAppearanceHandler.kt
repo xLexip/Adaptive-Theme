@@ -28,13 +28,8 @@ private data class WallpaperSyncConfiguration(
 
 class AdaptiveAppearanceHandler internal constructor(
 	private val setDarkTheme: (Boolean) -> DarkThemeChangeResult,
-	private val applyWallpaperForTheme: (Boolean, String?, String?) -> Boolean
+	private val scheduleWallpaperForTheme: (Boolean, String?, String?) -> Unit
 ) {
-	constructor(context: Context) : this(
-		setDarkTheme = DarkThemeHandler(context)::setDarkTheme,
-		applyWallpaperForTheme = WallpaperHandler(context)::applyWallpaperForTheme
-	)
-
 	@Volatile
 	private var wallpaperSyncConfiguration = WallpaperSyncConfiguration()
 
@@ -59,7 +54,7 @@ class AdaptiveAppearanceHandler internal constructor(
 			!wallpaperConfig.dayWallpaperUri.isNullOrEmpty() &&
 			!wallpaperConfig.nightWallpaperUri.isNullOrEmpty()
 		) {
-			applyWallpaperForTheme(
+			scheduleWallpaperForTheme(
 				useDarkTheme,
 				wallpaperConfig.dayWallpaperUri,
 				wallpaperConfig.nightWallpaperUri

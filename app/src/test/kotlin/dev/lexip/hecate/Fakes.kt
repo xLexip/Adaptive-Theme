@@ -26,6 +26,8 @@ import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.ProximitySensorReader
 import dev.lexip.hecate.util.SensorReader
 import dev.lexip.hecate.util.WallpaperPlatform
+import dev.lexip.hecate.util.WallpaperImagePreparer
+import dev.lexip.hecate.util.WallpaperSlot
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -175,6 +177,18 @@ class FakeWallpaperPlatform : WallpaperPlatform {
 		dayUriStr: String?,
 		nightUriStr: String?
 	): Boolean = true
+}
+
+internal class FakeWallpaperImagePreparer : WallpaperImagePreparer {
+	var failure: Exception? = null
+	val prepared = mutableListOf<Pair<Uri, WallpaperSlot>>()
+	var preparedUri: Uri? = null
+
+	override fun prepare(source: Uri, slot: WallpaperSlot): Uri {
+		failure?.let { throw it }
+		prepared += source to slot
+		return preparedUri ?: source
+	}
 }
 
 class FakeSetupEnvironmentProvider(

@@ -107,7 +107,6 @@ internal class WallpaperHandler internal constructor(
 			val stream = openInputStream(uri)
 			if (stream != null) {
 				stream.use { s ->
-					// Future addition: allow separate home screen and lock screen wallpaper configuration
 					setStream(
 						s,
 						WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
