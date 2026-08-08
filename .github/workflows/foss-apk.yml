@@ -78,6 +78,10 @@ jobs:
             --key-pass "env:FOSS_SIGNING_KEY_PASSWORD" \
             --lineage .github/signing/adaptive-theme-a-to-b.lineage \
             --min-sdk-version 34 \
+            --v1-signing-enabled false \
+            --v2-signing-enabled false \
+            --v3-signing-enabled true \
+            --v4-signing-enabled false \
             --out dist/AdaptiveTheme-foss.apk \
             dist/AdaptiveTheme-foss-aligned.apk
           rm -f dist/AdaptiveTheme-foss-aligned.apk
