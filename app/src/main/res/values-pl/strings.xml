@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">Wartość nie może przekraczać 100 000.</string>
 
 	<string name="title_about_github">O aplikacji / GitHub</string>
-	<string name="title_brightness_threshold">Próg światła otoczenia</string>
+	<string name="title_brightness_threshold">Próg jasności</string>
 	<string name="title_live_measurement">Pomiar na żywo</string>
 	<string name="title_change_language">Zmień język</string>
 	<string name="title_current_brightness">Bieżące światło otoczenia</string>
 	<string name="title_custom_threshold">Własny próg</string>
 	<string name="title_more">Więcej</string>
-	<string name="title_night_dark_lock">Utrzymuj tryb ciemny w nocy</string>
+	<string name="title_night_dark_lock">Tryb nocny</string>
 	<string name="title_night_start_time_picker">Początek nocy</string>
 	<string name="title_night_end_time_picker">Koniec nocy</string>
 	<string name="title_notification_channel_service">Usługa zmiany motywu</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Żądanie uprawnienia…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku nie mógł wykonać polecenia.</string>
 	<string name="shizuku_grant_unexpected">Nieoczekiwany błąd podczas używania Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Synchronizacja tapet</string>
-	<string name="label_experimental_feature">Eksperymentalne</string>
-	<string name="description_device_wallpaper_sync">Używaj osobnych tapet dla trybu jasnego i ciemnego. Przełączanie może na krótko wpłynąć na wydajność i szybkość odblokowywania.</string>
+	<string name="title_device_wallpaper_sync">Tapeta</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Używaj osobnych tapet dla trybu jasnego i ciemnego. Przełączanie może chwilę potrwać i wpłynąć na wydajność.</string>
 	<string name="action_select_day_wallpaper">Tryb jasny:</string>
 	<string name="action_select_night_wallpaper">Tryb ciemny:</string>
 	<string name="wallpaper_status_set">Ustawiona</string>

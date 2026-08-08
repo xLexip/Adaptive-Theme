@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">O valor não pode ser maior que 100.000.</string>
 
 	<string name="title_about_github">Sobre / GitHub</string>
-	<string name="title_brightness_threshold">Limite de luz ambiente</string>
+	<string name="title_brightness_threshold">Limite de brilho</string>
 	<string name="title_live_measurement">Valor em tempo real</string>
 	<string name="title_change_language">Mudar idioma</string>
 	<string name="title_current_brightness">Luz ambiente atual</string>
 	<string name="title_custom_threshold">Limite personalizado</string>
 	<string name="title_more">Mais</string>
-	<string name="title_night_dark_lock">Manter o modo escuro à noite</string>
+	<string name="title_night_dark_lock">Modo noturno</string>
 	<string name="title_night_start_time_picker">Início da noite</string>
 	<string name="title_night_end_time_picker">Fim da noite</string>
 	<string name="title_notification_channel_service">Serviço de mudança de tema</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Solicitando permissão…</string>
 	<string name="shizuku_grant_shell_failed">O Shizuku não conseguiu executar o comando.</string>
 	<string name="shizuku_grant_unexpected">Erro inesperado ao usar o Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Sincronização de planos de fundo</string>
-	<string name="label_experimental_feature">Experimental</string>
-	<string name="description_device_wallpaper_sync">Use planos de fundo distintos para os modos claro e escuro. A mudança pode afetar brevemente o desempenho e a velocidade de desbloqueio.</string>
+	<string name="title_device_wallpaper_sync">Papel de parede</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Use planos de fundo distintos para os modos claro e escuro. A mudança pode levar um instante e afetar o desempenho.</string>
 	<string name="action_select_day_wallpaper">Modo claro:</string>
 	<string name="action_select_night_wallpaper">Modo escuro:</string>
 	<string name="wallpaper_status_set">Definido</string>

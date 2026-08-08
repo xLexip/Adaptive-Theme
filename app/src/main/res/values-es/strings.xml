@@ -4,7 +4,7 @@
 	<string name="action_close">Cerrar</string>
 	<string name="action_continue">Continuar</string>
 	<string name="action_learn_more">Más información</string>
-	<string name="action_disable_notification">Ocultar notificación</string>
+	<string name="action_disable_notification">Ocultar</string>
 	<string name="action_finish">Finalizar</string>
 	<string name="action_set">Establecer</string>
 	<string name="action_share_url">Compartir enlace</string>
@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">El valor no puede superar 100.000.</string>
 
 	<string name="title_about_github">Acerca de / GitHub</string>
-	<string name="title_brightness_threshold">Umbral de luz ambiental</string>
+	<string name="title_brightness_threshold">Umbral de brillo</string>
 	<string name="title_live_measurement">Valor en tiempo real</string>
 	<string name="title_change_language">Cambiar idioma</string>
 	<string name="title_current_brightness">Luz ambiental actual</string>
 	<string name="title_custom_threshold">Umbral personalizado</string>
 	<string name="title_more">Más</string>
-	<string name="title_night_dark_lock">Mantener el modo oscuro por la noche</string>
+	<string name="title_night_dark_lock">Modo nocturno</string>
 	<string name="title_night_start_time_picker">Inicio de la noche</string>
 	<string name="title_night_end_time_picker">Fin de la noche</string>
 	<string name="title_notification_channel_service">Servicio de cambio de tema</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Solicitando permiso…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku no pudo ejecutar el comando.</string>
 	<string name="shizuku_grant_unexpected">Error inesperado al usar Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Sincronización de fondos de pantalla</string>
-	<string name="label_experimental_feature">Experimental</string>
-	<string name="description_device_wallpaper_sync">Usa fondos de pantalla distintos para los modos claro y oscuro. El cambio puede afectar brevemente al rendimiento y a la velocidad de desbloqueo.</string>
+	<string name="title_device_wallpaper_sync">Fondo de pantalla</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Usa fondos de pantalla distintos para los modos claro y oscuro. El cambio puede tardar un momento y afectar al rendimiento.</string>
 	<string name="action_select_day_wallpaper">Modo claro:</string>
 	<string name="action_select_night_wallpaper">Modo oscuro:</string>
 	<string name="wallpaper_status_set">Configurado</string>

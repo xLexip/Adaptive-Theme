@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">Значення не може перевищувати 100 000.</string>
 
 	<string name="title_about_github">Про застосунок / GitHub</string>
-	<string name="title_brightness_threshold">Поріг навколишнього освітлення</string>
+	<string name="title_brightness_threshold">Поріг яскравості</string>
 	<string name="title_live_measurement">Поточне значення</string>
 	<string name="title_change_language">Змінити мову</string>
 	<string name="title_current_brightness">Поточне навколишнє освітлення</string>
 	<string name="title_custom_threshold">Власний поріг</string>
 	<string name="title_more">Більше</string>
-	<string name="title_night_dark_lock">Зберігати темний режим уночі</string>
+	<string name="title_night_dark_lock">Нічний режим</string>
 	<string name="title_night_start_time_picker">Початок ночі</string>
 	<string name="title_night_end_time_picker">Кінець ночі</string>
 	<string name="title_notification_channel_service">Служба перемикання теми</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Запит дозволу…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku не вдалося виконати команду.</string>
 	<string name="shizuku_grant_unexpected">Під час використання Shizuku сталася неочікувана помилка.</string>
-	<string name="title_device_wallpaper_sync">Синхронізація шпалер</string>
-	<string name="label_experimental_feature">Експериментальна функція</string>
-	<string name="description_device_wallpaper_sync">Використовуйте окремі шпалери для світлого й темного режимів. Перемикання може ненадовго вплинути на продуктивність і швидкість розблокування.</string>
+	<string name="title_device_wallpaper_sync">Шпалери</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Використовуйте окремі шпалери для світлого й темного режимів. Перемикання може тривати мить і вплинути на продуктивність.</string>
 	<string name="action_select_day_wallpaper">Світлий режим:</string>
 	<string name="action_select_night_wallpaper">Темний режим:</string>
 	<string name="wallpaper_status_set">Установлено</string>

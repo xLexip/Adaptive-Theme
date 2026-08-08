@@ -4,7 +4,7 @@
 	<string name="action_close">Fermer</string>
 	<string name="action_continue">Continuer</string>
 	<string name="action_learn_more">En savoir plus</string>
-	<string name="action_disable_notification">Masquer la notification</string>
+	<string name="action_disable_notification">Masquer</string>
 	<string name="action_finish">Terminer</string>
 	<string name="action_set">Définir</string>
 	<string name="action_share_url">Partager le lien</string>
@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">La valeur ne peut pas dépasser 100 000.</string>
 
 	<string name="title_about_github">À propos / GitHub</string>
-	<string name="title_brightness_threshold">Seuil de luminosité ambiante</string>
+	<string name="title_brightness_threshold">Seuil de luminosité</string>
 	<string name="title_live_measurement">Valeur en direct</string>
 	<string name="title_change_language">Changer de langue</string>
 	<string name="title_current_brightness">Luminosité ambiante actuelle</string>
 	<string name="title_custom_threshold">Seuil personnalisé</string>
 	<string name="title_more">Plus</string>
-	<string name="title_night_dark_lock">Garder le mode sombre la nuit</string>
+	<string name="title_night_dark_lock">Mode nuit</string>
 	<string name="title_night_start_time_picker">Début de la nuit</string>
 	<string name="title_night_end_time_picker">Fin de la nuit</string>
 	<string name="title_notification_channel_service">Service de changement de thème</string>
@@ -67,7 +67,7 @@
 
 	<string name="hint_custom_threshold_value">Valeur en lux</string>
 
-	<string name="setup_action_open_developer_settings">Ouvrir les options pour les développeurs</string>
+	<string name="setup_action_open_developer_settings">Options développeurs</string>
 	<string name="setup_action_open_settings">Ouvrir les paramètres</string>
 	<string name="setup_connect_title">Étape 2 : connecter un second appareil</string>
 	<string name="setup_connect_description">Pour accorder l’autorisation, vous avez besoin d’un <b>second appareil</b> (de préférence un ordinateur). Reliez les deux appareils par USB. Vous pouvez aussi utiliser l’application Shizuku proposée ci-dessous.</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Demande d’autorisation…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku n’a pas pu exécuter la commande.</string>
 	<string name="shizuku_grant_unexpected">Erreur inattendue lors de l’utilisation de Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Synchronisation des fonds d’écran</string>
-	<string name="label_experimental_feature">Expérimental</string>
-	<string name="description_device_wallpaper_sync">Utilisez des fonds d’écran distincts pour les modes clair et sombre. Le changement peut brièvement affecter les performances et la vitesse de déverrouillage.</string>
+	<string name="title_device_wallpaper_sync">Fond d’écran</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Utilisez des fonds d’écran distincts pour les modes clair et sombre. Le changement peut prendre un instant et affecter les performances.</string>
 	<string name="action_select_day_wallpaper">Mode clair :</string>
 	<string name="action_select_night_wallpaper">Mode sombre :</string>
 	<string name="wallpaper_status_set">Défini</string>

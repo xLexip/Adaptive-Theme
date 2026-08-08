@@ -79,6 +79,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -750,7 +751,8 @@ private fun WallpaperSyncPreference(
 			description = stringResource(id = R.string.description_device_wallpaper_sync),
 			checked = uiState.wallpaperSyncEnabled,
 			enabled = uiState.adaptiveThemeEnabled,
-			onCheckedChange = requestToggle
+			onCheckedChange = requestToggle,
+			switchTopPadding = 20.dp
 		)
 		WallpaperSelectionButtons(
 			isDaySet = isDaySet,
@@ -783,7 +785,8 @@ private fun PreferenceDescriptionSwitch(
 	description: String,
 	checked: Boolean,
 	enabled: Boolean,
-	onCheckedChange: ((Boolean) -> Unit)?
+	onCheckedChange: ((Boolean) -> Unit)?,
+	switchTopPadding: Dp = 0.dp
 ) {
 	Row(
 		modifier = Modifier.fillMaxWidth(),
@@ -797,7 +800,7 @@ private fun PreferenceDescriptionSwitch(
 		)
 		Switch(
 			modifier = Modifier
-				.padding(start = 14.dp, end = 4.dp)
+				.padding(start = 14.dp, top = switchTopPadding, end = 4.dp)
 				.offset(y = (-6).dp)
 				.align(Alignment.Top),
 			checked = checked,
@@ -823,7 +826,7 @@ private fun BetaLabel() {
 		contentColor = MaterialTheme.colorScheme.onTertiaryContainer
 	) {
 		Text(
-			text = stringResource(id = R.string.label_experimental_feature),
+			text = stringResource(id = R.string.label_beta),
 			modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
 			style = MaterialTheme.typography.labelSmall
 		)

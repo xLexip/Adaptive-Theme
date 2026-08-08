@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">Hodnota nesmí překročit 100 000.</string>
 
 	<string name="title_about_github">O aplikaci / GitHub</string>
-	<string name="title_brightness_threshold">Práh okolního světla</string>
+	<string name="title_brightness_threshold">Práh jasu</string>
 	<string name="title_live_measurement">Aktuální hodnota</string>
 	<string name="title_change_language">Změnit jazyk</string>
 	<string name="title_current_brightness">Aktuální okolní světlo</string>
 	<string name="title_custom_threshold">Vlastní práh</string>
 	<string name="title_more">Další</string>
-	<string name="title_night_dark_lock">Ponechat v noci tmavý režim</string>
+	<string name="title_night_dark_lock">Noční režim</string>
 	<string name="title_night_start_time_picker">Začátek noci</string>
 	<string name="title_night_end_time_picker">Konec noci</string>
 	<string name="title_notification_channel_service">Služba přepínání motivu</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Žádost o oprávnění…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku nemohlo příkaz spustit.</string>
 	<string name="shizuku_grant_unexpected">Při použití Shizuku došlo k neočekávané chybě.</string>
-	<string name="title_device_wallpaper_sync">Synchronizace tapet</string>
-	<string name="label_experimental_feature">Experimentální</string>
-	<string name="description_device_wallpaper_sync">Používejte samostatné tapety pro světlý a tmavý režim. Přepnutí může krátce ovlivnit výkon a rychlost odemykání.</string>
+	<string name="title_device_wallpaper_sync">Tapeta</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Používejte samostatné tapety pro světlý a tmavý režim. Přepnutí může chvíli trvat a ovlivnit výkon.</string>
 	<string name="action_select_day_wallpaper">Světlý režim:</string>
 	<string name="action_select_night_wallpaper">Tmavý režim:</string>
 	<string name="wallpaper_status_set">Nastavena</string>

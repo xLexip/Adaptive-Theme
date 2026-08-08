@@ -4,7 +4,7 @@
 	<string name="action_close">Sluiten</string>
 	<string name="action_continue">Doorgaan</string>
 	<string name="action_learn_more">Meer informatie</string>
-	<string name="action_disable_notification">Melding verbergen</string>
+	<string name="action_disable_notification">Verbergen</string>
 	<string name="action_finish">Voltooien</string>
 	<string name="action_set">Instellen</string>
 	<string name="action_share_url">Link delen</string>
@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">De waarde mag niet hoger zijn dan 100.000.</string>
 
 	<string name="title_about_github">Over / GitHub</string>
-	<string name="title_brightness_threshold">Drempel voor omgevingslicht</string>
+	<string name="title_brightness_threshold">Lichtdrempel</string>
 	<string name="title_live_measurement">Livewaarde</string>
 	<string name="title_change_language">Taal wijzigen</string>
 	<string name="title_current_brightness">Huidig omgevingslicht</string>
 	<string name="title_custom_threshold">Aangepaste drempel</string>
 	<string name="title_more">Meer</string>
-	<string name="title_night_dark_lock">Donkere modus ’s nachts aanhouden</string>
+	<string name="title_night_dark_lock">Nachtmodus</string>
 	<string name="title_night_start_time_picker">Begin van de nacht</string>
 	<string name="title_night_end_time_picker">Einde van de nacht</string>
 	<string name="title_notification_channel_service">Service voor themawisseling</string>
@@ -67,7 +67,7 @@
 
 	<string name="hint_custom_threshold_value">Luxwaarde</string>
 
-	<string name="setup_action_open_developer_settings">Opties voor ontwikkelaars openen</string>
+	<string name="setup_action_open_developer_settings">Opties voor ontwikkelaars</string>
 	<string name="setup_action_open_settings">Instellingen openen</string>
 	<string name="setup_connect_title">Stap 2: verbind een tweede apparaat</string>
 	<string name="setup_connect_description">Je hebt een <b>tweede apparaat</b> nodig om de machtiging te verlenen (bij voorkeur een computer). Verbind beide apparaten via USB. Je kunt ook de hieronder vermelde Shizuku-app gebruiken.</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Machtiging aanvragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku kon de opdracht niet uitvoeren.</string>
 	<string name="shizuku_grant_unexpected">Onverwachte fout bij het gebruik van Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Achtergrondsynchronisatie</string>
-	<string name="label_experimental_feature">Experimenteel</string>
-	<string name="description_device_wallpaper_sync">Gebruik afzonderlijke achtergronden voor de lichte en donkere modus. Wisselen kan de prestaties en ontgrendelsnelheid kort beïnvloeden.</string>
+	<string name="title_device_wallpaper_sync">Achtergrond</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Gebruik afzonderlijke achtergronden voor de lichte en donkere modus. Wisselen kan even duren en de prestaties beïnvloeden.</string>
 	<string name="action_select_day_wallpaper">Lichte modus:</string>
 	<string name="action_select_night_wallpaper">Donkere modus:</string>
 	<string name="wallpaper_status_set">Ingesteld</string>

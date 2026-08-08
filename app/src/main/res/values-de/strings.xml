@@ -4,7 +4,7 @@
 	<string name="action_close">Schließen</string>
 	<string name="action_continue">Weiter</string>
 	<string name="action_learn_more">Mehr erfahren</string>
-	<string name="action_disable_notification">Benachrichtigung ausblenden</string>
+	<string name="action_disable_notification">Ausblenden</string>
 	<string name="action_finish">Fertig</string>
 	<string name="action_set">Festlegen</string>
 	<string name="action_share_url">Link teilen</string>
@@ -41,12 +41,12 @@
 	<string name="error_lux_value_too_large">Wert darf 100.000 nicht überschreiten.</string>
 
 	<string name="title_about_github">Über die App / GitHub</string>
-	<string name="title_brightness_threshold">Schwellenwert für Umgebungslicht</string>
+	<string name="title_brightness_threshold">Schwellenwert</string>
 	<string name="title_change_language">Sprache ändern</string>
 	<string name="title_current_brightness">Aktuelles Umgebungslicht</string>
 	<string name="title_custom_threshold">Benutzerdefinierte Schwelle</string>
 	<string name="title_more">Mehr</string>
-	<string name="title_night_dark_lock">Dunklen Modus nachts beibehalten</string>
+	<string name="title_night_dark_lock">Nachtmodus</string>
 	<string name="title_night_start_time_picker">Nachtbeginn</string>
 	<string name="title_night_end_time_picker">Nachtende</string>
 	<string name="title_notification_channel_service">Dienst für den Designwechsel</string>
@@ -57,7 +57,7 @@
 	<string name="adaptive_threshold_custom">Benutzerdefiniert</string>
 	<string name="adaptive_threshold_dark">Dunkelheit</string>
 	<string name="adaptive_threshold_daylight">Tageslicht</string>
-	<string name="adaptive_threshold_dim">Dämmerlicht</string>
+	<string name="adaptive_threshold_dim">Fast Dunkel</string>
 	<string name="adaptive_threshold_soft">Sanftes Licht</string>
 	<string name="adaptive_threshold_direct_sunlight">Direktes Sonnenlicht</string>
 	<string name="description_night_dark_lock">Dunklen Modus während der festgelegten Nachtzeiten beibehalten.</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">Berechtigung anfragen…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku konnte den Befehl nicht ausführen.</string>
 	<string name="shizuku_grant_unexpected">Unerwarteter Fehler bei der Verwendung von Shizuku.</string>
-	<string name="title_device_wallpaper_sync">Hintergrundbild-Synchronisierung</string>
-	<string name="label_experimental_feature">Experimentell</string>
-	<string name="description_device_wallpaper_sync">Verwende separate Hintergrundbilder für den hellen und dunklen Modus. Der Wechsel kann kurzzeitig die Leistung und Entsperrgeschwindigkeit beeinträchtigen.</string>
+	<string name="title_device_wallpaper_sync">Hintergrundbild</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Verwende separate Hintergrundbilder für den hellen und dunklen Modus. Der Wechsel kann einen Moment dauern und die Leistung beeinträchtigen.</string>
 	<string name="action_select_day_wallpaper">Heller Modus:</string>
 	<string name="action_select_night_wallpaper">Dunkler Modus:</string>
 	<string name="wallpaper_status_set">Festgelegt</string>

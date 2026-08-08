@@ -41,13 +41,13 @@
 	<string name="error_lux_value_too_large">Değer 100.000’i aşamaz.</string>
 
 	<string name="title_about_github">Hakkında / GitHub</string>
-	<string name="title_brightness_threshold">Ortam ışığı eşiği</string>
+	<string name="title_brightness_threshold">Parlaklık eşiği</string>
 	<string name="title_live_measurement">Anlık değer</string>
 	<string name="title_change_language">Dili değiştir</string>
 	<string name="title_current_brightness">Geçerli ortam ışığı</string>
 	<string name="title_custom_threshold">Özel eşik</string>
 	<string name="title_more">Diğer</string>
-	<string name="title_night_dark_lock">Geceleri koyu modu koru</string>
+	<string name="title_night_dark_lock">Gece modu</string>
 	<string name="title_night_start_time_picker">Gece başlangıcı</string>
 	<string name="title_night_end_time_picker">Gece bitişi</string>
 	<string name="title_notification_channel_service">Tema geçişi hizmeti</string>
@@ -109,9 +109,9 @@
 	<string name="shizuku_request_permission">İzin isteniyor…</string>
 	<string name="shizuku_grant_shell_failed">Shizuku komutu çalıştıramadı.</string>
 	<string name="shizuku_grant_unexpected">Shizuku kullanılırken beklenmeyen bir hata oluştu.</string>
-	<string name="title_device_wallpaper_sync">Duvar kâğıdı eşitleme</string>
-	<string name="label_experimental_feature">Deneysel</string>
-	<string name="description_device_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları kullanın. Geçiş, performansı ve kilit açma hızını kısa süreliğine etkileyebilir.</string>
+	<string name="title_device_wallpaper_sync">Duvar kâğıdı</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları kullanın. Geçiş biraz sürebilir ve performansı etkileyebilir.</string>
 	<string name="action_select_day_wallpaper">Açık mod:</string>
 	<string name="action_select_night_wallpaper">Koyu mod:</string>
 	<string name="wallpaper_status_set">Ayarlandı</string>
