@@ -11,9 +11,12 @@ dependencyLocking {
     lockAllConfigurations()
 }
 
+val isPlayTaskRequested = gradle.startParameter.taskNames.any { taskName ->
+    taskName.contains("play", ignoreCase = true)
+}
 val withPlayServices = providers.gradleProperty("withPlayServices")
     .map { it.toBoolean() }
-    .orElse(false)
+    .orElse(isPlayTaskRequested)
 
 if (withPlayServices.get()) {
     pluginManager.apply("com.google.gms.google-services")
