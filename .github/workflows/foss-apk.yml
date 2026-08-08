@@ -55,8 +55,21 @@ jobs:
           test -n "$FOSS_SIGNING_KEYSTORE_PASSWORD"
           test -n "$FOSS_SIGNING_KEY_PASSWORD"
           mkdir -p dist
+          mapfile -t unsigned_apks < <(
+            find app/build/outputs/apk/foss/release \
+              -maxdepth 1 \
+              -type f \
+              -name '*.apk' \
+              -print
+          )
+          if [ "${#unsigned_apks[@]}" -ne 1 ]; then
+            echo "Expected exactly one FOSS release APK, found ${#unsigned_apks[@]}" >&2
+            find app/build/outputs/apk/foss/release -maxdepth 1 -type f -print >&2
+            exit 1
+          fi
+          unsigned_apk="${unsigned_apks[0]}"
           "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 \
-            app/build/outputs/apk/foss/release/app-foss-release-unsigned.apk \
+            "$unsigned_apk" \
             dist/AdaptiveTheme-foss-aligned.apk
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
             --ks "$RUNNER_TEMP/adaptive-theme-signing/release-b.jks" \
