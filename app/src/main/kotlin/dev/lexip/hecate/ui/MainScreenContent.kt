@@ -789,7 +789,9 @@ private fun PreferenceDescriptionSwitch(
 	switchTopPadding: Dp = 0.dp
 ) {
 	Row(
-		modifier = Modifier.fillMaxWidth(),
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(top = 4.dp),
 		verticalAlignment = Alignment.Top,
 		horizontalArrangement = Arrangement.SpaceBetween
 	) {

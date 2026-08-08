@@ -91,9 +91,13 @@ fun DetailPreferenceCard(
 				)
 				.alpha(animatedAlpha.value)
 		) {
-			Row(verticalAlignment = Alignment.CenterVertically) {
+			Row(
+				modifier = Modifier.fillMaxWidth(),
+				verticalAlignment = Alignment.CenterVertically
+			) {
 				Text(
 					text = title,
+					modifier = Modifier.weight(1f),
 					style = MaterialTheme.typography.titleMedium,
 					color = MaterialTheme.colorScheme.onSurface
 				)
