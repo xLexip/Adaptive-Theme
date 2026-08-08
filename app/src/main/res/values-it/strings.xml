@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Indietro</string>
+	<string name="action_cancel">Annulla</string>
+	<string name="action_close">Chiudi</string>
+	<string name="action_continue">Continua</string>
+	<string name="action_learn_more">Scopri di più</string>
+	<string name="action_disable_notification">Nascondi</string>
+	<string name="action_finish">Fine</string>
+	<string name="action_set">Imposta</string>
+	<string name="action_share_url">Condividi link</string>
+	<string name="action_skip">Salta</string>
+	<string name="action_use_adaptive_theme">Usa %1$s</string>
+	<string name="action_advanced_settings">Impostazioni avanzate</string>
+	<string name="action_collapse">Comprimi</string>
+	<string name="state_collapsed">Compresso</string>
+	<string name="state_expanded">Espanso</string>
+	<string name="title_share_setup">Condividi link di configurazione</string>
+	<string name="debug_review_flow_completed">Flusso di recensione di prova completato</string>
+	<string name="easter_egg_answer">La risposta alla domanda fondamentale sulla vita, l’universo e tutto quanto.</string>
+
+	<string name="description_service_purpose">
+		Alterna la modalità chiara e scura di Android in base alla luce ambientale.
+	</string>
+
+	<string name="description_switching_conditions">
+		Il cambio avviene solo all’accensione dello schermo e se il sensore non è coperto.
+	</string>
+
+	<string name="description_notification_service_running">
+		Pronto ad adattare il tema di sistema all’accensione dello schermo.
+	</string>
+
+	<string name="device_covered_title">Sensore coperto</string>
+	<string name="device_covered_message">Il cambio di tema è sospeso perché il sensore di luminosità è coperto.</string>
+	<string name="battery_saver_title">Risparmio energetico attivo</string>
+	<string name="battery_saver_message">Il risparmio energetico di sistema può impedire il cambio automatico del tema.</string>
+
+	<string name="error_invalid_lux_value">Inserisci un valore in lux valido.</string>
+	<string name="error_invalid_night_period">Gli orari di inizio e fine devono essere diversi.</string>
+	<string name="error_negative_lux_value">Il valore non può essere negativo.</string>
+	<string name="error_lux_value_too_large">Il valore non può superare 100.000.</string>
+
+	<string name="title_about_github">Informazioni / GitHub</string>
+	<string name="title_brightness_threshold">Soglia di luminosità</string>
+	<string name="title_live_measurement">Valore in tempo reale</string>
+	<string name="title_change_language">Cambia lingua</string>
+	<string name="title_current_brightness">Luce ambientale attuale</string>
+	<string name="title_custom_threshold">Soglia personalizzata</string>
+	<string name="title_more">Altro</string>
+	<string name="title_night_dark_lock">Modalità notturna</string>
+	<string name="title_night_start_time_picker">Inizio notte</string>
+	<string name="title_night_end_time_picker">Fine notte</string>
+	<string name="title_notification_channel_service">Servizio di cambio tema</string>
+	<string name="title_send_feedback">Invia feedback</string>
+	<string name="title_support_project">Sostieni il progetto</string>
+
+	<string name="adaptive_threshold_bright">Luminoso</string>
+	<string name="adaptive_threshold_custom">Personalizzata</string>
+	<string name="adaptive_threshold_dark">Buio</string>
+	<string name="adaptive_threshold_daylight">Luce diurna</string>
+	<string name="adaptive_threshold_dim">Penombra</string>
+	<string name="adaptive_threshold_soft">Soffusa</string>
+	<string name="adaptive_threshold_direct_sunlight">Luce solare diretta</string>
+	<string name="description_night_dark_lock">Mantiene attiva la modalità scura durante gli orari notturni impostati.</string>
+	<string name="action_night_from_time">Dalle: %1$s</string>
+	<string name="action_night_to_time">Alle: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Valore in lux</string>
+
+	<string name="setup_action_open_developer_settings">Apri Opzioni sviluppatore</string>
+	<string name="setup_action_open_settings">Apri Impostazioni</string>
+	<string name="setup_connect_title">Passaggio 2: collega un secondo dispositivo</string>
+	<string name="setup_connect_description">Per concedere l’autorizzazione serve un <b>secondo dispositivo</b> (preferibilmente un computer). Collega i due dispositivi tramite USB. In alternativa, usa l’app Shizuku indicata qui sotto.</string>
+	<string name="setup_developer_mode_title">Passaggio 1: attiva Opzioni sviluppatore</string>
+	<string name="setup_developer_mode_body">Attiva Debug USB in Opzioni sviluppatore.</string>
+	<string name="setup_developer_options_unlock">Sblocca Opzioni sviluppatore</string>
+	<string name="setup_developer_options_enabled">Opzioni sviluppatore attive</string>
+	<string name="setup_dev_options_toast_one">Trova il numero build e toccalo 7 volte per attivare Opzioni sviluppatore.</string>
+	<string name="setup_dev_options_toast_two">Usa la ricerca se non riesci a trovarlo.</string>
+	<string name="setup_alternative_methods">Metodi alternativi</string>
+	<string name="setup_grant_title">Passaggio 3: concedi l’autorizzazione dal secondo dispositivo</string>
+	<string name="setup_grant_body">Apri questo link sul secondo dispositivo e segui le istruzioni:</string>
+	<string name="setup_alternatives">In alternativa, puoi eseguire un comando ADB o usare l’accesso root per concedere l’autorizzazione. È supportato anche Shizuku.</string>
+	<string name="setup_permission_granted">Autorizzazione concessa.</string>
+	<string name="setup_permission_not_granted">Autorizzazione non ancora concessa. Completa la configurazione con il secondo dispositivo.</string>
+	<string name="setup_usb_debugging_disabled">Attiva Debug USB</string>
+	<string name="setup_usb_debugging_enabled">Debug USB attivo</string>
+	<string name="setup_usb_debugging_enable_toast">Attiva Debug USB in Opzioni sviluppatore.</string>
+	<string name="setup_usb_not_connected">In attesa della connessione USB…</string>
+	<string name="setup_usb_connected">USB collegato</string>
+	<string name="setup_why_other_device_title">Perché serve un secondo dispositivo?</string>
+	<string name="setup_why_other_device">Android non consente alle app di concedersi da sole l’autorizzazione richiesta. Serve un secondo dispositivo con un browser web o ADB.</string>
+	<string name="setup_is_this_safe_title">È sicuro?</string>
+	<string name="setup_is_this_safe_body">Questa autorizzazione consente alle app di modificare impostazioni di sistema protette. Adaptive Theme la usa solo per funzioni come il cambio della modalità scura. Disinstallando l’app, l’autorizzazione viene revocata. Il codice sorgente è pubblico su GitHub.</string>
+	<string name="setup_shizuku_title">Alternativa: Shizuku</string>
+	<string name="setup_shizuku_description">Se usi già Shizuku, non servono un secondo dispositivo o ADB. Shizuku è necessario una sola volta per concedere l’autorizzazione.</string>
+	<string name="setup_shizuku_action">Usa Shizuku</string>
+	<string name="setup_action_use_root">Usa accesso root</string>
+	<string name="setup_root_request">Richiesta di accesso root…</string>
+	<string name="setup_root_grant_failed">Impossibile concedere l’autorizzazione con l’accesso root.</string>
+	<string name="setup_root_question">Il dispositivo dispone di accesso root?</string>
+
+	<string name="setup_required_title">Configurazione richiesta</string>
+	<string name="setup_required_message">%1$s richiede una configurazione iniziale per funzionare.</string>
+	<string name="action_start_setup">Avvia configurazione</string>
+
+	<string name="shizuku_not_running">Avvia o riavvia Shizuku, quindi riprova.</string>
+	<string name="shizuku_denied">Accesso negato. Autorizza Adaptive Theme in Shizuku, quindi riprova.</string>
+	<string name="shizuku_request_permission">Richiesta autorizzazione…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku non ha potuto eseguire il comando.</string>
+	<string name="shizuku_grant_unexpected">Errore imprevisto durante l’uso di Shizuku.</string>
+	<string name="title_device_wallpaper_sync">Sfondo</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Usa sfondi distinti per la modalità chiara e scura. Il passaggio può richiedere un momento e influire sulle prestazioni.</string>
+	<string name="action_select_day_wallpaper">Modalità chiara:</string>
+	<string name="action_select_night_wallpaper">Modalità scura:</string>
+	<string name="wallpaper_status_set">Impostato</string>
+	<string name="wallpaper_status_not_set">Non impostato</string>
+	<string name="live_wallpaper_warning_title">Sfondo animato attivo</string>
+	<string name="live_wallpaper_warning_message">Attivando la sincronizzazione, lo sfondo animato attuale verrà sostituito da sfondi statici per la modalità chiara e scura. Vuoi continuare?</string>
+</resources>

@@ -1,33 +1,42 @@
 name: 'Setup Environment'
-description: 'Sets up JDK and creates necessary files from secrets'
+description: 'Sets up Java and Gradle, then creates build-only Firebase configuration files'
 inputs:
   google-services-json:
-    required: true
-    description: 'JSON string for google-services.json written by the workflow.'
+    required: false
+    default: ''
+    description: 'Optional trusted google-services.json; CI uses a non-production fixture otherwise.'
+  create-firebase-config:
+    required: false
+    default: 'true'
+    description: 'Whether to create Firebase configuration files for a Play build.'
+  gradle-cache-read-only:
+    required: false
+    default: 'true'
+    description: 'Whether Gradle may only restore caches and must not write them.'
 runs:
   using: "composite"
   steps:
-    - name: Create files
+    - name: Create Firebase configuration
+      if: inputs.create-firebase-config == 'true'
       shell: bash
       env:
         GOOGLE_SERVICES_JSON: ${{ inputs.google-services-json }}
       run: |
-        # Fail fast if secrets are missing
-        if [ -z "${GOOGLE_SERVICES_JSON:-}" ]; then
-          echo "Missing GOOGLE_SERVICES_JSON" >&2
-          exit 1
-        fi
-
-        # Ensure directories
         mkdir -p app
-
-        # Safely write files
-        printf '%s' "$GOOGLE_SERVICES_JSON" > google-services.json
-        printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        if [ -n "${GOOGLE_SERVICES_JSON:-}" ]; then
+          printf '%s' "$GOOGLE_SERVICES_JSON" > app/google-services.json
+        else
+          cp .github/fixtures/google-services.ci.json app/google-services.json
+        fi
 
     - name: Set up JDK 23
       uses: actions/setup-java@v5
       with:
         java-version: 23
         distribution: 'zulu'
-        cache: 'gradle'
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@90ddb51e90a5fd9ba75f40cf85156b7b41bf76a3 # v6
+      with:
+        validate-wrappers: true
+        cache-read-only: ${{ inputs.gradle-cache-read-only }}

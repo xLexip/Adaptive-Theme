@@ -27,16 +27,24 @@ import androidx.core.app.NotificationCompat
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.R
 import dev.lexip.hecate.broadcasts.ScreenOnReceiver
+import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.util.AdaptiveAppearanceHandler
+import dev.lexip.hecate.util.CURRENT_WALLPAPER_STORAGE_VERSION
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.LegacyWallpaperCleanupAction
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
+import dev.lexip.hecate.util.WallpaperHandler
+import dev.lexip.hecate.util.WallpaperUpdateScheduler
+import dev.lexip.hecate.util.legacyWallpaperCleanupAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
@@ -48,9 +56,11 @@ private var screenOnReceiver: ScreenOnReceiver? = null
 class BroadcastReceiverService : Service() {
 
 	// Utils
-	private lateinit var darkThemeHandler: DarkThemeHandler
+	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
+	private lateinit var wallpaperUpdateScheduler: WallpaperUpdateScheduler
 	private lateinit var lightSensorManager: LightSensorManager
 	private lateinit var proximitySensorManager: ProximitySensorManager
+	private lateinit var monitoringPreferencesCoordinator: MonitoringPreferencesCoordinator
 
 	// Service-bound scope
 	private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -108,17 +118,15 @@ class BroadcastReceiverService : Service() {
 		// Load user preferences from data store
 		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
-			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
+			val userPreferences = withContext(Dispatchers.IO) {
+				resetLegacyWallpaperSelectionIfNeeded(userPreferencesRepository)
+				userPreferencesRepository.fetchInitialPreferences()
+			}
 
 			// Create screen-on receiver if adaptive theme is enabled
 			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
 			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
-				createScreenOnReceiver(
-					adaptiveThemeThresholdLux = userPreferences.adaptiveThemeThresholdLux,
-					stayDarkAtNightEnabled = userPreferences.stayDarkAtNightEnabled,
-					nightStartMinutes = userPreferences.nightStartMinutes,
-					nightEndMinutes = userPreferences.nightEndMinutes
-				)
+				createScreenOnReceiver(userPreferences)
 			}
 
 			// Abort service start when there is no receiver to handle
@@ -133,14 +141,36 @@ class BroadcastReceiverService : Service() {
 		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
-				screenOnReceiver?.adaptiveThemeThresholdLux = prefs.adaptiveThemeThresholdLux
-				screenOnReceiver?.stayDarkAtNightEnabled = prefs.stayDarkAtNightEnabled
-				screenOnReceiver?.nightStartMinutes = prefs.nightStartMinutes
-				screenOnReceiver?.nightEndMinutes = prefs.nightEndMinutes
+				monitoringPreferencesCoordinator.apply(prefs, screenOnReceiver)
 			}
 		}
 
 		return START_STICKY
+	}
+
+	private suspend fun resetLegacyWallpaperSelectionIfNeeded(
+		userPreferencesRepository: UserPreferencesRepository
+	) {
+		val preferences = userPreferencesRepository.fetchInitialPreferences()
+		when (
+			legacyWallpaperCleanupAction(
+				storageVersion = preferences.wallpaperStorageVersion,
+				dayWallpaperUri = preferences.dayWallpaperUri,
+				nightWallpaperUri = preferences.nightWallpaperUri
+			)
+		) {
+			LegacyWallpaperCleanupAction.NONE -> Unit
+			LegacyWallpaperCleanupAction.MARK_CURRENT ->
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+
+			LegacyWallpaperCleanupAction.RESET_LEGACY_SELECTION -> {
+				userPreferencesRepository.updateWallpaperSyncEnabled(false)
+				userPreferencesRepository.updateDayWallpaperUri(null)
+				userPreferencesRepository.updateNightWallpaperUri(null)
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+				Log.i(TAG, "Cleared legacy wallpaper selections that could not be migrated safely")
+			}
+		}
 	}
 
 	override fun onDestroy() {
@@ -209,32 +239,51 @@ class BroadcastReceiverService : Service() {
 		manager?.createNotificationChannel(serviceChannel)
 	}
 
-	private fun createScreenOnReceiver(
-		adaptiveThemeThresholdLux: Float,
-		stayDarkAtNightEnabled: Boolean,
-		nightStartMinutes: Int,
-		nightEndMinutes: Int
-	) {
-		screenOnReceiver = screenOnReceiver ?: ScreenOnReceiver(
+	private fun createScreenOnReceiver(preferences: UserPreferences) {
+		val isNewReceiver = screenOnReceiver == null
+		val receiver = screenOnReceiver ?: ScreenOnReceiver(
 			proximitySensorManager,
 			lightSensorManager,
-			darkThemeHandler,
-			adaptiveThemeThresholdLux,
-			stayDarkAtNightEnabled,
-			nightStartMinutes,
-			nightEndMinutes
+			adaptiveAppearanceHandler,
+			preferences.adaptiveThemeThresholdLux,
+			preferences.stayDarkAtNightEnabled,
+			preferences.nightStartMinutes,
+			preferences.nightEndMinutes
 		)
+		monitoringPreferencesCoordinator.apply(preferences, receiver)
+		screenOnReceiver = receiver
+		if (!isNewReceiver) return
+
 		Log.d(TAG, "Registering screen-on receiver...")
-		registerReceiver(screenOnReceiver, IntentFilter(Intent.ACTION_SCREEN_ON))
+		registerReceiver(
+			receiver,
+			IntentFilter(Intent.ACTION_SCREEN_ON),
+			RECEIVER_EXPORTED // It's a protected broadcast, EXPORTED allows to deliver it
+		)
 	}
 
 	private fun initializeUtils() {
-		if (!this::darkThemeHandler.isInitialized)
-			darkThemeHandler = DarkThemeHandler(this)
+		if (!this::adaptiveAppearanceHandler.isInitialized) {
+			val wallpaperHandler = WallpaperHandler(this)
+			wallpaperUpdateScheduler = WallpaperUpdateScheduler(
+				scope = serviceScope,
+				dispatcher = Dispatchers.IO.limitedParallelism(1),
+				applyWallpaper = wallpaperHandler::applyWallpaperForTheme
+			)
+			adaptiveAppearanceHandler = AdaptiveAppearanceHandler(
+				setDarkTheme = DarkThemeHandler(this)::setDarkTheme,
+				scheduleWallpaperForTheme = wallpaperUpdateScheduler::schedule
+			)
+		}
 		if (!this::lightSensorManager.isInitialized)
 			lightSensorManager = LightSensorManager(this)
 		if (!this::proximitySensorManager.isInitialized)
 			proximitySensorManager = ProximitySensorManager(this)
+		if (!this::monitoringPreferencesCoordinator.isInitialized) {
+			monitoringPreferencesCoordinator = MonitoringPreferencesCoordinator(
+				adaptiveAppearanceHandler::configureWallpaperSync
+			)
+		}
 
 		// Log proximity sensor availability for debugging and transparency
 		if (proximitySensorManager.hasProximitySensor) {

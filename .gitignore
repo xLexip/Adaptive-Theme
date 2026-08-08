@@ -1,5 +1,6 @@
 # Gradle files
 .gradle/
+.gradle-user/
 build/
 
 # Local configuration file (sdk path, etc)
@@ -19,9 +20,6 @@ output.json
 # IntelliJ
 *.iml
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
 
 # Keystore files
 *.jks
@@ -29,7 +27,6 @@ render.experimental.xml
 
 # Secrets (e.g. APIs or Firebase)
 google-services.json
-**/DarkThemeHandler.kt
 
 # Android Profiling
 *.hprof

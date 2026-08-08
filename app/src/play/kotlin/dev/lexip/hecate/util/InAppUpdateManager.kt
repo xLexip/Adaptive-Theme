@@ -29,9 +29,9 @@ import dev.lexip.hecate.logging.Logger
 
 private const val TAG = "InAppUpdateManager"
 
-private const val DAYS_FOR_IMMEDIATE_UPDATE = 2
+private const val DAYS_FOR_IMMEDIATE_UPDATE = 1
 private const val MIN_PRIORITY_FOR_IMMEDIATE = 0
-private const val DAYS_FOR_FLEXIBLE_UPDATE = 0
+private const val DAYS_FOR_FLEXIBLE_UPDATE = 1
 private const val MIN_PRIORITY_FOR_FLEXIBLE = 0
 
 class InAppUpdateManager(activity: ComponentActivity) {

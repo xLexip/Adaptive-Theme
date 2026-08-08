@@ -21,16 +21,16 @@ import android.util.Log
 
 private const val TAG = "LightSensorManager"
 
-class LightSensorManager(context: Context) : SensorEventListener {
+class LightSensorManager(context: Context) : SensorEventListener, SensorReader {
 
 	private val sensorManager: SensorManager =
 		context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 	private val lightSensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 	private lateinit var callback: (Float) -> Unit
 
-	fun startListening(
+	override fun startListening(
 		callback: (Float) -> Unit,
-		sensorDelay: Int = SensorManager.SENSOR_DELAY_FASTEST
+		sensorDelay: Int
 	) {
 		this.callback = callback
 		lightSensor?.let {
@@ -38,7 +38,7 @@ class LightSensorManager(context: Context) : SensorEventListener {
 		}
 	}
 
-	fun stopListening() {
+	override fun stopListening() {
 		sensorManager.unregisterListener(this)
 	}
 

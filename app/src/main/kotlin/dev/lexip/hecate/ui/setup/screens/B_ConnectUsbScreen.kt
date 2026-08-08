@@ -25,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -38,6 +40,7 @@ import dev.lexip.hecate.ui.setup.components.SetupFAQCards
 import dev.lexip.hecate.ui.setup.components.SetupWaitingCard
 import dev.lexip.hecate.ui.setup.components.ShizukuOptionCard
 import dev.lexip.hecate.ui.setup.components.StepNavigationRow
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -51,6 +54,8 @@ fun B_ConnectUsbScreen(
 	onInstallShizuku: () -> Unit,
 ) {
 	val haptic = LocalHapticFeedback.current
+	val scrollState = rememberScrollState()
+	val coroutineScope = rememberCoroutineScope()
 
 
 	// Haptic feedback when USB connected
@@ -71,7 +76,7 @@ fun B_ConnectUsbScreen(
 			Column(
 				modifier = Modifier
 					.weight(1f)
-					.verticalScroll(rememberScrollState()),
+					.verticalScroll(scrollState),
 				verticalArrangement = Arrangement.spacedBy(24.dp)
 			) {
 				Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -81,7 +86,7 @@ fun B_ConnectUsbScreen(
 						fontWeight = FontWeight.Bold
 					)
 					Text(
-						text = stringResource(id = R.string.setup_connect_body),
+						text = stringResource(id = R.string.setup_connect_description),
 						style = MaterialTheme.typography.bodyLarge,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)
@@ -105,7 +110,22 @@ fun B_ConnectUsbScreen(
 					onUseRoot = onUseRoot,
 					onShareADBCommand = onShareExpertCommand,
 					isShizukuInstalled = uiState.isShizukuInstalled,
-					onInstallShizuku = onInstallShizuku
+					onInstallShizuku = onInstallShizuku,
+					onExpansionStarted = {
+						coroutineScope.launch {
+							var previousMaxValue = -1
+							var stableFrameCount = 0
+							while (stableFrameCount < 5) {
+								withFrameNanos { }
+								val currentMaxValue = scrollState.maxValue
+								scrollState.scrollTo(currentMaxValue)
+								stableFrameCount =
+									if (currentMaxValue == previousMaxValue) stableFrameCount + 1
+									else 0
+								previousMaxValue = currentMaxValue
+							}
+						}
+					}
 				)
 			}
 

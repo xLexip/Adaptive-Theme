@@ -1,0 +1,121 @@
+<resources>
+	<string name="action_back">Geri</string>
+	<string name="action_cancel">İptal</string>
+	<string name="action_close">Kapat</string>
+	<string name="action_continue">Devam</string>
+	<string name="action_learn_more">Daha fazla bilgi</string>
+	<string name="action_disable_notification">Bildirimi gizle</string>
+	<string name="action_finish">Bitir</string>
+	<string name="action_set">Ayarla</string>
+	<string name="action_share_url">Bağlantıyı paylaş</string>
+	<string name="action_skip">Atla</string>
+	<string name="action_use_adaptive_theme">%1$s’i kullan</string>
+	<string name="action_advanced_settings">Gelişmiş ayarlar</string>
+	<string name="action_collapse">Daralt</string>
+	<string name="state_collapsed">Daraltıldı</string>
+	<string name="state_expanded">Genişletildi</string>
+	<string name="title_share_setup">Kurulum bağlantısını paylaş</string>
+	<string name="debug_review_flow_completed">Test değerlendirme akışı tamamlandı</string>
+	<string name="easter_egg_answer">Hayat, evren ve her şeye dair nihai sorunun cevabı.</string>
+
+	<string name="description_service_purpose">
+		Android’i ortam ışığına göre açık ve koyu mod arasında geçirir.
+	</string>
+
+	<string name="description_switching_conditions">
+		Geçiş yalnızca ekran açıldığında ve sensörün üzeri kapalı değilse gerçekleşir.
+	</string>
+
+	<string name="description_notification_service_running">
+		Ekran açıldığında sistem temasını ayarlamaya hazır.
+	</string>
+
+	<string name="device_covered_title">Sensörün üzeri kapalı</string>
+	<string name="device_covered_message">Işık sensörünün üzeri kapalı olduğu için tema geçişi duraklatıldı.</string>
+	<string name="battery_saver_title">Pil tasarrufu etkin</string>
+	<string name="battery_saver_message">Sistemin pil tasarrufu özelliği otomatik tema geçişini engelleyebilir.</string>
+
+	<string name="error_invalid_lux_value">Geçerli bir lüks değeri girin.</string>
+	<string name="error_invalid_night_period">Başlangıç ve bitiş saatleri farklı olmalıdır.</string>
+	<string name="error_negative_lux_value">Değer negatif olamaz.</string>
+	<string name="error_lux_value_too_large">Değer 100.000’i aşamaz.</string>
+
+	<string name="title_about_github">Hakkında / GitHub</string>
+	<string name="title_brightness_threshold">Parlaklık eşiği</string>
+	<string name="title_live_measurement">Anlık değer</string>
+	<string name="title_change_language">Dili değiştir</string>
+	<string name="title_current_brightness">Geçerli ortam ışığı</string>
+	<string name="title_custom_threshold">Özel eşik</string>
+	<string name="title_more">Diğer</string>
+	<string name="title_night_dark_lock">Gece modu</string>
+	<string name="title_night_start_time_picker">Gece başlangıcı</string>
+	<string name="title_night_end_time_picker">Gece bitişi</string>
+	<string name="title_notification_channel_service">Tema geçişi hizmeti</string>
+	<string name="title_send_feedback">Geri bildirim gönder</string>
+	<string name="title_support_project">Projeyi destekle</string>
+
+	<string name="adaptive_threshold_bright">Aydınlık</string>
+	<string name="adaptive_threshold_custom">Özel</string>
+	<string name="adaptive_threshold_dark">Karanlık</string>
+	<string name="adaptive_threshold_daylight">Gün ışığı</string>
+	<string name="adaptive_threshold_dim">Loş</string>
+	<string name="adaptive_threshold_soft">Yumuşak ışık</string>
+	<string name="adaptive_threshold_direct_sunlight">Doğrudan güneş ışığı</string>
+	<string name="description_night_dark_lock">Koyu modu belirlenen gece saatlerinde etkin tutar.</string>
+	<string name="action_night_from_time">Başlangıç: %1$s</string>
+	<string name="action_night_to_time">Bitiş: %1$s</string>
+
+	<string name="hint_custom_threshold_value">Lüks değeri</string>
+
+	<string name="setup_action_open_developer_settings">Geliştirici seçeneklerini aç</string>
+	<string name="setup_action_open_settings">Ayarları aç</string>
+	<string name="setup_connect_title">2. adım: İkinci bir cihaz bağlayın</string>
+	<string name="setup_connect_description">İzni vermek için <b>ikinci bir cihaz</b> gerekir (tercihen bilgisayar). İki cihazı USB ile bağlayın. Alternatif olarak aşağıdaki Shizuku uygulamasını kullanabilirsiniz.</string>
+	<string name="setup_developer_mode_title">1. adım: Geliştirici seçeneklerini etkinleştirin</string>
+	<string name="setup_developer_mode_body">Geliştirici seçeneklerinden USB hata ayıklamayı açın.</string>
+	<string name="setup_developer_options_unlock">Geliştirici seçeneklerinin kilidini aç</string>
+	<string name="setup_developer_options_enabled">Geliştirici seçenekleri etkin</string>
+	<string name="setup_dev_options_toast_one">Yapım numarasını bulun ve Geliştirici seçeneklerini etkinleştirmek için 7 kez dokunun.</string>
+	<string name="setup_dev_options_toast_two">Bulamazsanız arama özelliğini kullanın.</string>
+	<string name="setup_alternative_methods">Alternatif yöntemler</string>
+	<string name="setup_grant_title">3. adım: İzni ikinci cihazdan verin</string>
+	<string name="setup_grant_body">Bu bağlantıyı ikinci cihazda açıp talimatları izleyin:</string>
+	<string name="setup_alternatives">Alternatif olarak bir ADB komutunu kendiniz çalıştırabilir veya izni root erişimiyle verebilirsiniz. Shizuku da desteklenir.</string>
+	<string name="setup_permission_granted">İzin verildi.</string>
+	<string name="setup_permission_not_granted">İzin henüz verilmedi. Kurulumu ikinci cihazla tamamlayın.</string>
+	<string name="setup_usb_debugging_disabled">USB hata ayıklamayı aç</string>
+	<string name="setup_usb_debugging_enabled">USB hata ayıklama açık</string>
+	<string name="setup_usb_debugging_enable_toast">Geliştirici seçeneklerinden USB hata ayıklamayı açın.</string>
+	<string name="setup_usb_not_connected">USB bağlantısı bekleniyor…</string>
+	<string name="setup_usb_connected">USB bağlandı</string>
+	<string name="setup_why_other_device_title">Neden ikinci bir cihaz gerekiyor?</string>
+	<string name="setup_why_other_device">Android, uygulamaların gerekli izni kendilerine vermesine izin vermez. Web tarayıcısı veya ADB bulunan ikinci bir cihaz gerekir.</string>
+	<string name="setup_is_this_safe_title">Bu güvenli mi?</string>
+	<string name="setup_is_this_safe_body">Bu izin, uygulamaların korumalı sistem ayarlarını değiştirmesine olanak tanır. Adaptive Theme bu izni yalnızca koyu modu değiştirme gibi özellikler için kullanır. Uygulama kaldırıldığında izin iptal edilir. Kaynak kodu GitHub’da herkese açıktır.</string>
+	<string name="setup_shizuku_title">Alternatif: Shizuku</string>
+	<string name="setup_shizuku_description">Shizuku kullanıyorsanız ikinci bir cihaza veya ADB’ye gerek yoktur. İzni vermek için Shizuku’ya yalnızca bir kez ihtiyaç duyulur.</string>
+	<string name="setup_shizuku_action">Shizuku kullan</string>
+	<string name="setup_action_use_root">Root erişimini kullan</string>
+	<string name="setup_root_request">Root erişimi isteniyor…</string>
+	<string name="setup_root_grant_failed">İzin root erişimiyle verilemedi.</string>
+	<string name="setup_root_question">Cihazda root erişimi var mı?</string>
+
+	<string name="setup_required_title">Kurulum gerekli</string>
+	<string name="setup_required_message">%1$s’in çalışması için tek seferlik kurulum gerekir.</string>
+	<string name="action_start_setup">Kurulumu başlat</string>
+
+	<string name="shizuku_not_running">Shizuku’yu başlatın veya yeniden başlatın ve tekrar deneyin.</string>
+	<string name="shizuku_denied">Erişim reddedildi. Shizuku’da Adaptive Theme’e izin verip tekrar deneyin.</string>
+	<string name="shizuku_request_permission">İzin isteniyor…</string>
+	<string name="shizuku_grant_shell_failed">Shizuku komutu çalıştıramadı.</string>
+	<string name="shizuku_grant_unexpected">Shizuku kullanılırken beklenmeyen bir hata oluştu.</string>
+	<string name="title_device_wallpaper_sync">Duvar kâğıdı</string>
+	<string name="label_beta">Beta</string>
+	<string name="description_device_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları kullanın. Geçiş biraz sürebilir ve performansı etkileyebilir.</string>
+	<string name="action_select_day_wallpaper">Açık mod:</string>
+	<string name="action_select_night_wallpaper">Koyu mod:</string>
+	<string name="wallpaper_status_set">Ayarlandı</string>
+	<string name="wallpaper_status_not_set">Ayarlanmadı</string>
+	<string name="live_wallpaper_warning_title">Canlı duvar kâğıdı etkin</string>
+	<string name="live_wallpaper_warning_message">Duvar kâğıdı eşitleme etkinleştirildiğinde mevcut canlı duvar kâğıdınız, açık ve koyu mod için statik duvar kâğıtlarıyla değiştirilir. Devam etmek istiyor musunuz?</string>
+</resources>

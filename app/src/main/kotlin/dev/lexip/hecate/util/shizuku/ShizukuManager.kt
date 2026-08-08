@@ -93,20 +93,10 @@ object ShizukuManager {
 	}
 
 	fun buildGrantWriteSecureSettingsCommand(packageName: String): String =
-		"pm grant $packageName android.permission.WRITE_SECURE_SETTINGS"
-
-	private fun buildAllowRunAnyInBackgroundCommand(packageName: String): String =
-		"cmd appops set $packageName RUN_ANY_IN_BACKGROUND allow"
-
-	private fun buildDeviceIdleWhitelistCommand(packageName: String): String =
-		"dumpsys deviceidle whitelist +$packageName"
+		GrantCommandBuilder.grantWriteSecureSettings(packageName)
 
 	fun buildAllGrantCommands(packageName: String): List<String> =
-		listOf(
-			buildGrantWriteSecureSettingsCommand(packageName),
-			buildAllowRunAnyInBackgroundCommand(packageName),
-			buildDeviceIdleWhitelistCommand(packageName)
-		)
+		GrantCommandBuilder.all(packageName)
 
 	fun executeGrantViaShizuku(context: Context, packageName: String): GrantResult {
 		if (Shizuku.isPreV11()) return GrantResult.ServiceNotRunning

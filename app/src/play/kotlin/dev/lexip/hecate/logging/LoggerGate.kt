@@ -15,12 +15,16 @@ package dev.lexip.hecate.logging
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import android.util.Log
+import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.util.InstallSourceChecker
 
 object LoggerGate {
+	private const val TAG = "LoggerGate"
+
 	@Volatile
 	private var analyticsEnabled = false
 
@@ -36,6 +40,19 @@ object LoggerGate {
 
 	@SuppressLint("HardwareIds")
 	fun init(context: Context) {
+		val firebaseApp = runCatching { FirebaseApp.initializeApp(context) }
+			.onFailure { exception ->
+				Log.e(TAG, "Firebase initialization failed; disabling telemetry", exception)
+			}
+			.getOrNull()
+		if (firebaseApp == null) {
+			Log.e(TAG, "Firebase configuration is unavailable; disabling telemetry")
+			analyticsEnabled = false
+			crashlyticsEnabled = false
+			isPlayStoreInstall = false
+			return
+		}
+
 		isPlayStoreInstall = InstallSourceChecker.fromPlayStore(context)
 
 		val androidId =

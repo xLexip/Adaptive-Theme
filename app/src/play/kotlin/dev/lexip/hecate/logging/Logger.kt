@@ -187,4 +187,47 @@ object Logger {
 		}
 	}
 
+	fun logProcessExit(
+		context: Context,
+		reasonName: String,
+		description: String,
+		pssMb: Long,
+		importanceName: String
+	) {
+		ifAllowed {
+			analytics(context).logEvent("process_killed_by_os") {
+				param("exit_reason", reasonName)
+				param("description", description.take(100))
+				param("pss_mb", pssMb)
+				param("importance", importanceName)
+			}
+		}
+	}
+
+	fun logWallpaperSyncToggled(context: Context, enabled: Boolean, source: String = "ui") {
+		ifAllowed {
+			analytics(context).logEvent("wallpaper_sync_toggled") {
+				param("enabled", if (enabled) 1L else 0L)
+				param("source", source)
+			}
+		}
+	}
+
+	fun logWallpaperPicked(context: Context, mode: String) {
+		ifAllowed {
+			analytics(context).logEvent("wallpaper_picked") {
+				param("mode", mode)
+			}
+		}
+	}
+
+	fun logWallpaperSwitched(context: Context, isDark: Boolean, succeeded: Boolean) {
+		ifAllowed {
+			analytics(context).logEvent("wallpaper_switched") {
+				param("is_dark", if (isDark) 1L else 0L)
+				param("succeeded", if (succeeded) 1L else 0L)
+			}
+		}
+	}
 }
+
