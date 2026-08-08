@@ -92,7 +92,8 @@ class MainViewModelTest {
 				nightEndMinutes = 7 * 60,
 				wallpaperSyncEnabled = true,
 				dayWallpaperUri = DAY_WALLPAPER_URI,
-				nightWallpaperUri = NIGHT_WALLPAPER_URI
+				nightWallpaperUri = NIGHT_WALLPAPER_URI,
+				wallpaperStorageVersion = 1
 			)
 		)
 		advanceUntilIdle()
@@ -268,6 +269,26 @@ class MainViewModelTest {
 			assertEquals(dayUri.toString(), preferences.current.dayWallpaperUri)
 			assertEquals(nightUri.toString(), preferences.current.nightWallpaperUri)
 			assertTrue(preferences.current.wallpaperSyncEnabled)
+		}
+
+	@Test
+	fun legacyWallpaperSelectionsAreClearedAndSyncIsDisabled() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					wallpaperSyncEnabled = true,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 0
+				)
+			)
+			createViewModel()
+			advanceUntilIdle()
+
+			assertFalse(preferences.current.wallpaperSyncEnabled)
+			assertEquals(null, preferences.current.dayWallpaperUri)
+			assertEquals(null, preferences.current.nightWallpaperUri)
+			assertEquals(1, preferences.current.wallpaperStorageVersion)
 		}
 
 	@Test

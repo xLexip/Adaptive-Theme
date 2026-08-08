@@ -109,6 +109,10 @@ class FakeUserPreferencesDataSource(
 	override suspend fun updateNightWallpaperUri(uri: String?) {
 		state.value = current.copy(nightWallpaperUri = uri)
 	}
+
+	override suspend fun updateWallpaperStorageVersion(version: Int) {
+		state.value = current.copy(wallpaperStorageVersion = version)
+	}
 }
 
 open class FakeSensorReader : SensorReader {

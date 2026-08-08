@@ -42,6 +42,9 @@ import dev.lexip.hecate.util.WallpaperImagePreparer
 import dev.lexip.hecate.util.WallpaperImagePreprocessor
 import dev.lexip.hecate.util.WallpaperPlatform
 import dev.lexip.hecate.util.WallpaperSlot
+import dev.lexip.hecate.util.CURRENT_WALLPAPER_STORAGE_VERSION
+import dev.lexip.hecate.util.LegacyWallpaperCleanupAction
+import dev.lexip.hecate.util.legacyWallpaperCleanupAction
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -264,6 +267,11 @@ class MainViewModel internal constructor(
 
 	init {
 		viewModelScope.launch(ioDispatcher) {
+			wallpaperSelectionMutex.withLock {
+				resetLegacyWallpaperSelectionIfNeeded()
+			}
+		}
+		viewModelScope.launch(ioDispatcher) {
 			val fromPlayStore = installMetadataProvider.isInstalledFromPlayStore()
 			_uiState.value = _uiState.value.copy(isInstalledFromPlayStore = fromPlayStore)
 		}
@@ -291,6 +299,29 @@ class MainViewModel internal constructor(
 				} else {
 					stopSensors()
 				}
+			}
+		}
+	}
+
+	private suspend fun resetLegacyWallpaperSelectionIfNeeded() {
+		val preferences = userPreferencesRepository.fetchInitialPreferences()
+		when (
+			legacyWallpaperCleanupAction(
+				storageVersion = preferences.wallpaperStorageVersion,
+				dayWallpaperUri = preferences.dayWallpaperUri,
+				nightWallpaperUri = preferences.nightWallpaperUri
+			)
+		) {
+			LegacyWallpaperCleanupAction.NONE -> Unit
+			LegacyWallpaperCleanupAction.MARK_CURRENT ->
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+
+			LegacyWallpaperCleanupAction.RESET_LEGACY_SELECTION -> {
+				userPreferencesRepository.updateWallpaperSyncEnabled(false)
+				userPreferencesRepository.updateDayWallpaperUri(null)
+				userPreferencesRepository.updateNightWallpaperUri(null)
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+				Log.i(TAG, "Cleared legacy wallpaper selections that could not be migrated safely")
 			}
 		}
 	}

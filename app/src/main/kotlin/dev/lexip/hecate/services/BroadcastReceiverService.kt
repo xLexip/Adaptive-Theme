@@ -31,16 +31,20 @@ import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
+import dev.lexip.hecate.util.CURRENT_WALLPAPER_STORAGE_VERSION
 import dev.lexip.hecate.util.DarkThemeHandler
+import dev.lexip.hecate.util.LegacyWallpaperCleanupAction
 import dev.lexip.hecate.util.LightSensorManager
 import dev.lexip.hecate.util.ProximitySensorManager
 import dev.lexip.hecate.util.WallpaperHandler
 import dev.lexip.hecate.util.WallpaperUpdateScheduler
+import dev.lexip.hecate.util.legacyWallpaperCleanupAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "BroadcastReceiverService"
 private const val NOTIFICATION_CHANNEL_ID = "ForegroundServiceChannel"
@@ -114,7 +118,10 @@ class BroadcastReceiverService : Service() {
 		// Load user preferences from data store
 		serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
-			val userPreferences = userPreferencesRepository.fetchInitialPreferences()
+			val userPreferences = withContext(Dispatchers.IO) {
+				resetLegacyWallpaperSelectionIfNeeded(userPreferencesRepository)
+				userPreferencesRepository.fetchInitialPreferences()
+			}
 
 			// Create screen-on receiver if adaptive theme is enabled
 			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
@@ -139,6 +146,31 @@ class BroadcastReceiverService : Service() {
 		}
 
 		return START_STICKY
+	}
+
+	private suspend fun resetLegacyWallpaperSelectionIfNeeded(
+		userPreferencesRepository: UserPreferencesRepository
+	) {
+		val preferences = userPreferencesRepository.fetchInitialPreferences()
+		when (
+			legacyWallpaperCleanupAction(
+				storageVersion = preferences.wallpaperStorageVersion,
+				dayWallpaperUri = preferences.dayWallpaperUri,
+				nightWallpaperUri = preferences.nightWallpaperUri
+			)
+		) {
+			LegacyWallpaperCleanupAction.NONE -> Unit
+			LegacyWallpaperCleanupAction.MARK_CURRENT ->
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+
+			LegacyWallpaperCleanupAction.RESET_LEGACY_SELECTION -> {
+				userPreferencesRepository.updateWallpaperSyncEnabled(false)
+				userPreferencesRepository.updateDayWallpaperUri(null)
+				userPreferencesRepository.updateNightWallpaperUri(null)
+				userPreferencesRepository.updateWallpaperStorageVersion(CURRENT_WALLPAPER_STORAGE_VERSION)
+				Log.i(TAG, "Cleared legacy wallpaper selections that could not be migrated safely")
+			}
+		}
 	}
 
 	override fun onDestroy() {
