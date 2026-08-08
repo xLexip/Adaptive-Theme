@@ -8,7 +8,8 @@
 <img src="https://img.shields.io/badge/Downloads-17,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 17,000+">
 </a>
 
-Adaptive Theme uses your device's ambient **light sensor** to intelligently switch between light and **dark mode** – optimizing readability, eye comfort, and battery life based on actual lighting conditions.
+Adaptive Theme uses your device’s **ambient light sensor** to intelligently switch between light and **dark theme**, optimizing readability and eye comfort for your current surroundings. 
+It can also update your **wallpaper** to match the active theme.
 
 <br>
 
