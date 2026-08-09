@@ -1,0 +1,1 @@
+Alterne entre modos claro e escuro pelo sensor de luz ambiente

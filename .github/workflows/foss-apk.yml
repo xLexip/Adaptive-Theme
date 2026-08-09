@@ -67,6 +67,10 @@ jobs:
             find app/build/outputs/apk/foss/release -maxdepth 1 -type f -print >&2
             exit 1
           fi
+          version_name="$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)".*/\1/p' app/build.gradle.kts | head -n 1)"
+          test -n "$version_name"
+          foss_apk_name="Adaptive-Theme-v${version_name}-foss-${GITHUB_SHA:0:7}.apk"
+          echo "FOSS_APK_NAME=$foss_apk_name" >> "$GITHUB_ENV"
           unsigned_apk="${unsigned_apks[0]}"
           "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 \
             "$unsigned_apk" \
@@ -82,7 +86,7 @@ jobs:
             --v2-signing-enabled false \
             --v3-signing-enabled true \
             --v4-signing-enabled false \
-            --out dist/AdaptiveTheme-foss.apk \
+            --out "dist/$foss_apk_name" \
             dist/AdaptiveTheme-foss-aligned.apk
           rm -f dist/AdaptiveTheme-foss-aligned.apk
 
@@ -90,24 +94,24 @@ jobs:
         shell: bash
         run: |
           expected_certificate_sha256="1a21e8104bce8e90a591b5527d01a5320b2a0d46fc8f97ea3d5af4225c9afd07"
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose --print-certs dist/AdaptiveTheme-foss.apk
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --verbose --print-certs "dist/$FOSS_APK_NAME"
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" lineage \
             --in .github/signing/adaptive-theme-a-to-b.lineage \
             --print-certs --verbose
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs dist/AdaptiveTheme-foss.apk \
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "dist/$FOSS_APK_NAME" \
             | grep -F "$expected_certificate_sha256"
 
       - name: Prepare checksum
         shell: bash
         run: |
           cd dist
-          sha256sum AdaptiveTheme-foss.apk > SHA256SUMS.txt
+          sha256sum "$FOSS_APK_NAME" > SHA256SUMS.txt
 
       - name: Upload signed FOSS APK
         id: upload-apk
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: adaptive-theme-foss-${{ github.sha }}
+          name: ${{ env.FOSS_APK_NAME }}
           path: dist/
           if-no-files-found: error
           retention-days: 30
@@ -117,7 +121,7 @@ jobs:
         run: |
           echo '## Signed FOSS APK' >> "$GITHUB_STEP_SUMMARY"
           echo >> "$GITHUB_STEP_SUMMARY"
-          echo '[Download APK artifact](${{ steps.upload-apk.outputs.artifact-url }})' >> "$GITHUB_STEP_SUMMARY"
+          echo '[Download ${{ env.FOSS_APK_NAME }} artifact](${{ steps.upload-apk.outputs.artifact-url }})' >> "$GITHUB_STEP_SUMMARY"
           echo >> "$GITHUB_STEP_SUMMARY"
           echo 'Signed with developer key B and the documented A-to-B signing lineage.' >> "$GITHUB_STEP_SUMMARY"
 
