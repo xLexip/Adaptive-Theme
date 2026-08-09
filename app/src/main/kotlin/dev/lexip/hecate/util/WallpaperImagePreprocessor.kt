@@ -30,6 +30,7 @@ private const val TAG = "WallpaperPreprocessor"
 private const val WALLPAPER_DIRECTORY = "wallpaper_sources"
 private const val JPEG_QUALITY = 90
 private const val MAX_PREPARED_PIXELS = 8_000_000L
+private const val MAX_DECODE_PIXELS = 16_000_000L
 
 internal enum class WallpaperSlot {
 	DAY,
@@ -64,11 +65,12 @@ internal class WallpaperImagePreprocessor(context: Context) : WallpaperImagePrep
 		val sourceHeight = if (orientation.rotatesDimensions) bounds.outWidth else bounds.outHeight
 		val target = targetDimensions().fitPixelBudget()
 		val decodeOptions = BitmapFactory.Options().apply {
-			inSampleSize = calculateInSampleSize(
+			inSampleSize = calculateDecodeSampleSize(
 				sourceWidth = sourceWidth,
 				sourceHeight = sourceHeight,
 				targetWidth = target.width,
-				targetHeight = target.height
+				targetHeight = target.height,
+				maxDecodePixels = MAX_DECODE_PIXELS
 			)
 		}
 		val decoded = contentResolver.openInputStream(source)?.use { stream ->
@@ -145,11 +147,12 @@ private val Int.rotatesDimensions: Boolean
 		this == ExifInterface.ORIENTATION_TRANSPOSE ||
 		this == ExifInterface.ORIENTATION_TRANSVERSE
 
-private fun calculateInSampleSize(
+internal fun calculateDecodeSampleSize(
 	sourceWidth: Int,
 	sourceHeight: Int,
 	targetWidth: Int,
-	targetHeight: Int
+	targetHeight: Int,
+	maxDecodePixels: Long
 ): Int {
 	var sampleSize = 1
 	while (
@@ -158,8 +161,25 @@ private fun calculateInSampleSize(
 	) {
 		sampleSize *= 2
 	}
+
+	while (
+		decodedPixelCount(
+			sourceWidth = sourceWidth,
+			sourceHeight = sourceHeight,
+			sampleSize = sampleSize
+		) > maxDecodePixels
+	) {
+		sampleSize *= 2
+	}
 	return sampleSize
 }
+
+private fun decodedPixelCount(
+	sourceWidth: Int,
+	sourceHeight: Int,
+	sampleSize: Int
+): Long =
+	(sourceWidth / sampleSize).toLong() * (sourceHeight / sampleSize).toLong()
 
 private fun Bitmap.scaleDownToFill(targetWidth: Int, targetHeight: Int): Bitmap {
 	val scale = minOf(1f, max(targetWidth.toFloat() / width, targetHeight.toFloat() / height))
