@@ -14,6 +14,7 @@ package dev.lexip.hecate.ui.setup.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +42,7 @@ fun SetupScreenScaffold(
 			modifier = Modifier
 				.fillMaxSize()
 				.padding(paddingValues)
+				.consumeWindowInsets(paddingValues)
 		) {
 			// Progress indicator section
 			Column(
