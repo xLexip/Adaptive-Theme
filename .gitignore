@@ -27,6 +27,7 @@ output.json
 
 # Secrets (e.g. APIs or Firebase)
 google-services.json
+local/
 
 # Android Profiling
 *.hprof
