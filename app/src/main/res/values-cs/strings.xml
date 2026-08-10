@@ -23,7 +23,7 @@
 	</string>
 
 	<string name="description_switching_conditions">
-		K přepnutí dojde pouze po zapnutí obrazovky a pokud není snímač zakrytý.
+		Motiv se změní pouze bezprostředně po zapnutí obrazovky a pouze pokud snímač není zakrytý.
 	</string>
 
 	<string name="description_notification_service_running">

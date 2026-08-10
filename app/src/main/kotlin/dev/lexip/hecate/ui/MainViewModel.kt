@@ -125,6 +125,7 @@ class MainViewModel internal constructor(
 
 	// Light Sensor
 	private var isListeningToSensor = false
+	private var isUiActive = false
 
 	private val _currentSensorLux = MutableStateFlow(0f)
 	val currentSensorLuxFlow: StateFlow<Float> = _currentSensorLux.asStateFlow()
@@ -243,15 +244,27 @@ class MainViewModel internal constructor(
 		}
 	}
 
-	fun startSensorsIfEnabled() {
-		if (_uiState.value.adaptiveThemeEnabled) {
+	fun onUiResumed() {
+		isUiActive = true
+		updateUiSensorMonitoring()
+	}
+
+	fun onUiPaused() {
+		isUiActive = false
+		stopUiSensorMonitoring()
+	}
+
+	private fun updateUiSensorMonitoring() {
+		if (isUiActive && _uiState.value.adaptiveThemeEnabled) {
 			startLightSensorListening()
 			startProximityListening()
 			startBatterySaverMonitoring()
+		} else {
+			stopUiSensorMonitoring()
 		}
 	}
 
-	fun stopSensors() {
+	private fun stopUiSensorMonitoring() {
 		stopLightSensorListening()
 		stopProximityListening()
 		stopBatterySaverMonitoring()
@@ -294,11 +307,7 @@ class MainViewModel internal constructor(
 					nightWallpaperUri = userPreferences.nightWallpaperUri
 				)
 
-				if (userPreferences.adaptiveThemeEnabled) {
-					startSensorsIfEnabled()
-				} else {
-					stopSensors()
-				}
+				updateUiSensorMonitoring()
 			}
 		}
 	}
@@ -343,7 +352,7 @@ class MainViewModel internal constructor(
 	}
 
 	override fun onCleared() {
-		stopSensors()
+		stopUiSensorMonitoring()
 	}
 
 	/**

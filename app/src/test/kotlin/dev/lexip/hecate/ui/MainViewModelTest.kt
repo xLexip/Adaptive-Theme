@@ -156,6 +156,7 @@ class MainViewModelTest {
 			preferences.emit(preferences.current.copy(adaptiveThemeEnabled = true))
 			val viewModel = createViewModel()
 			runCurrent()
+			viewModel.onUiResumed()
 
 			proximitySensor.emit(0f)
 			advanceTimeBy(999)
@@ -168,7 +169,26 @@ class MainViewModelTest {
 			proximitySensor.emit(10f)
 			runCurrent()
 			assertFalse(viewModel.uiState.value.isDeviceCovered)
-			viewModel.stopSensors()
+			viewModel.onUiPaused()
+		}
+
+	@Test
+	fun enablingWhileUiIsPausedDoesNotStartUiSensors() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			viewModel.onUiPaused()
+
+			preferences.emit(preferences.current.copy(adaptiveThemeEnabled = true))
+			advanceUntilIdle()
+
+			assertEquals(0, lightSensor.startCalls)
+			assertEquals(0, proximitySensor.startCalls)
+
+			viewModel.onUiResumed()
+			assertEquals(1, lightSensor.startCalls)
+			assertEquals(1, proximitySensor.startCalls)
+			viewModel.onUiPaused()
 		}
 
 	@Test
@@ -228,7 +248,7 @@ class MainViewModelTest {
 			advanceUntilIdle()
 
 			assertEquals(listOf(RequestInAppReview), events)
-			viewModel.stopSensors()
+			viewModel.onUiPaused()
 		}
 
 	@Test
@@ -250,7 +270,7 @@ class MainViewModelTest {
 			viewModel.updateAdaptiveThemeThresholdByIndex(AdaptiveThreshold.SOFT.ordinal)
 			advanceUntilIdle()
 			assertEquals(listOf(RequestInAppReview), events)
-			viewModel.stopSensors()
+			viewModel.onUiPaused()
 		}
 
 	@Test

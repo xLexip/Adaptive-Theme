@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -164,6 +165,7 @@ fun MainScreenContent(
 			modifier = Modifier
 				.fillMaxSize()
 				.padding(innerPadding)
+				.consumeWindowInsets(innerPadding)
 				.padding(horizontal = ScreenHorizontalMargin)
 				.verticalScroll(scrollState),
 			verticalArrangement = Arrangement.spacedBy(29.dp)

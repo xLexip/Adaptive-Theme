@@ -32,8 +32,8 @@ android {
         applicationId = "dev.lexip.hecate"
         minSdk = 34
         targetSdk = 36
-        versionCode = 127
-        versionName = "2.3.0"
+        versionCode = 130
+        versionName = "2.3.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -55,8 +55,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            isShrinkResources = false // noinspection NotShrinkingResources
-
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
