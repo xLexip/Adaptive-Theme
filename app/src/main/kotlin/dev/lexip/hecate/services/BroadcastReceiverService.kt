@@ -185,6 +185,12 @@ class BroadcastReceiverService : Service() {
 			}
 		}
 		screenOnReceiver = null
+		if (this::lightSensorManager.isInitialized) {
+			lightSensorManager.stopListening()
+		}
+		if (this::proximitySensorManager.isInitialized) {
+			proximitySensorManager.stopListening()
+		}
 		serviceScope.cancel()
 	}
 

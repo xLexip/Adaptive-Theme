@@ -77,7 +77,7 @@ class MainActivity : ComponentActivity() {
 
 		// Always restart the service (it may have been paused in the meantime)
 		if (this::mainViewModel.isInitialized) {
-			mainViewModel.startSensorsIfEnabled()
+			mainViewModel.onUiResumed()
 			if (mainViewModel.isAdaptiveThemeEnabled()) {
 				val intent = android.content.Intent(this, BroadcastReceiverService::class.java)
 				androidx.core.content.ContextCompat.startForegroundService(this, intent)
@@ -87,7 +87,7 @@ class MainActivity : ComponentActivity() {
 
 	override fun onPause() {
 		if (this::mainViewModel.isInitialized) {
-			mainViewModel.stopSensors()
+			mainViewModel.onUiPaused()
 		}
 		super.onPause()
 	}
