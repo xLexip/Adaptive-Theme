@@ -16,6 +16,8 @@ import android.annotation.SuppressLint
 import android.app.UiModeManager
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings.Secure
 import android.util.Log
 import dev.lexip.hecate.logging.Logger
@@ -23,6 +25,8 @@ import dev.lexip.hecate.logging.Logger
 private const val TAG = "DarkThemeHandler"
 private const val SECURE_SETTINGS_KEY = "ui_night_mode"
 private const val NIGHT_MODE_UNSET = -1
+private const val VERIFICATION_INTERVAL_MILLIS = 250L
+private const val VERIFICATION_MAX_ATTEMPTS = 20
 
 /**
  * Handler for managing the system dark theme.
@@ -30,6 +34,7 @@ private const val NIGHT_MODE_UNSET = -1
 class DarkThemeHandler(context: Context) {
     private val appContext = context.applicationContext ?: context
     private val contentResolver = appContext.contentResolver
+    private val mainHandler = Handler(Looper.getMainLooper())
     private val uiModeManager = requireNotNull(
         appContext.getSystemService(UiModeManager::class.java)
     ) {
@@ -92,11 +97,21 @@ class DarkThemeHandler(context: Context) {
             false
         }
 
-        Logger.logThemeSwitched(
-            context = appContext,
-            targetMode = plan.targetMode,
-            succeeded = succeeded
-        )
+        if (plan.refreshUi) {
+            if (succeeded) {
+                verifyThemeChange(
+                    expectedDark = enable,
+                    targetMode = plan.targetMode
+                )
+            } else {
+                Logger.logThemeSwitched(
+                    context = appContext,
+                    targetMode = plan.targetMode,
+                    succeeded = false,
+                    verificationAttempt = 0
+                )
+            }
+        }
 
         return DarkThemeChangeResult(
             succeeded = succeeded,
@@ -117,10 +132,55 @@ class DarkThemeHandler(context: Context) {
         uiModeManager.enableCarMode(0)
         uiModeManager.disableCarMode(0)
     }
+
+    private fun verifyThemeChange(
+        expectedDark: Boolean,
+        targetMode: Int,
+        attempt: Int = 1
+    ) {
+        mainHandler.postDelayed(
+            {
+                val effectiveUiMode = appContext.resources.configuration.uiMode
+                if (doesNightConfigurationMatchTarget(effectiveUiMode, expectedDark)) {
+                    Log.i(TAG, "Theme change verified for target mode: $targetMode")
+                    Logger.logThemeSwitched(
+                        context = appContext,
+                        targetMode = targetMode,
+                        succeeded = true,
+                        verificationAttempt = attempt
+                    )
+                } else if (attempt < VERIFICATION_MAX_ATTEMPTS) {
+                    verifyThemeChange(
+                        expectedDark = expectedDark,
+                        targetMode = targetMode,
+                        attempt = attempt + 1
+                    )
+                } else {
+                    Log.w(TAG, "Theme change did not reach target mode: $targetMode")
+                    Logger.logThemeSwitched(
+                        context = appContext,
+                        targetMode = targetMode,
+                        succeeded = false,
+                        verificationAttempt = attempt
+                    )
+                }
+            },
+            VERIFICATION_INTERVAL_MILLIS
+        )
+    }
 }
 
 internal fun isNightConfigurationEnabled(uiMode: Int): Boolean =
     uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+internal fun doesNightConfigurationMatchTarget(uiMode: Int, expectedDark: Boolean): Boolean {
+    val expectedNightMode = if (expectedDark) {
+        Configuration.UI_MODE_NIGHT_YES
+    } else {
+        Configuration.UI_MODE_NIGHT_NO
+    }
+    return uiMode and Configuration.UI_MODE_NIGHT_MASK == expectedNightMode
+}
 
 internal data class NightModeUpdatePlan(
     val targetMode: Int,

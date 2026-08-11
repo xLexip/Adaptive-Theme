@@ -42,6 +42,30 @@ class DarkThemeHandlerTest {
 	}
 
 	@Test
+	fun `verifies the effective dark configuration reached the dark target`() {
+		val uiMode = Configuration.UI_MODE_TYPE_NORMAL or Configuration.UI_MODE_NIGHT_YES
+
+		assertTrue(doesNightConfigurationMatchTarget(uiMode, expectedDark = true))
+		assertFalse(doesNightConfigurationMatchTarget(uiMode, expectedDark = false))
+	}
+
+	@Test
+	fun `verifies the effective light configuration reached the light target`() {
+		val uiMode = Configuration.UI_MODE_TYPE_NORMAL or Configuration.UI_MODE_NIGHT_NO
+
+		assertTrue(doesNightConfigurationMatchTarget(uiMode, expectedDark = false))
+		assertFalse(doesNightConfigurationMatchTarget(uiMode, expectedDark = true))
+	}
+
+	@Test
+	fun `does not verify an undefined night configuration as either target`() {
+		val uiMode = Configuration.UI_MODE_TYPE_NORMAL or Configuration.UI_MODE_NIGHT_UNDEFINED
+
+		assertFalse(doesNightConfigurationMatchTarget(uiMode, expectedDark = false))
+		assertFalse(doesNightConfigurationMatchTarget(uiMode, expectedDark = true))
+	}
+
+	@Test
 	fun `skips work when configured and effective modes match the target`() {
 		val plan = createNightModeUpdatePlan(
 			isCurrentlyDark = true,

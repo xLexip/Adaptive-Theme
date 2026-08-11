@@ -71,12 +71,14 @@ object Logger {
 	fun logThemeSwitched(
 		context: Context,
 		targetMode: Int,
-		succeeded: Boolean
+		succeeded: Boolean,
+		verificationAttempt: Int
 	) {
 		ifAllowed {
 			analytics(context).logEvent("theme_switched") {
 				param("target_mode", targetMode.toLong())
 				param("succeeded", if (succeeded) 1L else 0L)
+				param("verification_attempt", verificationAttempt.toLong())
 			}
 		}
 	}

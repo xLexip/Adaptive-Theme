@@ -43,7 +43,8 @@ object Logger {
 	fun logThemeSwitched(
 		context: Context,
 		targetMode: Int,
-		succeeded: Boolean
+		succeeded: Boolean,
+		verificationAttempt: Int
 	) {
 		// No-op for FOSS build
 	}
