@@ -704,6 +704,10 @@ private fun ExpandedAdvancedSettings(
 				uiState = uiState,
 				onLockScreenWallpaperBlurChanged = callbacks.onLockScreenWallpaperBlurChanged
 			)
+			HideFromRecentsPreference(
+				uiState = uiState,
+				onHideFromRecentsChanged = callbacks.onHideFromRecentsChanged
+			)
 			AssistChip(
 				modifier = Modifier.align(Alignment.CenterHorizontally),
 				onClick = {
@@ -834,7 +838,7 @@ private fun LockScreenWallpaperBlurPreference(
 		title = stringResource(id = R.string.title_lock_screen_wallpaper_blur),
 		enabled = uiState.adaptiveThemeEnabled && uiState.wallpaperSyncEnabled,
 		firstCard = false,
-		lastCard = true,
+		lastCard = false,
 		toggleableValue = uiState.lockScreenWallpaperBlurEnabled,
 		onToggle = onLockScreenWallpaperBlurChanged,
 		cardTrailingContent = {
@@ -849,6 +853,35 @@ private fun LockScreenWallpaperBlurPreference(
 		Text(
 			modifier = Modifier.padding(top = 4.dp),
 			text = stringResource(id = R.string.description_lock_screen_wallpaper_blur),
+			style = MaterialTheme.typography.bodyMedium
+		)
+	}
+}
+
+@Composable
+private fun HideFromRecentsPreference(
+	uiState: MainUiState,
+	onHideFromRecentsChanged: (Boolean) -> Unit
+) {
+	DetailPreferenceCard(
+		title = stringResource(id = R.string.title_hide_from_recents),
+		enabled = uiState.adaptiveThemeEnabled,
+		firstCard = false,
+		lastCard = true,
+		toggleableValue = uiState.hideFromRecentsEnabled,
+		onToggle = onHideFromRecentsChanged,
+		cardTrailingContent = {
+			PreferenceSwitch(
+				checked = uiState.hideFromRecentsEnabled,
+				enabled = uiState.adaptiveThemeEnabled,
+				onCheckedChange = onHideFromRecentsChanged,
+				modifier = Modifier.padding(start = 14.dp, end = 4.dp)
+			)
+		}
+	) {
+		Text(
+			modifier = Modifier.padding(top = 4.dp),
+			text = stringResource(id = R.string.description_hide_from_recents),
 			style = MaterialTheme.typography.bodyMedium
 		)
 	}

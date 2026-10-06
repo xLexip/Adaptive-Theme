@@ -85,6 +85,7 @@ data class MainUiState(
 	val nightEndMinutes: Int = 6 * 60,
 	val wallpaperSyncEnabled: Boolean = false,
 	val lockScreenWallpaperBlurEnabled: Boolean = false,
+	val hideFromRecentsEnabled: Boolean = false,
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null,
 	val showLiveWallpaperWarningDialog: Boolean = false,
@@ -330,6 +331,7 @@ class MainViewModel internal constructor(
 					nightEndMinutes = userPreferences.nightEndMinutes,
 					wallpaperSyncEnabled = userPreferences.wallpaperSyncEnabled,
 					lockScreenWallpaperBlurEnabled = userPreferences.lockScreenWallpaperBlurEnabled,
+					hideFromRecentsEnabled = userPreferences.hideFromRecentsEnabled,
 					dayWallpaperUri = userPreferences.dayWallpaperUri,
 					nightWallpaperUri = userPreferences.nightWallpaperUri,
 					showGitHubStarPrompt = shouldShowGitHubStarPrompt(userPreferences)
@@ -746,6 +748,14 @@ class MainViewModel internal constructor(
 			nightUriStr = preferences.nightWallpaperUri,
 			lockScreenWallpaperBlurEnabled = preferences.lockScreenWallpaperBlurEnabled
 		)
+	}
+
+	fun updateHideFromRecentsEnabled(enabled: Boolean) {
+		if (_uiState.value.hideFromRecentsEnabled == enabled) return
+
+		viewModelScope.launch(ioDispatcher) {
+			userPreferencesRepository.updateHideFromRecentsEnabled(enabled)
+		}
 	}
 
 	fun confirmEnableWithLiveWallpaper() {

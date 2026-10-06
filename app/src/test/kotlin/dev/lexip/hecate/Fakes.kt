@@ -109,6 +109,10 @@ class FakeUserPreferencesDataSource(
 		state.value = current.copy(lockScreenWallpaperBlurEnabled = enabled)
 	}
 
+	override suspend fun updateHideFromRecentsEnabled(enabled: Boolean) {
+		state.value = current.copy(hideFromRecentsEnabled = enabled)
+	}
+
 	override suspend fun updateDayWallpaperUri(uri: String?) {
 		state.value = current.copy(dayWallpaperUri = uri)
 	}

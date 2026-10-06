@@ -100,6 +100,7 @@ class MainViewModelTest {
 				nightEndMinutes = 7 * 60,
 				wallpaperSyncEnabled = true,
 				lockScreenWallpaperBlurEnabled = true,
+				hideFromRecentsEnabled = true,
 				dayWallpaperUri = DAY_WALLPAPER_URI,
 				nightWallpaperUri = NIGHT_WALLPAPER_URI,
 				wallpaperStorageVersion = 1
@@ -116,9 +117,28 @@ class MainViewModelTest {
 		assertEquals(7 * 60, viewModel.uiState.value.nightEndMinutes)
 		assertTrue(viewModel.uiState.value.wallpaperSyncEnabled)
 		assertTrue(viewModel.uiState.value.lockScreenWallpaperBlurEnabled)
+		assertTrue(viewModel.uiState.value.hideFromRecentsEnabled)
 		assertEquals(DAY_WALLPAPER_URI, viewModel.uiState.value.dayWallpaperUri)
 		assertEquals(NIGHT_WALLPAPER_URI, viewModel.uiState.value.nightWallpaperUri)
 	}
+
+	@Test
+	fun hideFromRecentsToggleWritesPreferenceAndSurvivesRedundantRequests() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.hideFromRecentsEnabled)
+
+			viewModel.updateHideFromRecentsEnabled(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.hideFromRecentsEnabled)
+			assertTrue(viewModel.uiState.value.hideFromRecentsEnabled)
+
+			viewModel.updateHideFromRecentsEnabled(false)
+			advanceUntilIdle()
+			assertFalse(preferences.current.hideFromRecentsEnabled)
+			assertFalse(viewModel.uiState.value.hideFromRecentsEnabled)
+		}
 
 	@Test
 	fun enablingWithoutPermissionNavigatesToSetupWithoutChangingPreference() =

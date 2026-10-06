@@ -77,6 +77,7 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 - **Wallpaper Theme Sync**: Automatically swap your home and lock screen wallpaper with the system theme changes.
 - **Lock Screen Blur**: Optionally apply a blur effect to your lock screen wallpaper.
 - **Night lock**: Optionally hold dark mode during a fixed time window, e.g. 9 PM – 6 AM.
+- **Hide from Recents**: Keep the service running in the background without listing the app in Recent Apps.
 - **Battery friendly**: The sensor is only checked once when you turn the screen on. Zero background drain.
 - **Pocket detection**: Prevents theme switching when the proximity sensor is covered.
 - **Shizuku support**: Includes native Shizuku integration as one of several setup options.

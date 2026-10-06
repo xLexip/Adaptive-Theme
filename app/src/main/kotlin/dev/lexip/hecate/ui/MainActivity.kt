@@ -19,19 +19,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.services.BroadcastReceiverService
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.theme.HecateTheme
+import dev.lexip.hecate.util.AppTaskRecentsController
 import dev.lexip.hecate.util.InAppUpdateManager
 import dev.lexip.hecate.util.InstallSourceChecker
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
 	private var inAppUpdateManager: InAppUpdateManager? = null
 	private lateinit var mainViewModel: MainViewModel
 	private val navigationManager = NavigationManager()
+	private val appTaskRecentsController by lazy { AppTaskRecentsController(this) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -47,13 +53,24 @@ class MainActivity : ComponentActivity() {
 
 		// Obtain a stable ViewModel instance
 		val dataStore = (this.applicationContext as Application).userPreferencesDataStore
+		val userPreferencesRepository = UserPreferencesRepository(dataStore)
 		mainViewModel = androidx.lifecycle.ViewModelProvider(
 			this,
 			MainViewModelFactory(
 				this.application as Application,
-				UserPreferencesRepository(dataStore)
+				userPreferencesRepository
 			)
 		)[MainViewModel::class.java]
+
+		// The Recents entry is a task property, so it must be applied whenever the task is created.
+		lifecycleScope.launch {
+			userPreferencesRepository.userPreferencesFlow
+				.map { it.hideFromRecentsEnabled }
+				.distinctUntilChanged()
+				.collect { hideFromRecents ->
+					appTaskRecentsController.applyExcludeFromRecents(hideFromRecents)
+				}
+		}
 
 		setContent {
 			val state by mainViewModel.uiState.collectAsState()

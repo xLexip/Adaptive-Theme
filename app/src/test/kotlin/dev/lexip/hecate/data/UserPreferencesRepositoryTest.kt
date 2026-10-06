@@ -76,6 +76,7 @@ class UserPreferencesRepositoryTest {
 		assertEquals(6 * 60, preferences.nightEndMinutes)
 		assertFalse(preferences.wallpaperSyncEnabled)
 		assertFalse(preferences.lockScreenWallpaperBlurEnabled)
+		assertFalse(preferences.hideFromRecentsEnabled)
 		assertNull(preferences.dayWallpaperUri)
 		assertNull(preferences.nightWallpaperUri)
 		assertFalse(preferences.githubStarPromptDismissed)
@@ -174,6 +175,17 @@ class UserPreferencesRepositoryTest {
 		assertEquals(20_001L, preferences.githubStarPromptLastImpressionEpochDay)
 		assertTrue(preferences.githubStarPromptDismissed)
 		assertEquals(19_999L, preferences.reviewPromptLastRequestEpochDay)
+	}
+
+	@Test
+	fun hideFromRecentsSettingIsPersistedAndCanBeTurnedOffAgain() = runTest {
+		assertFalse(repository.fetchInitialPreferences().hideFromRecentsEnabled)
+
+		repository.updateHideFromRecentsEnabled(true)
+		assertTrue(repository.fetchInitialPreferences().hideFromRecentsEnabled)
+
+		repository.updateHideFromRecentsEnabled(false)
+		assertFalse(repository.fetchInitialPreferences().hideFromRecentsEnabled)
 	}
 
 	@Test

@@ -42,6 +42,7 @@ data class MainScreenCallbacks(
 	val onStayDarkAtNightChanged: (Boolean) -> Unit,
 	val onWallpaperSyncToggleRequested: (Boolean) -> Unit = {},
 	val onLockScreenWallpaperBlurChanged: (Boolean) -> Unit = {},
+	val onHideFromRecentsChanged: (Boolean) -> Unit = {},
 	val onSelectDayWallpaper: () -> Unit = {},
 	val onSelectNightWallpaper: () -> Unit = {},
 	val onConfirmLiveWallpaper: () -> Unit = {},
@@ -139,6 +140,7 @@ fun MainScreen(
 			onStayDarkAtNightChanged = mainViewModel::updateStayDarkAtNightEnabled,
 			onWallpaperSyncToggleRequested = mainViewModel::onWallpaperSyncToggleRequested,
 			onLockScreenWallpaperBlurChanged = mainViewModel::updateLockScreenWallpaperBlurEnabled,
+			onHideFromRecentsChanged = mainViewModel::updateHideFromRecentsEnabled,
 			onSelectDayWallpaper = {
 				dayWallpaperPicker.launch(
 					PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
