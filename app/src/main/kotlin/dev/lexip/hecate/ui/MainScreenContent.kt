@@ -121,7 +121,8 @@ fun MainScreenContent(
 	isBatterySaverActive: Boolean,
 	hasWriteSecureSettingsPermission: Boolean,
 	packageName: String,
-	callbacks: MainScreenCallbacks
+	callbacks: MainScreenCallbacks,
+	serviceStartFailed: Boolean = false
 ) {
 	val haptic = LocalHapticFeedback.current
 	val scrollState = rememberScrollState()
@@ -193,6 +194,14 @@ fun MainScreenContent(
 				showBatterySaverWarning = isBatterySaverActive && uiState.adaptiveThemeEnabled,
 				showDeviceCoveredWarning = isDeviceCovered && uiState.adaptiveThemeEnabled
 			)
+			if (serviceStartFailed && uiState.adaptiveThemeEnabled) {
+				StatusWarningCard(
+					title = stringResource(R.string.monitoring_start_failed_title),
+					message = stringResource(R.string.monitoring_start_failed_message),
+					isError = true,
+					onRetry = callbacks.onRetryMonitoringService
+				)
+			}
 			ServiceControls(
 				uiState = uiState,
 				hasPermission = hasWriteSecureSettingsPermission,
@@ -420,7 +429,7 @@ private fun StatusWarnings(
 }
 
 @Composable
-private fun StatusWarningCard(title: String, message: String, isError: Boolean) {
+private fun StatusWarningCard(title: String, message: String, isError: Boolean, onRetry: (() -> Unit)? = null) {
 	Card(
 		modifier = Modifier.fillMaxWidth(),
 		colors = CardDefaults.cardColors(
@@ -441,6 +450,11 @@ private fun StatusWarningCard(title: String, message: String, isError: Boolean) 
 			Text(text = title, style = MaterialTheme.typography.titleMedium)
 			Spacer(modifier = Modifier.padding(top = 4.dp))
 			Text(text = message, style = MaterialTheme.typography.bodyMedium)
+			if (onRetry != null) {
+				TextButton(onClick = onRetry) {
+					Text(stringResource(R.string.monitoring_action_retry))
+				}
+			}
 		}
 	}
 }

@@ -125,4 +125,7 @@
 	<string name="github_star_prompt_action">Stern auf GitHub geben ↗</string>
 	<string name="github_star_prompt_dismiss_description">Für immer ausblenden</string>
 	<string name="github_star_prompt_thank_you">Danke!</string>
+	<string name="monitoring_start_failed_title">Überwachung konnte nicht gestartet werden</string>
+	<string name="monitoring_start_failed_message">Tippe auf „Erneut versuchen“, um die Hintergrundüberwachung zu starten. Prüfe die Hintergrundeinschränkungen deines Telefons, falls das Problem weiterhin auftritt.</string>
+	<string name="monitoring_action_retry">Erneut versuchen</string>
 </resources>

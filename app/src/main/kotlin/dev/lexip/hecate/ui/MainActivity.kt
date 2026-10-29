@@ -21,7 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dev.lexip.hecate.Application
 import dev.lexip.hecate.data.UserPreferencesRepository
-import dev.lexip.hecate.services.BroadcastReceiverService
+import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
 import dev.lexip.hecate.ui.navigation.NavigationManager
 import dev.lexip.hecate.ui.theme.HecateTheme
 import dev.lexip.hecate.util.InAppUpdateManager
@@ -79,8 +79,11 @@ class MainActivity : ComponentActivity() {
 		if (this::mainViewModel.isInitialized) {
 			mainViewModel.onUiResumed()
 			if (mainViewModel.isAdaptiveThemeEnabled()) {
-				val intent = android.content.Intent(this, BroadcastReceiverService::class.java)
-				androidx.core.content.ContextCompat.startForegroundService(this, intent)
+				try {
+					AndroidAdaptiveThemeServiceController(this).start()
+				} catch (cause: Exception) {
+					android.util.Log.e("MainActivity", "Unable to resume monitoring", cause)
+				}
 			}
 		}
 	}

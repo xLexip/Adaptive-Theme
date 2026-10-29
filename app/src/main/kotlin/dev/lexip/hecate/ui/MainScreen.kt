@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dev.lexip.hecate.R
+import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
@@ -56,7 +57,8 @@ data class MainScreenCallbacks(
 	val onGitHubStarPromptImpression: () -> Unit = {},
 	val onDismissGitHubStarPrompt: () -> Unit = {},
 	val onUndoGitHubStarPromptDismissal: () -> Unit = {},
-	val onOpenGitHubRepository: () -> Unit = {}
+	val onOpenGitHubRepository: () -> Unit = {},
+	val onRetryMonitoringService: () -> Unit = {}
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,6 +70,7 @@ fun MainScreen(
 	val context = LocalContext.current
 	val adbCommandLabel = stringResource(R.string.setup_action_adb_command)
 	val internalUiState by mainViewModel.uiState.collectAsState()
+	val serviceStartFailed by MonitoringServiceStatus.startFailed.collectAsState()
 	val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(
 		initial = mainViewModel.currentSensorLux
 	)
@@ -130,7 +133,9 @@ fun MainScreen(
 		isBatterySaverActive = internalUiState.isBatterySaverActive,
 		hasWriteSecureSettingsPermission = hasWriteSecureSettingsPermission,
 		packageName = context.packageName,
+		serviceStartFailed = serviceStartFailed,
 		callbacks = MainScreenCallbacks(
+			onRetryMonitoringService = mainViewModel::retryMonitoringService,
 			onServiceToggleRequested = mainViewModel::onServiceToggleRequested,
 			onThresholdSelected = { index, lux ->
 				mainViewModel.setPendingCustomSliderLux(lux)

@@ -24,6 +24,7 @@ import dev.lexip.hecate.FakeWallpaperPlatform
 import dev.lexip.hecate.FakeWallpaperImagePreparer
 import dev.lexip.hecate.FakeWallpaperStorageMigrator
 import dev.lexip.hecate.MainDispatcherRule
+import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.NO_SUPPORT_PROMPT_EPOCH_DAY
 import dev.lexip.hecate.data.UserPreferences
@@ -43,6 +44,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -73,6 +75,7 @@ class MainViewModelTest {
 
 	@Before
 	fun setUp() {
+		MonitoringServiceStatus.ready()
 		application = ApplicationProvider.getApplicationContext()
 		preferences = FakeUserPreferencesDataSource()
 		lightSensor = FakeSensorReader()
@@ -82,6 +85,35 @@ class MainViewModelTest {
 		wallpaperPlatform = FakeWallpaperPlatform()
 		wallpaperImagePreparer = FakeWallpaperImagePreparer()
 		wallpaperStorageMigrator = FakeWallpaperStorageMigrator()
+	}
+
+	@After
+	fun resetMonitoringStatus() = MonitoringServiceStatus.ready()
+
+	@Test
+	fun failedRetryPreservesEnabledPreferenceAndCanBeRetried() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		preferences.emit(UserPreferences(adaptiveThemeEnabled = true, adaptiveThemeThresholdLux = 100f))
+		advanceUntilIdle()
+		val before = serviceController.startCalls
+		serviceController.startFailure = IllegalStateException("Start not allowed")
+		viewModel.retryMonitoringService()
+		assertTrue(MonitoringServiceStatus.startFailed.value)
+		assertTrue(viewModel.uiState.value.adaptiveThemeEnabled)
+		serviceController.startFailure = null
+		viewModel.retryMonitoringService()
+		assertEquals(before + 2, serviceController.startCalls)
+		assertTrue(serviceController.lastEnableMonitoring)
+		assertTrue(serviceController.lastEvaluateImmediately)
+	}
+
+	@Test
+	fun retryDoesNotEnableDisabledMonitoring() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		val before = serviceController.startCalls
+		viewModel.retryMonitoringService()
+		assertEquals(before, serviceController.startCalls)
 	}
 
 	@Test

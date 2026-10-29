@@ -32,6 +32,7 @@ import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.services.AdaptiveThemeServiceController
 import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
+import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.util.AndroidInstallMetadataProvider
 import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.LightSensorManager
@@ -799,10 +800,19 @@ class MainViewModel internal constructor(
 	}
 
 	private fun startBroadcastReceiverService() {
-		serviceController.start(
-			enableMonitoring = true,
-			evaluateImmediately = true
-		)
+		try {
+			serviceController.start(
+				enableMonitoring = true,
+				evaluateImmediately = true
+			)
+		} catch (cause: Exception) {
+			MonitoringServiceStatus.failed()
+			Log.e(TAG, "Unable to start monitoring", cause)
+		}
+	}
+
+	fun retryMonitoringService() {
+		if (isAdaptiveThemeEnabled()) startBroadcastReceiverService()
 	}
 
 	private fun stopBroadcastReceiverService() {

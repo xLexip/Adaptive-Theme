@@ -31,6 +31,8 @@ import dev.lexip.hecate.broadcasts.ScreenOnReceiver
 import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.logging.MonitoringDiagnostics
+import dev.lexip.hecate.util.ProcessExitDetector
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.CURRENT_WALLPAPER_STORAGE_VERSION
 import dev.lexip.hecate.util.DarkThemeHandler
@@ -43,6 +45,8 @@ import dev.lexip.hecate.util.legacyWallpaperCleanupAction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -54,9 +58,8 @@ internal const val EXTRA_ENABLE_MONITORING = "dev.lexip.hecate.extra.ENABLE_MONI
 internal const val EXTRA_EVALUATE_IMMEDIATELY =
 	"dev.lexip.hecate.extra.EVALUATE_IMMEDIATELY"
 
-private var screenOnReceiver: ScreenOnReceiver? = null
-
 class BroadcastReceiverService : Service() {
+	private var screenOnReceiver: ScreenOnReceiver? = null
 
 	// Utils
 	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
@@ -66,6 +69,8 @@ class BroadcastReceiverService : Service() {
 	private lateinit var proximitySensorManager: ProximitySensorManager
 	private lateinit var monitoringPreferencesCoordinator: MonitoringPreferencesCoordinator
 	private val nightModeChangeTracker = NightModeChangeTracker()
+	private var startupJob: Job? = null
+	private var preferencesJob: Job? = null
 
 	// Service-bound scope
 	private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -80,12 +85,10 @@ class BroadcastReceiverService : Service() {
 			)
 		}
 
-		// Initialize data store
-		val dataStore = (this.applicationContext as Application).userPreferencesDataStore
-
 		// Handle stop action from notification
 		if (intent?.action == ACTION_PAUSE_SERVICE) {
 			Log.i(TAG, "Pause action received from notification.")
+			MonitoringServiceStatus.ready()
 			serviceScope.launch {
 				Log.i(TAG, "Adaptive theme paused/killed via notification action.")
 				stopForeground(STOP_FOREGROUND_REMOVE)
@@ -95,64 +98,118 @@ class BroadcastReceiverService : Service() {
 		}
 
 		Log.i(TAG, "Service starting...")
-		initializeUtils()
-		nightModeChangeTracker.initialize(resources.configuration.uiMode)
-
-		// Start foreground immediately to comply with O+ requirements
-		createNotificationChannel()
-		val initialNotification = buildNotification()
-		try {
-			startForeground(
-				1,
-				initialNotification,
-				ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+		// Notification/promotion must precede sensor, wallpaper and preference initialization.
+		val promoted = try {
+			createNotificationChannel()
+			val notification = buildNotification()
+			promoteForegroundService(
+				promoteTyped = {
+					startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+				},
+				promoteCompatibility = { startForeground(1, notification) },
+				onFailure = { stage, cause ->
+					Log.e(TAG, "Foreground promotion failed: $stage", cause)
+					runCatching { Logger.logException(cause) }
+						.onFailure { Log.w(TAG, "Could not report foreground promotion exception", it) }
+					MonitoringDiagnostics.record(
+						this, "foreground_promotion", "failed", failure = true,
+						detail = "$stage:${cause.javaClass.simpleName}", startId = startId
+					)
+				}
 			)
-		} catch (e: Exception) {
-			Logger.logException(e)
-			/**
-			 *  Catch required because some Android 14 ROMs (HyperOS/MIUI) are broken
-			 * 	and throw false-positive SecurityExceptions for valid FGS types.
-			 */
-			try {
-				startForeground(1, initialNotification)
-			} catch (e2: Exception) {
-				Logger.logException(e2)
-			}
+		} catch (cause: Exception) {
+			Log.e(TAG, "Unable to prepare foreground notification", cause)
+			Logger.logException(cause)
+			MonitoringDiagnostics.record(
+				this, "foreground_notification", "failed", failure = true,
+				detail = cause.javaClass.simpleName, startId = startId
+			)
+			false
 		}
-
+		if (!promoted) {
+			MonitoringServiceStatus.failed()
+			MonitoringDiagnostics.record(
+				this, "startup", "failed", failure = true,
+				detail = "foreground_promotion", startId = startId
+			)
+			startupJob?.cancel()
+			preferencesJob?.cancel()
+			stopForeground(STOP_FOREGROUND_REMOVE)
+			stopSelfResult(startId)
+			return START_NOT_STICKY
+		}
+		MonitoringDiagnostics.record(this, "foreground_promotion", "succeeded", startId = startId)
+		try {
+			initializeUtils()
+			nightModeChangeTracker.initialize(resources.configuration.uiMode)
+		} catch (cause: Exception) {
+			Log.e(TAG, "Monitoring utilities could not initialize", cause)
+			MonitoringServiceStatus.failed()
+			MonitoringDiagnostics.record(
+				this, "initialization", "failed", failure = true,
+				detail = cause.javaClass.simpleName, startId = startId
+			)
+			Logger.logException(cause)
+			startupJob?.cancel()
+			preferencesJob?.cancel()
+			stopForeground(STOP_FOREGROUND_REMOVE)
+			stopSelfResult(startId)
+			return START_NOT_STICKY
+		}
+		val dataStore = (this.applicationContext as Application).userPreferencesDataStore
 
 		// Load user preferences from data store
-		serviceScope.launch {
-			val userPreferencesRepository = UserPreferencesRepository(dataStore)
-			val userPreferences = withContext(Dispatchers.IO) {
-				resetLegacyWallpaperSelectionIfNeeded(userPreferencesRepository)
-				userPreferencesRepository.fetchInitialPreferences()
-			}
+		startupJob?.cancel()
+		startupJob = serviceScope.launch {
+			try {
+				val userPreferencesRepository = UserPreferencesRepository(dataStore)
+				val userPreferences = withContext(Dispatchers.IO) {
+					resetLegacyWallpaperSelectionIfNeeded(userPreferencesRepository)
+					userPreferencesRepository.fetchInitialPreferences()
+				}
 
-			// Create screen-on receiver if adaptive theme is enabled
-			val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
-			val evaluateImmediately =
-				intent?.getBooleanExtra(EXTRA_EVALUATE_IMMEDIATELY, false) == true
-			if (userPreferences.adaptiveThemeEnabled || forceEnable) {
-				createScreenOnReceiver(userPreferences)
-			}
-			if (forceEnable && evaluateImmediately) {
-				screenOnReceiver?.evaluateNow(
-					context = applicationContext,
-					syncWallpaperWhenThemeUnchanged = true
+				// Create screen-on receiver if adaptive theme is enabled.
+				val forceEnable = intent?.getBooleanExtra(EXTRA_ENABLE_MONITORING, false) == true
+				val evaluateImmediately =
+					intent?.getBooleanExtra(EXTRA_EVALUATE_IMMEDIATELY, false) == true
+				if (userPreferences.adaptiveThemeEnabled || forceEnable) {
+					createScreenOnReceiver(userPreferences)
+					MonitoringServiceStatus.ready()
+					MonitoringDiagnostics.record(this@BroadcastReceiverService, "receiver", "ready", startId = startId)
+					ProcessExitDetector.onMonitoringReady(this@BroadcastReceiverService)
+				}
+				if (forceEnable && evaluateImmediately) {
+					screenOnReceiver?.evaluateNow(
+						context = applicationContext,
+						syncWallpaperWhenThemeUnchanged = true
+					)
+				}
+
+				// Abort service start when there is no receiver to handle.
+				if (screenOnReceiver == null) {
+					Log.d(TAG, "No receiver to handle, stopping foreground and self.")
+					stopForeground(STOP_FOREGROUND_REMOVE)
+					stopSelfResult(startId)
+				}
+			} catch (cancelled: CancellationException) {
+				throw cancelled
+			} catch (cause: Exception) {
+				Log.e(TAG, "Monitoring initialization failed", cause)
+				Logger.logException(cause)
+				MonitoringServiceStatus.failed()
+				preferencesJob?.cancel()
+				MonitoringDiagnostics.record(
+					this@BroadcastReceiverService, "initialization", "failed", failure = true,
+					detail = cause.javaClass.simpleName, startId = startId
 				)
-			}
-
-			// Abort service start when there is no receiver to handle
-			if (screenOnReceiver == null) {
-				Log.d(TAG, "No receiver to handle, stopping foreground and self.")
 				stopForeground(STOP_FOREGROUND_REMOVE)
-				stopSelf()
+				stopSelfResult(startId)
 			}
 		}
 
 		// Collect preference updates while service runs
-		serviceScope.launch {
+		preferencesJob?.cancel()
+		preferencesJob = serviceScope.launch {
 			val userPreferencesRepository = UserPreferencesRepository(dataStore)
 			userPreferencesRepository.userPreferencesFlow.collect { prefs ->
 				monitoringPreferencesCoordinator.apply(prefs, screenOnReceiver)

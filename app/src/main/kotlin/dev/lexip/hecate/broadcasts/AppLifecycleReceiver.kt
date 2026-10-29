@@ -16,9 +16,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat
-import dev.lexip.hecate.logging.Logger
-import dev.lexip.hecate.services.BroadcastReceiverService
+import dev.lexip.hecate.services.AndroidAdaptiveThemeServiceController
 
 private const val TAG = "BootCompletedReceiver"
 
@@ -28,21 +26,19 @@ class AppLifecycleReceiver : BroadcastReceiver() {
 		when (intent.action) {
 			Intent.ACTION_BOOT_COMPLETED -> {
 				Log.i(TAG, "Boot completed, starting broadcast receiver service...")
-				val serviceIntent = Intent(context, BroadcastReceiverService::class.java)
 				try {
-					ContextCompat.startForegroundService(context, serviceIntent)
+					AndroidAdaptiveThemeServiceController(context).start()
 				} catch (e: Exception) {
-					Logger.logException(e)
+					Log.e(TAG, "Unable to start monitoring after boot", e)
 				}
 			}
 
 			Intent.ACTION_MY_PACKAGE_REPLACED -> {
 				Log.i(TAG, "App package replaced, starting broadcast receiver service if needed...")
-				val serviceIntent = Intent(context, BroadcastReceiverService::class.java)
 				try {
-					ContextCompat.startForegroundService(context, serviceIntent)
+					AndroidAdaptiveThemeServiceController(context).start()
 				} catch (e: Exception) {
-					Logger.logException(e)
+					Log.e(TAG, "Unable to start monitoring after update", e)
 				}
 			}
 

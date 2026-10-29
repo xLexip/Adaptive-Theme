@@ -419,20 +419,49 @@ class MainScreenContentTest {
 		assertEquals(1, dismissCalls)
 	}
 
+	@Test
+	fun monitoringStartupFailureOffersRetryWithoutChangingEnabledPreference() {
+		var retries = 0
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			serviceStartFailed = true,
+			callbacks = callbacks(onRetry = { retries++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.monitoring_start_failed_title))
+			.assertExists()
+		clickTextAfterScroll(context.getString(R.string.monitoring_action_retry))
+		assertEquals(1, retries)
+	}
+
+	@Test
+	fun disabledMonitoringDoesNotShowStaleStartupError() {
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = false),
+			hasPermission = true,
+			serviceStartFailed = true
+		)
+		composeRule.onNodeWithText(context.getString(R.string.monitoring_start_failed_title))
+			.assertDoesNotExist()
+	}
+
 	private fun setMainContent(
 		uiState: MainUiState,
 		hasPermission: Boolean,
-		callbacks: MainScreenCallbacks = callbacks()
+		callbacks: MainScreenCallbacks = callbacks(),
+		serviceStartFailed: Boolean = false
 	) = setMainContent(
 		uiState = { uiState },
 		hasPermission = hasPermission,
-		callbacks = callbacks
+		callbacks = callbacks,
+		serviceStartFailed = serviceStartFailed
 	)
 
 	private fun setMainContent(
 		uiState: () -> MainUiState,
 		hasPermission: Boolean,
-		callbacks: MainScreenCallbacks = callbacks()
+		callbacks: MainScreenCallbacks = callbacks(),
+		serviceStartFailed: Boolean = false
 	) {
 		composeRule.setContent {
 			HecateTheme {
@@ -443,7 +472,8 @@ class MainScreenContentTest {
 					isBatterySaverActive = false,
 					hasWriteSecureSettingsPermission = hasPermission,
 					packageName = context.packageName,
-					callbacks = callbacks
+					callbacks = callbacks,
+					serviceStartFailed = serviceStartFailed
 				)
 			}
 		}
@@ -462,7 +492,8 @@ class MainScreenContentTest {
 		onGitHubImpression: () -> Unit = {},
 		onOpenGitHub: () -> Unit = {},
 		onDismissGitHub: () -> Unit = {},
-		onUndoGitHubDismissal: () -> Unit = {}
+		onUndoGitHubDismissal: () -> Unit = {},
+		onRetry: () -> Unit = {}
 	): MainScreenCallbacks = MainScreenCallbacks(
 		onServiceToggleRequested = onToggle,
 		onThresholdSelected = { _, _ -> },
@@ -480,7 +511,8 @@ class MainScreenContentTest {
 		onGitHubStarPromptImpression = onGitHubImpression,
 		onOpenGitHubRepository = onOpenGitHub,
 		onDismissGitHubStarPrompt = onDismissGitHub,
-		onUndoGitHubStarPromptDismissal = onUndoGitHubDismissal
+		onUndoGitHubStarPromptDismissal = onUndoGitHubDismissal,
+		onRetryMonitoringService = onRetry
 	)
 
 	private fun adaptiveThemeAction(): String = context.getString(
