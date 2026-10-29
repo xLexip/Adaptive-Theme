@@ -15,7 +15,8 @@ internal class MonitoringPreferencesCoordinator(
 		enabled: Boolean,
 		dayWallpaperUri: String?,
 		nightWallpaperUri: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean,
+		lockScreenWallpaperSyncEnabled: Boolean
 	) -> Unit
 ) {
 	fun apply(
@@ -30,7 +31,8 @@ internal class MonitoringPreferencesCoordinator(
 			preferences.wallpaperSyncEnabled,
 			preferences.dayWallpaperUri,
 			preferences.nightWallpaperUri,
-			preferences.lockScreenWallpaperBlurEnabled
+			preferences.lockScreenWallpaperBlurEnabled,
+			preferences.lockScreenWallpaperSyncEnabled
 		)
 	}
 }

@@ -16,14 +16,19 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -45,23 +50,51 @@ private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserPreferencesRepositoryTest {
 	private lateinit var directory: File
-	private lateinit var scope: TestScope
+	private lateinit var scope: CoroutineScope
 	private lateinit var repository: UserPreferencesRepository
+	private lateinit var dataStore: DataStore<Preferences>
 
 	@Before
 	fun setUp() {
 		directory = Files.createTempDirectory("adaptive-theme-prefs").toFile()
-		scope = TestScope(UnconfinedTestDispatcher())
-		val dataStore = PreferenceDataStoreFactory.create(
+		scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+		repository = createRepository()
+	}
+
+	private fun createRepository(): UserPreferencesRepository {
+		dataStore = PreferenceDataStoreFactory.create(
 			scope = scope,
+			migrations = listOf(UserPreferencesRepository.lockScreenWallpaperSyncMigration),
 			produceFile = { File(directory, "preferences.preferences_pb") }
 		)
-		repository = UserPreferencesRepository(dataStore)
+		return UserPreferencesRepository(dataStore)
+	}
+
+	private suspend fun reopenRepository() {
+		scope.coroutineContext.job.cancelAndJoin()
+		scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+		repository = createRepository()
+	}
+
+	private suspend fun seedPreviousInstallation(
+		wallpaperSyncEnabled: Boolean,
+		lockScreenSyncEnabled: Boolean? = null
+	) {
+		dataStore.edit { preferences ->
+			preferences[booleanPreferencesKey("wallpaper_sync_enabled")] = wallpaperSyncEnabled
+			val lockScreenKey = booleanPreferencesKey("lock_screen_wallpaper_sync_enabled")
+			if (lockScreenSyncEnabled == null) {
+				preferences.remove(lockScreenKey)
+			} else {
+				preferences[lockScreenKey] = lockScreenSyncEnabled
+			}
+		}
+		reopenRepository()
 	}
 
 	@After
 	fun tearDown() {
-		scope.cancel()
+		runBlocking { scope.coroutineContext.job.cancelAndJoin() }
 		directory.deleteRecursively()
 	}
 
@@ -75,6 +108,7 @@ class UserPreferencesRepositoryTest {
 		assertEquals(21 * 60, preferences.nightStartMinutes)
 		assertEquals(6 * 60, preferences.nightEndMinutes)
 		assertFalse(preferences.wallpaperSyncEnabled)
+		assertFalse(preferences.lockScreenWallpaperSyncEnabled)
 		assertFalse(preferences.lockScreenWallpaperBlurEnabled)
 		assertNull(preferences.dayWallpaperUri)
 		assertNull(preferences.nightWallpaperUri)
@@ -159,6 +193,63 @@ class UserPreferencesRepositoryTest {
 		preferences = repository.fetchInitialPreferences()
 		assertNull(preferences.dayWallpaperUri)
 		assertNull(preferences.nightWallpaperUri)
+	}
+
+	@Test
+	fun newWallpaperSettingsKeepLockScreenOffAndPersistIndependently() = runTest {
+		repository.updateWallpaperSyncEnabled(true)
+		repository.updateLockScreenWallpaperBlurEnabled(true)
+		repository.updateDayWallpaperUri("content://wallpaper/day")
+		repository.updateNightWallpaperUri(NIGHT_WALLPAPER_URI)
+		assertFalse(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+
+		repository.updateLockScreenWallpaperSyncEnabled(false)
+		val preferences = repository.userPreferencesFlow.first()
+		assertFalse(preferences.lockScreenWallpaperSyncEnabled)
+		assertTrue(preferences.wallpaperSyncEnabled)
+		assertTrue(preferences.lockScreenWallpaperBlurEnabled)
+		assertEquals("content://wallpaper/day", preferences.dayWallpaperUri)
+		assertEquals(NIGHT_WALLPAPER_URI, preferences.nightWallpaperUri)
+
+		repository.updateWallpaperSyncEnabled(false)
+		assertFalse(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+		repository.updateLockScreenWallpaperSyncEnabled(true)
+		assertTrue(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+		assertFalse(repository.fetchInitialPreferences().wallpaperSyncEnabled)
+	}
+
+	@Test
+	fun upgradePreservesLockScreenSyncForExistingActiveWallpaperUsers() = runTest {
+		seedPreviousInstallation(wallpaperSyncEnabled = true)
+		assertTrue(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+		assertTrue(repository.userPreferencesFlow.first().lockScreenWallpaperSyncEnabled)
+
+		repository.updateWallpaperSyncEnabled(false)
+		reopenRepository()
+		assertTrue(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+		repository.updateWallpaperSyncEnabled(true)
+		assertTrue(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+	}
+
+	@Test
+	fun upgradeKeepsLockScreenOffWhenWallpaperSyncWasInactive() = runTest {
+		seedPreviousInstallation(wallpaperSyncEnabled = false)
+		assertFalse(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+
+		repository.updateWallpaperSyncEnabled(true)
+		reopenRepository()
+		assertFalse(repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+	}
+
+	@Test
+	fun upgradeNeverOverridesExplicitLockScreenChoices() = runTest {
+		for (lockScreenSyncEnabled in listOf(false, true)) {
+			seedPreviousInstallation(
+				wallpaperSyncEnabled = true,
+				lockScreenSyncEnabled = lockScreenSyncEnabled
+			)
+			assertEquals(lockScreenSyncEnabled, repository.fetchInitialPreferences().lockScreenWallpaperSyncEnabled)
+		}
 	}
 
 	@Test

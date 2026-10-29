@@ -41,6 +41,7 @@ data class MainScreenCallbacks(
 	val onCheckReviewPrompt: () -> Unit,
 	val onStayDarkAtNightChanged: (Boolean) -> Unit,
 	val onWallpaperSyncToggleRequested: (Boolean) -> Unit = {},
+	val onLockScreenWallpaperSyncChanged: (Boolean) -> Unit = {},
 	val onLockScreenWallpaperBlurChanged: (Boolean) -> Unit = {},
 	val onSelectDayWallpaper: () -> Unit = {},
 	val onSelectNightWallpaper: () -> Unit = {},
@@ -138,6 +139,7 @@ fun MainScreen(
 			onCheckReviewPrompt = mainViewModel::checkReviewPrompt,
 			onStayDarkAtNightChanged = mainViewModel::updateStayDarkAtNightEnabled,
 			onWallpaperSyncToggleRequested = mainViewModel::onWallpaperSyncToggleRequested,
+			onLockScreenWallpaperSyncChanged = mainViewModel::updateLockScreenWallpaperSyncEnabled,
 			onLockScreenWallpaperBlurChanged = mainViewModel::updateLockScreenWallpaperBlurEnabled,
 			onSelectDayWallpaper = {
 				dayWallpaperPicker.launch(

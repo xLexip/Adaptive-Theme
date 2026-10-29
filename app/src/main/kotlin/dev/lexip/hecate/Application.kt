@@ -17,11 +17,15 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.LoggerGate
 import dev.lexip.hecate.util.ProcessExitDetector
 
 const val USER_PREFERENCES_NAME = "user_preferences"
-private val Context.dataStore by preferencesDataStore(USER_PREFERENCES_NAME)
+private val Context.dataStore by preferencesDataStore(
+    name = USER_PREFERENCES_NAME,
+    produceMigrations = { listOf(UserPreferencesRepository.lockScreenWallpaperSyncMigration) }
+)
 
 class Application : Application() {
     /**

@@ -24,11 +24,13 @@ class WallpaperUpdateSchedulerTest {
 	@Test
 	fun `coalesces pending wallpaper updates to the latest target`() = runTest {
 		val appliedRequests = mutableListOf<Pair<Boolean, Boolean>>()
+		val lockScreenDestinations = mutableListOf<Boolean>()
 		val scheduler = WallpaperUpdateScheduler(
 			scope = this,
 			dispatcher = StandardTestDispatcher(testScheduler),
-			applyWallpaper = { isDark, _, _, lockScreenBlurEnabled ->
+			applyWallpaper = { isDark, _, _, lockScreenBlurEnabled, lockSyncEnabled ->
 				appliedRequests += isDark to lockScreenBlurEnabled
+				lockScreenDestinations += lockSyncEnabled
 				true
 			}
 		)
@@ -43,6 +45,7 @@ class WallpaperUpdateSchedulerTest {
 		advanceUntilIdle()
 
 		assertEquals(listOf(true to true), appliedRequests)
+		assertEquals(listOf(false), lockScreenDestinations)
 	}
 
 	@Test
@@ -51,7 +54,7 @@ class WallpaperUpdateSchedulerTest {
 		val scheduler = WallpaperUpdateScheduler(
 			scope = this,
 			dispatcher = StandardTestDispatcher(testScheduler),
-			applyWallpaper = { isDark, _, _, _ ->
+			applyWallpaper = { isDark, _, _, _, _ ->
 				appliedThemes += isDark
 				true
 			}
@@ -71,7 +74,7 @@ class WallpaperUpdateSchedulerTest {
 		val scheduler = WallpaperUpdateScheduler(
 			scope = this,
 			dispatcher = StandardTestDispatcher(testScheduler),
-			applyWallpaper = { _, _, _, _ ->
+			applyWallpaper = { _, _, _, _, _ ->
 				applyCalls++
 				true
 			}
@@ -86,12 +89,109 @@ class WallpaperUpdateSchedulerTest {
 	}
 
 	@Test
+	fun `changing lock screen destination is not deduplicated`() = runTest {
+		val destinations = mutableListOf<Boolean>()
+		val scheduler = WallpaperUpdateScheduler(
+			scope = this,
+			dispatcher = StandardTestDispatcher(testScheduler),
+			applyWallpaper = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+				true
+			}
+		)
+
+		for (lockSyncEnabled in listOf(true, false, true)) {
+			scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = lockSyncEnabled)
+			advanceUntilIdle()
+		}
+		assertEquals(listOf(true, false, true), destinations)
+	}
+
+	@Test
+	fun `pending destination changes coalesce to home only`() = runTest {
+		val destinations = mutableListOf<Boolean>()
+		val scheduler = WallpaperUpdateScheduler(
+			scope = this,
+			dispatcher = StandardTestDispatcher(testScheduler),
+			applyWallpaper = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+				true
+			}
+		)
+
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = true)
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = false)
+		advanceUntilIdle()
+		assertEquals(listOf(false), destinations)
+	}
+
+	@Test
+	fun `returning to the previous destination replaces a different pending request`() = runTest {
+		val destinations = mutableListOf<Boolean>()
+		val scheduler = WallpaperUpdateScheduler(
+			scope = this,
+			dispatcher = StandardTestDispatcher(testScheduler),
+			applyWallpaper = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+				true
+			}
+		)
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = false)
+		advanceUntilIdle()
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = true)
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = false)
+		advanceUntilIdle()
+		assertEquals(listOf(false, false), destinations)
+	}
+
+	@Test
+	fun `excluding lock screen updates an already queued wallpaper change`() = runTest {
+		val destinations = mutableListOf<Boolean>()
+		val scheduler = WallpaperUpdateScheduler(
+			scope = this,
+			dispatcher = StandardTestDispatcher(testScheduler),
+			applyWallpaper = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+				true
+			}
+		)
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperBlurEnabled = true, lockScreenWallpaperSyncEnabled = true)
+		scheduler.excludeLockScreenFromPendingRequests()
+		advanceUntilIdle()
+		assertEquals(listOf(false), destinations)
+
+		scheduler.excludeLockScreenFromPendingRequests()
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperBlurEnabled = true, lockScreenWallpaperSyncEnabled = true)
+		advanceUntilIdle()
+		assertEquals(listOf(false, true), destinations)
+	}
+
+	@Test
+	fun `request matching active destination cancels a different pending destination`() = runTest {
+		val destinations = mutableListOf<Boolean>()
+		lateinit var scheduler: WallpaperUpdateScheduler
+		scheduler = WallpaperUpdateScheduler(
+			scope = this,
+			dispatcher = StandardTestDispatcher(testScheduler),
+			applyWallpaper = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+				scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = true)
+				scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = false)
+				true
+			}
+		)
+		scheduler.schedule(false, "day", "night", lockScreenWallpaperSyncEnabled = false)
+		advanceUntilIdle()
+		assertEquals(listOf(false), destinations)
+	}
+
+	@Test
 	fun `allows retry after a failed wallpaper update`() = runTest {
 		var applyCalls = 0
 		val scheduler = WallpaperUpdateScheduler(
 			scope = this,
 			dispatcher = StandardTestDispatcher(testScheduler),
-			applyWallpaper = { _, _, _, _ ->
+			applyWallpaper = { _, _, _, _, _ ->
 				applyCalls++
 				applyCalls > 1
 			}

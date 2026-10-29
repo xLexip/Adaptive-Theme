@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Nagkaroon ng hindi inaasahang error habang ginagamit ang Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Wallpaper</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Baguhin ang lock screen</string>
 	<string name="title_lock_screen_wallpaper_blur">I-blur ang lock screen</string>
-	<string name="description_lock_screen_wallpaper_blur">Gumamit ng malabong bersyon ng wallpaper sa lock screen.</string>
 	<string name="description_device_wallpaper_sync">Gumamit ng magkahiwalay na wallpaper para sa light at dark mode. Maaaring magtagal nang kaunti ang pagpapalit at maapektuhan ang performance.</string>
 	<string name="action_select_day_wallpaper">Maliwanag na mode:</string>
 	<string name="action_select_night_wallpaper">Madilim na mode:</string>

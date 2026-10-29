@@ -84,6 +84,7 @@ data class MainUiState(
 	val nightStartMinutes: Int = 21 * 60,
 	val nightEndMinutes: Int = 6 * 60,
 	val wallpaperSyncEnabled: Boolean = false,
+	val lockScreenWallpaperSyncEnabled: Boolean = false,
 	val lockScreenWallpaperBlurEnabled: Boolean = false,
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null,
@@ -329,6 +330,7 @@ class MainViewModel internal constructor(
 					nightStartMinutes = userPreferences.nightStartMinutes,
 					nightEndMinutes = userPreferences.nightEndMinutes,
 					wallpaperSyncEnabled = userPreferences.wallpaperSyncEnabled,
+					lockScreenWallpaperSyncEnabled = userPreferences.lockScreenWallpaperSyncEnabled,
 					lockScreenWallpaperBlurEnabled = userPreferences.lockScreenWallpaperBlurEnabled,
 					dayWallpaperUri = userPreferences.dayWallpaperUri,
 					nightWallpaperUri = userPreferences.nightWallpaperUri,
@@ -711,12 +713,27 @@ class MainViewModel internal constructor(
 		}
 	}
 
+	fun updateLockScreenWallpaperSyncEnabled(enabled: Boolean) {
+		viewModelScope.launch(ioDispatcher) {
+			wallpaperMigrationCompleted.await()
+			wallpaperSelectionMutex.withLock {
+				val preferences = userPreferencesRepository.fetchInitialPreferences()
+				if (preferences.lockScreenWallpaperSyncEnabled == enabled) return@withLock
+				userPreferencesRepository.updateLockScreenWallpaperSyncEnabled(enabled)
+				if (enabled) {
+					applyCurrentWallpaper(preferences.copy(lockScreenWallpaperSyncEnabled = true))
+				}
+			}
+		}
+	}
+
 	fun updateLockScreenWallpaperBlurEnabled(enabled: Boolean) {
 		viewModelScope.launch(ioDispatcher) {
 			wallpaperMigrationCompleted.await()
 			wallpaperSelectionMutex.withLock {
 				val preferences = userPreferencesRepository.fetchInitialPreferences()
 				if (enabled && (!preferences.wallpaperSyncEnabled ||
+					!preferences.lockScreenWallpaperSyncEnabled ||
 					preferences.dayWallpaperUri.isNullOrEmpty() ||
 					preferences.nightWallpaperUri.isNullOrEmpty())
 				) return@withLock
@@ -744,7 +761,8 @@ class MainViewModel internal constructor(
 			),
 			dayUriStr = preferences.dayWallpaperUri,
 			nightUriStr = preferences.nightWallpaperUri,
-			lockScreenWallpaperBlurEnabled = preferences.lockScreenWallpaperBlurEnabled
+			lockScreenWallpaperBlurEnabled = preferences.lockScreenWallpaperBlurEnabled,
+			lockScreenWallpaperSyncEnabled = preferences.lockScreenWallpaperSyncEnabled
 		)
 	}
 

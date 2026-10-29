@@ -105,6 +105,10 @@ class FakeUserPreferencesDataSource(
 		state.value = current.copy(wallpaperSyncEnabled = enabled)
 	}
 
+	override suspend fun updateLockScreenWallpaperSyncEnabled(enabled: Boolean) {
+		state.value = current.copy(lockScreenWallpaperSyncEnabled = enabled)
+	}
+
 	override suspend fun updateLockScreenWallpaperBlurEnabled(enabled: Boolean) {
 		state.value = current.copy(lockScreenWallpaperBlurEnabled = enabled)
 	}
@@ -213,13 +217,15 @@ class FakeWallpaperPlatform : WallpaperPlatform {
 		isDark: Boolean,
 		dayUriStr: String?,
 		nightUriStr: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean,
+		lockScreenWallpaperSyncEnabled: Boolean
 	): Boolean {
 		appliedRequests += WallpaperApplyRequest(
 			isDark,
 			dayUriStr,
 			nightUriStr,
-			lockScreenWallpaperBlurEnabled
+			lockScreenWallpaperBlurEnabled,
+			lockScreenWallpaperSyncEnabled
 		)
 		return true
 	}
@@ -229,7 +235,8 @@ data class WallpaperApplyRequest(
 	val isDark: Boolean,
 	val dayUri: String?,
 	val nightUri: String?,
-	val lockScreenBlurEnabled: Boolean
+	val lockScreenBlurEnabled: Boolean,
+	val lockScreenSyncEnabled: Boolean
 )
 
 internal class FakeWallpaperImagePreparer : WallpaperImagePreparer {

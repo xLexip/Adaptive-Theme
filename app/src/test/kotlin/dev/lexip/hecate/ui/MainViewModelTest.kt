@@ -575,6 +575,7 @@ class MainViewModelTest {
 			preferences.emit(
 				preferences.current.copy(
 					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = true,
 					dayWallpaperUri = DAY_WALLPAPER_URI,
 					nightWallpaperUri = NIGHT_WALLPAPER_URI,
 					wallpaperStorageVersion = 1
@@ -590,6 +591,126 @@ class MainViewModelTest {
 			assertTrue(wallpaperImagePreparer.prepared.isEmpty())
 			assertEquals(1, wallpaperPlatform.appliedRequests.size)
 			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenBlurEnabled)
+		}
+
+	@Test
+	fun lockScreenSyncPreservesBlurAndReappliesOnlyWhenReenabled() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = true,
+					lockScreenWallpaperBlurEnabled = true,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(false)
+			advanceUntilIdle()
+			assertFalse(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			assertTrue(preferences.current.lockScreenWallpaperBlurEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+
+			viewModel.onWallpaperSyncToggleRequested(true)
+			advanceUntilIdle()
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+			wallpaperPlatform.appliedRequests.clear()
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertTrue(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenBlurEnabled)
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertEquals(1, wallpaperPlatform.appliedRequests.size)
+		}
+
+	@Test
+	fun choosingWallpapersKeepsLockScreenUnchangedUntilExplicitOptIn() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+
+			viewModel.onDayWallpaperPicked(Uri.parse(DAY_WALLPAPER_URI))
+			advanceUntilIdle()
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+			viewModel.onNightWallpaperPicked(Uri.parse(NIGHT_WALLPAPER_URI))
+			advanceUntilIdle()
+			assertTrue(preferences.current.wallpaperSyncEnabled)
+			assertFalse(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+
+			wallpaperPlatform.appliedRequests.clear()
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			val request = wallpaperPlatform.appliedRequests.single()
+			assertTrue(request.lockScreenSyncEnabled)
+			assertEquals(DAY_WALLPAPER_URI, request.dayUri)
+			assertEquals(NIGHT_WALLPAPER_URI, request.nightUri)
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertEquals(1, wallpaperPlatform.appliedRequests.size)
+		}
+
+	@Test
+	fun enablingWallpaperSyncRespectsPersistedLockScreenExclusion() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					lockScreenWallpaperSyncEnabled = false,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			viewModel.onWallpaperSyncToggleRequested(true)
+			advanceUntilIdle()
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+		}
+
+	@Test
+	fun lockScreenBlurCannotBeEnabledWhenLockScreenSyncIsOff() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = false,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			viewModel.updateLockScreenWallpaperBlurEnabled(true)
+			advanceUntilIdle()
+			assertFalse(preferences.current.lockScreenWallpaperBlurEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+		}
+
+	@Test
+	fun reEnablingLockScreenSyncDoesNotApplyWallpaperWhileWallpaperSyncIsOff() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(preferences.current.copy(lockScreenWallpaperSyncEnabled = false))
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
 		}
 
 	@Test

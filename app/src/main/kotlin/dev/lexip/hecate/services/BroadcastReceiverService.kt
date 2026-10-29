@@ -314,9 +314,14 @@ class BroadcastReceiverService : Service() {
 		if (!this::proximitySensorManager.isInitialized)
 			proximitySensorManager = ProximitySensorManager(this)
 		if (!this::monitoringPreferencesCoordinator.isInitialized) {
-			monitoringPreferencesCoordinator = MonitoringPreferencesCoordinator(
-				adaptiveAppearanceHandler::configureWallpaperSync
-			)
+			monitoringPreferencesCoordinator = MonitoringPreferencesCoordinator { enabled, dayUri, nightUri, blurEnabled, lockSyncEnabled ->
+				adaptiveAppearanceHandler.configureWallpaperSync(
+					enabled, dayUri, nightUri, blurEnabled, lockSyncEnabled
+				)
+				if (!lockSyncEnabled) {
+					wallpaperUpdateScheduler.excludeLockScreenFromPendingRequests()
+				}
+			}
 		}
 
 		// Log proximity sensor availability for debugging and transparency

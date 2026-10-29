@@ -74,7 +74,7 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 
 - **Sensor-driven switching**: Uses the physical ambient light sensor – not a clock or sunset schedule – to intelligently switch the system theme.
 - **Custom lux threshold**: Dial in exactly when the theme flips, or choose a preset (e.g.indoor, outdoor, sunlight).
-- **Wallpaper Theme Sync**: Automatically swap your home and lock screen wallpaper with the system theme changes.
+- **Wallpaper Theme Sync**: Automatically swap your home screen wallpaper with the system theme changes, optionally including the lock screen.
 - **Lock Screen Blur**: Optionally apply a blur effect to your lock screen wallpaper.
 - **Night lock**: Optionally hold dark mode during a fixed time window, e.g. 9 PM – 6 AM.
 - **Battery friendly**: The sensor is only checked once when you turn the screen on. Zero background drain.
@@ -142,7 +142,7 @@ Adaptive Theme works on Android 14 and above.
 By design, the theme only switches immediately after the screen turns on and when the proximity sensor is uncovered. This prevents flicker, saves battery, and avoids interrupting an active app session. In addition, the target theme (and wallpaper, if enabled) is applied once when you toggle the service on via the switch in the app or the quick-settings tile.
 
 **How does Wallpaper Theme Sync work?**
-Choose a light and a dark wallpaper in the app. When Adaptive Theme changes the system theme, it replaces both the home screen and lock screen wallpapers with the matching image. The change can take a moment and may briefly affect performance, especially with large images. The wallpaper is also switched when you or another app toggle the system theme manually.
+Choose a light and a dark wallpaper in the app. When Adaptive Theme changes the system theme, it replaces the home screen wallpaper with the matching image. **Change Lock Screen** is off by default for new installations, so choosing wallpapers preserves your current lock screen wallpaper. When upgrading, users who already had Wallpaper Theme Sync active keep lock screen changes enabled to preserve their previous behavior. An explicitly saved lock screen choice is always respected. Enable it in the Wallpaper settings to also sync the lock screen. The lock screen options appear only while Wallpaper Theme Sync is on. **Blur Lock Screen** appears below **Change Lock Screen** only while lock screen changes are on; its setting is remembered when hidden. Turning the option on applies the current theme's wallpaper to the lock screen immediately. Turning it off does not restore a wallpaper already replaced. The change can take a moment and may briefly affect performance, especially with large images. The wallpaper is also switched when you or another app toggle the system theme manually.
 
 **Does it work on tablets?**
 No. Due to a technical limitation, Adaptive Theme is currently limited to smartphones.

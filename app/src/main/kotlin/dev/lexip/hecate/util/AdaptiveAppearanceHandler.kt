@@ -22,6 +22,7 @@ data class DarkThemeChangeResult(
 
 private data class WallpaperSyncConfiguration(
 	val enabled: Boolean = false,
+	val lockScreenWallpaperSyncEnabled: Boolean = false,
 	val lockScreenWallpaperBlurEnabled: Boolean = false,
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null
@@ -33,7 +34,7 @@ class AdaptiveAppearanceHandler internal constructor(
 		ScreenOnProximityResult,
 		(DarkThemeChangeResult) -> Unit
 	) -> Unit,
-	private val scheduleWallpaperForTheme: (Boolean, String?, String?, Boolean) -> Unit
+	private val scheduleWallpaperForTheme: (Boolean, String?, String?, Boolean, Boolean) -> Unit
 ) {
 	@Volatile
 	private var wallpaperSyncConfiguration = WallpaperSyncConfiguration()
@@ -42,10 +43,12 @@ class AdaptiveAppearanceHandler internal constructor(
 		enabled: Boolean,
 		dayWallpaperUri: String?,
 		nightWallpaperUri: String?,
-		lockScreenWallpaperBlurEnabled: Boolean = false
+		lockScreenWallpaperBlurEnabled: Boolean = false,
+		lockScreenWallpaperSyncEnabled: Boolean = false
 	) {
 		wallpaperSyncConfiguration = WallpaperSyncConfiguration(
 			enabled = enabled,
+			lockScreenWallpaperSyncEnabled = lockScreenWallpaperSyncEnabled,
 			lockScreenWallpaperBlurEnabled = lockScreenWallpaperBlurEnabled,
 			dayWallpaperUri = dayWallpaperUri,
 			nightWallpaperUri = nightWallpaperUri
@@ -80,7 +83,8 @@ class AdaptiveAppearanceHandler internal constructor(
 			useDarkTheme,
 			wallpaperConfig.dayWallpaperUri,
 			wallpaperConfig.nightWallpaperUri,
-			wallpaperConfig.lockScreenWallpaperBlurEnabled
+			wallpaperConfig.lockScreenWallpaperBlurEnabled,
+			wallpaperConfig.lockScreenWallpaperSyncEnabled
 		)
 	}
 }

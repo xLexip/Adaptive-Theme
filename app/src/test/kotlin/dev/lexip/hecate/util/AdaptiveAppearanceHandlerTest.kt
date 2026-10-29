@@ -25,7 +25,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { isDark, dayUri, nightUri, _ ->
+			scheduleWallpaperForTheme = { isDark, dayUri, nightUri, _, _ ->
 				appliedTheme = isDark
 				appliedDayUri = dayUri
 				appliedNightUri = nightUri
@@ -76,7 +76,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = false))
 			},
-			scheduleWallpaperForTheme = { isDark, _, _, _ -> appliedTheme = isDark }
+			scheduleWallpaperForTheme = { isDark, _, _, _, _ -> appliedTheme = isDark }
 		)
 		handler.configureWallpaperSync(true, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI)
 
@@ -95,7 +95,7 @@ class AdaptiveAppearanceHandlerTest {
 		var appliedTheme: Boolean? = null
 		val handler = AdaptiveAppearanceHandler(
 			setDarkTheme = { _, _, _ -> themeChangeCalls++ },
-			scheduleWallpaperForTheme = { isDark, _, _, _ -> appliedTheme = isDark }
+			scheduleWallpaperForTheme = { isDark, _, _, _, _ -> appliedTheme = isDark }
 		)
 		handler.configureWallpaperSync(true, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI)
 
@@ -130,7 +130,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { _, _, _, _ ->
+			scheduleWallpaperForTheme = { _, _, _, _, _ ->
 				wallpaperApplied = true
 			}
 		)
@@ -155,7 +155,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { _, _, _, _ ->
+			scheduleWallpaperForTheme = { _, _, _, _, _ ->
 				wallpaperApplied = true
 			}
 		)
@@ -180,7 +180,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { isDark, _, _, _ ->
+			scheduleWallpaperForTheme = { isDark, _, _, _, _ ->
 				appliedTheme = isDark
 			}
 		)
@@ -205,7 +205,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { _, dayUri, nightUri, _ ->
+			scheduleWallpaperForTheme = { _, dayUri, nightUri, _, _ ->
 				appliedUris = dayUri to nightUri
 			}
 		)
@@ -229,7 +229,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { _, _, _, _ -> }
+			scheduleWallpaperForTheme = { _, _, _, _, _ -> }
 		)
 		handler.configureWallpaperSync(true, "content://day", "content://night")
 
@@ -250,7 +250,7 @@ class AdaptiveAppearanceHandlerTest {
 			setDarkTheme = { _, _, onComplete ->
 				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
 			},
-			scheduleWallpaperForTheme = { _, _, _, blurEnabled ->
+			scheduleWallpaperForTheme = { _, _, _, blurEnabled, _ ->
 				lockScreenBlurEnabled = blurEnabled
 			}
 		)
@@ -270,12 +270,35 @@ class AdaptiveAppearanceHandlerTest {
 	}
 
 	@Test
+	fun `home only preference reaches automatic and manual wallpaper updates`() {
+		val destinations = mutableListOf<Boolean>()
+		val handler = AdaptiveAppearanceHandler(
+			setDarkTheme = { _, _, onComplete ->
+				onComplete(DarkThemeChangeResult(succeeded = true, changed = true))
+			},
+			scheduleWallpaperForTheme = { _, _, _, _, lockSyncEnabled ->
+				destinations += lockSyncEnabled
+			}
+		)
+		handler.configureWallpaperSync(true, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI)
+		handler.applyAppearance(true, ScreenOnProximityResult.UNCOVERED_INITIAL)
+		handler.configureWallpaperSync(
+			true, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI,
+			lockScreenWallpaperBlurEnabled = true,
+			lockScreenWallpaperSyncEnabled = false
+		)
+		handler.applyAppearance(false, ScreenOnProximityResult.UNCOVERED_INITIAL)
+		handler.syncWallpaperToTheme(true)
+		assertEquals(listOf(false, false, false), destinations)
+	}
+
+	@Test
 	fun `waits for verified theme completion before applying wallpaper`() {
 		var completeThemeChange: ((DarkThemeChangeResult) -> Unit)? = null
 		var wallpaperApplied = false
 		val handler = AdaptiveAppearanceHandler(
 			setDarkTheme = { _, _, onComplete -> completeThemeChange = onComplete },
-			scheduleWallpaperForTheme = { _, _, _, _ -> wallpaperApplied = true }
+			scheduleWallpaperForTheme = { _, _, _, _, _ -> wallpaperApplied = true }
 		)
 		handler.configureWallpaperSync(true, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI)
 
@@ -295,7 +318,7 @@ class AdaptiveAppearanceHandlerTest {
 	): AdaptiveAppearanceHandler {
 		return AdaptiveAppearanceHandler(
 			setDarkTheme = { _, _, onComplete -> onComplete(themeResult) },
-			scheduleWallpaperForTheme = { _, _, _, _ ->
+			scheduleWallpaperForTheme = { _, _, _, _, _ ->
 				onWallpaperApplied()
 			}
 		).apply {

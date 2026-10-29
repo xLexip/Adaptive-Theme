@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 internal class WallpaperUpdateScheduler(
 	private val scope: CoroutineScope,
 	private val dispatcher: CoroutineDispatcher,
-	private val applyWallpaper: (Boolean, String?, String?, Boolean) -> Boolean
+	private val applyWallpaper: (Boolean, String?, String?, Boolean, Boolean) -> Boolean
 ) {
 	private val lock = Any()
 	private var pendingRequest: WallpaperRequest? = null
@@ -36,14 +36,19 @@ internal class WallpaperUpdateScheduler(
 		isDark: Boolean,
 		dayUri: String?,
 		nightUri: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean = false,
+		lockScreenWallpaperSyncEnabled: Boolean = false
 	) {
-		val request = WallpaperRequest(isDark, dayUri, nightUri, lockScreenWallpaperBlurEnabled)
+		val request = WallpaperRequest(
+			isDark, dayUri, nightUri, lockScreenWallpaperBlurEnabled, lockScreenWallpaperSyncEnabled
+		)
 		synchronized(lock) {
-			if (request == pendingRequest ||
-				request == activeRequest ||
-				request == lastSuccessfulRequest
-			) return
+			if (request == pendingRequest) return
+			if (request == activeRequest) {
+				pendingRequest = null
+				return
+			}
+			if (worker?.isActive != true && request == lastSuccessfulRequest) return
 			pendingRequest = request
 			if (worker?.isActive != true) {
 				worker = scope.launch(dispatcher) { drainRequests() }
@@ -51,8 +56,11 @@ internal class WallpaperUpdateScheduler(
 		}
 	}
 
-	fun schedule(isDark: Boolean, dayUri: String?, nightUri: String?) =
-		schedule(isDark, dayUri, nightUri, lockScreenWallpaperBlurEnabled = false)
+	fun excludeLockScreenFromPendingRequests() {
+		synchronized(lock) {
+			pendingRequest = pendingRequest?.copy(lockScreenWallpaperSyncEnabled = false)
+		}
+	}
 
 	private suspend fun drainRequests() {
 		while (true) {
@@ -69,7 +77,8 @@ internal class WallpaperUpdateScheduler(
 					request.isDark,
 					request.dayUri,
 					request.nightUri,
-					request.lockScreenWallpaperBlurEnabled
+					request.lockScreenWallpaperBlurEnabled,
+					request.lockScreenWallpaperSyncEnabled
 				)
 			} finally {
 				synchronized(lock) {
@@ -90,5 +99,6 @@ private data class WallpaperRequest(
 	val isDark: Boolean,
 	val dayUri: String?,
 	val nightUri: String?,
-	val lockScreenWallpaperBlurEnabled: Boolean
+	val lockScreenWallpaperBlurEnabled: Boolean,
+	val lockScreenWallpaperSyncEnabled: Boolean
 )

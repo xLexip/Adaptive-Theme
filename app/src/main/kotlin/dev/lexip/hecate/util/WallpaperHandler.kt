@@ -32,7 +32,8 @@ internal interface WallpaperPlatform {
 		isDark: Boolean,
 		dayUriStr: String?,
 		nightUriStr: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean = false,
+		lockScreenWallpaperSyncEnabled: Boolean = false
 	): Boolean
 }
 
@@ -89,13 +90,15 @@ internal class WallpaperHandler internal constructor(
 	 * @param dayUriStr Content URI string for day wallpaper.
 	 * @param nightUriStr Content URI string for night wallpaper.
 	 * @param lockScreenWallpaperBlurEnabled Whether to use a pre-rendered blurred lock variant.
+	 * @param lockScreenWallpaperSyncEnabled Whether to also replace the lock screen wallpaper.
 	 * @return true if wallpaper was successfully applied, false otherwise.
 	 */
 	override fun applyWallpaperForTheme(
 		isDark: Boolean,
 		dayUriStr: String?,
 		nightUriStr: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean,
+		lockScreenWallpaperSyncEnabled: Boolean
 	): Boolean {
 		val context = contextRef.get() ?: return false
 
@@ -105,7 +108,9 @@ internal class WallpaperHandler internal constructor(
 			return false
 		}
 
-		val succeeded = if (lockScreenWallpaperBlurEnabled) {
+		val succeeded = if (!lockScreenWallpaperSyncEnabled) {
+			setWallpaper(targetUriStr, WallpaperManager.FLAG_SYSTEM)
+		} else if (lockScreenWallpaperBlurEnabled) {
 			val slot = if (isDark) WallpaperSlot.NIGHT else WallpaperSlot.DAY
 			val systemSucceeded = setWallpaper(
 				targetUriStr,
@@ -135,17 +140,6 @@ internal class WallpaperHandler internal constructor(
 		Logger.logWallpaperSwitched(context, isDark = isDark, succeeded = succeeded)
 		return succeeded
 	}
-
-	internal fun applyWallpaperForTheme(
-		isDark: Boolean,
-		dayUriStr: String?,
-		nightUriStr: String?
-	): Boolean = applyWallpaperForTheme(
-		isDark = isDark,
-		dayUriStr = dayUriStr,
-		nightUriStr = nightUriStr,
-		lockScreenWallpaperBlurEnabled = false
-	)
 
 	private fun setWallpaper(uriString: String, flags: Int): Boolean = try {
 		val stream = openInputStream(uriString.toUri())

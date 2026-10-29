@@ -15,6 +15,9 @@ package dev.lexip.hecate.ui
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -299,7 +302,7 @@ class MainScreenContentTest {
 	}
 
 	@Test
-	fun lockScreenBlurStaysVisibleWithoutWallpaperSyncAndDispatchesWhenEnabled() {
+	fun lockScreenOptionsAreHiddenUntilWallpaperSyncIsEnabled() {
 		val blurRequests = mutableListOf<Boolean>()
 		val uiState = mutableStateOf(MainUiState(adaptiveThemeEnabled = true))
 		setMainContent(
@@ -308,14 +311,75 @@ class MainScreenContentTest {
 			callbacks = callbacks(onLockScreenBlur = blurRequests::add)
 		)
 		expandAdvancedSettings()
-		scrollToText(context.getString(R.string.title_lock_screen_wallpaper_blur))
-		composeRule.onNodeWithText(context.getString(R.string.title_lock_screen_wallpaper_blur))
-			.assertIsDisplayed()
+		val changeTitle = context.getString(R.string.title_lock_screen_wallpaper_sync)
+		val blurTitle = context.getString(R.string.title_lock_screen_wallpaper_blur)
+		composeRule.onNodeWithText(changeTitle).assertDoesNotExist()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
 		assertEquals(emptyList<Boolean>(), blurRequests)
 
 		uiState.value = uiState.value.copy(wallpaperSyncEnabled = true)
-		clickTextAfterScroll(context.getString(R.string.title_lock_screen_wallpaper_blur))
+		scrollToText(changeTitle)
+		composeRule.onNodeWithText(changeTitle).assertIsDisplayed()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
+		uiState.value = uiState.value.copy(lockScreenWallpaperSyncEnabled = true)
+		clickTextAfterScroll(blurTitle)
 		assertEquals(listOf(true), blurRequests)
+
+		uiState.value = uiState.value.copy(wallpaperSyncEnabled = false)
+		composeRule.onNodeWithText(changeTitle).assertDoesNotExist()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
+	}
+
+	@Test
+	fun lockScreenSyncDefaultsOffAndDispatchesWithoutTogglingWallpaperSync() {
+		val lockSyncRequests = mutableListOf<Boolean>()
+		val wallpaperRequests = mutableListOf<Boolean>()
+		val uiState = mutableStateOf(MainUiState(adaptiveThemeEnabled = true))
+		setMainContent(
+			uiState = { uiState.value },
+			hasPermission = true,
+			callbacks = callbacks(
+				onWallpaperToggle = wallpaperRequests::add,
+				onLockScreenSync = lockSyncRequests::add
+			)
+		)
+		expandAdvancedSettings()
+		val title = context.getString(R.string.title_lock_screen_wallpaper_sync)
+		composeRule.onNodeWithText(title).assertDoesNotExist()
+
+		uiState.value = uiState.value.copy(wallpaperSyncEnabled = true)
+		scrollToText(title)
+		composeRule.onNodeWithText(title).assertIsOff().assertIsEnabled()
+		clickTextAfterScroll(title)
+		assertEquals(listOf(true), lockSyncRequests)
+		assertEquals(emptyList<Boolean>(), wallpaperRequests)
+	}
+
+	@Test
+	fun excludingLockScreenHidesBlurAndRetainsItsCheckedState() {
+		val blurRequests = mutableListOf<Boolean>()
+		val uiState = mutableStateOf(
+			MainUiState(
+				adaptiveThemeEnabled = true,
+				wallpaperSyncEnabled = true,
+				lockScreenWallpaperSyncEnabled = false,
+				lockScreenWallpaperBlurEnabled = true
+			)
+		)
+		setMainContent(
+			uiState = { uiState.value },
+			hasPermission = true,
+			callbacks = callbacks(onLockScreenBlur = blurRequests::add)
+		)
+		val title = context.getString(R.string.title_lock_screen_wallpaper_blur)
+		composeRule.onNodeWithText(title).assertDoesNotExist()
+		assertEquals(emptyList<Boolean>(), blurRequests)
+
+		uiState.value = uiState.value.copy(lockScreenWallpaperSyncEnabled = true)
+		scrollToText(title)
+		composeRule.onNodeWithText(title).assertIsOn().assertIsEnabled()
+		clickTextAfterScroll(title)
+		assertEquals(listOf(false), blurRequests)
 	}
 
 	@Test
@@ -389,6 +453,7 @@ class MainScreenContentTest {
 		onToggle: (Boolean, Boolean) -> Boolean = { _, _ -> true },
 		onReview: () -> Unit = {},
 		onWallpaperToggle: (Boolean) -> Unit = {},
+		onLockScreenSync: (Boolean) -> Unit = {},
 		onLockScreenBlur: (Boolean) -> Unit = {},
 		onSelectDay: () -> Unit = {},
 		onSelectNight: () -> Unit = {},
@@ -404,6 +469,7 @@ class MainScreenContentTest {
 		onCheckReviewPrompt = onReview,
 		onStayDarkAtNightChanged = {},
 		onWallpaperSyncToggleRequested = onWallpaperToggle,
+		onLockScreenWallpaperSyncChanged = onLockScreenSync,
 		onLockScreenWallpaperBlurChanged = onLockScreenBlur,
 		onSelectDayWallpaper = onSelectDay,
 		onSelectNightWallpaper = onSelectNight,
