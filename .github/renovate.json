@@ -8,6 +8,10 @@
 		"develop"
 	],
 	"dependencyDashboard": true,
+	"rebaseWhen": "behind-base-branch",
+	"statusCheckWhen": {
+		"artifactError": "always"
+	},
 	"minimumReleaseAge": "3 days",
 	"labels": [
 		"renovate"
@@ -39,6 +43,16 @@
 				"com.android.application:com.android.application.gradle.plugin",
 				"com.android.tools.build:gradle",
 				"ndk*"
+			]
+		},
+		{
+			"groupName": "Firebase SDK",
+			"groupSlug": "firebase-sdk",
+			"separateMajorMinor": false,
+			"matchPackageNames": [
+				"com.google.firebase:firebase-bom",
+				"com.google.firebase:firebase-analytics",
+				"com.google.firebase:firebase-crashlytics"
 			]
 		}
 	]
