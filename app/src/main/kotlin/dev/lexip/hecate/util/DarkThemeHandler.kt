@@ -19,6 +19,7 @@ import android.content.res.Configuration
 import android.provider.Settings.Secure
 import android.util.Log
 import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.logging.MonitoringDiagnostics
 
 private const val TAG = "DarkThemeHandler"
 private const val SECURE_SETTINGS_KEY = "ui_night_mode"
@@ -88,6 +89,7 @@ class DarkThemeHandler internal constructor(
             enable = enable
         )
         if (!plan.writeSetting && !plan.refreshUi) {
+            MonitoringDiagnostics.record(appContext, "theme_result", "already_matches")
             onComplete(DarkThemeChangeResult(succeeded = true, changed = false))
             return
         }
@@ -159,7 +161,14 @@ class DarkThemeHandler internal constructor(
                     verificationAttempt = verification.attempt,
                     verificationElapsedMs = verification.elapsedMillis,
                     effectiveUiMode = verification.effectiveUiMode,
-                    screenOnProximityResult = screenOnProximityResult
+                    screenOnProximityResult = screenOnProximityResult,
+                    configuredMode = readConfiguredModeForDiagnostics(),
+                    failureStage = if (verification.succeeded) "none" else "verification"
+                )
+                MonitoringDiagnostics.record(
+                    appContext, "theme_result", if (verification.succeeded) "succeeded" else "failed",
+                    failure = !verification.succeeded, detail = "verification",
+                    elapsedMs = verification.elapsedMillis
                 )
             } finally {
                 onComplete(result)
@@ -176,6 +185,9 @@ class DarkThemeHandler internal constructor(
     }
 
     fun cancelPendingVerification() {
+        if (themeChangeVerifier.isVerificationInProgress) {
+            MonitoringDiagnostics.record(appContext, "theme_result", "cancelled")
+        }
         themeChangeVerifier.cancel()
     }
 
@@ -199,6 +211,7 @@ class DarkThemeHandler internal constructor(
         onComplete: (DarkThemeChangeResult) -> Unit
     ) {
         try {
+            MonitoringDiagnostics.record(appContext, "theme_result", "failed", failure = true, detail = "request")
             Logger.logThemeSwitched(
                 context = appContext,
                 targetMode = targetMode,
@@ -206,12 +219,18 @@ class DarkThemeHandler internal constructor(
                 verificationAttempt = 0,
                 verificationElapsedMs = 0,
                 effectiveUiMode = appContext.resources.configuration.uiMode,
-                screenOnProximityResult = screenOnProximityResult
+                screenOnProximityResult = screenOnProximityResult,
+                configuredMode = readConfiguredModeForDiagnostics(),
+                failureStage = "request"
             )
         } finally {
             onComplete(DarkThemeChangeResult(succeeded = false, changed = false))
         }
     }
+
+    private fun readConfiguredModeForDiagnostics(): Int = runCatching {
+        Secure.getInt(contentResolver, SECURE_SETTINGS_KEY, NIGHT_MODE_UNSET)
+    }.getOrDefault(NIGHT_MODE_UNSET)
 }
 
 internal fun isNightConfigurationEnabled(uiMode: Int): Boolean =

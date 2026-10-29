@@ -16,6 +16,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.logging.MonitoringDiagnostics
+import dev.lexip.hecate.util.ThemeSwitchSkipReason
 import dev.lexip.hecate.util.AdaptiveAppearanceController
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.DelayedActionScheduler
@@ -69,6 +71,7 @@ class ScreenOnReceiver internal constructor(
 		nightEndMinutes = nightEndMinutes
 	)
 
+	private var diagnosticContext: Context? = null
 	private val coordinator = ScreenOnCoordinator(
 		proximitySensor = proximitySensorManager,
 		lightSensor = lightSensorManager,
@@ -78,7 +81,10 @@ class ScreenOnReceiver internal constructor(
 		adaptiveThemeThresholdLux = adaptiveThemeThresholdLux,
 		stayDarkAtNightEnabled = stayDarkAtNightEnabled,
 		nightStartMinutes = nightStartMinutes,
-		nightEndMinutes = nightEndMinutes
+		nightEndMinutes = nightEndMinutes,
+		onEvaluationStage = { outcome ->
+			diagnosticContext?.let { MonitoringDiagnostics.record(it, "evaluation", outcome) }
+		}
 	)
 
 	override var adaptiveThemeThresholdLux: Float
@@ -107,6 +113,7 @@ class ScreenOnReceiver internal constructor(
 
 	override fun onReceive(context: Context, intent: Intent) {
 		if (intent.action == Intent.ACTION_SCREEN_ON) {
+			MonitoringDiagnostics.record(context, "screen_on", "received")
 			evaluateNow(context.applicationContext)
 		}
 	}
@@ -115,7 +122,14 @@ class ScreenOnReceiver internal constructor(
 		context: Context,
 		syncWallpaperWhenThemeUnchanged: Boolean = false
 	) {
+		diagnosticContext = context.applicationContext
 		coordinator.onScreenOn(syncWallpaperWhenThemeUnchanged) { reason, screenOnProximityResult ->
+			MonitoringDiagnostics.record(
+				context, "evaluation", "skipped",
+				failure = reason != ThemeSwitchSkipReason.PROXIMITY_COVERED &&
+					reason != ThemeSwitchSkipReason.THEME_TRANSITION_IN_PROGRESS,
+				detail = reason.analyticsValue
+			)
 			Logger.logThemeSwitchSkipped(
 				context = context.applicationContext,
 				reason = reason,

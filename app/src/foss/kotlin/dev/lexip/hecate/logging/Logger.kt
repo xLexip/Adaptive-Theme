@@ -49,7 +49,9 @@ object Logger {
 		verificationAttempt: Int,
 		verificationElapsedMs: Long,
 		effectiveUiMode: Int,
-		screenOnProximityResult: ScreenOnProximityResult
+		screenOnProximityResult: ScreenOnProximityResult,
+		configuredMode: Int? = null,
+		failureStage: String? = null
 	) {
 		// No-op for FOSS build
 	}
@@ -122,8 +124,23 @@ object Logger {
 		reasonName: String,
 		description: String,
 		pssMb: Long,
-		importanceName: String
+		importanceName: String,
+		exitTimestampMs: Long,
+		detectionDelayMs: Long?,
+		processName: String,
+		pid: Int
 	) {
+		// No-op for FOSS build
+	}
+
+	fun logMonitoringDiagnostic(
+		context: Context, stage: String, outcome: String, failure: Boolean,
+		sampled: Boolean, detail: String, elapsedMs: Long?, startId: Int?, importance: Int
+	) {
+		// No-op for FOSS build
+	}
+
+	fun logMonitoringReadyAfterExit(context: Context, exitTimestampMs: Long, sinceExitMs: Long, pid: Int) {
 		// No-op for FOSS build
 	}
 

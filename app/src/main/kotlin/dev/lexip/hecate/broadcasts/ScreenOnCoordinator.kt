@@ -37,7 +37,8 @@ internal class ScreenOnCoordinator(
 	var adaptiveThemeThresholdLux: Float,
 	var stayDarkAtNightEnabled: Boolean,
 	var nightStartMinutes: Int,
-	var nightEndMinutes: Int
+	var nightEndMinutes: Int,
+	private val onEvaluationStage: (String) -> Unit = {}
 ) {
 	private var proximityReadingPending = false
 	private var lightReadingPending = false
@@ -57,12 +58,16 @@ internal class ScreenOnCoordinator(
 			screenOnProximityResult: ScreenOnProximityResult
 		) -> Unit = NO_OP_SKIP_REPORTER
 	) {
-		if (activeCycleId != null) return
+		if (activeCycleId != null) {
+			onEvaluationStage("busy")
+			return
+		}
 
 		val cycleId = ++nextCycleId
 		activeCycleId = cycleId
 		this.syncWallpaperWhenThemeUnchanged = syncWallpaperWhenThemeUnchanged
 		skipReporter = onThemeSwitchSkipped
+		onEvaluationStage("started")
 
 		if (!proximitySensor.hasProximitySensor) {
 			readLightAndApplyTheme(cycleId, ScreenOnProximityResult.SENSOR_UNAVAILABLE)
@@ -104,6 +109,7 @@ internal class ScreenOnCoordinator(
 	}
 
 	fun cancelPendingEvaluation() {
+		if (activeCycleId != null) onEvaluationStage("cancelled")
 		activeCycleId = null
 		cancelTimeouts()
 		if (proximityReadingPending) proximitySensor.stopListening()
@@ -178,6 +184,7 @@ internal class ScreenOnCoordinator(
 					return@startListening
 				}
 				try {
+					onEvaluationStage("theme_requested")
 					themeController.setDarkTheme(
 						ThemeDecisionPolicy.shouldUseDarkTheme(
 							lightValue = lightValue,
