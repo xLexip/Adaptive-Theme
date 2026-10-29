@@ -13,6 +13,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  dependency_locks:
+    name: Dependency locks
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-env
+        with:
+          create-firebase-config: 'false'
+
+      - name: Verify all dependency locks
+        working-directory: app
+        shell: bash
+        run: |
+          ./gradlew dependencies -PwithPlayServices=true --no-configuration-cache --console=plain > "$RUNNER_TEMP/dependency-locks.txt"
+          # Gradle's dependencies report can succeed while listing unresolved modules.
+          if grep -q ' FAILED' "$RUNNER_TEMP/dependency-locks.txt"; then
+            cat "$RUNNER_TEMP/dependency-locks.txt"
+            echo 'Dependency locks are stale or a dependency could not be resolved.' >&2
+            exit 1
+          fi
+
   lint:
     name: Lint
     if: github.event_name == 'push' || github.event_name == 'pull_request'

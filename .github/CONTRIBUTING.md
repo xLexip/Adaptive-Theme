@@ -90,6 +90,20 @@ redesign surrounding code without prior approval.
 Large pull requests may be rejected in favor of smaller, independently reviewable
 changes. Pull requests must target branch "develop".
 
+## Dependency Updates
+
+Dependency updates must include the matching `app/gradle.lockfile` changes. From
+`app/`, refresh all locked configurations, including Play/Firebase dependencies:
+
+```shell
+./gradlew dependencies --update-locks '*:*' -PwithPlayServices=true --no-configuration-cache
+```
+
+Review the generated diff and run CI with the committed locks. The dependency
+report must contain no `FAILED` entries; Gradle can exit successfully even when
+the report includes unresolved modules. Do not merge a Renovate PR with an
+artifact-update error until its lockfile has been regenerated and CI passes.
+
 ## Commit Messages
 
 Every commit and pull-request title must follow
