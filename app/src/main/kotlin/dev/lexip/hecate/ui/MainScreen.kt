@@ -18,6 +18,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -58,7 +59,10 @@ data class MainScreenCallbacks(
 	val onDismissGitHubStarPrompt: () -> Unit = {},
 	val onUndoGitHubStarPromptDismissal: () -> Unit = {},
 	val onOpenGitHubRepository: () -> Unit = {},
-	val onRetryMonitoringService: () -> Unit = {}
+	val onRetryMonitoringService: () -> Unit = {},
+	val onOpenBackgroundSettings: () -> Unit = {},
+	val onOpenBackgroundGuide: () -> Unit = {},
+	val onDismissBackgroundGuidance: () -> Unit = {}
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,6 +72,7 @@ fun MainScreen(
 	mainViewModel: MainViewModel
 ) {
 	val context = LocalContext.current
+	val backgroundGuidance = BackgroundActivityGuidance.forManufacturer(Build.MANUFACTURER)
 	val adbCommandLabel = stringResource(R.string.setup_action_adb_command)
 	val internalUiState by mainViewModel.uiState.collectAsState()
 	val serviceStartFailed by MonitoringServiceStatus.startFailed.collectAsState()
@@ -134,7 +139,11 @@ fun MainScreen(
 		hasWriteSecureSettingsPermission = hasWriteSecureSettingsPermission,
 		packageName = context.packageName,
 		serviceStartFailed = serviceStartFailed,
+		backgroundGuidance = backgroundGuidance,
 		callbacks = MainScreenCallbacks(
+			onOpenBackgroundSettings = { openBackgroundActivitySettings(context) },
+			onOpenBackgroundGuide = { openBackgroundActivityGuide(context, backgroundGuidance) },
+			onDismissBackgroundGuidance = mainViewModel::dismissBackgroundGuidance,
 			onRetryMonitoringService = mainViewModel::retryMonitoringService,
 			onServiceToggleRequested = mainViewModel::onServiceToggleRequested,
 			onThresholdSelected = { index, lux ->

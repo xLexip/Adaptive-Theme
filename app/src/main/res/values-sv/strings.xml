@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Ge en stjärna på GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Dölj för alltid</string>
 	<string name="github_star_prompt_thank_you">Tack!</string>
+	<string name="monitoring_start_failed_title">Övervakningen kunde inte starta</string>
+	<string name="monitoring_start_failed_message">Tryck på Försök igen för att starta bakgrundsövervakningen. Om problemet fortsätter, kontrollera telefonens begränsningar för bakgrundsappar.</string>
+	<string name="monitoring_action_retry">Försök igen</string>
+	<string name="background_help_title">Tillåt bakgrundsaktivitet</string>
+	<string name="background_help_motorola">Vissa Motorola-telefoner begränsar övervakningen även med obegränsad batterianvändning. Om växlingen slutar fungera, sök efter ”Hantera bakgrundsappar” i telefonens inställningar och tillåt Adaptive Theme att köras i bakgrunden. Menynamnen kan variera.</string>
+	<string name="background_help_oneplus">Vissa OnePlus-telefoner begränsar övervakningen även med obegränsad batterianvändning. Om växlingen slutar fungera, tillåt automatisk start och bakgrundsaktivitet för Adaptive Theme i systeminställningarna. Menynamnen varierar beroende på programvaruversion.</string>
+	<string name="background_help_generic">Om temaväxlingen slutar fungera när appen är stängd, kontrollera telefonens begränsningar för bakgrundsaktivitet och batterianvändning för Adaptive Theme. Vissa telefoner har ytterligare inställningar för automatisk start. Menynamnen varierar mellan enheter.</string>
+	<string name="background_help_hide">Dölj tips</string>
+	<string name="background_help_open_settings">Öppna appinställningar</string>
+	<string name="background_help_unavailable">Ingen app kunde öppna den här sidan. Du kan kontrollera systeminställningarna eller besöka dontkillmyapp.com manuellt.</string>
 </resources>

@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub પર સ્ટાર આપો ↗</string>
 	<string name="github_star_prompt_dismiss_description">હંમેશ માટે છુપાવો</string>
 	<string name="github_star_prompt_thank_you">આભાર!</string>
+	<string name="monitoring_start_failed_title">નિરીક્ષણ શરૂ કરી શકાયું નથી</string>
+	<string name="monitoring_start_failed_message">પૃષ્ઠભૂમિમાં નિરીક્ષણ શરૂ કરવા માટે ફરી પ્રયાસ કરો પર ટૅપ કરો. સમસ્યા ચાલુ રહે તો ફોનમાં પૃષ્ઠભૂમિ ઍપ પરના પ્રતિબંધો તપાસો.</string>
+	<string name="monitoring_action_retry">ફરી પ્રયાસ કરો</string>
+	<string name="background_help_title">પૃષ્ઠભૂમિ પ્રવૃત્તિને મંજૂરી આપો</string>
+	<string name="background_help_motorola">કેટલાક Motorola ફોન બૅટરીનો ઉપયોગ અમર્યાદિત હોવા છતાં નિરીક્ષણને મર્યાદિત કરે છે. થીમ બદલાવાનું બંધ થાય તો ફોનના સેટિંગમાં “પૃષ્ઠભૂમિ ઍપનું સંચાલન” શોધો અને Adaptive Theme ને પૃષ્ઠભૂમિમાં ચાલવાની મંજૂરી આપો. મેનૂનાં નામ અલગ હોઈ શકે છે.</string>
+	<string name="background_help_oneplus">કેટલાક OnePlus ફોન બૅટરીનો ઉપયોગ અમર્યાદિત હોવા છતાં નિરીક્ષણને મર્યાદિત કરે છે. થીમ બદલાવાનું બંધ થાય તો સિસ્ટમ સેટિંગમાં Adaptive Theme માટે આપમેળે શરૂ થવાની અને પૃષ્ઠભૂમિ પ્રવૃત્તિની મંજૂરી આપો. સૉફ્ટવેરના વર્ઝન મુજબ મેનૂનાં નામ બદલાય છે.</string>
+	<string name="background_help_generic">ઍપ બંધ હોય ત્યારે થીમ બદલાવાનું બંધ થાય તો ફોનમાં Adaptive Theme માટે પૃષ્ઠભૂમિ પ્રવૃત્તિ અને બૅટરીના પ્રતિબંધો તપાસો. કેટલાક ફોનમાં આપમેળે શરૂ થવા માટે વધારાનાં સેટિંગ હોય છે. ઉપકરણ મુજબ મેનૂનાં નામ બદલાય છે.</string>
+	<string name="background_help_hide">સૂચન છુપાવો</string>
+	<string name="background_help_open_settings">ઍપનાં સેટિંગ ખોલો</string>
+	<string name="background_help_unavailable">કોઈ ઍપ આ પેજ ખોલી શકી નથી. તમે સિસ્ટમ સેટિંગ તપાસી શકો છો અથવા જાતે dontkillmyapp.com ની મુલાકાત લઈ શકો છો.</string>
 </resources>

@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub पर स्टार दें ↗</string>
 	<string name="github_star_prompt_dismiss_description">हमेशा के लिए छिपाएँ</string>
 	<string name="github_star_prompt_thank_you">धन्यवाद!</string>
+	<string name="monitoring_start_failed_title">निगरानी शुरू नहीं हो सकी</string>
+	<string name="monitoring_start_failed_message">बैकग्राउंड में निगरानी शुरू करने के लिए फिर से कोशिश करें पर टैप करें। अगर समस्या बनी रहे, तो फ़ोन में बैकग्राउंड ऐप्लिकेशन पर लगी पाबंदियाँ जाँचें।</string>
+	<string name="monitoring_action_retry">फिर से कोशिश करें</string>
+	<string name="background_help_title">बैकग्राउंड गतिविधि की अनुमति दें</string>
+	<string name="background_help_motorola">कुछ Motorola फ़ोन बैटरी का इस्तेमाल बिना पाबंदी के होने पर भी निगरानी सीमित करते हैं। अगर थीम बदलना बंद हो जाए, तो फ़ोन की सेटिंग में “बैकग्राउंड ऐप्लिकेशन प्रबंधित करें” खोजें और Adaptive Theme को बैकग्राउंड में चलने दें। मेन्यू के नाम अलग हो सकते हैं।</string>
+	<string name="background_help_oneplus">कुछ OnePlus फ़ोन बैटरी का इस्तेमाल बिना पाबंदी के होने पर भी निगरानी सीमित करते हैं। अगर थीम बदलना बंद हो जाए, तो सिस्टम सेटिंग में Adaptive Theme के लिए अपने-आप शुरू होने और बैकग्राउंड गतिविधि की अनुमति दें। मेन्यू के नाम सॉफ़्टवेयर के वर्शन के अनुसार अलग होते हैं।</string>
+	<string name="background_help_generic">अगर ऐप्लिकेशन बंद होने पर थीम बदलना बंद हो जाए, तो फ़ोन में Adaptive Theme की बैकग्राउंड गतिविधि और बैटरी की पाबंदियाँ जाँचें। कुछ फ़ोन में अपने-आप शुरू होने की अतिरिक्त सेटिंग होती हैं। मेन्यू के नाम डिवाइस के अनुसार अलग होते हैं।</string>
+	<string name="background_help_hide">सुझाव छिपाएँ</string>
+	<string name="background_help_open_settings">ऐप्लिकेशन की सेटिंग खोलें</string>
+	<string name="background_help_unavailable">कोई ऐप्लिकेशन यह पेज नहीं खोल सका। आप सिस्टम सेटिंग जाँच सकते हैं या खुद dontkillmyapp.com पर जा सकते हैं।</string>
 </resources>

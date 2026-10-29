@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Anna tähti GitHubissa ↗</string>
 	<string name="github_star_prompt_dismiss_description">Piilota pysyvästi</string>
 	<string name="github_star_prompt_thank_you">Kiitos!</string>
+	<string name="monitoring_start_failed_title">Seurantaa ei voitu käynnistää</string>
+	<string name="monitoring_start_failed_message">Käynnistä taustaseuranta napauttamalla Yritä uudelleen. Jos ongelma toistuu, tarkista puhelimen taustasovellusten rajoitukset.</string>
+	<string name="monitoring_action_retry">Yritä uudelleen</string>
+	<string name="background_help_title">Salli taustatoiminta</string>
+	<string name="background_help_motorola">Jotkin Motorola-puhelimet rajoittavat seurantaa, vaikka akun käyttö olisi rajoittamatonta. Jos vaihtaminen lakkaa toimimasta, etsi puhelimen asetuksista ”Taustasovellusten hallinta” ja salli Adaptive Themen toimia taustalla. Valikoiden nimet vaihtelevat.</string>
+	<string name="background_help_oneplus">Jotkin OnePlus-puhelimet rajoittavat seurantaa, vaikka akun käyttö olisi rajoittamatonta. Jos vaihtaminen lakkaa toimimasta, salli Adaptive Themen automaattinen käynnistys ja taustatoiminta järjestelmäasetuksissa. Valikoiden nimet vaihtelevat ohjelmistoversion mukaan.</string>
+	<string name="background_help_generic">Jos teeman vaihtaminen lakkaa toimimasta sovelluksen ollessa suljettuna, tarkista Adaptive Themen taustatoiminnan ja akun käytön rajoitukset puhelimessa. Joissakin puhelimissa on automaattisen käynnistyksen lisäasetuksia. Valikoiden nimet vaihtelevat laitteen mukaan.</string>
+	<string name="background_help_hide">Piilota vinkki</string>
+	<string name="background_help_open_settings">Avaa sovelluksen asetukset</string>
+	<string name="background_help_unavailable">Mikään sovellus ei voinut avata tätä sivua. Voit tarkistaa järjestelmäasetukset tai avata dontkillmyapp.com-sivuston itse.</string>
 </resources>

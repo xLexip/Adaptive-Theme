@@ -132,8 +132,15 @@
 	<string name="wallpaper_status_not_set">Not set</string>
 	<string name="live_wallpaper_warning_title">Live Wallpaper Active</string>
 	<string name="live_wallpaper_warning_message">Enabling wallpaper sync will replace your current live wallpaper with static wallpapers for light and dark mode. Do you want to continue?</string>
-	<!-- New recovery copy uses English fallback outside the currently translated locales. -->
-	<string name="monitoring_start_failed_title" tools:ignore="MissingTranslation">Monitoring could not start</string>
-	<string name="monitoring_start_failed_message" tools:ignore="MissingTranslation">Tap Retry to start background monitoring. If this keeps happening, check your phone’s background app restrictions.</string>
-	<string name="monitoring_action_retry" tools:ignore="MissingTranslation">Retry</string>
+	<string name="monitoring_start_failed_title">Monitoring could not start</string>
+	<string name="monitoring_start_failed_message">Tap Retry to start background monitoring. If this keeps happening, check your phone’s background app restrictions.</string>
+	<string name="monitoring_action_retry">Retry</string>
+	<string name="background_help_title">Allow background activity</string>
+	<string name="background_help_motorola">Some Motorola phones restrict monitoring even with unrestricted battery use. If switching stops, search your phone’s Settings for “Managing background apps” and allow Adaptive Theme to run in the background. Menu names vary.</string>
+	<string name="background_help_oneplus">Some OnePlus phones restrict monitoring even with unrestricted battery use. If switching stops, allow Auto-start or Auto-launch and background activity for Adaptive Theme in system Settings. Menu names vary by software version.</string>
+	<string name="background_help_generic">If theme switching stops while the app is closed, check your phone’s background activity and battery restrictions for Adaptive Theme. Some phones have additional Auto-start settings. Menu names vary by device.</string>
+	<string name="background_help_hide">Hide hint</string>
+	<string name="background_help_open_settings">Open app settings</string>
+	<string name="background_help_website" translatable="false">Don’t Kill My App ↗</string>
+	<string name="background_help_unavailable">No app could open this page. You can check system Settings or visit dontkillmyapp.com manually.</string>
 </resources>

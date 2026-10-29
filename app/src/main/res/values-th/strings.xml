@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">ให้ดาวบน GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">ซ่อนตลอดไป</string>
 	<string name="github_star_prompt_thank_you">ขอบคุณ!</string>
+	<string name="monitoring_start_failed_title">ไม่สามารถเริ่มการตรวจสอบได้</string>
+	<string name="monitoring_start_failed_message">แตะลองอีกครั้งเพื่อเริ่มการตรวจสอบในเบื้องหลัง หากยังเกิดปัญหา ให้ตรวจสอบข้อจำกัดแอปเบื้องหลังของโทรศัพท์</string>
+	<string name="monitoring_action_retry">ลองอีกครั้ง</string>
+	<string name="background_help_title">อนุญาตกิจกรรมเบื้องหลัง</string>
+	<string name="background_help_motorola">โทรศัพท์ Motorola บางรุ่นจำกัดการตรวจสอบแม้ตั้งค่าการใช้แบตเตอรี่เป็นไม่จำกัด หากการสลับหยุดทำงาน ให้ค้นหา “จัดการแอปเบื้องหลัง” ในการตั้งค่าโทรศัพท์และอนุญาตให้ Adaptive Theme ทำงานในเบื้องหลัง ชื่อเมนูอาจแตกต่างกัน</string>
+	<string name="background_help_oneplus">โทรศัพท์ OnePlus บางรุ่นจำกัดการตรวจสอบแม้ตั้งค่าการใช้แบตเตอรี่เป็นไม่จำกัด หากการสลับหยุดทำงาน ให้อนุญาตการเริ่มอัตโนมัติและกิจกรรมเบื้องหลังสำหรับ Adaptive Theme ในการตั้งค่าระบบ ชื่อเมนูแตกต่างกันตามเวอร์ชันซอฟต์แวร์</string>
+	<string name="background_help_generic">หากการสลับธีมหยุดทำงานขณะปิดแอป ให้ตรวจสอบข้อจำกัดกิจกรรมเบื้องหลังและแบตเตอรี่สำหรับ Adaptive Theme บนโทรศัพท์ โทรศัพท์บางรุ่นมีการตั้งค่าการเริ่มอัตโนมัติเพิ่มเติม ชื่อเมนูแตกต่างกันตามอุปกรณ์</string>
+	<string name="background_help_hide">ซ่อนคำแนะนำ</string>
+	<string name="background_help_open_settings">เปิดการตั้งค่าแอป</string>
+	<string name="background_help_unavailable">ไม่มีแอปที่สามารถเปิดหน้านี้ได้ คุณสามารถตรวจสอบการตั้งค่าระบบหรือเข้า dontkillmyapp.com ด้วยตนเอง</string>
 </resources>

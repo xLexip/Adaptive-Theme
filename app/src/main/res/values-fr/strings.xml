@@ -125,4 +125,14 @@
 	<string name="github_star_prompt_action">Ajouter une étoile sur GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Masquer définitivement</string>
 	<string name="github_star_prompt_thank_you">Merci !</string>
+	<string name="monitoring_start_failed_title">Impossible de démarrer la surveillance</string>
+	<string name="monitoring_start_failed_message">Appuyez sur Réessayer pour démarrer la surveillance en arrière-plan. Si le problème persiste, vérifiez les restrictions des applications en arrière-plan de votre téléphone.</string>
+	<string name="monitoring_action_retry">Réessayer</string>
+	<string name="background_help_title">Autoriser l’activité en arrière-plan</string>
+	<string name="background_help_motorola">Certains téléphones Motorola limitent la surveillance même lorsque l’utilisation de la batterie est sans restriction. Si le changement ne fonctionne plus, recherchez « Gestion des applications en arrière-plan » dans les paramètres du téléphone et autorisez Adaptive Theme à fonctionner en arrière-plan. Les noms des menus peuvent varier.</string>
+	<string name="background_help_oneplus">Certains téléphones OnePlus limitent la surveillance même lorsque l’utilisation de la batterie est sans restriction. Si le changement ne fonctionne plus, autorisez le démarrage automatique et l’activité en arrière-plan pour Adaptive Theme dans les paramètres système. Les noms des menus varient selon la version du logiciel.</string>
+	<string name="background_help_generic">Si le changement de thème ne fonctionne plus lorsque l’application est fermée, vérifiez les restrictions d’activité en arrière-plan et de batterie pour Adaptive Theme sur votre téléphone. Certains téléphones proposent des paramètres supplémentaires de démarrage automatique. Les noms des menus varient selon l’appareil.</string>
+	<string name="background_help_hide">Masquer le conseil</string>
+	<string name="background_help_open_settings">Ouvrir les paramètres de l’application</string>
+	<string name="background_help_unavailable">Aucune application n’a pu ouvrir cette page. Vous pouvez vérifier les paramètres système ou consulter dontkillmyapp.com manuellement.</string>
 </resources>

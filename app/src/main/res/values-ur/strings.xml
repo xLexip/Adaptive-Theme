@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub پر اسٹار دیں ↗</string>
 	<string name="github_star_prompt_dismiss_description">ہمیشہ کے لیے چھپائیں</string>
 	<string name="github_star_prompt_thank_you">شکریہ!</string>
+	<string name="monitoring_start_failed_title">نگرانی شروع نہیں ہو سکی</string>
+	<string name="monitoring_start_failed_message">پس منظر میں نگرانی شروع کرنے کے لیے دوبارہ کوشش کریں پر ٹیپ کریں۔ اگر مسئلہ برقرار رہے تو فون میں پس منظر کی ایپس پر عائد پابندیاں چیک کریں۔</string>
+	<string name="monitoring_action_retry">دوبارہ کوشش کریں</string>
+	<string name="background_help_title">پس منظر میں سرگرمی کی اجازت دیں</string>
+	<string name="background_help_motorola">کچھ Motorola فون بیٹری کے غیر محدود استعمال کے باوجود نگرانی کو محدود کرتے ہیں۔ اگر تھیم بدلنا بند ہو جائے تو فون کی ترتیبات میں «پس منظر کی ایپس کا نظم» تلاش کریں اور Adaptive Theme کو پس منظر میں چلنے کی اجازت دیں۔ مینو کے نام مختلف ہو سکتے ہیں۔</string>
+	<string name="background_help_oneplus">کچھ OnePlus فون بیٹری کے غیر محدود استعمال کے باوجود نگرانی کو محدود کرتے ہیں۔ اگر تھیم بدلنا بند ہو جائے تو سسٹم کی ترتیبات میں Adaptive Theme کے لیے خودکار آغاز اور پس منظر میں سرگرمی کی اجازت دیں۔ مینو کے نام سافٹ ویئر کے ورژن کے مطابق مختلف ہوتے ہیں۔</string>
+	<string name="background_help_generic">اگر ایپ بند ہونے پر تھیم بدلنا بند ہو جائے تو فون میں Adaptive Theme کی پس منظر کی سرگرمی اور بیٹری کی پابندیاں چیک کریں۔ کچھ فون میں خودکار آغاز کی اضافی ترتیبات ہوتی ہیں۔ مینو کے نام آلے کے مطابق مختلف ہوتے ہیں۔</string>
+	<string name="background_help_hide">اشارہ چھپائیں</string>
+	<string name="background_help_open_settings">ایپ کی ترتیبات کھولیں</string>
+	<string name="background_help_unavailable">کوئی ایپ یہ صفحہ نہیں کھول سکی۔ آپ سسٹم کی ترتیبات چیک کر سکتے ہیں یا خود dontkillmyapp.com پر جا سکتے ہیں۔</string>
 </resources>

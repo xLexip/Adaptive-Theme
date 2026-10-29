@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Giv en stjerne på GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Skjul permanent</string>
 	<string name="github_star_prompt_thank_you">Tak!</string>
+	<string name="monitoring_start_failed_title">Overvågning kunne ikke starte</string>
+	<string name="monitoring_start_failed_message">Tryk på Prøv igen for at starte overvågning i baggrunden. Hvis problemet fortsætter, skal du kontrollere telefonens begrænsninger for apps i baggrunden.</string>
+	<string name="monitoring_action_retry">Prøv igen</string>
+	<string name="background_help_title">Tillad baggrundsaktivitet</string>
+	<string name="background_help_motorola">Nogle Motorola-telefoner begrænser overvågning, selv med ubegrænset batteriforbrug. Hvis skiftet stopper, skal du søge efter ”Administration af baggrundsapps” i telefonens indstillinger og tillade Adaptive Theme at køre i baggrunden. Menunavne kan variere.</string>
+	<string name="background_help_oneplus">Nogle OnePlus-telefoner begrænser overvågning, selv med ubegrænset batteriforbrug. Hvis skiftet stopper, skal du tillade automatisk start og baggrundsaktivitet for Adaptive Theme i systemindstillingerne. Menunavne varierer efter softwareversion.</string>
+	<string name="background_help_generic">Hvis temaskift stopper, når appen er lukket, skal du kontrollere telefonens begrænsninger for baggrundsaktivitet og batteriforbrug for Adaptive Theme. Nogle telefoner har yderligere indstillinger for automatisk start. Menunavne varierer efter enhed.</string>
+	<string name="background_help_hide">Skjul tip</string>
+	<string name="background_help_open_settings">Åbn appindstillinger</string>
+	<string name="background_help_unavailable">Ingen app kunne åbne denne side. Du kan kontrollere systemindstillingerne eller besøge dontkillmyapp.com manuelt.</string>
 </resources>

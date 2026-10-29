@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Додај звездицу на GitHub-у ↗</string>
 	<string name="github_star_prompt_dismiss_description">Сакриј заувек</string>
 	<string name="github_star_prompt_thank_you">Хвала!</string>
+	<string name="monitoring_start_failed_title">Није могуће покренути праћење</string>
+	<string name="monitoring_start_failed_message">Додирните Покушај поново да бисте покренули праћење у позадини. Ако се проблем настави, проверите ограничења позадинских апликација на телефону.</string>
+	<string name="monitoring_action_retry">Покушај поново</string>
+	<string name="background_help_title">Дозволи активност у позадини</string>
+	<string name="background_help_motorola">Неки Motorola телефони ограничавају праћење чак и уз неограничену употребу батерије. Ако пребацивање престане да ради, у подешавањима телефона потражите „Управљање позадинским апликацијама“ и дозволите апликацији Adaptive Theme рад у позадини. Називи менија могу да се разликују.</string>
+	<string name="background_help_oneplus">Неки OnePlus телефони ограничавају праћење чак и уз неограничену употребу батерије. Ако пребацивање престане да ради, у системским подешавањима дозволите аутоматско покретање и активност у позадини за Adaptive Theme. Називи менија се разликују у зависности од верзије софтвера.</string>
+	<string name="background_help_generic">Ако пребацивање теме престане да ради када је апликација затворена, проверите ограничења позадинске активности и батерије за Adaptive Theme на телефону. Неки телефони имају додатна подешавања аутоматског покретања. Називи менија се разликују у зависности од уређаја.</string>
+	<string name="background_help_hide">Сакриј савет</string>
+	<string name="background_help_open_settings">Отвори подешавања апликације</string>
+	<string name="background_help_unavailable">Ниједна апликација није могла да отвори ову страницу. Можете да проверите системска подешавања или ручно посетите dontkillmyapp.com.</string>
 </resources>

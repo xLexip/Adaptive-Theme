@@ -125,4 +125,14 @@
 	<string name="github_star_prompt_action">Ster geven op GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Voor altijd verbergen</string>
 	<string name="github_star_prompt_thank_you">Bedankt!</string>
+	<string name="monitoring_start_failed_title">Bewaking kon niet worden gestart</string>
+	<string name="monitoring_start_failed_message">Tik op Opnieuw proberen om de achtergrondbewaking te starten. Als het probleem blijft optreden, controleer dan de beperkingen voor achtergrondapps op je telefoon.</string>
+	<string name="monitoring_action_retry">Opnieuw proberen</string>
+	<string name="background_help_title">Achtergrondactiviteit toestaan</string>
+	<string name="background_help_motorola">Sommige Motorola-telefoons beperken de bewaking zelfs bij onbeperkt batterijgebruik. Als het wisselen stopt, zoek dan in de instellingen van je telefoon naar ‘Achtergrondapps beheren’ en sta toe dat Adaptive Theme op de achtergrond werkt. Menunamen kunnen verschillen.</string>
+	<string name="background_help_oneplus">Sommige OnePlus-telefoons beperken de bewaking zelfs bij onbeperkt batterijgebruik. Als het wisselen stopt, sta dan automatisch starten en achtergrondactiviteit voor Adaptive Theme toe in de systeeminstellingen. Menunamen verschillen per softwareversie.</string>
+	<string name="background_help_generic">Als het wisselen van thema stopt wanneer de app is gesloten, controleer dan de beperkingen voor achtergrondactiviteit en batterijgebruik van Adaptive Theme op je telefoon. Sommige telefoons hebben extra instellingen voor automatisch starten. Menunamen verschillen per apparaat.</string>
+	<string name="background_help_hide">Tip verbergen</string>
+	<string name="background_help_open_settings">Appinstellingen openen</string>
+	<string name="background_help_unavailable">Geen enkele app kon deze pagina openen. Je kunt de systeeminstellingen controleren of dontkillmyapp.com handmatig bezoeken.</string>
 </resources>

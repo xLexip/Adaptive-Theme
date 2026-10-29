@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Piešķirt zvaigznīti GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Paslēpt uz visiem laikiem</string>
 	<string name="github_star_prompt_thank_you">Paldies!</string>
+	<string name="monitoring_start_failed_title">Neizdevās sākt uzraudzību</string>
+	<string name="monitoring_start_failed_message">Pieskarieties Mēģināt vēlreiz, lai sāktu uzraudzību fonā. Ja problēma atkārtojas, pārbaudiet tālruņa fona lietotņu ierobežojumus.</string>
+	<string name="monitoring_action_retry">Mēģināt vēlreiz</string>
+	<string name="background_help_title">Atļaut darbību fonā</string>
+	<string name="background_help_motorola">Daži Motorola tālruņi ierobežo uzraudzību pat ar neierobežotu akumulatora izmantošanu. Ja pārslēgšana pārstāj darboties, tālruņa iestatījumos meklējiet “Fona lietotņu pārvaldība” un atļaujiet Adaptive Theme darboties fonā. Izvēļņu nosaukumi var atšķirties.</string>
+	<string name="background_help_oneplus">Daži OnePlus tālruņi ierobežo uzraudzību pat ar neierobežotu akumulatora izmantošanu. Ja pārslēgšana pārstāj darboties, sistēmas iestatījumos atļaujiet Adaptive Theme automātisku palaišanu un darbību fonā. Izvēļņu nosaukumi atšķiras atkarībā no programmatūras versijas.</string>
+	<string name="background_help_generic">Ja motīva pārslēgšana pārstāj darboties, kad lietotne ir aizvērta, pārbaudiet tālruņa fona darbības un akumulatora ierobežojumus lietotnei Adaptive Theme. Dažiem tālruņiem ir papildu automātiskās palaišanas iestatījumi. Izvēļņu nosaukumi atšķiras atkarībā no ierīces.</string>
+	<string name="background_help_hide">Paslēpt padomu</string>
+	<string name="background_help_open_settings">Atvērt lietotnes iestatījumus</string>
+	<string name="background_help_unavailable">Neviena lietotne nevarēja atvērt šo lapu. Varat pārbaudīt sistēmas iestatījumus vai manuāli apmeklēt dontkillmyapp.com.</string>
 </resources>

@@ -125,4 +125,14 @@
 	<string name="github_star_prompt_action">Dodaj gwiazdkę na GitHubie ↗</string>
 	<string name="github_star_prompt_dismiss_description">Ukryj na zawsze</string>
 	<string name="github_star_prompt_thank_you">Dziękujemy!</string>
+	<string name="monitoring_start_failed_title">Nie udało się uruchomić monitorowania</string>
+	<string name="monitoring_start_failed_message">Dotknij Spróbuj ponownie, aby uruchomić monitorowanie w tle. Jeśli problem się powtarza, sprawdź ograniczenia aplikacji działających w tle w telefonie.</string>
+	<string name="monitoring_action_retry">Spróbuj ponownie</string>
+	<string name="background_help_title">Zezwól na działanie w tle</string>
+	<string name="background_help_motorola">Niektóre telefony Motorola ograniczają monitorowanie nawet przy nieograniczonym użyciu baterii. Jeśli przełączanie przestanie działać, wyszukaj „Zarządzanie aplikacjami w tle” w ustawieniach telefonu i zezwól Adaptive Theme na działanie w tle. Nazwy menu mogą się różnić.</string>
+	<string name="background_help_oneplus">Niektóre telefony OnePlus ograniczają monitorowanie nawet przy nieograniczonym użyciu baterii. Jeśli przełączanie przestanie działać, zezwól na automatyczne uruchamianie i działanie w tle aplikacji Adaptive Theme w ustawieniach systemu. Nazwy menu zależą od wersji oprogramowania.</string>
+	<string name="background_help_generic">Jeśli przełączanie motywu przestanie działać po zamknięciu aplikacji, sprawdź ograniczenia działania w tle i baterii dla Adaptive Theme w telefonie. Niektóre telefony mają dodatkowe ustawienia automatycznego uruchamiania. Nazwy menu zależą od urządzenia.</string>
+	<string name="background_help_hide">Ukryj wskazówkę</string>
+	<string name="background_help_open_settings">Otwórz ustawienia aplikacji</string>
+	<string name="background_help_unavailable">Żadna aplikacja nie mogła otworzyć tej strony. Możesz sprawdzić ustawienia systemu lub ręcznie wejść na dontkillmyapp.com.</string>
 </resources>

@@ -113,12 +113,22 @@ class UserPreferencesRepositoryTest {
 		assertNull(preferences.dayWallpaperUri)
 		assertNull(preferences.nightWallpaperUri)
 		assertFalse(preferences.githubStarPromptDismissed)
+		assertFalse(preferences.backgroundGuidanceDismissed)
 		assertEquals(0, preferences.githubStarPromptImpressionCount)
 		assertEquals(
 			NO_SUPPORT_PROMPT_EPOCH_DAY,
 			preferences.githubStarPromptLastImpressionEpochDay
 		)
 		assertEquals(NO_SUPPORT_PROMPT_EPOCH_DAY, preferences.reviewPromptLastRequestEpochDay)
+	}
+
+	@Test
+	fun backgroundGuidanceDismissalSurvivesReopening() = runTest {
+		repository.updateBackgroundGuidanceDismissed(true)
+		reopenRepository()
+		assertTrue(repository.fetchInitialPreferences().backgroundGuidanceDismissed)
+		assertTrue(repository.userPreferencesFlow.first().backgroundGuidanceDismissed)
+		assertFalse(repository.fetchInitialPreferences().adaptiveThemeEnabled)
 	}
 
 	@Test

@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub-ல் ஸ்டார் வழங்கவும் ↗</string>
 	<string name="github_star_prompt_dismiss_description">என்றென்றும் மறை</string>
 	<string name="github_star_prompt_thank_you">நன்றி!</string>
+	<string name="monitoring_start_failed_title">கண்காணிப்பைத் தொடங்க முடியவில்லை</string>
+	<string name="monitoring_start_failed_message">பின்னணிக் கண்காணிப்பைத் தொடங்க மீண்டும் முயல்க என்பதைத் தட்டவும். சிக்கல் தொடர்ந்தால், உங்கள் மொபைலின் பின்னணி ஆப்ஸ் கட்டுப்பாடுகளைச் சரிபார்க்கவும்.</string>
+	<string name="monitoring_action_retry">மீண்டும் முயல்க</string>
+	<string name="background_help_title">பின்னணிச் செயல்பாட்டை அனுமதி</string>
+	<string name="background_help_motorola">சில Motorola மொபைல்கள், பேட்டரி பயன்பாடு கட்டுப்பாடற்றதாக இருந்தாலும் கண்காணிப்பைக் கட்டுப்படுத்துகின்றன. தீம் மாறுவது நின்றால், மொபைல் அமைப்புகளில் “பின்னணி ஆப்ஸை நிர்வகித்தல்” என்பதைத் தேடி, Adaptive Theme பின்னணியில் இயங்க அனுமதிக்கவும். மெனு பெயர்கள் மாறுபடலாம்.</string>
+	<string name="background_help_oneplus">சில OnePlus மொபைல்கள், பேட்டரி பயன்பாடு கட்டுப்பாடற்றதாக இருந்தாலும் கண்காணிப்பைக் கட்டுப்படுத்துகின்றன. தீம் மாறுவது நின்றால், சிஸ்டம் அமைப்புகளில் Adaptive Theme தானாகத் தொடங்கவும் பின்னணியில் செயல்படவும் அனுமதிக்கவும். மென்பொருள் பதிப்பைப் பொறுத்து மெனு பெயர்கள் மாறுபடும்.</string>
+	<string name="background_help_generic">ஆப்ஸ் மூடப்பட்டிருக்கும்போது தீம் மாறுவது நின்றால், மொபைலில் Adaptive Theme-க்கான பின்னணிச் செயல்பாடு மற்றும் பேட்டரி கட்டுப்பாடுகளைச் சரிபார்க்கவும். சில மொபைல்களில் தானாகத் தொடங்குவதற்கான கூடுதல் அமைப்புகள் உள்ளன. சாதனத்தைப் பொறுத்து மெனு பெயர்கள் மாறுபடும்.</string>
+	<string name="background_help_hide">குறிப்பை மறை</string>
+	<string name="background_help_open_settings">ஆப்ஸ் அமைப்புகளைத் திற</string>
+	<string name="background_help_unavailable">எந்த ஆப்ஸாலும் இந்தப் பக்கத்தைத் திறக்க முடியவில்லை. சிஸ்டம் அமைப்புகளைச் சரிபார்க்கலாம் அல்லது dontkillmyapp.com தளத்திற்கு நேரடியாகச் செல்லலாம்.</string>
 </resources>

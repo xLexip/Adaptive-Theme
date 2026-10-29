@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub でスターする ↗</string>
 	<string name="github_star_prompt_dismiss_description">永久に非表示</string>
 	<string name="github_star_prompt_thank_you">ありがとうございます！</string>
+	<string name="monitoring_start_failed_title">監視を開始できませんでした</string>
+	<string name="monitoring_start_failed_message">「再試行」をタップしてバックグラウンド監視を開始してください。問題が続く場合は、スマートフォンのバックグラウンドアプリの制限を確認してください。</string>
+	<string name="monitoring_action_retry">再試行</string>
+	<string name="background_help_title">バックグラウンド動作を許可</string>
+	<string name="background_help_motorola">一部のMotorola端末では、バッテリー使用量を制限なしに設定しても監視が制限されます。テーマが切り替わらなくなった場合は、端末の設定で「バックグラウンドアプリの管理」を検索し、Adaptive Themeのバックグラウンド動作を許可してください。メニュー名は異なる場合があります。</string>
+	<string name="background_help_oneplus">一部のOnePlus端末では、バッテリー使用量を制限なしに設定しても監視が制限されます。テーマが切り替わらなくなった場合は、システム設定でAdaptive Themeの自動起動とバックグラウンド動作を許可してください。メニュー名はソフトウェアのバージョンによって異なります。</string>
+	<string name="background_help_generic">アプリを閉じるとテーマが切り替わらなくなる場合は、端末でAdaptive Themeのバックグラウンド動作とバッテリーの制限を確認してください。一部の端末には追加の自動起動設定があります。メニュー名は端末によって異なります。</string>
+	<string name="background_help_hide">ヒントを非表示</string>
+	<string name="background_help_open_settings">アプリの設定を開く</string>
+	<string name="background_help_unavailable">このページを開けるアプリがありません。システム設定を確認するか、dontkillmyapp.comに手動でアクセスしてください。</string>
 </resources>

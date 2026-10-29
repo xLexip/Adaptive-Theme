@@ -134,6 +134,10 @@ class FakeUserPreferencesDataSource(
 		)
 	}
 
+	override suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean) {
+		state.value = current.copy(backgroundGuidanceDismissed = dismissed)
+	}
+
 	override suspend fun updateGitHubStarPromptDismissed(dismissed: Boolean) {
 		state.value = current.copy(githubStarPromptDismissed = dismissed)
 	}

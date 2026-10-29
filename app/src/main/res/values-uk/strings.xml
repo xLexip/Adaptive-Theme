@@ -125,4 +125,14 @@
 	<string name="github_star_prompt_action">Поставити зірку на GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Сховати назавжди</string>
 	<string name="github_star_prompt_thank_you">Дякуємо!</string>
+	<string name="monitoring_start_failed_title">Не вдалося запустити моніторинг</string>
+	<string name="monitoring_start_failed_message">Натисніть «Спробувати ще раз», щоб запустити фоновий моніторинг. Якщо проблема повторюється, перевірте обмеження фонової роботи застосунків на телефоні.</string>
+	<string name="monitoring_action_retry">Спробувати ще раз</string>
+	<string name="background_help_title">Дозволити фонову роботу</string>
+	<string name="background_help_motorola">Деякі телефони Motorola обмежують моніторинг навіть за необмеженого використання акумулятора. Якщо перемикання перестало працювати, знайдіть «Керування фоновими застосунками» в налаштуваннях телефону та дозвольте Adaptive Theme працювати у фоні. Назви меню можуть відрізнятися.</string>
+	<string name="background_help_oneplus">Деякі телефони OnePlus обмежують моніторинг навіть за необмеженого використання акумулятора. Якщо перемикання перестало працювати, дозвольте автоматичний запуск і фонову роботу Adaptive Theme в системних налаштуваннях. Назви меню залежать від версії ПЗ.</string>
+	<string name="background_help_generic">Якщо перемикання теми перестало працювати, коли застосунок закрито, перевірте обмеження фонової роботи та використання акумулятора для Adaptive Theme на телефоні. Деякі телефони мають додаткові налаштування автоматичного запуску. Назви меню залежать від пристрою.</string>
+	<string name="background_help_hide">Приховати підказку</string>
+	<string name="background_help_open_settings">Відкрити налаштування застосунку</string>
+	<string name="background_help_unavailable">Жоден застосунок не зміг відкрити цю сторінку. Ви можете перевірити системні налаштування або відкрити dontkillmyapp.com вручну.</string>
 </resources>

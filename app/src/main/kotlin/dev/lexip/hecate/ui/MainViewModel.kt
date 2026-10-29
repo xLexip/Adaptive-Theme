@@ -90,7 +90,8 @@ data class MainUiState(
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null,
 	val showLiveWallpaperWarningDialog: Boolean = false,
-	val showGitHubStarPrompt: Boolean = false
+	val showGitHubStarPrompt: Boolean = false,
+	val backgroundGuidanceDismissed: Boolean = false
 )
 
 class MainViewModel internal constructor(
@@ -335,7 +336,8 @@ class MainViewModel internal constructor(
 					lockScreenWallpaperBlurEnabled = userPreferences.lockScreenWallpaperBlurEnabled,
 					dayWallpaperUri = userPreferences.dayWallpaperUri,
 					nightWallpaperUri = userPreferences.nightWallpaperUri,
-					showGitHubStarPrompt = shouldShowGitHubStarPrompt(userPreferences)
+					showGitHubStarPrompt = shouldShowGitHubStarPrompt(userPreferences),
+					backgroundGuidanceDismissed = userPreferences.backgroundGuidanceDismissed
 				)
 
 				updateUiSensorMonitoring()
@@ -498,6 +500,12 @@ class MainViewModel internal constructor(
 				application.applicationContext,
 				action = "impression"
 			)
+		}
+	}
+
+	fun dismissBackgroundGuidance() {
+		viewModelScope.launch {
+			userPreferencesRepository.updateBackgroundGuidanceDismissed(true)
 		}
 	}
 

@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">在 GitHub 上給星 ↗</string>
 	<string name="github_star_prompt_dismiss_description">永久隱藏</string>
 	<string name="github_star_prompt_thank_you">謝謝！</string>
+	<string name="monitoring_start_failed_title">無法啟動監測</string>
+	<string name="monitoring_start_failed_message">輕觸「重試」以啟動背景監測。如果問題持續發生，請檢查手機對背景應用程式的限制。</string>
+	<string name="monitoring_action_retry">重試</string>
+	<string name="background_help_title">允許背景活動</string>
+	<string name="background_help_motorola">部分 Motorola 手機即使將電池用量設為「不受限制」，仍會限制監測。如果主題切換停止運作，請在手機設定中搜尋「管理背景應用程式」，並允許 Adaptive Theme 在背景執行。選單名稱可能有所不同。</string>
+	<string name="background_help_oneplus">部分 OnePlus 手機即使將電池用量設為「不受限制」，仍會限制監測。如果主題切換停止運作，請在系統設定中允許 Adaptive Theme 自動啟動及在背景活動。選單名稱會因軟體版本而異。</string>
+	<string name="background_help_generic">如果關閉應用程式後主題切換停止運作，請檢查手機對 Adaptive Theme 背景活動和電池用量的限制。部分手機還有額外的自動啟動設定。選單名稱會因裝置而異。</string>
+	<string name="background_help_hide">隱藏提示</string>
+	<string name="background_help_open_settings">開啟應用程式設定</string>
+	<string name="background_help_unavailable">沒有應用程式能開啟此頁面。您可以檢查系統設定，或手動前往 dontkillmyapp.com。</string>
 </resources>

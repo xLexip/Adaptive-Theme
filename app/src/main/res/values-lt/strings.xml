@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Pažymėti žvaigždute „GitHub“ ↗</string>
 	<string name="github_star_prompt_dismiss_description">Slėpti visam laikui</string>
 	<string name="github_star_prompt_thank_you">Ačiū!</string>
+	<string name="monitoring_start_failed_title">Nepavyko pradėti stebėjimo</string>
+	<string name="monitoring_start_failed_message">Bakstelėkite Bandyti dar kartą, kad pradėtumėte stebėjimą fone. Jei problema kartojasi, patikrinkite telefono foninių programų apribojimus.</string>
+	<string name="monitoring_action_retry">Bandyti dar kartą</string>
+	<string name="background_help_title">Leisti veiklą fone</string>
+	<string name="background_help_motorola">Kai kurie Motorola telefonai riboja stebėjimą net ir neribojant akumuliatoriaus naudojimo. Jei perjungimas nustoja veikti, telefono nustatymuose ieškokite „Foninių programų valdymas“ ir leiskite Adaptive Theme veikti fone. Meniu pavadinimai gali skirtis.</string>
+	<string name="background_help_oneplus">Kai kurie OnePlus telefonai riboja stebėjimą net ir neribojant akumuliatoriaus naudojimo. Jei perjungimas nustoja veikti, sistemos nustatymuose leiskite Adaptive Theme automatiškai paleisti ir veikti fone. Meniu pavadinimai priklauso nuo programinės įrangos versijos.</string>
+	<string name="background_help_generic">Jei temos perjungimas nustoja veikti uždarius programą, patikrinkite telefono Adaptive Theme veiklos fone ir akumuliatoriaus naudojimo apribojimus. Kai kuriuose telefonuose yra papildomų automatinio paleidimo nustatymų. Meniu pavadinimai priklauso nuo įrenginio.</string>
+	<string name="background_help_hide">Slėpti patarimą</string>
+	<string name="background_help_open_settings">Atverti programos nustatymus</string>
+	<string name="background_help_unavailable">Jokia programa negalėjo atverti šio puslapio. Galite patikrinti sistemos nustatymus arba patys apsilankyti dontkillmyapp.com.</string>
 </resources>

@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Csillag a GitHubon ↗</string>
 	<string name="github_star_prompt_dismiss_description">Elrejtés örökre</string>
 	<string name="github_star_prompt_thank_you">Köszönjük!</string>
+	<string name="monitoring_start_failed_title">A figyelést nem sikerült elindítani</string>
+	<string name="monitoring_start_failed_message">A háttérben történő figyelés elindításához koppintson az Újra elemre. Ha a probléma továbbra is fennáll, ellenőrizze a telefon háttérben futó alkalmazásokra vonatkozó korlátozásait.</string>
+	<string name="monitoring_action_retry">Újra</string>
+	<string name="background_help_title">Háttértevékenység engedélyezése</string>
+	<string name="background_help_motorola">Egyes Motorola telefonok korlátlan akkumulátorhasználat mellett is korlátozzák a figyelést. Ha a váltás leáll, keressen rá a telefon beállításaiban a „Háttéralkalmazások kezelése” kifejezésre, és engedélyezze az Adaptive Theme háttérben való futását. A menük neve eltérhet.</string>
+	<string name="background_help_oneplus">Egyes OnePlus telefonok korlátlan akkumulátorhasználat mellett is korlátozzák a figyelést. Ha a váltás leáll, a rendszerbeállításokban engedélyezze az Adaptive Theme automatikus indítását és háttértevékenységét. A menük neve szoftververziónként eltérhet.</string>
+	<string name="background_help_generic">Ha a témaváltás az alkalmazás bezárása után leáll, ellenőrizze az Adaptive Theme háttértevékenységére és akkumulátorhasználatára vonatkozó korlátozásokat a telefonon. Egyes telefonokon további automatikus indítási beállítások is vannak. A menük neve eszközönként eltérhet.</string>
+	<string name="background_help_hide">Tipp elrejtése</string>
+	<string name="background_help_open_settings">Alkalmazásbeállítások megnyitása</string>
+	<string name="background_help_unavailable">Egyetlen alkalmazás sem tudta megnyitni ezt az oldalt. Ellenőrizheti a rendszerbeállításokat, vagy kézzel megnyithatja a dontkillmyapp.com oldalt.</string>
 </resources>

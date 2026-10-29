@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub ನಲ್ಲಿ ಸ್ಟಾರ್ ನೀಡಿ ↗</string>
 	<string name="github_star_prompt_dismiss_description">ಶಾಶ್ವತವಾಗಿ ಮರೆಮಾಡಿ</string>
 	<string name="github_star_prompt_thank_you">ಧನ್ಯವಾದಗಳು!</string>
+	<string name="monitoring_start_failed_title">ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲಾಗಲಿಲ್ಲ</string>
+	<string name="monitoring_start_failed_message">ಹಿನ್ನೆಲೆ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ. ಸಮಸ್ಯೆ ಮುಂದುವರಿದರೆ, ಫೋನ್‌ನ ಹಿನ್ನೆಲೆ ಆ್ಯಪ್ ನಿರ್ಬಂಧಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
+	<string name="monitoring_action_retry">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</string>
+	<string name="background_help_title">ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆಗೆ ಅನುಮತಿಸಿ</string>
+	<string name="background_help_motorola">ಕೆಲವು Motorola ಫೋನ್‌ಗಳು ಬ್ಯಾಟರಿ ಬಳಕೆ ಅನಿರ್ಬಂಧಿತವಾಗಿದ್ದರೂ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ನಿರ್ಬಂಧಿಸುತ್ತವೆ. ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, ಫೋನ್‌ನ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ “ಹಿನ್ನೆಲೆ ಆ್ಯಪ್‌ಗಳ ನಿರ್ವಹಣೆ” ಹುಡುಕಿ ಮತ್ತು Adaptive Theme ಹಿನ್ನೆಲೆಯಲ್ಲಿ ಕಾರ್ಯನಿರ್ವಹಿಸಲು ಅನುಮತಿಸಿ. ಮೆನು ಹೆಸರುಗಳು ಬದಲಾಗಬಹುದು.</string>
+	<string name="background_help_oneplus">ಕೆಲವು OnePlus ಫೋನ್‌ಗಳು ಬ್ಯಾಟರಿ ಬಳಕೆ ಅನಿರ್ಬಂಧಿತವಾಗಿದ್ದರೂ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ನಿರ್ಬಂಧಿಸುತ್ತವೆ. ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ Adaptive Theme ಗೆ ಸ್ವಯಂಚಾಲಿತ ಪ್ರಾರಂಭ ಮತ್ತು ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆಗೆ ಅನುಮತಿಸಿ. ಸಾಫ್ಟ್‌ವೇರ್ ಆವೃತ್ತಿಗೆ ಅನುಗುಣವಾಗಿ ಮೆನು ಹೆಸರುಗಳು ಬದಲಾಗುತ್ತವೆ.</string>
+	<string name="background_help_generic">ಆ್ಯಪ್ ಮುಚ್ಚಿರುವಾಗ ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, ಫೋನ್‌ನಲ್ಲಿ Adaptive Theme ಗಾಗಿ ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆ ಮತ್ತು ಬ್ಯಾಟರಿ ನಿರ್ಬಂಧಗಳನ್ನು ಪರಿಶೀಲಿಸಿ. ಕೆಲವು ಫೋನ್‌ಗಳಲ್ಲಿ ಹೆಚ್ಚುವರಿ ಸ್ವಯಂಚಾಲಿತ ಪ್ರಾರಂಭದ ಸೆಟ್ಟಿಂಗ್‌ಗಳಿವೆ. ಸಾಧನಕ್ಕೆ ಅನುಗುಣವಾಗಿ ಮೆನು ಹೆಸರುಗಳು ಬದಲಾಗುತ್ತವೆ.</string>
+	<string name="background_help_hide">ಸುಳಿವನ್ನು ಮರೆಮಾಡಿ</string>
+	<string name="background_help_open_settings">ಆ್ಯಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
+	<string name="background_help_unavailable">ಯಾವ ಆ್ಯಪ್‌ಗೂ ಈ ಪುಟವನ್ನು ತೆರೆಯಲಾಗಲಿಲ್ಲ. ನೀವು ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಅಥವಾ dontkillmyapp.com ಗೆ ಸ್ವತಃ ಭೇಟಿ ನೀಡಬಹುದು.</string>
 </resources>

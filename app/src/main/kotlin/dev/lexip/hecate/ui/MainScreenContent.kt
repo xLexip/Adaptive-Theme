@@ -97,6 +97,7 @@ import androidx.compose.ui.unit.sp
 import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.GitHubStarPromptCard
+import dev.lexip.hecate.ui.components.BackgroundActivityHint
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.SetupRequiredCard
 import dev.lexip.hecate.ui.components.ThreeDotMenu
@@ -122,7 +123,8 @@ fun MainScreenContent(
 	hasWriteSecureSettingsPermission: Boolean,
 	packageName: String,
 	callbacks: MainScreenCallbacks,
-	serviceStartFailed: Boolean = false
+	serviceStartFailed: Boolean = false,
+	backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 ) {
 	val haptic = LocalHapticFeedback.current
 	val scrollState = rememberScrollState()
@@ -214,6 +216,18 @@ fun MainScreenContent(
 					autoScrollAdvancedSettingsTransition = false
 				}
 			)
+			if (backgroundGuidance.shouldShowHint(
+					monitoringEnabled = uiState.adaptiveThemeEnabled,
+					dismissed = uiState.backgroundGuidanceDismissed
+				)
+			) {
+				BackgroundActivityHint(
+					guidance = backgroundGuidance,
+					onOpenSettings = callbacks.onOpenBackgroundSettings,
+					onOpenGuide = callbacks.onOpenBackgroundGuide,
+					onDismiss = callbacks.onDismissBackgroundGuidance
+				)
+			}
 			ThresholdAndAdvancedSettings(
 				uiState = uiState,
 				currentSensorLux = currentSensorLux,

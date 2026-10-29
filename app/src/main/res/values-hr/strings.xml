@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Dodaj zvjezdicu na GitHubu ↗</string>
 	<string name="github_star_prompt_dismiss_description">Sakrij zauvijek</string>
 	<string name="github_star_prompt_thank_you">Hvala!</string>
+	<string name="monitoring_start_failed_title">Nije moguće pokrenuti praćenje</string>
+	<string name="monitoring_start_failed_message">Dodirnite Pokušaj ponovno za pokretanje praćenja u pozadini. Ako se problem nastavi, provjerite ograničenja pozadinskih aplikacija na telefonu.</string>
+	<string name="monitoring_action_retry">Pokušaj ponovno</string>
+	<string name="background_help_title">Dopusti pozadinsku aktivnost</string>
+	<string name="background_help_motorola">Neki Motorola telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje prestane raditi, u postavkama telefona potražite „Upravljanje pozadinskim aplikacijama” i dopustite aplikaciji Adaptive Theme rad u pozadini. Nazivi izbornika mogu se razlikovati.</string>
+	<string name="background_help_oneplus">Neki OnePlus telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje prestane raditi, u postavkama sustava dopustite automatsko pokretanje i pozadinsku aktivnost za Adaptive Theme. Nazivi izbornika razlikuju se ovisno o verziji softvera.</string>
+	<string name="background_help_generic">Ako prebacivanje teme prestane raditi dok je aplikacija zatvorena, provjerite ograničenja pozadinske aktivnosti i baterije za Adaptive Theme na telefonu. Neki telefoni imaju dodatne postavke automatskog pokretanja. Nazivi izbornika razlikuju se ovisno o uređaju.</string>
+	<string name="background_help_hide">Sakrij savjet</string>
+	<string name="background_help_open_settings">Otvori postavke aplikacije</string>
+	<string name="background_help_unavailable">Nijedna aplikacija nije mogla otvoriti ovu stranicu. Možete provjeriti postavke sustava ili ručno posjetiti dontkillmyapp.com.</string>
 </resources>

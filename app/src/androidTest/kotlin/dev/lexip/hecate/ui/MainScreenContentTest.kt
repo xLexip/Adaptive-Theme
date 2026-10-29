@@ -22,6 +22,7 @@ import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -445,23 +446,51 @@ class MainScreenContentTest {
 			.assertDoesNotExist()
 	}
 
+	@Test
+	fun manufacturerHintActionsAndDismissal() {
+		val state = mutableStateOf(MainUiState(adaptiveThemeEnabled = true, hasSetupCompleted = true))
+		var settingsOpened = 0
+		var guidesOpened = 0
+		setMainContent(
+			uiState = { state.value },
+			hasPermission = true,
+			backgroundGuidance = BackgroundActivityGuidance.MOTOROLA,
+			callbacks = callbacks(
+				onBackgroundSettings = { settingsOpened++ },
+				onBackgroundGuide = { guidesOpened++ },
+				onDismissBackground = { state.value = state.value.copy(backgroundGuidanceDismissed = true) }
+			)
+		)
+		composeRule.onNodeWithText(context.getString(R.string.background_help_motorola)).assertExists()
+		clickTextAfterScroll(context.getString(R.string.background_help_open_settings))
+		clickTextAfterScroll(context.getString(R.string.background_help_website))
+		assertEquals(1, settingsOpened)
+		assertEquals(1, guidesOpened)
+		composeRule.onNodeWithContentDescription(context.getString(R.string.background_help_hide))
+			.performScrollTo().performClick()
+		composeRule.onNodeWithText(context.getString(R.string.background_help_motorola)).assertDoesNotExist()
+	}
+
 	private fun setMainContent(
 		uiState: MainUiState,
 		hasPermission: Boolean,
 		callbacks: MainScreenCallbacks = callbacks(),
-		serviceStartFailed: Boolean = false
+		serviceStartFailed: Boolean = false,
+		backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 	) = setMainContent(
 		uiState = { uiState },
 		hasPermission = hasPermission,
 		callbacks = callbacks,
-		serviceStartFailed = serviceStartFailed
+		serviceStartFailed = serviceStartFailed,
+		backgroundGuidance = backgroundGuidance
 	)
 
 	private fun setMainContent(
 		uiState: () -> MainUiState,
 		hasPermission: Boolean,
 		callbacks: MainScreenCallbacks = callbacks(),
-		serviceStartFailed: Boolean = false
+		serviceStartFailed: Boolean = false,
+		backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 	) {
 		composeRule.setContent {
 			HecateTheme {
@@ -473,7 +502,8 @@ class MainScreenContentTest {
 					hasWriteSecureSettingsPermission = hasPermission,
 					packageName = context.packageName,
 					callbacks = callbacks,
-					serviceStartFailed = serviceStartFailed
+					serviceStartFailed = serviceStartFailed,
+					backgroundGuidance = backgroundGuidance
 				)
 			}
 		}
@@ -493,7 +523,10 @@ class MainScreenContentTest {
 		onOpenGitHub: () -> Unit = {},
 		onDismissGitHub: () -> Unit = {},
 		onUndoGitHubDismissal: () -> Unit = {},
-		onRetry: () -> Unit = {}
+		onRetry: () -> Unit = {},
+		onBackgroundSettings: () -> Unit = {},
+		onBackgroundGuide: () -> Unit = {},
+		onDismissBackground: () -> Unit = {}
 	): MainScreenCallbacks = MainScreenCallbacks(
 		onServiceToggleRequested = onToggle,
 		onThresholdSelected = { _, _ -> },
@@ -512,7 +545,10 @@ class MainScreenContentTest {
 		onOpenGitHubRepository = onOpenGitHub,
 		onDismissGitHubStarPrompt = onDismissGitHub,
 		onUndoGitHubStarPromptDismissal = onUndoGitHubDismissal,
-		onRetryMonitoringService = onRetry
+		onRetryMonitoringService = onRetry,
+		onOpenBackgroundSettings = onBackgroundSettings,
+		onOpenBackgroundGuide = onBackgroundGuide,
+		onDismissBackgroundGuidance = onDismissBackground
 	)
 
 	private fun adaptiveThemeAction(): String = context.getString(

@@ -141,6 +141,16 @@ Adaptive Theme works on Android 14 and above.
 **Why didn't the theme change right away?**
 By design, the theme only switches immediately after the screen turns on and when the proximity sensor is uncovered. This prevents flicker, saves battery, and avoids interrupting an active app session. In addition, the target theme (and wallpaper, if enabled) is applied once when you toggle the service on via the switch in the app or the quick-settings tile.
 
+**Why does switching stop when the app is closed?**
+
+Some manufacturers apply additional background restrictions even when battery use is set to unrestricted. If switching stops, check these settings for Adaptive Theme:
+
+- **Motorola:** Search system Settings for **Managing background apps** and allow Adaptive Theme to run in the background. On some devices, this menu is only accessible through search. See the [Motorola guide on Don’t Kill My App](https://dontkillmyapp.com/motorola).
+- **OnePlus:** Allow **Auto-start / Auto-launch** and **background activity** in system Settings. Labels and available options vary between OxygenOS and ColorOS versions. See the [OnePlus guide on Don’t Kill My App](https://dontkillmyapp.com/oneplus).
+- **Other devices:** Check the manufacturer-specific guidance at [Don’t Kill My App](https://dontkillmyapp.com).
+
+The app shows a dismissible hint on Motorola and OnePlus devices while monitoring is enabled. The app cannot determine whether all manufacturer-specific restrictions are disabled. These settings have helped users in [issue #225](https://github.com/xLexip/Adaptive-Theme/issues/225), but occasional failures are still being investigated. Turning monitoring off and on using the Quick Settings tile may temporarily restore switching.
+
 **How does Wallpaper Theme Sync work?**
 Choose a light and a dark wallpaper in the app. When Adaptive Theme changes the system theme, it replaces the home screen wallpaper with the matching image. **Change Lock Screen** is off by default for new installations, so choosing wallpapers preserves your current lock screen wallpaper. When upgrading, users who already had Wallpaper Theme Sync active keep lock screen changes enabled to preserve their previous behavior. An explicitly saved lock screen choice is always respected. Enable it in the Wallpaper settings to also sync the lock screen. The lock screen options appear only while Wallpaper Theme Sync is on. **Blur Lock Screen** appears below **Change Lock Screen** only while lock screen changes are on; its setting is remembered when hidden. Turning the option on applies the current theme's wallpaper to the lock screen immediately. Turning it off does not restore a wallpaper already replaced. The change can take a moment and may briefly affect performance, especially with large images. The wallpaper is also switched when you or another app toggle the system theme manually.
 

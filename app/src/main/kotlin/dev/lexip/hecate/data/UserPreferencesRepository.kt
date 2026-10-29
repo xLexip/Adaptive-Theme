@@ -48,6 +48,7 @@ data class UserPreferences(
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null,
 	val wallpaperStorageVersion: Int = 0,
+	val backgroundGuidanceDismissed: Boolean = false,
 	val githubStarPromptDismissed: Boolean = false,
 	val githubStarPromptImpressionCount: Int = 0,
 	val githubStarPromptLastImpressionEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY,
@@ -78,6 +79,7 @@ interface UserPreferencesDataSource {
 	suspend fun updateWallpaperStorageVersion(version: Int)
 	suspend fun recordGitHubStarPromptImpression(epochDay: Long)
 	suspend fun updateGitHubStarPromptDismissed(dismissed: Boolean)
+	suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean)
 	suspend fun updateReviewPromptLastRequestEpochDay(epochDay: Long)
 }
 
@@ -119,6 +121,7 @@ class UserPreferencesRepository(
 		val NIGHT_WALLPAPER_URI = stringPreferencesKey("night_wallpaper_uri")
 		val WALLPAPER_STORAGE_VERSION = intPreferencesKey("wallpaper_storage_version")
 		val GITHUB_STAR_PROMPT_DISMISSED = booleanPreferencesKey("github_star_prompt_dismissed")
+		val BACKGROUND_GUIDANCE_DISMISSED = booleanPreferencesKey("background_guidance_dismissed")
 		val GITHUB_STAR_PROMPT_IMPRESSION_COUNT =
 			intPreferencesKey("github_star_prompt_impression_count")
 		val GITHUB_STAR_PROMPT_LAST_IMPRESSION_EPOCH_DAY =
@@ -213,6 +216,7 @@ class UserPreferencesRepository(
 			nightWallpaperUri = nightWallpaperUri,
 			wallpaperStorageVersion = wallpaperStorageVersion,
 			githubStarPromptDismissed = githubStarPromptDismissed,
+			backgroundGuidanceDismissed = preferences[PreferencesKeys.BACKGROUND_GUIDANCE_DISMISSED] == true,
 			githubStarPromptImpressionCount = githubStarPromptImpressionCount,
 			githubStarPromptLastImpressionEpochDay = githubStarPromptLastImpressionEpochDay,
 			reviewPromptLastRequestEpochDay = reviewPromptLastRequestEpochDay
@@ -307,6 +311,12 @@ class UserPreferencesRepository(
 					impressionCount + 1
 			}
 			preferences[PreferencesKeys.GITHUB_STAR_PROMPT_LAST_IMPRESSION_EPOCH_DAY] = epochDay
+		}
+	}
+
+	override suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.BACKGROUND_GUIDANCE_DISMISSED] = dismissed
 		}
 	}
 

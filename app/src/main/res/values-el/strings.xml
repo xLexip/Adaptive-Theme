@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Προσθήκη αστεριού στο GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Μόνιμη απόκρυψη</string>
 	<string name="github_star_prompt_thank_you">Ευχαριστούμε!</string>
+	<string name="monitoring_start_failed_title">Δεν ήταν δυνατή η έναρξη της παρακολούθησης</string>
+	<string name="monitoring_start_failed_message">Πατήστε Δοκιμή ξανά για να ξεκινήσει η παρακολούθηση στο παρασκήνιο. Αν το πρόβλημα επιμένει, ελέγξτε τους περιορισμούς εφαρμογών παρασκηνίου του τηλεφώνου σας.</string>
+	<string name="monitoring_action_retry">Δοκιμή ξανά</string>
+	<string name="background_help_title">Να επιτρέπεται η δραστηριότητα στο παρασκήνιο</string>
+	<string name="background_help_motorola">Ορισμένα τηλέφωνα Motorola περιορίζουν την παρακολούθηση ακόμη και με απεριόριστη χρήση μπαταρίας. Αν η εναλλαγή σταματήσει, αναζητήστε «Διαχείριση εφαρμογών παρασκηνίου» στις Ρυθμίσεις του τηλεφώνου και επιτρέψτε στο Adaptive Theme να εκτελείται στο παρασκήνιο. Τα ονόματα των μενού διαφέρουν.</string>
+	<string name="background_help_oneplus">Ορισμένα τηλέφωνα OnePlus περιορίζουν την παρακολούθηση ακόμη και με απεριόριστη χρήση μπαταρίας. Αν η εναλλαγή σταματήσει, επιτρέψτε την αυτόματη εκκίνηση και τη δραστηριότητα στο παρασκήνιο για το Adaptive Theme στις ρυθμίσεις συστήματος. Τα ονόματα των μενού διαφέρουν ανά έκδοση λογισμικού.</string>
+	<string name="background_help_generic">Αν η εναλλαγή θέματος σταματήσει όταν η εφαρμογή είναι κλειστή, ελέγξτε τους περιορισμούς δραστηριότητας παρασκηνίου και μπαταρίας για το Adaptive Theme στο τηλέφωνό σας. Ορισμένα τηλέφωνα διαθέτουν επιπλέον ρυθμίσεις αυτόματης εκκίνησης. Τα ονόματα των μενού διαφέρουν ανά συσκευή.</string>
+	<string name="background_help_hide">Απόκρυψη συμβουλής</string>
+	<string name="background_help_open_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
+	<string name="background_help_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει αυτή τη σελίδα. Μπορείτε να ελέγξετε τις ρυθμίσεις συστήματος ή να επισκεφθείτε το dontkillmyapp.com χειροκίνητα.</string>
 </resources>

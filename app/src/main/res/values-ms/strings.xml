@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">Beri bintang di GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Sembunyikan selama-lamanya</string>
 	<string name="github_star_prompt_thank_you">Terima kasih!</string>
+	<string name="monitoring_start_failed_title">Pemantauan tidak dapat dimulakan</string>
+	<string name="monitoring_start_failed_message">Ketik Cuba lagi untuk memulakan pemantauan di latar belakang. Jika masalah berterusan, semak sekatan aplikasi latar belakang pada telefon anda.</string>
+	<string name="monitoring_action_retry">Cuba lagi</string>
+	<string name="background_help_title">Benarkan aktiviti latar belakang</string>
+	<string name="background_help_motorola">Sesetengah telefon Motorola mengehadkan pemantauan walaupun penggunaan bateri tidak dihadkan. Jika pertukaran berhenti berfungsi, cari “Urus aplikasi latar belakang” dalam Tetapan telefon dan benarkan Adaptive Theme berjalan di latar belakang. Nama menu mungkin berbeza.</string>
+	<string name="background_help_oneplus">Sesetengah telefon OnePlus mengehadkan pemantauan walaupun penggunaan bateri tidak dihadkan. Jika pertukaran berhenti berfungsi, benarkan mula automatik dan aktiviti latar belakang untuk Adaptive Theme dalam tetapan sistem. Nama menu berbeza mengikut versi perisian.</string>
+	<string name="background_help_generic">Jika pertukaran tema berhenti berfungsi apabila aplikasi ditutup, semak sekatan aktiviti latar belakang dan bateri untuk Adaptive Theme pada telefon anda. Sesetengah telefon mempunyai tetapan mula automatik tambahan. Nama menu berbeza mengikut peranti.</string>
+	<string name="background_help_hide">Sembunyikan petua</string>
+	<string name="background_help_open_settings">Buka tetapan aplikasi</string>
+	<string name="background_help_unavailable">Tiada aplikasi dapat membuka halaman ini. Anda boleh menyemak tetapan sistem atau melawat dontkillmyapp.com secara manual.</string>
 </resources>

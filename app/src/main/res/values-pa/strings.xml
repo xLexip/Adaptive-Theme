@@ -108,4 +108,14 @@
 	<string name="github_star_prompt_action">GitHub ਉੱਤੇ ਸਟਾਰ ਦਿਓ ↗</string>
 	<string name="github_star_prompt_dismiss_description">ਹਮੇਸ਼ਾ ਲਈ ਲੁਕਾਓ</string>
 	<string name="github_star_prompt_thank_you">ਧੰਨਵਾਦ!</string>
+	<string name="monitoring_start_failed_title">ਨਿਗਰਾਨੀ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋ ਸਕੀ</string>
+	<string name="monitoring_start_failed_message">ਬੈਕਗ੍ਰਾਊਂਡ ਨਿਗਰਾਨੀ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਉੱਤੇ ਟੈਪ ਕਰੋ। ਜੇ ਸਮੱਸਿਆ ਜਾਰੀ ਰਹੇ, ਤਾਂ ਫ਼ੋਨ ਵਿੱਚ ਬੈਕਗ੍ਰਾਊਂਡ ਐਪਾਂ ਉੱਤੇ ਲੱਗੀਆਂ ਪਾਬੰਦੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
+	<string name="monitoring_action_retry">ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+	<string name="background_help_title">ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
+	<string name="background_help_motorola">ਕੁਝ Motorola ਫ਼ੋਨ ਬੈਟਰੀ ਦੀ ਬੇਰੋਕ ਵਰਤੋਂ ਦੇ ਬਾਵਜੂਦ ਨਿਗਰਾਨੀ ਨੂੰ ਸੀਮਤ ਕਰਦੇ ਹਨ। ਜੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ ਫ਼ੋਨ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ “ਬੈਕਗ੍ਰਾਊਂਡ ਐਪਾਂ ਦਾ ਪ੍ਰਬੰਧਨ” ਲੱਭੋ ਅਤੇ Adaptive Theme ਨੂੰ ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਚੱਲਣ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ। ਮੀਨੂ ਦੇ ਨਾਮ ਵੱਖਰੇ ਹੋ ਸਕਦੇ ਹਨ।</string>
+	<string name="background_help_oneplus">ਕੁਝ OnePlus ਫ਼ੋਨ ਬੈਟਰੀ ਦੀ ਬੇਰੋਕ ਵਰਤੋਂ ਦੇ ਬਾਵਜੂਦ ਨਿਗਰਾਨੀ ਨੂੰ ਸੀਮਤ ਕਰਦੇ ਹਨ। ਜੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਵਿੱਚ Adaptive Theme ਲਈ ਆਟੋਮੈਟਿਕ ਸ਼ੁਰੂਆਤ ਅਤੇ ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ। ਮੀਨੂ ਦੇ ਨਾਮ ਸਾਫ਼ਟਵੇਅਰ ਦੇ ਵਰਜਨ ਮੁਤਾਬਕ ਵੱਖਰੇ ਹੁੰਦੇ ਹਨ।</string>
+	<string name="background_help_generic">ਜੇ ਐਪ ਬੰਦ ਹੋਣ ਉੱਤੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ ਫ਼ੋਨ ਵਿੱਚ Adaptive Theme ਦੀ ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਅਤੇ ਬੈਟਰੀ ਦੀਆਂ ਪਾਬੰਦੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ। ਕੁਝ ਫ਼ੋਨਾਂ ਵਿੱਚ ਆਟੋਮੈਟਿਕ ਸ਼ੁਰੂਆਤ ਲਈ ਵਾਧੂ ਸੈਟਿੰਗਾਂ ਹੁੰਦੀਆਂ ਹਨ। ਮੀਨੂ ਦੇ ਨਾਮ ਡਿਵਾਈਸ ਮੁਤਾਬਕ ਵੱਖਰੇ ਹੁੰਦੇ ਹਨ।</string>
+	<string name="background_help_hide">ਸੁਝਾਅ ਲੁਕਾਓ</string>
+	<string name="background_help_open_settings">ਐਪ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
+	<string name="background_help_unavailable">ਕੋਈ ਵੀ ਐਪ ਇਹ ਪੰਨਾ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕੀ। ਤੁਸੀਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਦੀ ਜਾਂਚ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ ਖ਼ੁਦ dontkillmyapp.com ਉੱਤੇ ਜਾ ਸਕਦੇ ਹੋ।</string>
 </resources>

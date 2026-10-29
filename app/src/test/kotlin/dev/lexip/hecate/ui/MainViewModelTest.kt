@@ -91,6 +91,22 @@ class MainViewModelTest {
 	fun resetMonitoringStatus() = MonitoringServiceStatus.ready()
 
 	@Test
+	fun backgroundGuidanceDismissalPersistsWithoutChangingMonitoring() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(adaptiveThemeEnabled = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertFalse(viewModel.uiState.value.backgroundGuidanceDismissed)
+		viewModel.dismissBackgroundGuidance()
+		advanceUntilIdle()
+		assertTrue(preferences.current.backgroundGuidanceDismissed)
+		assertTrue(viewModel.uiState.value.backgroundGuidanceDismissed)
+		assertTrue(viewModel.uiState.value.adaptiveThemeEnabled)
+		val recreated = createViewModel()
+		advanceUntilIdle()
+		assertTrue(recreated.uiState.value.backgroundGuidanceDismissed)
+	}
+
+	@Test
 	fun failedRetryPreservesEnabledPreferenceAndCanBeRetried() = runTest(mainDispatcherRule.dispatcher) {
 		val viewModel = createViewModel()
 		preferences.emit(UserPreferences(adaptiveThemeEnabled = true, adaptiveThemeThresholdLux = 100f))
