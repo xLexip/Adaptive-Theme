@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Ketuk Coba lagi untuk memulai pemantauan di latar belakang. Jika masalah berlanjut, periksa pembatasan aplikasi latar belakang di ponsel Anda.</string>
 	<string name="monitoring_action_retry">Coba lagi</string>
 	<string name="background_help_title">Izinkan aktivitas latar belakang</string>
-	<string name="background_help_motorola">Beberapa ponsel Motorola membatasi pemantauan meski penggunaan baterai tidak dibatasi. Jika peralihan berhenti berfungsi, cari “Kelola aplikasi latar belakang” di Setelan ponsel dan izinkan Adaptive Theme berjalan di latar belakang. Nama menu dapat berbeda.</string>
-	<string name="background_help_oneplus">Beberapa ponsel OnePlus membatasi pemantauan meski penggunaan baterai tidak dibatasi. Jika peralihan berhenti berfungsi, izinkan mulai otomatis dan aktivitas latar belakang untuk Adaptive Theme di setelan sistem. Nama menu berbeda menurut versi perangkat lunak.</string>
-	<string name="background_help_generic">Jika peralihan tema berhenti berfungsi saat aplikasi ditutup, periksa pembatasan aktivitas latar belakang dan baterai untuk Adaptive Theme di ponsel Anda. Beberapa ponsel memiliki setelan mulai otomatis tambahan. Nama menu berbeda menurut perangkat.</string>
+	<string name="background_help_motorola">Beberapa ponsel Motorola membatasi pemantauan meski penggunaan baterai tidak dibatasi. Jika peralihan tema berhenti berfungsi, ikuti panduan di Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Beberapa ponsel OnePlus membatasi pemantauan meski penggunaan baterai tidak dibatasi. Jika peralihan tema berhenti berfungsi, ikuti panduan di Don’t Kill My App.</string>
+	<string name="background_help_generic">Jika peralihan tema berhenti berfungsi saat aplikasi ditutup, ikuti panduan untuk ponsel Anda di Don’t Kill My App guna memeriksa setelan aktivitas latar belakang dan baterai.</string>
 	<string name="background_help_hide">Sembunyikan petunjuk</string>
 	<string name="background_help_open_settings">Buka setelan aplikasi</string>
 	<string name="background_help_unavailable">Tidak ada aplikasi yang dapat membuka halaman ini. Anda dapat memeriksa setelan sistem atau mengunjungi dontkillmyapp.com secara manual.</string>

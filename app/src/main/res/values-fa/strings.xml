@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">برای شروع پایش در پس‌زمینه، روی تلاش دوباره بزنید. اگر مشکل ادامه داشت، محدودیت‌های برنامه‌های پس‌زمینه را در تلفن بررسی کنید.</string>
 	<string name="monitoring_action_retry">تلاش دوباره</string>
 	<string name="background_help_title">اجازه دادن به فعالیت در پس‌زمینه</string>
-	<string name="background_help_motorola">برخی تلفن‌های Motorola حتی با مصرف باتری نامحدود، پایش را محدود می‌کنند. اگر تغییر پوسته متوقف شد، در تنظیمات تلفن «مدیریت برنامه‌های پس‌زمینه» را جستجو کنید و به Adaptive Theme اجازه دهید در پس‌زمینه اجرا شود. نام منوها ممکن است متفاوت باشد.</string>
-	<string name="background_help_oneplus">برخی تلفن‌های OnePlus حتی با مصرف باتری نامحدود، پایش را محدود می‌کنند. اگر تغییر پوسته متوقف شد، در تنظیمات سیستم، راه‌اندازی خودکار و فعالیت در پس‌زمینه را برای Adaptive Theme مجاز کنید. نام منوها بسته به نسخهٔ نرم‌افزار متفاوت است.</string>
-	<string name="background_help_generic">اگر تغییر پوسته هنگام بسته بودن برنامه متوقف شد، محدودیت‌های فعالیت در پس‌زمینه و باتری را برای Adaptive Theme در تلفن بررسی کنید. برخی تلفن‌ها تنظیمات بیشتری برای راه‌اندازی خودکار دارند. نام منوها بسته به دستگاه متفاوت است.</string>
+	<string name="background_help_motorola">برخی تلفن‌های Motorola حتی با مصرف باتری نامحدود، پایش را محدود می‌کنند. اگر تغییر پوسته متوقف شد، راهنمای Don’t Kill My App را دنبال کنید.</string>
+	<string name="background_help_oneplus">برخی تلفن‌های OnePlus حتی با مصرف باتری نامحدود، پایش را محدود می‌کنند. اگر تغییر پوسته متوقف شد، راهنمای Don’t Kill My App را دنبال کنید.</string>
+	<string name="background_help_generic">اگر تغییر پوسته هنگام بسته بودن برنامه متوقف شد، راهنمای مربوط به تلفن خود را در Don’t Kill My App دنبال کنید تا تنظیمات فعالیت در پس‌زمینه و باتری را بررسی کنید.</string>
 	<string name="background_help_hide">پنهان کردن راهنما</string>
 	<string name="background_help_open_settings">باز کردن تنظیمات برنامه</string>
 	<string name="background_help_unavailable">هیچ برنامه‌ای نتوانست این صفحه را باز کند. می‌توانید تنظیمات سیستم را بررسی کنید یا خودتان به dontkillmyapp.com بروید.</string>

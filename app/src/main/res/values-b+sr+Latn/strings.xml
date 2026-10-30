@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Dodirnite Pokušaj ponovo da biste pokrenuli praćenje u pozadini. Ako se problem nastavi, proverite ograničenja pozadinskih aplikacija na telefonu.</string>
 	<string name="monitoring_action_retry">Pokušaj ponovo</string>
 	<string name="background_help_title">Dozvoli aktivnost u pozadini</string>
-	<string name="background_help_motorola">Neki Motorola telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje prestane da radi, u podešavanjima telefona potražite „Upravljanje pozadinskim aplikacijama“ i dozvolite aplikaciji Adaptive Theme rad u pozadini. Nazivi menija mogu da se razlikuju.</string>
-	<string name="background_help_oneplus">Neki OnePlus telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje prestane da radi, u sistemskim podešavanjima dozvolite automatsko pokretanje i aktivnost u pozadini za Adaptive Theme. Nazivi menija se razlikuju u zavisnosti od verzije softvera.</string>
-	<string name="background_help_generic">Ako prebacivanje teme prestane da radi kada je aplikacija zatvorena, proverite ograničenja pozadinske aktivnosti i baterije za Adaptive Theme na telefonu. Neki telefoni imaju dodatna podešavanja automatskog pokretanja. Nazivi menija se razlikuju u zavisnosti od uređaja.</string>
+	<string name="background_help_motorola">Neki Motorola telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje teme prestane da radi, pratite uputstvo na sajtu Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Neki OnePlus telefoni ograničavaju praćenje čak i uz neograničenu upotrebu baterije. Ako prebacivanje teme prestane da radi, pratite uputstvo na sajtu Don’t Kill My App.</string>
+	<string name="background_help_generic">Ako prebacivanje teme prestane da radi kada je aplikacija zatvorena, pratite uputstvo za svoj telefon na sajtu Don’t Kill My App da biste proverili podešavanja pozadinske aktivnosti i baterije.</string>
 	<string name="background_help_hide">Sakrij savet</string>
 	<string name="background_help_open_settings">Otvori podešavanja aplikacije</string>
 	<string name="background_help_unavailable">Nijedna aplikacija nije mogla da otvori ovu stranicu. Možete da proverite sistemska podešavanja ili ručno posetite dontkillmyapp.com.</string>

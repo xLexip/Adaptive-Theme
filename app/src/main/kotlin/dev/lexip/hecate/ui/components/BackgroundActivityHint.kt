@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -72,12 +73,15 @@ fun BackgroundActivityHint(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun BackgroundActivityHelpActions(onOpenSettings: () -> Unit, onOpenGuide: () -> Unit) {
-	FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+	FlowRow(
+		horizontalArrangement = Arrangement.spacedBy(8.dp),
+		verticalArrangement = Arrangement.spacedBy(4.dp)
+	) {
+		Button(onClick = onOpenGuide) {
+			Text(stringResource(R.string.background_help_website))
+		}
 		TextButton(onClick = onOpenSettings) {
 			Text(stringResource(R.string.background_help_open_settings))
-		}
-		TextButton(onClick = onOpenGuide) {
-			Text(stringResource(R.string.background_help_website))
 		}
 	}
 }

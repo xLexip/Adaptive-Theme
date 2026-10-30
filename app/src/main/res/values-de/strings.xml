@@ -129,9 +129,9 @@
 	<string name="monitoring_start_failed_message">Tippe auf „Erneut versuchen“, um die Hintergrundüberwachung zu starten. Prüfe die Hintergrundeinschränkungen deines Telefons, falls das Problem weiterhin auftritt.</string>
 	<string name="monitoring_action_retry">Erneut versuchen</string>
 	<string name="background_help_title">Hintergrundaktivität erlauben</string>
-	<string name="background_help_motorola">Einige Motorola-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Umschaltung aussetzt, suche in den Systemeinstellungen nach „Hintergrund-Apps verwalten“ und erlaube Adaptive Theme die Ausführung im Hintergrund. Die Menünamen können abweichen.</string>
-	<string name="background_help_oneplus">Einige OnePlus-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Umschaltung aussetzt, erlaube für Adaptive Theme in den Systemeinstellungen den Autostart und Hintergrundaktivitäten. Die Menünamen hängen von der Softwareversion ab.</string>
-	<string name="background_help_generic">Falls die Theme-Umschaltung bei geschlossener App aussetzt, prüfe die Hintergrund- und Akkueinschränkungen für Adaptive Theme. Einige Telefone haben zusätzliche Autostart-Einstellungen. Die Menünamen hängen vom Gerät ab.</string>
+	<string name="background_help_motorola">Einige Motorola-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Theme-Umschaltung aussetzt, folge der Anleitung auf Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Einige OnePlus-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Theme-Umschaltung aussetzt, folge der Anleitung auf Don’t Kill My App.</string>
+	<string name="background_help_generic">Falls die Theme-Umschaltung bei geschlossener App aussetzt, folge der Anleitung für dein Telefon auf Don’t Kill My App, um die Einstellungen für Hintergrundaktivität und Akku zu prüfen.</string>
 	<string name="background_help_hide">Hinweis ausblenden</string>
 	<string name="background_help_open_settings">App-Einstellungen öffnen</string>
 	<string name="background_help_unavailable">Keine App konnte diese Seite öffnen. Prüfe die Systemeinstellungen oder besuche dontkillmyapp.com manuell.</string>

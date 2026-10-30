@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">יש להקיש על ניסיון חוזר כדי להתחיל ניטור ברקע. אם הבעיה נמשכת, יש לבדוק את ההגבלות על אפליקציות ברקע בטלפון.</string>
 	<string name="monitoring_action_retry">ניסיון חוזר</string>
 	<string name="background_help_title">אישור פעילות ברקע</string>
-	<string name="background_help_motorola">טלפונים מסוימים של Motorola מגבילים את הניטור גם כששימוש הסוללה אינו מוגבל. אם המעבר מפסיק לפעול, יש לחפש בהגדרות הטלפון „ניהול אפליקציות ברקע” ולאפשר ל-Adaptive Theme לפעול ברקע. שמות התפריטים עשויים להשתנות.</string>
-	<string name="background_help_oneplus">טלפונים מסוימים של OnePlus מגבילים את הניטור גם כששימוש הסוללה אינו מוגבל. אם המעבר מפסיק לפעול, יש לאפשר הפעלה אוטומטית ופעילות ברקע עבור Adaptive Theme בהגדרות המערכת. שמות התפריטים משתנים לפי גרסת התוכנה.</string>
-	<string name="background_help_generic">אם המעבר בין ערכות נושא מפסיק לפעול כשהאפליקציה סגורה, יש לבדוק את הגבלות הפעילות ברקע והסוללה של Adaptive Theme בטלפון. בטלפונים מסוימים יש הגדרות נוספות להפעלה אוטומטית. שמות התפריטים משתנים לפי המכשיר.</string>
+	<string name="background_help_motorola">טלפונים מסוימים של Motorola מגבילים את הניטור גם כששימוש הסוללה אינו מוגבל. אם המעבר בין ערכות נושא מפסיק לפעול, יש לפעול לפי המדריך ב-Don’t Kill My App.</string>
+	<string name="background_help_oneplus">טלפונים מסוימים של OnePlus מגבילים את הניטור גם כששימוש הסוללה אינו מוגבל. אם המעבר בין ערכות נושא מפסיק לפעול, יש לפעול לפי המדריך ב-Don’t Kill My App.</string>
+	<string name="background_help_generic">אם המעבר בין ערכות נושא מפסיק לפעול כשהאפליקציה סגורה, יש לפעול לפי המדריך לטלפון שלכם ב-Don’t Kill My App כדי לבדוק את הגדרות הפעילות ברקע והסוללה.</string>
 	<string name="background_help_hide">הסתרת הטיפ</string>
 	<string name="background_help_open_settings">פתיחת הגדרות האפליקציה</string>
 	<string name="background_help_unavailable">אף אפליקציה לא הצליחה לפתוח את הדף הזה. אפשר לבדוק את הגדרות המערכת או לבקר ב-dontkillmyapp.com באופן ידני.</string>

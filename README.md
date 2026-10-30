@@ -143,10 +143,10 @@ By design, the theme only switches immediately after the screen turns on and whe
 
 **Why does switching stop when the app is closed?**
 
-Some manufacturers apply additional background restrictions even when battery use is set to unrestricted. If switching stops, check these settings for Adaptive Theme:
+Some manufacturers apply additional background restrictions even when battery use is set to unrestricted. If switching stops, follow the guide for your phone on Don’t Kill My App to review its background activity and battery settings:
 
-- **Motorola:** Search system Settings for **Managing background apps** and allow Adaptive Theme to run in the background. On some devices, this menu is only accessible through search. See the [Motorola guide on Don’t Kill My App](https://dontkillmyapp.com/motorola).
-- **OnePlus:** Allow **Auto-start / Auto-launch** and **background activity** in system Settings. Labels and available options vary between OxygenOS and ColorOS versions. See the [OnePlus guide on Don’t Kill My App](https://dontkillmyapp.com/oneplus).
+- **Motorola:** Follow the [Motorola guide on Don’t Kill My App](https://dontkillmyapp.com/motorola).
+- **OnePlus:** Follow the [OnePlus guide on Don’t Kill My App](https://dontkillmyapp.com/oneplus).
 - **Other devices:** Check the manufacturer-specific guidance at [Don’t Kill My App](https://dontkillmyapp.com).
 
 The app shows a dismissible hint on Motorola and OnePlus devices while monitoring is enabled. The app cannot determine whether all manufacturer-specific restrictions are disabled. These settings have helped users in [issue #225](https://github.com/xLexip/Adaptive-Theme/issues/225), but occasional failures are still being investigated. Turning monitoring off and on using the Quick Settings tile may temporarily restore switching.

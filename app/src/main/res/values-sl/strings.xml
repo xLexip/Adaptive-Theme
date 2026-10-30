@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Tapnite Poskusi znova, da zaženete spremljanje v ozadju. Če se težava ponavlja, preverite omejitve telefona za aplikacije v ozadju.</string>
 	<string name="monitoring_action_retry">Poskusi znova</string>
 	<string name="background_help_title">Dovoli dejavnost v ozadju</string>
-	<string name="background_help_motorola">Nekateri telefoni Motorola omejujejo spremljanje tudi pri neomejeni porabi baterije. Če preklapljanje preneha delovati, v nastavitvah telefona poiščite »Upravljanje aplikacij v ozadju« in aplikaciji Adaptive Theme dovolite delovanje v ozadju. Imena menijev se lahko razlikujejo.</string>
-	<string name="background_help_oneplus">Nekateri telefoni OnePlus omejujejo spremljanje tudi pri neomejeni porabi baterije. Če preklapljanje preneha delovati, v sistemskih nastavitvah dovolite samodejni zagon in dejavnost v ozadju za Adaptive Theme. Imena menijev se razlikujejo glede na različico programske opreme.</string>
-	<string name="background_help_generic">Če preklapljanje teme preneha delovati, ko je aplikacija zaprta, preverite omejitve dejavnosti v ozadju in baterije za Adaptive Theme na telefonu. Nekateri telefoni imajo dodatne nastavitve samodejnega zagona. Imena menijev se razlikujejo glede na napravo.</string>
+	<string name="background_help_motorola">Nekateri telefoni Motorola omejujejo spremljanje tudi pri neomejeni porabi baterije. Če preklapljanje teme preneha delovati, sledite navodilom na strani Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Nekateri telefoni OnePlus omejujejo spremljanje tudi pri neomejeni porabi baterije. Če preklapljanje teme preneha delovati, sledite navodilom na strani Don’t Kill My App.</string>
+	<string name="background_help_generic">Če preklapljanje teme preneha delovati, ko je aplikacija zaprta, sledite navodilom za svoj telefon na strani Don’t Kill My App, da preverite nastavitve dejavnosti v ozadju in baterije.</string>
 	<string name="background_help_hide">Skrij namig</string>
 	<string name="background_help_open_settings">Odpri nastavitve aplikacije</string>
 	<string name="background_help_unavailable">Nobena aplikacija ni mogla odpreti te strani. Lahko preverite sistemske nastavitve ali ročno obiščete dontkillmyapp.com.</string>

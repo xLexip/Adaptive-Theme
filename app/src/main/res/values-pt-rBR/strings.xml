@@ -129,9 +129,9 @@
 	<string name="monitoring_start_failed_message">Toque em Tentar novamente para iniciar o monitoramento em segundo plano. Se o problema persistir, verifique as restrições de apps em segundo plano do celular.</string>
 	<string name="monitoring_action_retry">Tentar novamente</string>
 	<string name="background_help_title">Permitir atividade em segundo plano</string>
-	<string name="background_help_motorola">Alguns celulares Motorola restringem o monitoramento mesmo com o uso da bateria sem restrições. Se a alternância parar de funcionar, pesquise por “Gerenciar apps em segundo plano” nas configurações do celular e permita que o Adaptive Theme funcione em segundo plano. Os nomes dos menus podem variar.</string>
-	<string name="background_help_oneplus">Alguns celulares OnePlus restringem o monitoramento mesmo com o uso da bateria sem restrições. Se a alternância parar de funcionar, permita a inicialização automática e a atividade em segundo plano do Adaptive Theme nas configurações do sistema. Os nomes dos menus variam conforme a versão do software.</string>
-	<string name="background_help_generic">Se a alternância de tema parar de funcionar com o app fechado, verifique as restrições de atividade em segundo plano e de bateria do Adaptive Theme no celular. Alguns celulares têm configurações adicionais de inicialização automática. Os nomes dos menus variam conforme o dispositivo.</string>
+	<string name="background_help_motorola">Alguns celulares Motorola restringem o monitoramento mesmo com o uso da bateria sem restrições. Se a alternância de tema parar de funcionar, siga o guia do Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Alguns celulares OnePlus restringem o monitoramento mesmo com o uso da bateria sem restrições. Se a alternância de tema parar de funcionar, siga o guia do Don’t Kill My App.</string>
+	<string name="background_help_generic">Se a alternância de tema parar de funcionar com o app fechado, siga o guia para seu celular no Don’t Kill My App para verificar as configurações de atividade em segundo plano e de bateria.</string>
 	<string name="background_help_hide">Ocultar dica</string>
 	<string name="background_help_open_settings">Abrir configurações do app</string>
 	<string name="background_help_unavailable">Nenhum app conseguiu abrir esta página. Você pode verificar as configurações do sistema ou acessar dontkillmyapp.com manualmente.</string>

@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Toca Torna-ho a provar per iniciar la supervisió en segon pla. Si el problema persisteix, comprova les restriccions d’aplicacions en segon pla del telèfon.</string>
 	<string name="monitoring_action_retry">Torna-ho a provar</string>
 	<string name="background_help_title">Permet l’activitat en segon pla</string>
-	<string name="background_help_motorola">Alguns telèfons Motorola restringeixen la supervisió fins i tot amb l’ús de bateria sense restriccions. Si el canvi s’atura, cerca «Gestió d’aplicacions en segon pla» als ajustos del telèfon i permet que Adaptive Theme s’executi en segon pla. Els noms dels menús poden variar.</string>
-	<string name="background_help_oneplus">Alguns telèfons OnePlus restringeixen la supervisió fins i tot amb l’ús de bateria sense restriccions. Si el canvi s’atura, permet l’inici automàtic i l’activitat en segon pla d’Adaptive Theme als ajustos del sistema. Els noms dels menús varien segons la versió del programari.</string>
-	<string name="background_help_generic">Si el canvi de tema s’atura amb l’aplicació tancada, comprova les restriccions d’activitat en segon pla i de bateria d’Adaptive Theme al telèfon. Alguns telèfons tenen ajustos addicionals d’inici automàtic. Els noms dels menús varien segons el dispositiu.</string>
+	<string name="background_help_motorola">Alguns telèfons Motorola restringeixen la supervisió fins i tot amb l’ús de bateria sense restriccions. Si el canvi de tema s’atura, segueix la guia de Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Alguns telèfons OnePlus restringeixen la supervisió fins i tot amb l’ús de bateria sense restriccions. Si el canvi de tema s’atura, segueix la guia de Don’t Kill My App.</string>
+	<string name="background_help_generic">Si el canvi de tema s’atura amb l’aplicació tancada, segueix la guia del teu telèfon a Don’t Kill My App per revisar els ajustos d’activitat en segon pla i de bateria.</string>
 	<string name="background_help_hide">Amaga el consell</string>
 	<string name="background_help_open_settings">Obre els ajustos de l’aplicació</string>
 	<string name="background_help_unavailable">Cap aplicació no ha pogut obrir aquesta pàgina. Pots comprovar els ajustos del sistema o visitar dontkillmyapp.com manualment.</string>

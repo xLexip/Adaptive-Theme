@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Atinge Încearcă din nou pentru a porni monitorizarea în fundal. Dacă problema persistă, verifică restricțiile telefonului pentru aplicațiile din fundal.</string>
 	<string name="monitoring_action_retry">Încearcă din nou</string>
 	<string name="background_help_title">Permite activitatea în fundal</string>
-	<string name="background_help_motorola">Unele telefoane Motorola restricționează monitorizarea chiar și cu utilizarea nerestricționată a bateriei. Dacă schimbarea nu mai funcționează, caută „Gestionarea aplicațiilor din fundal” în setările telefonului și permite aplicației Adaptive Theme să ruleze în fundal. Numele meniurilor pot varia.</string>
-	<string name="background_help_oneplus">Unele telefoane OnePlus restricționează monitorizarea chiar și cu utilizarea nerestricționată a bateriei. Dacă schimbarea nu mai funcționează, permite pornirea automată și activitatea în fundal pentru Adaptive Theme în setările sistemului. Numele meniurilor variază în funcție de versiunea software.</string>
-	<string name="background_help_generic">Dacă schimbarea temei nu mai funcționează când aplicația este închisă, verifică restricțiile de activitate în fundal și de baterie pentru Adaptive Theme pe telefon. Unele telefoane au setări suplimentare de pornire automată. Numele meniurilor variază în funcție de dispozitiv.</string>
+	<string name="background_help_motorola">Unele telefoane Motorola restricționează monitorizarea chiar și cu utilizarea nerestricționată a bateriei. Dacă schimbarea temei nu mai funcționează, urmează ghidul de pe Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Unele telefoane OnePlus restricționează monitorizarea chiar și cu utilizarea nerestricționată a bateriei. Dacă schimbarea temei nu mai funcționează, urmează ghidul de pe Don’t Kill My App.</string>
+	<string name="background_help_generic">Dacă schimbarea temei nu mai funcționează când aplicația este închisă, urmează ghidul pentru telefonul tău de pe Don’t Kill My App pentru a verifica setările de activitate în fundal și de baterie.</string>
 	<string name="background_help_hide">Ascunde sugestia</string>
 	<string name="background_help_open_settings">Deschide setările aplicației</string>
 	<string name="background_help_unavailable">Nicio aplicație nu a putut deschide această pagină. Poți verifica setările sistemului sau accesa manual dontkillmyapp.com.</string>

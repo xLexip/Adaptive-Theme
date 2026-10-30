@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Taustal jälgimise käivitamiseks puuduta nuppu Proovi uuesti. Kui probleem kordub, kontrolli telefoni taustarakenduste piiranguid.</string>
 	<string name="monitoring_action_retry">Proovi uuesti</string>
 	<string name="background_help_title">Luba taustategevus</string>
-	<string name="background_help_motorola">Mõned Motorola telefonid piiravad jälgimist ka piiramatu akukasutuse korral. Kui vahetamine lakkab töötamast, otsi telefoni seadetest „Taustarakenduste haldamine“ ja luba Adaptive Theme’il taustal töötada. Menüüde nimed võivad erineda.</string>
-	<string name="background_help_oneplus">Mõned OnePlusi telefonid piiravad jälgimist ka piiramatu akukasutuse korral. Kui vahetamine lakkab töötamast, luba süsteemi seadetes Adaptive Theme’i automaatne käivitamine ja taustategevus. Menüüde nimed erinevad olenevalt tarkvaraversioonist.</string>
-	<string name="background_help_generic">Kui teema vahetamine suletud rakenduse korral lakkab töötamast, kontrolli telefonis Adaptive Theme’i taustategevuse ja aku piiranguid. Mõnel telefonil on automaatse käivitamise lisaseaded. Menüüde nimed erinevad olenevalt seadmest.</string>
+	<string name="background_help_motorola">Mõned tootja Motorola telefonid piiravad jälgimist ka piiramatu akukasutuse korral. Kui teema vahetamine lakkab töötamast, järgi Don’t Kill My Appi juhendit.</string>
+	<string name="background_help_oneplus">Mõned tootja OnePlus telefonid piiravad jälgimist ka piiramatu akukasutuse korral. Kui teema vahetamine lakkab töötamast, järgi Don’t Kill My Appi juhendit.</string>
+	<string name="background_help_generic">Kui teema vahetamine suletud rakenduse korral lakkab töötamast, järgi Don’t Kill My Appi juhendit oma telefoni kohta, et kontrollida taustategevuse ja aku seadeid.</string>
 	<string name="background_help_hide">Peida vihje</string>
 	<string name="background_help_open_settings">Ava rakenduse seaded</string>
 	<string name="background_help_unavailable">Ükski rakendus ei saanud seda lehte avada. Võid kontrollida süsteemi seadeid või avada dontkillmyapp.com käsitsi.</string>

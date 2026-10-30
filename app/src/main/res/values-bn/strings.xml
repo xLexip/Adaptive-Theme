@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">ব্যাকগ্রাউন্ডে নজরদারি শুরু করতে “আবার চেষ্টা করুন” বোতামে ট্যাপ করুন। সমস্যা চলতে থাকলে ফোনের ব্যাকগ্রাউন্ড অ্যাপের বিধিনিষেধ পরীক্ষা করুন।</string>
 	<string name="monitoring_action_retry">আবার চেষ্টা করুন</string>
 	<string name="background_help_title">ব্যাকগ্রাউন্ড কার্যকলাপের অনুমতি দিন</string>
-	<string name="background_help_motorola">কিছু Motorola ফোনে ব্যাটারি ব্যবহারে কোনো বিধিনিষেধ না থাকলেও নজরদারি সীমিত করা হয়। থিম বদলানো বন্ধ হলে ফোনের সেটিংসে “ব্যাকগ্রাউন্ড অ্যাপ পরিচালনা” খুঁজুন এবং Adaptive Theme-কে ব্যাকগ্রাউন্ডে চলার অনুমতি দিন। মেনুর নাম ভিন্ন হতে পারে।</string>
-	<string name="background_help_oneplus">কিছু OnePlus ফোনে ব্যাটারি ব্যবহারে কোনো বিধিনিষেধ না থাকলেও নজরদারি সীমিত করা হয়। থিম বদলানো বন্ধ হলে সিস্টেম সেটিংসে Adaptive Theme-এর জন্য স্বয়ংক্রিয় চালু হওয়া ও ব্যাকগ্রাউন্ড কার্যকলাপের অনুমতি দিন। সফ্টওয়্যার সংস্করণ অনুযায়ী মেনুর নাম ভিন্ন হয়।</string>
-	<string name="background_help_generic">অ্যাপ বন্ধ থাকা অবস্থায় থিম বদলানো বন্ধ হলে ফোনে Adaptive Theme-এর ব্যাকগ্রাউন্ড কার্যকলাপ ও ব্যাটারির বিধিনিষেধ পরীক্ষা করুন। কিছু ফোনে স্বয়ংক্রিয় চালু হওয়ার অতিরিক্ত সেটিংস থাকে। ডিভাইস অনুযায়ী মেনুর নাম ভিন্ন হয়।</string>
+	<string name="background_help_motorola">কিছু Motorola ফোনে ব্যাটারি ব্যবহারে কোনো বিধিনিষেধ না থাকলেও নজরদারি সীমিত করা হয়। থিম বদলানো বন্ধ হলে Don’t Kill My App-এর নির্দেশিকা অনুসরণ করুন।</string>
+	<string name="background_help_oneplus">কিছু OnePlus ফোনে ব্যাটারি ব্যবহারে কোনো বিধিনিষেধ না থাকলেও নজরদারি সীমিত করা হয়। থিম বদলানো বন্ধ হলে Don’t Kill My App-এর নির্দেশিকা অনুসরণ করুন।</string>
+	<string name="background_help_generic">অ্যাপ বন্ধ থাকা অবস্থায় থিম বদলানো বন্ধ হলে Don’t Kill My App-এ আপনার ফোনের নির্দেশিকা অনুসরণ করে ব্যাকগ্রাউন্ড কার্যকলাপ ও ব্যাটারির সেটিংস পরীক্ষা করুন।</string>
 	<string name="background_help_hide">পরামর্শ লুকান</string>
 	<string name="background_help_open_settings">অ্যাপের সেটিংস খুলুন</string>
 	<string name="background_help_unavailable">কোনো অ্যাপ এই পৃষ্ঠাটি খুলতে পারেনি। আপনি সিস্টেম সেটিংস পরীক্ষা করতে পারেন বা নিজে dontkillmyapp.com-এ যেতে পারেন।</string>

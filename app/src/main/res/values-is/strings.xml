@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Pikkaðu á Reyna aftur til að hefja vöktun í bakgrunni. Ef vandamálið heldur áfram skaltu athuga takmarkanir símans á forritum í bakgrunni.</string>
 	<string name="monitoring_action_retry">Reyna aftur</string>
 	<string name="background_help_title">Leyfa virkni í bakgrunni</string>
-	<string name="background_help_motorola">Sumir Motorola-símar takmarka vöktun jafnvel þegar rafhlöðunotkun er ótakmörkuð. Ef skipting hættir að virka skaltu leita að „Stjórnun bakgrunnsforrita“ í stillingum símans og leyfa Adaptive Theme að keyra í bakgrunni. Heiti valmynda geta verið mismunandi.</string>
-	<string name="background_help_oneplus">Sumir OnePlus-símar takmarka vöktun jafnvel þegar rafhlöðunotkun er ótakmörkuð. Ef skipting hættir að virka skaltu leyfa sjálfvirka ræsingu og virkni í bakgrunni fyrir Adaptive Theme í kerfisstillingum. Heiti valmynda eru mismunandi eftir hugbúnaðarútgáfu.</string>
-	<string name="background_help_generic">Ef þemaskipting hættir að virka þegar forritið er lokað skaltu athuga takmarkanir símans á bakgrunnsvirkni og rafhlöðunotkun fyrir Adaptive Theme. Sumir símar hafa viðbótarstillingar fyrir sjálfvirka ræsingu. Heiti valmynda eru mismunandi eftir tæki.</string>
+	<string name="background_help_motorola">Sumir Motorola-símar takmarka vöktun jafnvel þegar rafhlöðunotkun er ótakmörkuð. Ef þemaskipting hættir að virka skaltu fylgja leiðbeiningunum á Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Sumir OnePlus-símar takmarka vöktun jafnvel þegar rafhlöðunotkun er ótakmörkuð. Ef þemaskipting hættir að virka skaltu fylgja leiðbeiningunum á Don’t Kill My App.</string>
+	<string name="background_help_generic">Ef þemaskipting hættir að virka þegar forritið er lokað skaltu fylgja leiðbeiningunum fyrir símann þinn á Don’t Kill My App til að yfirfara stillingar fyrir bakgrunnsvirkni og rafhlöðu.</string>
 	<string name="background_help_hide">Fela ábendingu</string>
 	<string name="background_help_open_settings">Opna forritsstillingar</string>
 	<string name="background_help_unavailable">Ekkert forrit gat opnað þessa síðu. Þú getur athugað kerfisstillingar eða farið handvirkt á dontkillmyapp.com.</string>

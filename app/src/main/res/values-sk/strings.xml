@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Ťuknutím na Skúsiť znova spustíte monitorovanie na pozadí. Ak sa problém opakuje, skontrolujte obmedzenia aplikácií na pozadí v telefóne.</string>
 	<string name="monitoring_action_retry">Skúsiť znova</string>
 	<string name="background_help_title">Povoliť aktivitu na pozadí</string>
-	<string name="background_help_motorola">Niektoré telefóny Motorola obmedzujú monitorovanie aj pri neobmedzenom využití batérie. Ak prepínanie prestane fungovať, v nastaveniach telefónu vyhľadajte „Správa aplikácií na pozadí“ a povoľte aplikácii Adaptive Theme beh na pozadí. Názvy ponúk sa môžu líšiť.</string>
-	<string name="background_help_oneplus">Niektoré telefóny OnePlus obmedzujú monitorovanie aj pri neobmedzenom využití batérie. Ak prepínanie prestane fungovať, v systémových nastaveniach povoľte automatické spúšťanie a aktivitu na pozadí pre Adaptive Theme. Názvy ponúk sa líšia podľa verzie softvéru.</string>
-	<string name="background_help_generic">Ak prepínanie témy prestane fungovať pri zatvorenej aplikácii, skontrolujte v telefóne obmedzenia aktivity na pozadí a batérie pre Adaptive Theme. Niektoré telefóny majú ďalšie nastavenia automatického spúšťania. Názvy ponúk sa líšia podľa zariadenia.</string>
+	<string name="background_help_motorola">Niektoré telefóny Motorola obmedzujú monitorovanie aj pri neobmedzenom využití batérie. Ak prepínanie témy prestane fungovať, postupujte podľa návodu na Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Niektoré telefóny OnePlus obmedzujú monitorovanie aj pri neobmedzenom využití batérie. Ak prepínanie témy prestane fungovať, postupujte podľa návodu na Don’t Kill My App.</string>
+	<string name="background_help_generic">Ak prepínanie témy prestane fungovať pri zatvorenej aplikácii, skontrolujte nastavenia aktivity na pozadí a batérie podľa návodu pre svoj telefón na Don’t Kill My App.</string>
 	<string name="background_help_hide">Skryť tip</string>
 	<string name="background_help_open_settings">Otvoriť nastavenia aplikácie</string>
 	<string name="background_help_unavailable">Žiadna aplikácia nemohla otvoriť túto stránku. Môžete skontrolovať systémové nastavenia alebo ručne navštíviť dontkillmyapp.com.</string>

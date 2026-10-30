@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Gusa Jaribu tena ili kuanza ufuatiliaji chinichini. Tatizo likiendelea, angalia vizuizi vya programu za chinichini kwenye simu yako.</string>
 	<string name="monitoring_action_retry">Jaribu tena</string>
 	<string name="background_help_title">Ruhusu shughuli za chinichini</string>
-	<string name="background_help_motorola">Baadhi ya simu za Motorola huzuia ufuatiliaji hata wakati matumizi ya betri hayana vizuizi. Ikiwa ubadilishaji unasimama, tafuta “Kudhibiti programu za chinichini” kwenye Mipangilio ya simu na uruhusu Adaptive Theme kufanya kazi chinichini. Majina ya menyu yanaweza kutofautiana.</string>
-	<string name="background_help_oneplus">Baadhi ya simu za OnePlus huzuia ufuatiliaji hata wakati matumizi ya betri hayana vizuizi. Ikiwa ubadilishaji unasimama, ruhusu kuanza kiotomatiki na shughuli za chinichini kwa Adaptive Theme kwenye mipangilio ya mfumo. Majina ya menyu hutofautiana kulingana na toleo la programu ya mfumo.</string>
-	<string name="background_help_generic">Ikiwa ubadilishaji wa mandhari unasimama programu ikiwa imefungwa, angalia vizuizi vya shughuli za chinichini na betri kwa Adaptive Theme kwenye simu yako. Baadhi ya simu zina mipangilio ya ziada ya kuanza kiotomatiki. Majina ya menyu hutofautiana kulingana na kifaa.</string>
+	<string name="background_help_motorola">Baadhi ya simu za Motorola huzuia ufuatiliaji hata wakati matumizi ya betri hayana vizuizi. Ikiwa ubadilishaji wa mandhari unasimama, fuata mwongozo kwenye Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Baadhi ya simu za OnePlus huzuia ufuatiliaji hata wakati matumizi ya betri hayana vizuizi. Ikiwa ubadilishaji wa mandhari unasimama, fuata mwongozo kwenye Don’t Kill My App.</string>
+	<string name="background_help_generic">Ikiwa ubadilishaji wa mandhari unasimama programu ikiwa imefungwa, fuata mwongozo wa simu yako kwenye Don’t Kill My App ili kukagua mipangilio ya shughuli za chinichini na betri.</string>
 	<string name="background_help_hide">Ficha kidokezo</string>
 	<string name="background_help_open_settings">Fungua mipangilio ya programu</string>
 	<string name="background_help_unavailable">Hakuna programu iliyoweza kufungua ukurasa huu. Unaweza kuangalia mipangilio ya mfumo au kufungua dontkillmyapp.com mwenyewe.</string>

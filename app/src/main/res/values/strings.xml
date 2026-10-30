@@ -136,9 +136,9 @@
 	<string name="monitoring_start_failed_message">Tap Retry to start background monitoring. If this keeps happening, check your phone’s background app restrictions.</string>
 	<string name="monitoring_action_retry">Retry</string>
 	<string name="background_help_title">Allow background activity</string>
-	<string name="background_help_motorola">Some Motorola phones restrict monitoring even with unrestricted battery use. If switching stops, search your phone’s Settings for “Managing background apps” and allow Adaptive Theme to run in the background. Menu names vary.</string>
-	<string name="background_help_oneplus">Some OnePlus phones restrict monitoring even with unrestricted battery use. If switching stops, allow Auto-start or Auto-launch and background activity for Adaptive Theme in system Settings. Menu names vary by software version.</string>
-	<string name="background_help_generic">If theme switching stops while the app is closed, check your phone’s background activity and battery restrictions for Adaptive Theme. Some phones have additional Auto-start settings. Menu names vary by device.</string>
+	<string name="background_help_motorola">Some Motorola phones restrict monitoring even with unrestricted battery use. If theme switching stops, follow the guide on Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Some OnePlus phones restrict monitoring even with unrestricted battery use. If theme switching stops, follow the guide on Don’t Kill My App.</string>
+	<string name="background_help_generic">If theme switching stops while the app is closed, follow the guide for your phone on Don’t Kill My App to review its background activity and battery settings.</string>
 	<string name="background_help_hide">Hide hint</string>
 	<string name="background_help_open_settings">Open app settings</string>
 	<string name="background_help_website" translatable="false">Don’t Kill My App ↗</string>

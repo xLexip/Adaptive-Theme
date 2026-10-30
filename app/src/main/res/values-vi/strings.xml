@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">Nhấn Thử lại để bắt đầu giám sát nền. Nếu sự cố vẫn tiếp diễn, hãy kiểm tra các hạn chế đối với ứng dụng chạy nền trên điện thoại.</string>
 	<string name="monitoring_action_retry">Thử lại</string>
 	<string name="background_help_title">Cho phép hoạt động nền</string>
-	<string name="background_help_motorola">Một số điện thoại Motorola hạn chế giám sát ngay cả khi mức sử dụng pin không bị hạn chế. Nếu việc chuyển đổi ngừng hoạt động, hãy tìm “Quản lý ứng dụng nền” trong phần Cài đặt của điện thoại và cho phép Adaptive Theme chạy nền. Tên menu có thể khác nhau.</string>
-	<string name="background_help_oneplus">Một số điện thoại OnePlus hạn chế giám sát ngay cả khi mức sử dụng pin không bị hạn chế. Nếu việc chuyển đổi ngừng hoạt động, hãy cho phép Adaptive Theme tự khởi động và hoạt động nền trong cài đặt hệ thống. Tên menu khác nhau tùy phiên bản phần mềm.</string>
-	<string name="background_help_generic">Nếu việc chuyển giao diện ngừng hoạt động khi ứng dụng đóng, hãy kiểm tra các hạn chế về hoạt động nền và pin của Adaptive Theme trên điện thoại. Một số điện thoại có thêm cài đặt tự khởi động. Tên menu khác nhau tùy thiết bị.</string>
+	<string name="background_help_motorola">Một số điện thoại Motorola hạn chế giám sát ngay cả khi mức sử dụng pin không bị hạn chế. Nếu việc chuyển giao diện ngừng hoạt động, hãy làm theo hướng dẫn trên Don’t Kill My App.</string>
+	<string name="background_help_oneplus">Một số điện thoại OnePlus hạn chế giám sát ngay cả khi mức sử dụng pin không bị hạn chế. Nếu việc chuyển giao diện ngừng hoạt động, hãy làm theo hướng dẫn trên Don’t Kill My App.</string>
+	<string name="background_help_generic">Nếu việc chuyển giao diện ngừng hoạt động khi ứng dụng đóng, hãy làm theo hướng dẫn dành cho điện thoại của bạn trên Don’t Kill My App để kiểm tra cài đặt hoạt động nền và pin.</string>
 	<string name="background_help_hide">Ẩn gợi ý</string>
 	<string name="background_help_open_settings">Mở cài đặt ứng dụng</string>
 	<string name="background_help_unavailable">Không ứng dụng nào mở được trang này. Bạn có thể kiểm tra cài đặt hệ thống hoặc tự truy cập dontkillmyapp.com.</string>

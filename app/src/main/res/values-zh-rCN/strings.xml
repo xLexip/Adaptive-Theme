@@ -112,9 +112,9 @@
 	<string name="monitoring_start_failed_message">点按“重试”以启动后台监测。如果问题持续出现，请检查手机对后台应用的限制。</string>
 	<string name="monitoring_action_retry">重试</string>
 	<string name="background_help_title">允许后台活动</string>
-	<string name="background_help_motorola">部分 Motorola 手机即使将电池使用设为“不受限制”，仍会限制监测。如果主题切换停止工作，请在手机设置中搜索“管理后台应用”，并允许 Adaptive Theme 在后台运行。菜单名称可能有所不同。</string>
-	<string name="background_help_oneplus">部分 OnePlus 手机即使将电池使用设为“不受限制”，仍会限制监测。如果主题切换停止工作，请在系统设置中允许 Adaptive Theme 自动启动并在后台活动。菜单名称因软件版本而异。</string>
-	<string name="background_help_generic">如果关闭应用后主题切换停止工作，请检查手机对 Adaptive Theme 后台活动和电池使用的限制。部分手机还有额外的自动启动设置。菜单名称因设备而异。</string>
+	<string name="background_help_motorola">部分 Motorola 手机即使将电池使用设为“不受限制”，仍会限制监测。如果主题切换停止工作，请按照 Don’t Kill My App 上的指南操作。</string>
+	<string name="background_help_oneplus">部分 OnePlus 手机即使将电池使用设为“不受限制”，仍会限制监测。如果主题切换停止工作，请按照 Don’t Kill My App 上的指南操作。</string>
+	<string name="background_help_generic">如果关闭应用后主题切换停止工作，请按照 Don’t Kill My App 上适用于您手机的指南，检查后台活动和电池设置。</string>
 	<string name="background_help_hide">隐藏提示</string>
 	<string name="background_help_open_settings">打开应用设置</string>
 	<string name="background_help_unavailable">没有应用能够打开此页面。您可以检查系统设置，或手动访问 dontkillmyapp.com。</string>
