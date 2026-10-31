@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">ਬੈਕਗ੍ਰਾਊਂਡ ਨਿਗਰਾਨੀ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਉੱਤੇ ਟੈਪ ਕਰੋ। ਜੇ ਸਮੱਸਿਆ ਜਾਰੀ ਰਹੇ, ਤਾਂ ਫ਼ੋਨ ਵਿੱਚ ਬੈਕਗ੍ਰਾਊਂਡ ਐਪਾਂ ਉੱਤੇ ਲੱਗੀਆਂ ਪਾਬੰਦੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
 	<string name="monitoring_action_retry">ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
 	<string name="background_help_title">ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
-	<string name="background_help_motorola">ਕੁਝ Motorola ਫ਼ੋਨ ਬੈਟਰੀ ਦੀ ਬੇਰੋਕ ਵਰਤੋਂ ਦੇ ਬਾਵਜੂਦ ਨਿਗਰਾਨੀ ਨੂੰ ਸੀਮਤ ਕਰਦੇ ਹਨ। ਜੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ Don’t Kill My App ਉੱਤੇ ਦਿੱਤੀ ਗਾਈਡ ਦੀ ਪਾਲਣਾ ਕਰੋ।</string>
-	<string name="background_help_oneplus">ਕੁਝ OnePlus ਫ਼ੋਨ ਬੈਟਰੀ ਦੀ ਬੇਰੋਕ ਵਰਤੋਂ ਦੇ ਬਾਵਜੂਦ ਨਿਗਰਾਨੀ ਨੂੰ ਸੀਮਤ ਕਰਦੇ ਹਨ। ਜੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ Don’t Kill My App ਉੱਤੇ ਦਿੱਤੀ ਗਾਈਡ ਦੀ ਪਾਲਣਾ ਕਰੋ।</string>
-	<string name="background_help_generic">ਜੇ ਐਪ ਬੰਦ ਹੋਣ ਉੱਤੇ ਥੀਮ ਬਦਲਣਾ ਰੁਕ ਜਾਵੇ, ਤਾਂ ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਅਤੇ ਬੈਟਰੀ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਲਈ Don’t Kill My App ਉੱਤੇ ਆਪਣੇ ਫ਼ੋਨ ਦੀ ਗਾਈਡ ਦੀ ਪਾਲਣਾ ਕਰੋ।</string>
+	<string name="background_help_generic">ਬੈਕਗ੍ਰਾਊਂਡ ਨਿਗਰਾਨੀ ਵਿੱਚ ਵਾਰ-ਵਾਰ ਰੁਕਾਵਟ ਆਈ ਹੈ। Don’t Kill My App ਉੱਤੇ ਆਪਣੇ ਫ਼ੋਨ ਦੀ ਗਾਈਡ ਦੀ ਪਾਲਣਾ ਕਰੋ।</string>
 	<string name="background_help_hide">ਸੁਝਾਅ ਲੁਕਾਓ</string>
 	<string name="background_help_open_settings">ਐਪ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
 	<string name="background_help_unavailable">ਕੋਈ ਵੀ ਐਪ ਇਹ ਪੰਨਾ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕੀ। ਤੁਸੀਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਦੀ ਜਾਂਚ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ ਖ਼ੁਦ dontkillmyapp.com ਉੱਤੇ ਜਾ ਸਕਦੇ ਹੋ।</string>

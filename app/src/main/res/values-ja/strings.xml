@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">「再試行」をタップしてバックグラウンド監視を開始してください。問題が続く場合は、スマートフォンのバックグラウンドアプリの制限を確認してください。</string>
 	<string name="monitoring_action_retry">再試行</string>
 	<string name="background_help_title">バックグラウンド動作を許可</string>
-	<string name="background_help_motorola">一部のMotorola端末では、バッテリー使用量を制限なしに設定しても監視が制限されます。テーマが切り替わらなくなった場合は、Don’t Kill My Appのガイドに従ってください。</string>
-	<string name="background_help_oneplus">一部のOnePlus端末では、バッテリー使用量を制限なしに設定しても監視が制限されます。テーマが切り替わらなくなった場合は、Don’t Kill My Appのガイドに従ってください。</string>
-	<string name="background_help_generic">アプリを閉じるとテーマが切り替わらなくなる場合は、Don’t Kill My Appでお使いの端末のガイドに従い、バックグラウンド動作とバッテリーの設定を確認してください。</string>
+	<string name="background_help_generic">バックグラウンド監視が繰り返し中断されました。Don’t Kill My Appでお使いの端末のガイドに従ってください。</string>
 	<string name="background_help_hide">ヒントを非表示</string>
 	<string name="background_help_open_settings">アプリの設定を開く</string>
 	<string name="background_help_unavailable">このページを開けるアプリがありません。システム設定を確認するか、dontkillmyapp.comに手動でアクセスしてください。</string>

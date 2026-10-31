@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Bakstelėkite Bandyti dar kartą, kad pradėtumėte stebėjimą fone. Jei problema kartojasi, patikrinkite telefono foninių programų apribojimus.</string>
 	<string name="monitoring_action_retry">Bandyti dar kartą</string>
 	<string name="background_help_title">Leisti veiklą fone</string>
-	<string name="background_help_motorola">Kai kurie Motorola telefonai riboja stebėjimą net ir neribojant akumuliatoriaus naudojimo. Jei temos perjungimas nustoja veikti, vadovaukitės Don’t Kill My App vadovu.</string>
-	<string name="background_help_oneplus">Kai kurie OnePlus telefonai riboja stebėjimą net ir neribojant akumuliatoriaus naudojimo. Jei temos perjungimas nustoja veikti, vadovaukitės Don’t Kill My App vadovu.</string>
-	<string name="background_help_generic">Jei temos perjungimas nustoja veikti uždarius programą, vadovaukitės savo telefonui skirtu Don’t Kill My App vadovu, kad patikrintumėte veiklos fone ir akumuliatoriaus nustatymus.</string>
+	<string name="background_help_generic">Stebėjimas fone buvo kelis kartus nutrauktas. Vadovaukitės savo telefonui skirtu Don’t Kill My App vadovu.</string>
 	<string name="background_help_hide">Slėpti patarimą</string>
 	<string name="background_help_open_settings">Atverti programos nustatymus</string>
 	<string name="background_help_unavailable">Jokia programa negalėjo atverti šio puslapio. Galite patikrinti sistemos nustatymus arba patys apsilankyti dontkillmyapp.com.</string>

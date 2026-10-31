@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Dotknij Spróbuj ponownie, aby uruchomić monitorowanie w tle. Jeśli problem się powtarza, sprawdź ograniczenia aplikacji działających w tle w telefonie.</string>
 	<string name="monitoring_action_retry">Spróbuj ponownie</string>
 	<string name="background_help_title">Zezwól na działanie w tle</string>
-	<string name="background_help_motorola">Niektóre telefony Motorola ograniczają monitorowanie nawet przy nieograniczonym użyciu baterii. Jeśli przełączanie motywu przestanie działać, postępuj zgodnie z poradnikiem na Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Niektóre telefony OnePlus ograniczają monitorowanie nawet przy nieograniczonym użyciu baterii. Jeśli przełączanie motywu przestanie działać, postępuj zgodnie z poradnikiem na Don’t Kill My App.</string>
-	<string name="background_help_generic">Jeśli przełączanie motywu przestanie działać po zamknięciu aplikacji, postępuj zgodnie z poradnikiem dla swojego telefonu na Don’t Kill My App, aby sprawdzić ustawienia działania w tle i baterii.</string>
+	<string name="background_help_generic">Monitorowanie w tle zostało wielokrotnie przerwane. Postępuj zgodnie z poradnikiem dla swojego telefonu na Don’t Kill My App.</string>
 	<string name="background_help_hide">Ukryj wskazówkę</string>
 	<string name="background_help_open_settings">Otwórz ustawienia aplikacji</string>
 	<string name="background_help_unavailable">Żadna aplikacja nie mogła otworzyć tej strony. Możesz sprawdzić ustawienia systemu lub ręcznie wejść na dontkillmyapp.com.</string>

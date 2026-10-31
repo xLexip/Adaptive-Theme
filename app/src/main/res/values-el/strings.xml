@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Πατήστε Δοκιμή ξανά για να ξεκινήσει η παρακολούθηση στο παρασκήνιο. Αν το πρόβλημα επιμένει, ελέγξτε τους περιορισμούς εφαρμογών παρασκηνίου του τηλεφώνου σας.</string>
 	<string name="monitoring_action_retry">Δοκιμή ξανά</string>
 	<string name="background_help_title">Να επιτρέπεται η δραστηριότητα στο παρασκήνιο</string>
-	<string name="background_help_motorola">Ορισμένα τηλέφωνα Motorola περιορίζουν την παρακολούθηση ακόμη και με απεριόριστη χρήση μπαταρίας. Αν η εναλλαγή θέματος σταματήσει, ακολουθήστε τον οδηγό στο Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Ορισμένα τηλέφωνα OnePlus περιορίζουν την παρακολούθηση ακόμη και με απεριόριστη χρήση μπαταρίας. Αν η εναλλαγή θέματος σταματήσει, ακολουθήστε τον οδηγό στο Don’t Kill My App.</string>
-	<string name="background_help_generic">Αν η εναλλαγή θέματος σταματήσει όταν η εφαρμογή είναι κλειστή, ακολουθήστε τον οδηγό για το τηλέφωνό σας στο Don’t Kill My App για να ελέγξετε τις ρυθμίσεις δραστηριότητας παρασκηνίου και μπαταρίας.</string>
+	<string name="background_help_generic">Η παρακολούθηση στο παρασκήνιο έχει διακοπεί επανειλημμένα. Ακολουθήστε τον οδηγό για το τηλέφωνό σας στο Don’t Kill My App.</string>
 	<string name="background_help_hide">Απόκρυψη συμβουλής</string>
 	<string name="background_help_open_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
 	<string name="background_help_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει αυτή τη σελίδα. Μπορείτε να ελέγξετε τις ρυθμίσεις συστήματος ή να επισκεφθείτε το dontkillmyapp.com χειροκίνητα.</string>

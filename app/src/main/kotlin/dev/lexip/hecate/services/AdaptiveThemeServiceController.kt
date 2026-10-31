@@ -17,6 +17,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.logging.MonitoringDiagnostics
+import dev.lexip.hecate.util.MonitoringInterruptionTracker
 
 interface AdaptiveThemeServiceController {
 	fun start(
@@ -53,6 +54,7 @@ class AndroidAdaptiveThemeServiceController(
 	}
 
 	override fun stop() {
+		MonitoringInterruptionTracker.create(context).markMonitoringStopped()
 		context.stopService(Intent(context, BroadcastReceiverService::class.java))
 		MonitoringServiceStatus.ready()
 	}

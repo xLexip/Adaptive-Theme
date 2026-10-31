@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">പശ്ചാത്തല നിരീക്ഷണം ആരംഭിക്കാൻ വീണ്ടും ശ്രമിക്കുക എന്നതിൽ ടാപ്പ് ചെയ്യുക. പ്രശ്നം തുടരുകയാണെങ്കിൽ, ഫോണിലെ പശ്ചാത്തല ആപ്പുകളുടെ നിയന്ത്രണങ്ങൾ പരിശോധിക്കുക.</string>
 	<string name="monitoring_action_retry">വീണ്ടും ശ്രമിക്കുക</string>
 	<string name="background_help_title">പശ്ചാത്തല പ്രവർത്തനം അനുവദിക്കുക</string>
-	<string name="background_help_motorola">ചില Motorola ഫോണുകൾ ബാറ്ററി ഉപയോഗത്തിന് നിയന്ത്രണമില്ലെങ്കിലും നിരീക്ഷണം പരിമിതപ്പെടുത്തുന്നു. തീം മാറ്റം നിലച്ചാൽ, Don’t Kill My App-ലെ മാർഗനിർദേശങ്ങൾ പിന്തുടരുക.</string>
-	<string name="background_help_oneplus">ചില OnePlus ഫോണുകൾ ബാറ്ററി ഉപയോഗത്തിന് നിയന്ത്രണമില്ലെങ്കിലും നിരീക്ഷണം പരിമിതപ്പെടുത്തുന്നു. തീം മാറ്റം നിലച്ചാൽ, Don’t Kill My App-ലെ മാർഗനിർദേശങ്ങൾ പിന്തുടരുക.</string>
-	<string name="background_help_generic">ആപ്പ് അടച്ചിരിക്കുമ്പോൾ തീം മാറ്റം നിലച്ചാൽ, പശ്ചാത്തല പ്രവർത്തനത്തിന്റെയും ബാറ്ററിയുടെയും ക്രമീകരണങ്ങൾ പരിശോധിക്കാൻ Don’t Kill My App-ൽ നിങ്ങളുടെ ഫോണിനുള്ള മാർഗനിർദേശങ്ങൾ പിന്തുടരുക.</string>
+	<string name="background_help_generic">പശ്ചാത്തല നിരീക്ഷണം ആവർത്തിച്ച് തടസ്സപ്പെട്ടു. Don’t Kill My App-ൽ നിങ്ങളുടെ ഫോണിനുള്ള മാർഗനിർദേശങ്ങൾ പിന്തുടരുക.</string>
 	<string name="background_help_hide">സൂചന മറയ്ക്കുക</string>
 	<string name="background_help_open_settings">ആപ്പ് ക്രമീകരണങ്ങൾ തുറക്കുക</string>
 	<string name="background_help_unavailable">ഒരു ആപ്പിനും ഈ പേജ് തുറക്കാനായില്ല. നിങ്ങൾക്ക് സിസ്റ്റം ക്രമീകരണങ്ങൾ പരിശോധിക്കുകയോ dontkillmyapp.com നേരിട്ട് സന്ദർശിക്കുകയോ ചെയ്യാം.</string>

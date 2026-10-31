@@ -34,15 +34,21 @@ class BackgroundActivityGuidanceTest {
 	fun onlySupportedManufacturersGetAutomaticHints() {
 		assertEquals(BackgroundActivityGuidance.MOTOROLA, BackgroundActivityGuidance.forManufacturer(" motorola "))
 		assertEquals(BackgroundActivityGuidance.ONEPLUS, BackgroundActivityGuidance.forManufacturer("OnePlus"))
-		for (name in listOf("Google", "OPPO", "realme", "", "unknown")) {
+		for (name in listOf("Xiaomi", " redmi ", "POCO")) {
+			assertEquals(BackgroundActivityGuidance.XIAOMI, BackgroundActivityGuidance.forManufacturer(name))
+		}
+		assertEquals(BackgroundActivityGuidance.REALME, BackgroundActivityGuidance.forManufacturer("realme"))
+		assertEquals(BackgroundActivityGuidance.OPPO, BackgroundActivityGuidance.forManufacturer("OPPO"))
+		for (name in listOf("Google", "Samsung", "", "unknown")) {
 			val guidance = BackgroundActivityGuidance.forManufacturer(name)
 			assertEquals(BackgroundActivityGuidance.OTHER, guidance)
-			assertFalse(guidance.shouldShowHint(monitoringEnabled = true, dismissed = false))
+			assertFalse(guidance.shouldShowHint(monitoringEnabled = true, dismissed = false, hasInterruptionEvidence = true))
 		}
-		for (guidance in listOf(BackgroundActivityGuidance.MOTOROLA, BackgroundActivityGuidance.ONEPLUS)) {
-			assertTrue(guidance.shouldShowHint(monitoringEnabled = true, dismissed = false))
-			assertFalse(guidance.shouldShowHint(monitoringEnabled = false, dismissed = false))
-			assertFalse(guidance.shouldShowHint(monitoringEnabled = true, dismissed = true))
+		for (guidance in BackgroundActivityGuidance.entries.filter { it != BackgroundActivityGuidance.OTHER }) {
+			assertTrue(guidance.shouldShowHint(monitoringEnabled = true, dismissed = false, hasInterruptionEvidence = true))
+			assertFalse(guidance.shouldShowHint(monitoringEnabled = true, dismissed = false, hasInterruptionEvidence = false))
+			assertFalse(guidance.shouldShowHint(monitoringEnabled = false, dismissed = false, hasInterruptionEvidence = true))
+			assertFalse(guidance.shouldShowHint(monitoringEnabled = true, dismissed = true, hasInterruptionEvidence = true))
 		}
 	}
 
@@ -74,6 +80,9 @@ class BackgroundActivityGuidanceTest {
 		val pages = mapOf(
 			BackgroundActivityGuidance.MOTOROLA to "https://dontkillmyapp.com/motorola",
 			BackgroundActivityGuidance.ONEPLUS to "https://dontkillmyapp.com/oneplus",
+			BackgroundActivityGuidance.XIAOMI to "https://dontkillmyapp.com/xiaomi",
+			BackgroundActivityGuidance.REALME to "https://dontkillmyapp.com/realme",
+			BackgroundActivityGuidance.OPPO to "https://dontkillmyapp.com/oppo",
 			BackgroundActivityGuidance.OTHER to "https://dontkillmyapp.com"
 		)
 		for ((guidance, expectedUrl) in pages) {

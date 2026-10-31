@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Arka planda izlemeyi başlatmak için Tekrar dene’ye dokunun. Sorun devam ederse telefonunuzun arka plan uygulama kısıtlamalarını kontrol edin.</string>
 	<string name="monitoring_action_retry">Tekrar dene</string>
 	<string name="background_help_title">Arka plan etkinliğine izin ver</string>
-	<string name="background_help_motorola">Bazı Motorola telefonlar, pil kullanımı sınırsız olsa bile izlemeyi kısıtlar. Tema geçişi durursa Don’t Kill My App’teki rehberi izleyin.</string>
-	<string name="background_help_oneplus">Bazı OnePlus telefonlar, pil kullanımı sınırsız olsa bile izlemeyi kısıtlar. Tema geçişi durursa Don’t Kill My App’teki rehberi izleyin.</string>
-	<string name="background_help_generic">Uygulama kapalıyken tema geçişi durursa arka plan etkinliği ve pil ayarlarını kontrol etmek için Don’t Kill My App’te telefonunuza yönelik rehberi izleyin.</string>
+	<string name="background_help_generic">Arka planda izleme birkaç kez kesintiye uğradı. Don’t Kill My App’te telefonunuza yönelik rehberi izleyin.</string>
 	<string name="background_help_hide">İpucunu gizle</string>
 	<string name="background_help_open_settings">Uygulama ayarlarını aç</string>
 	<string name="background_help_unavailable">Hiçbir uygulama bu sayfayı açamadı. Sistem ayarlarını kontrol edebilir veya dontkillmyapp.com adresini kendiniz ziyaret edebilirsiniz.</string>

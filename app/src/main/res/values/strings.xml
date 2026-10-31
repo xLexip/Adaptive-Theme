@@ -136,9 +136,7 @@
 	<string name="monitoring_start_failed_message">Tap Retry to start background monitoring. If this keeps happening, check your phone’s background app restrictions.</string>
 	<string name="monitoring_action_retry">Retry</string>
 	<string name="background_help_title">Allow background activity</string>
-	<string name="background_help_motorola">Some Motorola phones restrict monitoring even with unrestricted battery use. If theme switching stops, follow the guide on Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Some OnePlus phones restrict monitoring even with unrestricted battery use. If theme switching stops, follow the guide on Don’t Kill My App.</string>
-	<string name="background_help_generic">If theme switching stops while the app is closed, follow the guide for your phone on Don’t Kill My App to review its background activity and battery settings.</string>
+	<string name="background_help_generic">Background monitoring has been interrupted repeatedly. Follow the guide for your phone on Don’t Kill My App.</string>
 	<string name="background_help_hide">Hide hint</string>
 	<string name="background_help_open_settings">Open app settings</string>
 	<string name="background_help_website" translatable="false">Don’t Kill My App ↗</string>

@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">اضغط على إعادة المحاولة لبدء المراقبة في الخلفية. إذا استمرت المشكلة، فتحقق من قيود التطبيقات في الخلفية على هاتفك.</string>
 	<string name="monitoring_action_retry">إعادة المحاولة</string>
 	<string name="background_help_title">السماح بالنشاط في الخلفية</string>
-	<string name="background_help_motorola">تقيّد بعض هواتف Motorola المراقبة حتى مع استخدام البطارية دون قيود. إذا توقف تبديل المظهر، فاتبع الدليل على Don’t Kill My App.</string>
-	<string name="background_help_oneplus">تقيّد بعض هواتف OnePlus المراقبة حتى مع استخدام البطارية دون قيود. إذا توقف تبديل المظهر، فاتبع الدليل على Don’t Kill My App.</string>
-	<string name="background_help_generic">إذا توقف تبديل المظهر عندما يكون التطبيق مغلقًا، فاتبع دليل هاتفك على Don’t Kill My App لمراجعة إعدادات النشاط في الخلفية والبطارية.</string>
+	<string name="background_help_generic">توقفت المراقبة في الخلفية عدة مرات. اتبع دليل هاتفك على Don’t Kill My App.</string>
 	<string name="background_help_hide">إخفاء التلميح</string>
 	<string name="background_help_open_settings">فتح إعدادات التطبيق</string>
 	<string name="background_help_unavailable">لم يتمكن أي تطبيق من فتح هذه الصفحة. يمكنك التحقق من إعدادات النظام أو زيارة dontkillmyapp.com يدويًا.</string>

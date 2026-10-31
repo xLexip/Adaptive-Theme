@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Käynnistä taustaseuranta napauttamalla Yritä uudelleen. Jos ongelma toistuu, tarkista puhelimen taustasovellusten rajoitukset.</string>
 	<string name="monitoring_action_retry">Yritä uudelleen</string>
 	<string name="background_help_title">Salli taustatoiminta</string>
-	<string name="background_help_motorola">Jotkin Motorola-puhelimet rajoittavat seurantaa, vaikka akun käyttö olisi rajoittamatonta. Jos teeman vaihtaminen lakkaa toimimasta, noudata Don’t Kill My App -sivuston ohjetta.</string>
-	<string name="background_help_oneplus">Jotkin OnePlus-puhelimet rajoittavat seurantaa, vaikka akun käyttö olisi rajoittamatonta. Jos teeman vaihtaminen lakkaa toimimasta, noudata Don’t Kill My App -sivuston ohjetta.</string>
-	<string name="background_help_generic">Jos teeman vaihtaminen lakkaa toimimasta sovelluksen ollessa suljettuna, tarkista taustatoiminnan ja akun asetukset noudattamalla Don’t Kill My App -sivuston puhelinkohtaista ohjetta.</string>
+	<string name="background_help_generic">Taustaseuranta on keskeytynyt toistuvasti. Noudata Don’t Kill My App -sivuston puhelinkohtaista ohjetta.</string>
 	<string name="background_help_hide">Piilota vinkki</string>
 	<string name="background_help_open_settings">Avaa sovelluksen asetukset</string>
 	<string name="background_help_unavailable">Mikään sovellus ei voinut avata tätä sivua. Voit tarkistaa järjestelmäasetukset tai avata dontkillmyapp.com-sivuston itse.</string>

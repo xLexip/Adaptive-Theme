@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">다시 시도를 눌러 백그라운드 모니터링을 시작하세요. 문제가 계속되면 휴대전화의 백그라운드 앱 제한을 확인하세요.</string>
 	<string name="monitoring_action_retry">다시 시도</string>
 	<string name="background_help_title">백그라운드 활동 허용</string>
-	<string name="background_help_motorola">일부 Motorola 휴대전화는 배터리 사용을 제한 없음으로 설정해도 모니터링을 제한합니다. 테마 전환이 중단되면 Don’t Kill My App의 가이드를 따르세요.</string>
-	<string name="background_help_oneplus">일부 OnePlus 휴대전화는 배터리 사용을 제한 없음으로 설정해도 모니터링을 제한합니다. 테마 전환이 중단되면 Don’t Kill My App의 가이드를 따르세요.</string>
-	<string name="background_help_generic">앱을 닫았을 때 테마 전환이 중단되면 Don’t Kill My App에서 휴대전화에 맞는 가이드를 따라 백그라운드 활동 및 배터리 설정을 확인하세요.</string>
+	<string name="background_help_generic">백그라운드 모니터링이 반복적으로 중단되었습니다. Don’t Kill My App에서 휴대전화에 맞는 가이드를 따르세요.</string>
 	<string name="background_help_hide">도움말 숨기기</string>
 	<string name="background_help_open_settings">앱 설정 열기</string>
 	<string name="background_help_unavailable">이 페이지를 열 수 있는 앱이 없습니다. 시스템 설정을 확인하거나 dontkillmyapp.com에 직접 방문하세요.</string>

@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Trykk på Prøv igjen for å starte overvåking i bakgrunnen. Hvis problemet vedvarer, sjekk telefonens begrensninger for bakgrunnsapper.</string>
 	<string name="monitoring_action_retry">Prøv igjen</string>
 	<string name="background_help_title">Tillat bakgrunnsaktivitet</string>
-	<string name="background_help_motorola">Noen Motorola-telefoner begrenser overvåking selv med ubegrenset batteribruk. Hvis temabytte stopper, følg veiledningen på Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Noen OnePlus-telefoner begrenser overvåking selv med ubegrenset batteribruk. Hvis temabytte stopper, følg veiledningen på Don’t Kill My App.</string>
-	<string name="background_help_generic">Hvis temabytte stopper når appen er lukket, følg veiledningen for telefonen din på Don’t Kill My App for å sjekke innstillingene for bakgrunnsaktivitet og batteri.</string>
+	<string name="background_help_generic">Overvåkingen i bakgrunnen har blitt avbrutt flere ganger. Følg veiledningen for telefonen din på Don’t Kill My App.</string>
 	<string name="background_help_hide">Skjul tips</string>
 	<string name="background_help_open_settings">Åpne appinnstillinger</string>
 	<string name="background_help_unavailable">Ingen app kunne åpne denne siden. Du kan sjekke systeminnstillingene eller gå til dontkillmyapp.com manuelt.</string>

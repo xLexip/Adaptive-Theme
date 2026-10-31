@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Tik op Opnieuw proberen om de achtergrondbewaking te starten. Als het probleem blijft optreden, controleer dan de beperkingen voor achtergrondapps op je telefoon.</string>
 	<string name="monitoring_action_retry">Opnieuw proberen</string>
 	<string name="background_help_title">Achtergrondactiviteit toestaan</string>
-	<string name="background_help_motorola">Sommige Motorola-telefoons beperken de bewaking zelfs bij onbeperkt batterijgebruik. Als het wisselen van thema stopt, volg dan de handleiding op Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Sommige OnePlus-telefoons beperken de bewaking zelfs bij onbeperkt batterijgebruik. Als het wisselen van thema stopt, volg dan de handleiding op Don’t Kill My App.</string>
-	<string name="background_help_generic">Als het wisselen van thema stopt wanneer de app is gesloten, volg dan de handleiding voor je telefoon op Don’t Kill My App om de instellingen voor achtergrondactiviteit en batterijgebruik te controleren.</string>
+	<string name="background_help_generic">De achtergrondbewaking is herhaaldelijk onderbroken. Volg de handleiding voor je telefoon op Don’t Kill My App.</string>
 	<string name="background_help_hide">Tip verbergen</string>
 	<string name="background_help_open_settings">Appinstellingen openen</string>
 	<string name="background_help_unavailable">Geen enkele app kon deze pagina openen. Je kunt de systeeminstellingen controleren of dontkillmyapp.com handmatig bezoeken.</string>

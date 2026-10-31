@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Докоснете „Опитай отново“, за да стартирате наблюдението във фонов режим. Ако проблемът продължава, проверете ограниченията за фонови приложения на телефона.</string>
 	<string name="monitoring_action_retry">Опитай отново</string>
 	<string name="background_help_title">Разрешаване на фонова активност</string>
-	<string name="background_help_motorola">Някои телефони Motorola ограничават наблюдението дори при неограничено използване на батерията. Ако превключването на темата спре, следвайте ръководството в Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Някои телефони OnePlus ограничават наблюдението дори при неограничено използване на батерията. Ако превключването на темата спре, следвайте ръководството в Don’t Kill My App.</string>
-	<string name="background_help_generic">Ако превключването на темата спре, когато приложението е затворено, следвайте ръководството за вашия телефон в Don’t Kill My App, за да проверите настройките за фонова активност и батерията.</string>
+	<string name="background_help_generic">Наблюдението във фонов режим е прекъсвано многократно. Следвайте ръководството за вашия телефон в Don’t Kill My App.</string>
 	<string name="background_help_hide">Скриване на съвета</string>
 	<string name="background_help_open_settings">Отваряне на настройките на приложението</string>
 	<string name="background_help_unavailable">Нито едно приложение не можа да отвори тази страница. Можете да проверите системните настройки или да посетите dontkillmyapp.com ръчно.</string>

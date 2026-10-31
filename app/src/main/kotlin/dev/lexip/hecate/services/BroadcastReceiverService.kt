@@ -33,6 +33,7 @@ import dev.lexip.hecate.data.UserPreferencesRepository
 import dev.lexip.hecate.logging.Logger
 import dev.lexip.hecate.logging.MonitoringDiagnostics
 import dev.lexip.hecate.util.ProcessExitDetector
+import dev.lexip.hecate.util.MonitoringInterruptionTracker
 import dev.lexip.hecate.util.AdaptiveAppearanceHandler
 import dev.lexip.hecate.util.CURRENT_WALLPAPER_STORAGE_VERSION
 import dev.lexip.hecate.util.DarkThemeHandler
@@ -60,6 +61,7 @@ internal const val EXTRA_EVALUATE_IMMEDIATELY =
 
 class BroadcastReceiverService : Service() {
 	private var screenOnReceiver: ScreenOnReceiver? = null
+	private val interruptionTracker by lazy { MonitoringInterruptionTracker.create(this) }
 
 	// Utils
 	private lateinit var adaptiveAppearanceHandler: AdaptiveAppearanceHandler
@@ -87,6 +89,7 @@ class BroadcastReceiverService : Service() {
 
 		// Handle stop action from notification
 		if (intent?.action == ACTION_PAUSE_SERVICE) {
+			interruptionTracker.markMonitoringStopped()
 			Log.i(TAG, "Pause action received from notification.")
 			MonitoringServiceStatus.ready()
 			serviceScope.launch {
@@ -127,6 +130,7 @@ class BroadcastReceiverService : Service() {
 			false
 		}
 		if (!promoted) {
+			interruptionTracker.markMonitoringStopped()
 			MonitoringServiceStatus.failed()
 			MonitoringDiagnostics.record(
 				this, "startup", "failed", failure = true,
@@ -144,6 +148,7 @@ class BroadcastReceiverService : Service() {
 			nightModeChangeTracker.initialize(resources.configuration.uiMode)
 		} catch (cause: Exception) {
 			Log.e(TAG, "Monitoring utilities could not initialize", cause)
+			interruptionTracker.markMonitoringStopped()
 			MonitoringServiceStatus.failed()
 			MonitoringDiagnostics.record(
 				this, "initialization", "failed", failure = true,
@@ -174,6 +179,7 @@ class BroadcastReceiverService : Service() {
 					intent?.getBooleanExtra(EXTRA_EVALUATE_IMMEDIATELY, false) == true
 				if (userPreferences.adaptiveThemeEnabled || forceEnable) {
 					createScreenOnReceiver(userPreferences)
+					interruptionTracker.markMonitoringActive()
 					MonitoringServiceStatus.ready()
 					MonitoringDiagnostics.record(this@BroadcastReceiverService, "receiver", "ready", startId = startId)
 					ProcessExitDetector.onMonitoringReady(this@BroadcastReceiverService)
@@ -187,6 +193,7 @@ class BroadcastReceiverService : Service() {
 
 				// Abort service start when there is no receiver to handle.
 				if (screenOnReceiver == null) {
+					interruptionTracker.markMonitoringStopped()
 					Log.d(TAG, "No receiver to handle, stopping foreground and self.")
 					stopForeground(STOP_FOREGROUND_REMOVE)
 					stopSelfResult(startId)
@@ -195,6 +202,7 @@ class BroadcastReceiverService : Service() {
 				throw cancelled
 			} catch (cause: Exception) {
 				Log.e(TAG, "Monitoring initialization failed", cause)
+				interruptionTracker.markMonitoringStopped()
 				Logger.logException(cause)
 				MonitoringServiceStatus.failed()
 				preferencesJob?.cancel()
@@ -254,6 +262,7 @@ class BroadcastReceiverService : Service() {
 	}
 
 	override fun onDestroy() {
+		interruptionTracker.markMonitoringStopped()
 		super.onDestroy()
 		Log.i(TAG, "Service is being destroyed...")
 		screenOnReceiver?.let {

@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">I-tap ang Subukan muli para simulan ang pagsubaybay sa background. Kung nagpapatuloy ang problema, tingnan ang mga paghihigpit sa background app ng iyong telepono.</string>
 	<string name="monitoring_action_retry">Subukan muli</string>
 	<string name="background_help_title">Payagan ang aktibidad sa background</string>
-	<string name="background_help_motorola">Nililimitahan ng ilang Motorola phone ang pagsubaybay kahit walang limitasyon sa paggamit ng baterya. Kung huminto ang pagpapalit ng tema, sundin ang gabay sa Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Nililimitahan ng ilang OnePlus phone ang pagsubaybay kahit walang limitasyon sa paggamit ng baterya. Kung huminto ang pagpapalit ng tema, sundin ang gabay sa Don’t Kill My App.</string>
-	<string name="background_help_generic">Kung huminto ang pagpapalit ng tema kapag sarado ang app, sundin ang gabay para sa iyong telepono sa Don’t Kill My App para suriin ang mga setting ng aktibidad sa background at baterya.</string>
+	<string name="background_help_generic">Paulit-ulit na naantala ang pagsubaybay sa background. Sundin ang gabay para sa iyong telepono sa Don’t Kill My App.</string>
 	<string name="background_help_hide">Itago ang tip</string>
 	<string name="background_help_open_settings">Buksan ang mga setting ng app</string>
 	<string name="background_help_unavailable">Walang app na makapagbukas ng pahinang ito. Maaari mong tingnan ang mga setting ng system o mano-manong bisitahin ang dontkillmyapp.com.</string>

@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Klepnutím na Zkusit znovu spusťte monitorování na pozadí. Pokud se problém opakuje, zkontrolujte omezení aplikací na pozadí v telefonu.</string>
 	<string name="monitoring_action_retry">Zkusit znovu</string>
 	<string name="background_help_title">Povolit aktivitu na pozadí</string>
-	<string name="background_help_motorola">Některé telefony Motorola omezují monitorování i při neomezeném využití baterie. Pokud přepínání motivu přestane fungovat, postupujte podle návodu na Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Některé telefony OnePlus omezují monitorování i při neomezeném využití baterie. Pokud přepínání motivu přestane fungovat, postupujte podle návodu na Don’t Kill My App.</string>
-	<string name="background_help_generic">Pokud přepínání motivu přestane fungovat při zavřené aplikaci, zkontrolujte nastavení aktivity na pozadí a baterie podle návodu pro svůj telefon na Don’t Kill My App.</string>
+	<string name="background_help_generic">Monitorování na pozadí bylo opakovaně přerušeno. Postupujte podle návodu pro svůj telefon na Don’t Kill My App.</string>
 	<string name="background_help_hide">Skrýt tip</string>
 	<string name="background_help_open_settings">Otevřít nastavení aplikace</string>
 	<string name="background_help_unavailable">Žádná aplikace nemohla tuto stránku otevřít. Zkontrolujte nastavení systému nebo ručně navštivte dontkillmyapp.com.</string>

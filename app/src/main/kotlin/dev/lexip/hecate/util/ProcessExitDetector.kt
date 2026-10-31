@@ -49,6 +49,11 @@ object ProcessExitDetector {
                 10 // max results
             ).toList()
 
+            // Hint eligibility is local and independent of telemetry logging/deduplication.
+            runCatching {
+                MonitoringInterruptionTracker.create(context).inspect(exitReasons.map(MonitoringExitRecord::from))
+            }.onFailure { Log.w(TAG, "Could not inspect monitoring interruptions", it) }
+
             if (exitReasons.isEmpty()) return
 
             val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

@@ -35,11 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.lexip.hecate.R
-import dev.lexip.hecate.ui.BackgroundActivityGuidance
 
 @Composable
 fun BackgroundActivityHint(
-	guidance: BackgroundActivityGuidance,
 	onOpenSettings: () -> Unit,
 	onOpenGuide: () -> Unit,
 	onDismiss: () -> Unit
@@ -61,7 +59,7 @@ fun BackgroundActivityHint(
 				}
 			}
 			Text(
-				text = stringResource(guidance.messageRes),
+				text = stringResource(R.string.background_help_generic),
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.onSurfaceVariant
 			)

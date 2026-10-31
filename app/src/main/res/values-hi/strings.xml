@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">बैकग्राउंड में निगरानी शुरू करने के लिए फिर से कोशिश करें पर टैप करें। अगर समस्या बनी रहे, तो फ़ोन में बैकग्राउंड ऐप्लिकेशन पर लगी पाबंदियाँ जाँचें।</string>
 	<string name="monitoring_action_retry">फिर से कोशिश करें</string>
 	<string name="background_help_title">बैकग्राउंड गतिविधि की अनुमति दें</string>
-	<string name="background_help_motorola">कुछ Motorola फ़ोन बैटरी का इस्तेमाल बिना पाबंदी के होने पर भी निगरानी सीमित करते हैं। अगर थीम बदलना बंद हो जाए, तो Don’t Kill My App की गाइड का पालन करें।</string>
-	<string name="background_help_oneplus">कुछ OnePlus फ़ोन बैटरी का इस्तेमाल बिना पाबंदी के होने पर भी निगरानी सीमित करते हैं। अगर थीम बदलना बंद हो जाए, तो Don’t Kill My App की गाइड का पालन करें।</string>
-	<string name="background_help_generic">अगर ऐप्लिकेशन बंद होने पर थीम बदलना बंद हो जाए, तो बैकग्राउंड गतिविधि और बैटरी की सेटिंग जाँचने के लिए Don’t Kill My App पर अपने फ़ोन की गाइड का पालन करें।</string>
+	<string name="background_help_generic">बैकग्राउंड में निगरानी बार-बार बाधित हुई है। Don’t Kill My App पर अपने फ़ोन की गाइड का पालन करें।</string>
 	<string name="background_help_hide">सुझाव छिपाएँ</string>
 	<string name="background_help_open_settings">ऐप्लिकेशन की सेटिंग खोलें</string>
 	<string name="background_help_unavailable">कोई ऐप्लिकेशन यह पेज नहीं खोल सका। आप सिस्टम सेटिंग जाँच सकते हैं या खुद dontkillmyapp.com पर जा सकते हैं।</string>

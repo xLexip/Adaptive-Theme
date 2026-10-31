@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Tippe auf „Erneut versuchen“, um die Hintergrundüberwachung zu starten. Prüfe die Hintergrundeinschränkungen deines Telefons, falls das Problem weiterhin auftritt.</string>
 	<string name="monitoring_action_retry">Erneut versuchen</string>
 	<string name="background_help_title">Hintergrundaktivität erlauben</string>
-	<string name="background_help_motorola">Einige Motorola-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Theme-Umschaltung aussetzt, folge der Anleitung auf Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Einige OnePlus-Telefone schränken die Überwachung auch bei uneingeschränkter Akkunutzung ein. Falls die Theme-Umschaltung aussetzt, folge der Anleitung auf Don’t Kill My App.</string>
-	<string name="background_help_generic">Falls die Theme-Umschaltung bei geschlossener App aussetzt, folge der Anleitung für dein Telefon auf Don’t Kill My App, um die Einstellungen für Hintergrundaktivität und Akku zu prüfen.</string>
+	<string name="background_help_generic">Die Hintergrundüberwachung wurde wiederholt unterbrochen. Folge der Anleitung für dein Telefon auf Don’t Kill My App.</string>
 	<string name="background_help_hide">Hinweis ausblenden</string>
 	<string name="background_help_open_settings">App-Einstellungen öffnen</string>
 	<string name="background_help_unavailable">Keine App konnte diese Seite öffnen. Prüfe die Systemeinstellungen oder besuche dontkillmyapp.com manuell.</string>

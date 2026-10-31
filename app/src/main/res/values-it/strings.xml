@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Tocca Riprova per avviare il monitoraggio in background. Se il problema persiste, controlla le restrizioni delle app in background del telefono.</string>
 	<string name="monitoring_action_retry">Riprova</string>
 	<string name="background_help_title">Consenti attività in background</string>
-	<string name="background_help_motorola">Alcuni telefoni Motorola limitano il monitoraggio anche con l’uso della batteria senza restrizioni. Se il cambio del tema smette di funzionare, segui la guida su Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Alcuni telefoni OnePlus limitano il monitoraggio anche con l’uso della batteria senza restrizioni. Se il cambio del tema smette di funzionare, segui la guida su Don’t Kill My App.</string>
-	<string name="background_help_generic">Se il cambio del tema smette di funzionare con l’app chiusa, segui la guida per il tuo telefono su Don’t Kill My App per controllare le impostazioni di attività in background e batteria.</string>
+	<string name="background_help_generic">Il monitoraggio in background è stato interrotto più volte. Segui la guida per il tuo telefono su Don’t Kill My App.</string>
 	<string name="background_help_hide">Nascondi suggerimento</string>
 	<string name="background_help_open_settings">Apri impostazioni app</string>
 	<string name="background_help_unavailable">Nessuna app ha potuto aprire questa pagina. Puoi controllare le impostazioni di sistema o visitare dontkillmyapp.com manualmente.</string>

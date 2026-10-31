@@ -72,9 +72,11 @@ class MainViewModelTest {
 	private lateinit var wallpaperPlatform: FakeWallpaperPlatform
 	private lateinit var wallpaperImagePreparer: FakeWallpaperImagePreparer
 	private lateinit var wallpaperStorageMigrator: FakeWallpaperStorageMigrator
+	private var interruptionEvidence = false
 
 	@Before
 	fun setUp() {
+		interruptionEvidence = false
 		MonitoringServiceStatus.ready()
 		application = ApplicationProvider.getApplicationContext()
 		preferences = FakeUserPreferencesDataSource()
@@ -89,6 +91,23 @@ class MainViewModelTest {
 
 	@After
 	fun resetMonitoringStatus() = MonitoringServiceStatus.ready()
+
+	@Test
+	fun interruptionEligibilityRefreshesOnResumeAndDoesNotResetDismissal() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertFalse(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		interruptionEvidence = true
+		viewModel.onUiResumed()
+		assertTrue(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		viewModel.dismissBackgroundGuidance()
+		advanceUntilIdle()
+		interruptionEvidence = false
+		viewModel.onUiResumed()
+		assertFalse(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		assertTrue(viewModel.uiState.value.backgroundGuidanceDismissed)
+		viewModel.onUiPaused()
+	}
 
 	@Test
 	fun backgroundGuidanceDismissalPersistsWithoutChangingMonitoring() = runTest(mainDispatcherRule.dispatcher) {
@@ -810,6 +829,7 @@ class MainViewModelTest {
 		openWallpaperInputStream = openWallpaperInputStream,
 		ioDispatcher = mainDispatcherRule.dispatcher,
 		mainDispatcher = mainDispatcherRule.dispatcher,
-		todayEpochDay = { TODAY_EPOCH_DAY }
+		todayEpochDay = { TODAY_EPOCH_DAY },
+		hasRecentMonitoringInterruptions = { interruptionEvidence }
 	)
 }

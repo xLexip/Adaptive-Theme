@@ -448,7 +448,10 @@ class MainScreenContentTest {
 
 	@Test
 	fun manufacturerHintActionsAndDismissal() {
-		val state = mutableStateOf(MainUiState(adaptiveThemeEnabled = true, hasSetupCompleted = true))
+		val state = mutableStateOf(MainUiState(
+			adaptiveThemeEnabled = true, hasSetupCompleted = true,
+			hasMonitoringInterruptionEvidence = true
+		))
 		var settingsOpened = 0
 		var guidesOpened = 0
 		setMainContent(
@@ -461,14 +464,24 @@ class MainScreenContentTest {
 				onDismissBackground = { state.value = state.value.copy(backgroundGuidanceDismissed = true) }
 			)
 		)
-		composeRule.onNodeWithText(context.getString(R.string.background_help_motorola)).assertExists()
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertExists()
 		clickTextAfterScroll(context.getString(R.string.background_help_open_settings))
 		clickTextAfterScroll(context.getString(R.string.background_help_website))
 		assertEquals(1, settingsOpened)
 		assertEquals(1, guidesOpened)
 		composeRule.onNodeWithContentDescription(context.getString(R.string.background_help_hide))
 			.performScrollTo().performClick()
-		composeRule.onNodeWithText(context.getString(R.string.background_help_motorola)).assertDoesNotExist()
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
+	}
+
+	@Test
+	fun supportedDeviceDoesNotShowGuidanceWithoutInterruptionEvidence() {
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true, hasSetupCompleted = true),
+			hasPermission = true,
+			backgroundGuidance = BackgroundActivityGuidance.XIAOMI
+		)
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
 	}
 
 	private fun setMainContent(

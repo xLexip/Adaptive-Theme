@@ -218,11 +218,11 @@ fun MainScreenContent(
 			)
 			if (backgroundGuidance.shouldShowHint(
 					monitoringEnabled = uiState.adaptiveThemeEnabled,
-					dismissed = uiState.backgroundGuidanceDismissed
+					dismissed = uiState.backgroundGuidanceDismissed,
+					hasInterruptionEvidence = uiState.hasMonitoringInterruptionEvidence
 				)
 			) {
 				BackgroundActivityHint(
-					guidance = backgroundGuidance,
 					onOpenSettings = callbacks.onOpenBackgroundSettings,
 					onOpenGuide = callbacks.onOpenBackgroundGuide,
 					onDismiss = callbacks.onDismissBackgroundGuidance

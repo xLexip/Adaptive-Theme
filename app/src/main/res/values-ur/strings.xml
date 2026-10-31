@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">پس منظر میں نگرانی شروع کرنے کے لیے دوبارہ کوشش کریں پر ٹیپ کریں۔ اگر مسئلہ برقرار رہے تو فون میں پس منظر کی ایپس پر عائد پابندیاں چیک کریں۔</string>
 	<string name="monitoring_action_retry">دوبارہ کوشش کریں</string>
 	<string name="background_help_title">پس منظر میں سرگرمی کی اجازت دیں</string>
-	<string name="background_help_motorola">کچھ Motorola فون بیٹری کے غیر محدود استعمال کے باوجود نگرانی کو محدود کرتے ہیں۔ اگر تھیم بدلنا بند ہو جائے تو Don’t Kill My App کی گائیڈ پر عمل کریں۔</string>
-	<string name="background_help_oneplus">کچھ OnePlus فون بیٹری کے غیر محدود استعمال کے باوجود نگرانی کو محدود کرتے ہیں۔ اگر تھیم بدلنا بند ہو جائے تو Don’t Kill My App کی گائیڈ پر عمل کریں۔</string>
-	<string name="background_help_generic">اگر ایپ بند ہونے پر تھیم بدلنا بند ہو جائے تو پس منظر کی سرگرمی اور بیٹری کی ترتیبات چیک کرنے کے لیے Don’t Kill My App پر اپنے فون کی گائیڈ پر عمل کریں۔</string>
+	<string name="background_help_generic">پس منظر میں نگرانی بار بار رکی ہے۔ Don’t Kill My App پر اپنے فون کی گائیڈ پر عمل کریں۔</string>
 	<string name="background_help_hide">اشارہ چھپائیں</string>
 	<string name="background_help_open_settings">ایپ کی ترتیبات کھولیں</string>
 	<string name="background_help_unavailable">کوئی ایپ یہ صفحہ نہیں کھول سکی۔ آپ سسٹم کی ترتیبات چیک کر سکتے ہیں یا خود dontkillmyapp.com پر جا سکتے ہیں۔</string>

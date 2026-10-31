@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Додирните Покушај поново да бисте покренули праћење у позадини. Ако се проблем настави, проверите ограничења позадинских апликација на телефону.</string>
 	<string name="monitoring_action_retry">Покушај поново</string>
 	<string name="background_help_title">Дозволи активност у позадини</string>
-	<string name="background_help_motorola">Неки Motorola телефони ограничавају праћење чак и уз неограничену употребу батерије. Ако пребацивање теме престане да ради, пратите упутство на сајту Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Неки OnePlus телефони ограничавају праћење чак и уз неограничену употребу батерије. Ако пребацивање теме престане да ради, пратите упутство на сајту Don’t Kill My App.</string>
-	<string name="background_help_generic">Ако пребацивање теме престане да ради када је апликација затворена, пратите упутство за свој телефон на сајту Don’t Kill My App да бисте проверили подешавања позадинске активности и батерије.</string>
+	<string name="background_help_generic">Праћење у позадини је више пута прекинуто. Пратите упутство за свој телефон на сајту Don’t Kill My App.</string>
 	<string name="background_help_hide">Сакриј савет</string>
 	<string name="background_help_open_settings">Отвори подешавања апликације</string>
 	<string name="background_help_unavailable">Ниједна апликација није могла да отвори ову страницу. Можете да проверите системска подешавања или ручно посетите dontkillmyapp.com.</string>

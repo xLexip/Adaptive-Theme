@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Ketik Cuba lagi untuk memulakan pemantauan di latar belakang. Jika masalah berterusan, semak sekatan aplikasi latar belakang pada telefon anda.</string>
 	<string name="monitoring_action_retry">Cuba lagi</string>
 	<string name="background_help_title">Benarkan aktiviti latar belakang</string>
-	<string name="background_help_motorola">Sesetengah telefon Motorola mengehadkan pemantauan walaupun penggunaan bateri tidak dihadkan. Jika pertukaran tema berhenti berfungsi, ikuti panduan di Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Sesetengah telefon OnePlus mengehadkan pemantauan walaupun penggunaan bateri tidak dihadkan. Jika pertukaran tema berhenti berfungsi, ikuti panduan di Don’t Kill My App.</string>
-	<string name="background_help_generic">Jika pertukaran tema berhenti berfungsi apabila aplikasi ditutup, ikuti panduan untuk telefon anda di Don’t Kill My App bagi menyemak tetapan aktiviti latar belakang dan bateri.</string>
+	<string name="background_help_generic">Pemantauan di latar belakang telah terganggu berulang kali. Ikuti panduan untuk telefon anda di Don’t Kill My App.</string>
 	<string name="background_help_hide">Sembunyikan petua</string>
 	<string name="background_help_open_settings">Buka tetapan aplikasi</string>
 	<string name="background_help_unavailable">Tiada aplikasi dapat membuka halaman ini. Anda boleh menyemak tetapan sistem atau melawat dontkillmyapp.com secara manual.</string>

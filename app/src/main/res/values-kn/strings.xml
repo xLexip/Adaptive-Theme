@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">ಹಿನ್ನೆಲೆ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ. ಸಮಸ್ಯೆ ಮುಂದುವರಿದರೆ, ಫೋನ್‌ನ ಹಿನ್ನೆಲೆ ಆ್ಯಪ್ ನಿರ್ಬಂಧಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
 	<string name="monitoring_action_retry">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</string>
 	<string name="background_help_title">ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆಗೆ ಅನುಮತಿಸಿ</string>
-	<string name="background_help_motorola">ಕೆಲವು Motorola ಫೋನ್‌ಗಳು ಬ್ಯಾಟರಿ ಬಳಕೆ ಅನಿರ್ಬಂಧಿತವಾಗಿದ್ದರೂ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ನಿರ್ಬಂಧಿಸುತ್ತವೆ. ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, Don’t Kill My App ನಲ್ಲಿರುವ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ.</string>
-	<string name="background_help_oneplus">ಕೆಲವು OnePlus ಫೋನ್‌ಗಳು ಬ್ಯಾಟರಿ ಬಳಕೆ ಅನಿರ್ಬಂಧಿತವಾಗಿದ್ದರೂ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ನಿರ್ಬಂಧಿಸುತ್ತವೆ. ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, Don’t Kill My App ನಲ್ಲಿರುವ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ.</string>
-	<string name="background_help_generic">ಆ್ಯಪ್ ಮುಚ್ಚಿರುವಾಗ ಥೀಮ್ ಬದಲಾವಣೆ ನಿಂತರೆ, ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆ ಮತ್ತು ಬ್ಯಾಟರಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಲು Don’t Kill My App ನಲ್ಲಿ ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ.</string>
+	<string name="background_help_generic">ಹಿನ್ನೆಲೆ ಮೇಲ್ವಿಚಾರಣೆ ಪದೇಪದೇ ಅಡಚಣೆಗೊಳಗಾಗಿದೆ. Don’t Kill My App ನಲ್ಲಿ ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ.</string>
 	<string name="background_help_hide">ಸುಳಿವನ್ನು ಮರೆಮಾಡಿ</string>
 	<string name="background_help_open_settings">ಆ್ಯಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
 	<string name="background_help_unavailable">ಯಾವ ಆ್ಯಪ್‌ಗೂ ಈ ಪುಟವನ್ನು ತೆರೆಯಲಾಗಲಿಲ್ಲ. ನೀವು ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಅಥವಾ dontkillmyapp.com ಗೆ ಸ್ವತಃ ಭೇಟಿ ನೀಡಬಹುದು.</string>

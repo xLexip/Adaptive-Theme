@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">A háttérben történő figyelés elindításához koppintson az Újra elemre. Ha a probléma továbbra is fennáll, ellenőrizze a telefon háttérben futó alkalmazásokra vonatkozó korlátozásait.</string>
 	<string name="monitoring_action_retry">Újra</string>
 	<string name="background_help_title">Háttértevékenység engedélyezése</string>
-	<string name="background_help_motorola">Egyes Motorola telefonok korlátlan akkumulátorhasználat mellett is korlátozzák a figyelést. Ha a témaváltás leáll, kövesse a Don’t Kill My App útmutatóját.</string>
-	<string name="background_help_oneplus">Egyes OnePlus telefonok korlátlan akkumulátorhasználat mellett is korlátozzák a figyelést. Ha a témaváltás leáll, kövesse a Don’t Kill My App útmutatóját.</string>
-	<string name="background_help_generic">Ha a témaváltás az alkalmazás bezárása után leáll, kövesse a telefonjához tartozó útmutatót a Don’t Kill My App oldalon a háttértevékenység és az akkumulátor beállításainak ellenőrzéséhez.</string>
+	<string name="background_help_generic">A háttérben történő figyelés többször megszakadt. Kövesse a telefonjához tartozó útmutatót a Don’t Kill My App oldalon.</string>
 	<string name="background_help_hide">Tipp elrejtése</string>
 	<string name="background_help_open_settings">Alkalmazásbeállítások megnyitása</string>
 	<string name="background_help_unavailable">Egyetlen alkalmazás sem tudta megnyitni ezt az oldalt. Ellenőrizheti a rendszerbeállításokat, vagy kézzel megnyithatja a dontkillmyapp.com oldalt.</string>

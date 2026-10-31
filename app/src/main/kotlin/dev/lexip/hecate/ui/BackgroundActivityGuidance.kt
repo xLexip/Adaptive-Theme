@@ -17,24 +17,29 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import dev.lexip.hecate.R
 import java.util.Locale
 
-enum class BackgroundActivityGuidance(@param:StringRes val messageRes: Int, val guideUrl: String) {
-	MOTOROLA(R.string.background_help_motorola, "https://dontkillmyapp.com/motorola"),
-	ONEPLUS(R.string.background_help_oneplus, "https://dontkillmyapp.com/oneplus"),
-	OTHER(R.string.background_help_generic, "https://dontkillmyapp.com");
+enum class BackgroundActivityGuidance(val guideUrl: String) {
+	MOTOROLA("https://dontkillmyapp.com/motorola"),
+	ONEPLUS("https://dontkillmyapp.com/oneplus"),
+	XIAOMI("https://dontkillmyapp.com/xiaomi"),
+	REALME("https://dontkillmyapp.com/realme"),
+	OPPO("https://dontkillmyapp.com/oppo"),
+	OTHER("https://dontkillmyapp.com");
 
-	fun shouldShowHint(monitoringEnabled: Boolean, dismissed: Boolean): Boolean =
-		this != OTHER && monitoringEnabled && !dismissed
+	fun shouldShowHint(monitoringEnabled: Boolean, dismissed: Boolean, hasInterruptionEvidence: Boolean): Boolean =
+		this != OTHER && monitoringEnabled && !dismissed && hasInterruptionEvidence
 
 	companion object {
 		fun forManufacturer(manufacturer: String): BackgroundActivityGuidance =
 			when (manufacturer.trim().lowercase(Locale.ROOT)) {
 				"motorola" -> MOTOROLA
 				"oneplus" -> ONEPLUS
+				"xiaomi", "redmi", "poco" -> XIAOMI
+				"realme" -> REALME
+				"oppo" -> OPPO
 				else -> OTHER
 			}
 	}

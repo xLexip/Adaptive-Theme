@@ -36,6 +36,7 @@ import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.util.AndroidInstallMetadataProvider
 import dev.lexip.hecate.util.InstallMetadataProvider
 import dev.lexip.hecate.util.LightSensorManager
+import dev.lexip.hecate.util.MonitoringInterruptionTracker
 import dev.lexip.hecate.util.ProximitySensorManager
 import dev.lexip.hecate.util.ProximitySensorReader
 import dev.lexip.hecate.util.SensorReader
@@ -91,7 +92,8 @@ data class MainUiState(
 	val nightWallpaperUri: String? = null,
 	val showLiveWallpaperWarningDialog: Boolean = false,
 	val showGitHubStarPrompt: Boolean = false,
-	val backgroundGuidanceDismissed: Boolean = false
+	val backgroundGuidanceDismissed: Boolean = false,
+	val hasMonitoringInterruptionEvidence: Boolean = false
 )
 
 class MainViewModel internal constructor(
@@ -115,10 +117,15 @@ class MainViewModel internal constructor(
 		application.applicationContext.contentResolver::openInputStream,
 	private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 	private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
-	private val todayEpochDay: () -> Long = { LocalDate.now().toEpochDay() }
+	private val todayEpochDay: () -> Long = { LocalDate.now().toEpochDay() },
+	private val hasRecentMonitoringInterruptions: () -> Boolean = {
+		MonitoringInterruptionTracker.create(application).hasRecentInterruptions()
+	}
 ) : ViewModel() {
 
-	private val _uiState = MutableStateFlow(MainUiState())
+	private val _uiState = MutableStateFlow(
+		MainUiState(hasMonitoringInterruptionEvidence = hasRecentMonitoringInterruptions())
+	)
 	val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
 	fun setShizukuInstalled(installed: Boolean) {
@@ -266,6 +273,9 @@ class MainViewModel internal constructor(
 	}
 
 	fun onUiResumed() {
+		_uiState.value = _uiState.value.copy(
+			hasMonitoringInterruptionEvidence = hasRecentMonitoringInterruptions()
+		)
 		isUiActive = true
 		updateUiSensorMonitoring()
 	}

@@ -112,9 +112,7 @@
 	<string name="monitoring_start_failed_message">Toque em Tentar novamente para iniciar a monitorização em segundo plano. Se o problema persistir, verifique as restrições de aplicações em segundo plano do telemóvel.</string>
 	<string name="monitoring_action_retry">Tentar novamente</string>
 	<string name="background_help_title">Permitir atividade em segundo plano</string>
-	<string name="background_help_motorola">Alguns telemóveis Motorola restringem a monitorização mesmo com a utilização da bateria sem restrições. Se a mudança de tema deixar de funcionar, siga o guia do Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Alguns telemóveis OnePlus restringem a monitorização mesmo com a utilização da bateria sem restrições. Se a mudança de tema deixar de funcionar, siga o guia do Don’t Kill My App.</string>
-	<string name="background_help_generic">Se a mudança de tema deixar de funcionar com a aplicação fechada, siga o guia para o seu telemóvel no Don’t Kill My App para verificar as definições de atividade em segundo plano e de bateria.</string>
+	<string name="background_help_generic">A monitorização em segundo plano foi interrompida várias vezes. Siga o guia para o seu telemóvel no Don’t Kill My App.</string>
 	<string name="background_help_hide">Ocultar sugestão</string>
 	<string name="background_help_open_settings">Abrir definições da aplicação</string>
 	<string name="background_help_unavailable">Nenhuma aplicação conseguiu abrir esta página. Pode verificar as definições do sistema ou visitar dontkillmyapp.com manualmente.</string>

@@ -129,9 +129,7 @@
 	<string name="monitoring_start_failed_message">Toca Reintentar para iniciar la supervisión en segundo plano. Si el problema persiste, comprueba las restricciones de aplicaciones en segundo plano del teléfono.</string>
 	<string name="monitoring_action_retry">Reintentar</string>
 	<string name="background_help_title">Permitir actividad en segundo plano</string>
-	<string name="background_help_motorola">Algunos teléfonos Motorola restringen la supervisión incluso con el uso de batería sin restricciones. Si el cambio de tema deja de funcionar, sigue la guía de Don’t Kill My App.</string>
-	<string name="background_help_oneplus">Algunos teléfonos OnePlus restringen la supervisión incluso con el uso de batería sin restricciones. Si el cambio de tema deja de funcionar, sigue la guía de Don’t Kill My App.</string>
-	<string name="background_help_generic">Si el cambio de tema deja de funcionar con la aplicación cerrada, sigue la guía de tu teléfono en Don’t Kill My App para revisar los ajustes de actividad en segundo plano y de batería.</string>
+	<string name="background_help_generic">La supervisión en segundo plano se ha interrumpido varias veces. Sigue la guía para tu teléfono en Don’t Kill My App.</string>
 	<string name="background_help_hide">Ocultar consejo</string>
 	<string name="background_help_open_settings">Abrir ajustes de la aplicación</string>
 	<string name="background_help_unavailable">Ninguna aplicación pudo abrir esta página. Puedes comprobar los ajustes del sistema o visitar dontkillmyapp.com manualmente.</string>
