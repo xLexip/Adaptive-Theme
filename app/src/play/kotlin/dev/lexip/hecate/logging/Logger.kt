@@ -130,6 +130,16 @@ object Logger {
 		}
 	}
 
+	fun logBackgroundGuidance(context: Context, action: String, outcome: String, guideVendor: String) {
+		ifAllowed {
+			analytics(context).logEvent("background_guidance") {
+				param("action", action)
+				param("outcome", outcome)
+				param("guide_vendor", guideVendor)
+			}
+		}
+	}
+
 	fun logGitHubStarPromptAction(context: Context, action: String) {
 		ifAllowed {
 			analytics(context).logEvent("github_star_prompt") {

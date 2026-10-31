@@ -223,6 +223,7 @@ fun MainScreenContent(
 				)
 			) {
 				BackgroundActivityHint(
+					onImpression = callbacks.onBackgroundGuidanceImpression,
 					onOpenSettings = callbacks.onOpenBackgroundSettings,
 					onOpenGuide = callbacks.onOpenBackgroundGuide,
 					onDismiss = callbacks.onDismissBackgroundGuidance

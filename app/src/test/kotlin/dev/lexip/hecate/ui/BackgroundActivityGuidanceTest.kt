@@ -18,6 +18,7 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.provider.Settings
 import androidx.test.core.app.ApplicationProvider
+import dev.lexip.hecate.logging.BackgroundGuidanceOutcome
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -56,7 +57,7 @@ class BackgroundActivityGuidanceTest {
 	fun settingsOpenTheCurrentAppsDetails() {
 		val launched = mutableListOf<Intent>()
 		val context = recordingContext { launched.add(it) }
-		openBackgroundActivitySettings(context)
+		assertEquals(BackgroundGuidanceOutcome.OPENED, openBackgroundActivitySettings(context))
 		assertEquals(1, launched.size)
 		assertEquals(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, launched.single().action)
 		assertEquals("package:${context.packageName}", launched.single().dataString)
@@ -70,7 +71,7 @@ class BackgroundActivityGuidanceTest {
 				launched.add(it)
 				if (it.action == Settings.ACTION_APPLICATION_DETAILS_SETTINGS) throw failure
 			}
-			openBackgroundActivitySettings(context)
+			assertEquals(BackgroundGuidanceOutcome.FALLBACK_OPENED, openBackgroundActivitySettings(context))
 			assertEquals(listOf(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Settings.ACTION_SETTINGS), launched.map { it.action })
 		}
 	}
@@ -87,7 +88,7 @@ class BackgroundActivityGuidanceTest {
 		)
 		for ((guidance, expectedUrl) in pages) {
 			val launched = mutableListOf<Intent>()
-			openBackgroundActivityGuide(recordingContext { launched.add(it) }, guidance)
+			assertEquals(BackgroundGuidanceOutcome.OPENED, openBackgroundActivityGuide(recordingContext { launched.add(it) }, guidance))
 			assertEquals(Intent.ACTION_VIEW, launched.single().action)
 			assertEquals(expectedUrl, launched.single().dataString)
 		}
@@ -96,9 +97,9 @@ class BackgroundActivityGuidanceTest {
 	@Test
 	fun missingSettingsAndBrowserShowFeedbackWithoutCrashing() {
 		val context = recordingContext { throw ActivityNotFoundException() }
-		openBackgroundActivitySettings(context)
+		assertEquals(BackgroundGuidanceOutcome.UNAVAILABLE, openBackgroundActivitySettings(context))
 		assertTrue(ShadowToast.getTextOfLatestToast().contains("dontkillmyapp.com"))
-		openBackgroundActivityGuide(context, BackgroundActivityGuidance.MOTOROLA)
+		assertEquals(BackgroundGuidanceOutcome.UNAVAILABLE, openBackgroundActivityGuide(context, BackgroundActivityGuidance.MOTOROLA))
 		assertTrue(ShadowToast.getTextOfLatestToast().contains("dontkillmyapp.com"))
 	}
 

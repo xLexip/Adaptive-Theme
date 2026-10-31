@@ -30,20 +30,53 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.currentStateAsState
 import dev.lexip.hecate.R
 
 @Composable
 fun BackgroundActivityHint(
 	onOpenSettings: () -> Unit,
 	onOpenGuide: () -> Unit,
-	onDismiss: () -> Unit
+	onDismiss: () -> Unit,
+	onImpression: () -> Unit = {}
 ) {
+	var isHalfVisible by remember { mutableStateOf(false) }
+	var impressionReported by rememberSaveable { mutableStateOf(false) }
+	val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
+	val currentOnImpression by rememberUpdatedState(onImpression)
+	val reportImpression = {
+		if (!impressionReported) {
+			impressionReported = true
+			currentOnImpression()
+		}
+	}
+	LaunchedEffect(isHalfVisible, lifecycleState) {
+		if (isHalfVisible && lifecycleState.isAtLeast(Lifecycle.State.RESUMED)) reportImpression()
+	}
+
 	Surface(
-		modifier = Modifier.fillMaxWidth(),
+		modifier = Modifier
+			.fillMaxWidth()
+			.onGloballyPositioned { coordinates ->
+				val bounds = coordinates.boundsInWindow()
+				val area = coordinates.size.width.toFloat() * coordinates.size.height
+				isHalfVisible = area > 0 && bounds.width * bounds.height >= area * 0.5f
+			},
 		shape = RoundedCornerShape(24.dp),
 		color = MaterialTheme.colorScheme.surfaceContainerLow
 	) {
@@ -54,7 +87,10 @@ fun BackgroundActivityHint(
 					style = MaterialTheme.typography.titleMedium,
 					modifier = Modifier.weight(1f)
 				)
-				IconButton(onClick = onDismiss) {
+				IconButton(onClick = {
+					reportImpression()
+					onDismiss()
+				}) {
 					Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.background_help_hide))
 				}
 			}
@@ -63,7 +99,16 @@ fun BackgroundActivityHint(
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.onSurfaceVariant
 			)
-			BackgroundActivityHelpActions(onOpenSettings, onOpenGuide)
+			BackgroundActivityHelpActions(
+				onOpenSettings = {
+					reportImpression()
+					onOpenSettings()
+				},
+				onOpenGuide = {
+					reportImpression()
+					onOpenGuide()
+				}
+			)
 		}
 	}
 }

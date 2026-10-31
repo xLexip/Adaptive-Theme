@@ -33,6 +33,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dev.lexip.hecate.R
+import dev.lexip.hecate.logging.BackgroundGuidanceAction
+import dev.lexip.hecate.logging.BackgroundGuidanceOutcome
+import dev.lexip.hecate.logging.BackgroundGuidanceTelemetry
 import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
@@ -62,7 +65,8 @@ data class MainScreenCallbacks(
 	val onRetryMonitoringService: () -> Unit = {},
 	val onOpenBackgroundSettings: () -> Unit = {},
 	val onOpenBackgroundGuide: () -> Unit = {},
-	val onDismissBackgroundGuidance: () -> Unit = {}
+	val onDismissBackgroundGuidance: () -> Unit = {},
+	val onBackgroundGuidanceImpression: () -> Unit = {}
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,9 +145,31 @@ fun MainScreen(
 		serviceStartFailed = serviceStartFailed,
 		backgroundGuidance = backgroundGuidance,
 		callbacks = MainScreenCallbacks(
-			onOpenBackgroundSettings = { openBackgroundActivitySettings(context) },
-			onOpenBackgroundGuide = { openBackgroundActivityGuide(context, backgroundGuidance) },
-			onDismissBackgroundGuidance = mainViewModel::dismissBackgroundGuidance,
+			onBackgroundGuidanceImpression = {
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.IMPRESSION, BackgroundGuidanceOutcome.SHOWN,
+					backgroundGuidance.analyticsVendor
+				)
+			},
+			onOpenBackgroundSettings = {
+				val outcome = openBackgroundActivitySettings(context)
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.OPEN_SETTINGS, outcome, backgroundGuidance.analyticsVendor
+				)
+			},
+			onOpenBackgroundGuide = {
+				val outcome = openBackgroundActivityGuide(context, backgroundGuidance)
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.OPEN_GUIDE, outcome, backgroundGuidance.analyticsVendor
+				)
+			},
+			onDismissBackgroundGuidance = {
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.DISMISS, BackgroundGuidanceOutcome.DISMISSED,
+					backgroundGuidance.analyticsVendor
+				)
+				mainViewModel.dismissBackgroundGuidance()
+			},
 			onRetryMonitoringService = mainViewModel::retryMonitoringService,
 			onServiceToggleRequested = mainViewModel::onServiceToggleRequested,
 			onThresholdSelected = { index, lux ->

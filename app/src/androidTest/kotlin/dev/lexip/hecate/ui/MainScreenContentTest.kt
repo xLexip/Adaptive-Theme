@@ -454,11 +454,13 @@ class MainScreenContentTest {
 		))
 		var settingsOpened = 0
 		var guidesOpened = 0
+		var impressions = 0
 		setMainContent(
 			uiState = { state.value },
 			hasPermission = true,
 			backgroundGuidance = BackgroundActivityGuidance.MOTOROLA,
 			callbacks = callbacks(
+				onBackgroundImpression = { impressions++ },
 				onBackgroundSettings = { settingsOpened++ },
 				onBackgroundGuide = { guidesOpened++ },
 				onDismissBackground = { state.value = state.value.copy(backgroundGuidanceDismissed = true) }
@@ -469,19 +471,24 @@ class MainScreenContentTest {
 		clickTextAfterScroll(context.getString(R.string.background_help_website))
 		assertEquals(1, settingsOpened)
 		assertEquals(1, guidesOpened)
+		assertEquals(1, impressions)
 		composeRule.onNodeWithContentDescription(context.getString(R.string.background_help_hide))
 			.performScrollTo().performClick()
 		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
+		assertEquals(1, impressions)
 	}
 
 	@Test
 	fun supportedDeviceDoesNotShowGuidanceWithoutInterruptionEvidence() {
+		var impressions = 0
 		setMainContent(
 			uiState = MainUiState(adaptiveThemeEnabled = true, hasSetupCompleted = true),
 			hasPermission = true,
-			backgroundGuidance = BackgroundActivityGuidance.XIAOMI
+			backgroundGuidance = BackgroundActivityGuidance.XIAOMI,
+			callbacks = callbacks(onBackgroundImpression = { impressions++ })
 		)
 		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
+		assertEquals(0, impressions)
 	}
 
 	private fun setMainContent(
@@ -539,7 +546,8 @@ class MainScreenContentTest {
 		onRetry: () -> Unit = {},
 		onBackgroundSettings: () -> Unit = {},
 		onBackgroundGuide: () -> Unit = {},
-		onDismissBackground: () -> Unit = {}
+		onDismissBackground: () -> Unit = {},
+		onBackgroundImpression: () -> Unit = {}
 	): MainScreenCallbacks = MainScreenCallbacks(
 		onServiceToggleRequested = onToggle,
 		onThresholdSelected = { _, _ -> },
@@ -561,7 +569,8 @@ class MainScreenContentTest {
 		onRetryMonitoringService = onRetry,
 		onOpenBackgroundSettings = onBackgroundSettings,
 		onOpenBackgroundGuide = onBackgroundGuide,
-		onDismissBackgroundGuidance = onDismissBackground
+		onDismissBackgroundGuidance = onDismissBackground,
+		onBackgroundGuidanceImpression = onBackgroundImpression
 	)
 
 	private fun adaptiveThemeAction(): String = context.getString(

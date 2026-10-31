@@ -19,6 +19,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.net.toUri
 import dev.lexip.hecate.R
+import dev.lexip.hecate.logging.BackgroundGuidanceOutcome
 import java.util.Locale
 
 enum class BackgroundActivityGuidance(val guideUrl: String) {
@@ -28,6 +29,8 @@ enum class BackgroundActivityGuidance(val guideUrl: String) {
 	REALME("https://dontkillmyapp.com/realme"),
 	OPPO("https://dontkillmyapp.com/oppo"),
 	OTHER("https://dontkillmyapp.com");
+
+	val analyticsVendor: String get() = name.lowercase(Locale.ROOT)
 
 	fun shouldShowHint(monitoringEnabled: Boolean, dismissed: Boolean, hasInterruptionEvidence: Boolean): Boolean =
 		this != OTHER && monitoringEnabled && !dismissed && hasInterruptionEvidence
@@ -45,22 +48,21 @@ enum class BackgroundActivityGuidance(val guideUrl: String) {
 	}
 }
 
-internal fun openBackgroundActivitySettings(context: Context) {
+internal fun openBackgroundActivitySettings(context: Context): BackgroundGuidanceOutcome {
 	val appSettings = Intent(
 		Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
 		"package:${context.packageName}".toUri()
 	)
-	if (!tryOpenBackgroundHelpActivity(context, appSettings) &&
-		!tryOpenBackgroundHelpActivity(context, Intent(Settings.ACTION_SETTINGS))
-	) {
-		showBackgroundHelpUnavailable(context)
-	}
+	if (tryOpenBackgroundHelpActivity(context, appSettings)) return BackgroundGuidanceOutcome.OPENED
+	if (tryOpenBackgroundHelpActivity(context, Intent(Settings.ACTION_SETTINGS))) return BackgroundGuidanceOutcome.FALLBACK_OPENED
+	showBackgroundHelpUnavailable(context)
+	return BackgroundGuidanceOutcome.UNAVAILABLE
 }
 
-internal fun openBackgroundActivityGuide(context: Context, guidance: BackgroundActivityGuidance) {
-	if (!tryOpenBackgroundHelpActivity(context, Intent(Intent.ACTION_VIEW, guidance.guideUrl.toUri()))) {
-		showBackgroundHelpUnavailable(context)
-	}
+internal fun openBackgroundActivityGuide(context: Context, guidance: BackgroundActivityGuidance): BackgroundGuidanceOutcome {
+	if (tryOpenBackgroundHelpActivity(context, Intent(Intent.ACTION_VIEW, guidance.guideUrl.toUri()))) return BackgroundGuidanceOutcome.OPENED
+	showBackgroundHelpUnavailable(context)
+	return BackgroundGuidanceOutcome.UNAVAILABLE
 }
 
 private fun tryOpenBackgroundHelpActivity(context: Context, intent: Intent): Boolean = try {

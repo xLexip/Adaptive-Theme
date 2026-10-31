@@ -41,6 +41,23 @@ Only the two newest qualifying timestamps and bookkeeping timestamps are retaine
 - This cannot detect a service, broadcast, or sensor stall while the process remains alive. It also excludes exits across a reboot and fast automatic process restarts.
 - Analytics logging and sampling are separate. Local eligibility works in Play and FOSS builds, without network access or Firebase collection.
 
+## Prompt logging
+
+Local Logcat uses the `BackgroundGuidance` tag. For analytics-eligible Play installations, Firebase/BigQuery receives `background_guidance` with three string parameters:
+
+| action | outcome | Meaning |
+|---|---|---|
+| `impression` | `shown` | At least half the card is inside its clipped window bounds while the screen lifecycle is resumed. A direct interaction also records a missing impression first. |
+| `open_guide` | `opened` / `unavailable` | The guide action was used; Android accepted the browser intent, or no permitted handler could open it. |
+| `open_settings` | `opened` / `fallback_opened` / `unavailable` | App settings opened, general system settings opened as fallback, or both attempts were unavailable. |
+| `dismiss` | `dismissed` | The user selected the close action, requesting permanent dismissal. |
+
+Every event also includes `guide_vendor`: `motorola`, `oneplus`, `xiaomi` (including Redmi/POCO routing), `realme`, or `oppo`. The generic fallback value is `other`; unsupported vendors remain ineligible for this card.
+
+Impressions are emitted once per eligible card presentation. Recomposition, scrolling out and back, returning from the guide/settings, and saved-state recreation do not emit duplicate impressions. If the card leaves composition because eligibility is removed and later becomes eligible again, that is a new presentation. Hidden or ineligible cards do not emit prompt events. Each explicit action emits one event with its navigation result; `opened` means an intent was accepted, not that the guide was read or a setting changed. Dismissal logging describes the user action, not proof that the asynchronous preference write completed.
+
+These are low-volume UI interaction events and use the existing Play analytics gate, without the 5% routine monitoring-diagnostic sampling. Debug/sideloaded/excluded installs are not sent to Firebase; FOSS has a no-op remote logger. Logging failures cannot block navigation or dismissal. No process IDs, raw exit descriptions, URLs, or new persistent identifiers are included. Eligibility and permanent dismissal remain independent of telemetry.
+
 ## Validation on a device
 
 - After an upgrade or fresh install, enable monitoring: the card should remain hidden on every phone without qualifying local evidence.

@@ -72,6 +72,10 @@ object Logger {
 		// No-op for FOSS build
 	}
 
+	fun logBackgroundGuidance(context: Context, action: String, outcome: String, guideVendor: String) {
+		// No-op for FOSS build
+	}
+
 	fun logGitHubStarPromptAction(context: Context, action: String) {
 		// No-op for FOSS build
 	}
