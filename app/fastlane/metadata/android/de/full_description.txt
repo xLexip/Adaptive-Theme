@@ -3,7 +3,6 @@
 Es kann auch das Hintergrundbild passend zum aktiven Modus wechseln.
 
 <b>Funktionen</b>
-
 <ul>
 <li>Nutzt den physischen Umgebungslichtsensor des Geräts</li>
 <li>Frei einstellbarer Lux-Schwellwert und Vorgaben für Innenräume, draußen und helles Tageslicht</li>
@@ -13,7 +12,6 @@ Es kann auch das Hintergrundbild passend zum aktiven Modus wechseln.
 <li>Schnelleinstellungs-Kachel für bequeme Bedienung</li>
 <li>Material-You-Oberfläche und mehr als 50 Sprachen</li>
 </ul>
-
 <b>Bewusst effizient</b>
 
 Der Sensor wird nach dem Einschalten des Displays nur kurz abgefragt und nicht dauerhaft überwacht. Vor einem Wechsel prüft Adaptive Theme, ob der Sensor durch eine Hand oder die Hosentasche verdeckt ist. Der Modus ändert sich dadurch beim Einschalten des Displays und unterbricht dich nicht, während du eine andere App verwendest.
@@ -23,14 +21,12 @@ Der Sensor wird nach dem Einschalten des Displays nur kurz abgefragt und nicht d
 Android erlaubt gewöhnlichen Apps normalerweise nicht, geschützte Systemeinstellungen wie den Systemmodus zu ändern. Adaptive Theme benötigt deshalb einmalig die Berechtigung <b>WRITE_SECURE_SETTINGS</b>. Sie gewährt weder Root-Zugriff noch Zugriff auf persönliche Daten. Adaptive Theme nutzt sie ausschließlich zum Wechseln des systemweiten Hell- und Dunkelmodus. Beim Deinstallieren der App wird die Berechtigung entzogen.
 
 Der Einrichtungsassistent bietet mehrere Möglichkeiten:
-
 <ul>
 <li>WebADB über eine einfache Website auf einem Computer oder zweiten Android-Gerät, ohne ADB installieren zu müssen</li>
 <li>Shizuku und kompatible Shizuku-Forks, nur einmalig zum Erteilen der Berechtigung erforderlich</li>
 <li>Root auf unterstützten Geräten</li>
 <li>Ein manueller ADB-Befehl: adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS</li>
 </ul>
-
 <b>Weitere Hinweise</b>
 
 Adaptive Theme benötigt Android 14 oder neuer. Tablets werden derzeit nicht unterstützt.

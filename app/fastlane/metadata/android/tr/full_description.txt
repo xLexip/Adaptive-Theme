@@ -3,7 +3,6 @@
 Ayrıca duvar kâğıdını etkin temayla eşleşecek şekilde değiştirebilir.
 
 <b>Özellikler</b>
-
 <ul>
 <li>Cihazın fiziksel ortam ışığı sensörünü kullanır</li>
 <li>Özelleştirilebilir lüks eşiği ile iç mekân, dış mekân ve parlak gün ışığı için hazır ayarlar</li>
@@ -13,7 +12,6 @@ Ayrıca duvar kâğıdını etkin temayla eşleşecek şekilde değiştirebilir.
 <li>Kolay kontrol için Hızlı Ayarlar kutucuğu</li>
 <li>Material You arayüzü ve 50'den fazla dil desteği</li>
 </ul>
-
 <b>Verimlilik odaklı tasarım</b>
 
 Sensör sürekli izlenmek yerine ekran açıldıktan hemen sonra kısa süreliğine okunur. Adaptive Theme, modu değiştirmeden önce sensörün bir el veya cep tarafından kapatılmadığını kontrol eder. Böylece değişiklik ekran açılırken gerçekleşir ve başka bir uygulamayı kullanırken sizi bölmez.
@@ -23,14 +21,12 @@ Sensör sürekli izlenmek yerine ekran açıldıktan hemen sonra kısa süreliğ
 Android normalde sıradan uygulamaların sistem teması gibi korunan sistem ayarlarını değiştirmesine izin vermez. Bu nedenle Adaptive Theme'e bir kez <b>WRITE_SECURE_SETTINGS</b> izni verilmesi gerekir. Bu izin root erişimi sağlamaz ve kişisel verilerin okunmasına olanak tanımaz. Adaptive Theme izni yalnızca sistemin açık ve koyu modu arasında geçiş yapmak için kullanır; uygulama kaldırıldığında izin de iptal edilir.
 
 Kurulum sihirbazı çeşitli seçenekler sunar:
-
 <ul>
 <li>ADB kurmadan, bir bilgisayar veya ikinci Android cihazındaki basit bir web sitesi üzerinden WebADB</li>
 <li>Yalnızca izin verilirken bir kez gereken Shizuku ve uyumlu Shizuku çatalları</li>
 <li>Desteklenen cihazlarda root</li>
 <li>Elle çalıştırılan bir ADB komutu: adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS</li>
 </ul>
-
 <b>Diğer bilgiler</b>
 
 Adaptive Theme, Android 14 veya daha yeni bir sürüm gerektirir. Tabletler şu anda desteklenmemektedir.
