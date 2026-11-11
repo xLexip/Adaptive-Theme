@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Приховати підказку</string>
 	<string name="background_help_open_settings">Відкрити налаштування застосунку</string>
 	<string name="background_help_unavailable">Жоден застосунок не зміг відкрити цю сторінку. Ви можете перевірити системні налаштування або відкрити dontkillmyapp.com вручну.</string>
+	<string name="setup_developer_mode_continue_hint">Якщо обидва налаштування вже ввімкнено, перейдіть до наступного кроку.</string>
+	<string name="setup_developer_options_title">Параметри розробника</string>
+	<string name="setup_usb_debugging_title">Налагодження USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Якщо параметри розробника ще не ввімкнено, знайдіть номер збірки й натисніть на нього 7 разів.</string>
 </resources>

@@ -116,4 +116,8 @@
 	<string name="background_help_hide">إخفاء التلميح</string>
 	<string name="background_help_open_settings">فتح إعدادات التطبيق</string>
 	<string name="background_help_unavailable">لم يتمكن أي تطبيق من فتح هذه الصفحة. يمكنك التحقق من إعدادات النظام أو زيارة dontkillmyapp.com يدويًا.</string>
+	<string name="setup_developer_mode_continue_hint">إذا كان الإعدادان مفعّلين بالفعل، فتابع إلى الخطوة التالية.</string>
+	<string name="setup_developer_options_title">خيارات المطوّر</string>
+	<string name="setup_usb_debugging_title">تصحيح أخطاء USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">إذا لم تكن خيارات المطوّر مفعّلة بعد، فابحث عن رقم الإصدار وانقر عليه 7 مرات.</string>
 </resources>

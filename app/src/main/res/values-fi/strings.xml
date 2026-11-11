@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Piilota vinkki</string>
 	<string name="background_help_open_settings">Avaa sovelluksen asetukset</string>
 	<string name="background_help_unavailable">Mikään sovellus ei voinut avata tätä sivua. Voit tarkistaa järjestelmäasetukset tai avata dontkillmyapp.com-sivuston itse.</string>
+	<string name="setup_developer_mode_continue_hint">Jos molemmat asetukset ovat jo käytössä, jatka seuraavaan vaiheeseen.</string>
+	<string name="setup_developer_options_title">Kehittäjäasetukset</string>
+	<string name="setup_usb_debugging_title">USB-virheenkorjaus</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jos kehittäjäasetukset eivät ole vielä käytössä, etsi koontiversion numero ja napauta sitä 7 kertaa.</string>
 </resources>

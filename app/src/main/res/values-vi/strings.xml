@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Ẩn gợi ý</string>
 	<string name="background_help_open_settings">Mở cài đặt ứng dụng</string>
 	<string name="background_help_unavailable">Không ứng dụng nào mở được trang này. Bạn có thể kiểm tra cài đặt hệ thống hoặc tự truy cập dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Nếu cả hai tùy chọn đã bật, hãy chuyển sang bước tiếp theo.</string>
+	<string name="setup_developer_options_title">Tùy chọn nhà phát triển</string>
+	<string name="setup_usb_debugging_title">Gỡ lỗi USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Nếu chưa bật Tùy chọn nhà phát triển, hãy tìm Số bản dựng và nhấn 7 lần.</string>
 </resources>

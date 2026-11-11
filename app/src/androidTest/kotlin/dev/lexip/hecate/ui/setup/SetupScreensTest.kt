@@ -59,10 +59,41 @@ class SetupScreensTest {
 	}
 
 	@Test
-	fun developerStepDisablesContinueWhileRequirementsAreIncomplete() {
-		setDeveloperScreen(SetupUiState())
-		composeRule.onNodeWithText(context.getString(R.string.action_continue))
-			.assertIsNotEnabled()
+	fun developerStepAllowsManualContinueAfterFourSecondsWhenSettingsAreUnconfirmed() {
+		var nextCalls = 0
+		composeRule.mainClock.autoAdvance = false
+		setDeveloperScreen(SetupUiState(), onNext = { nextCalls++ })
+		val continueButton = composeRule.onNodeWithText(context.getString(R.string.action_continue))
+		continueButton.assertIsNotEnabled()
+		composeRule.mainClock.advanceTimeBy(3_900)
+		continueButton.assertIsNotEnabled()
+		composeRule.mainClock.advanceTimeBy(200)
+		continueButton
+			.assertIsEnabled()
+			.performClick()
+		assertEquals(1, nextCalls)
+		composeRule.onNodeWithText(context.getString(R.string.setup_developer_options_title))
+			.assertExists()
+		composeRule.onNodeWithText(context.getString(R.string.setup_usb_debugging_title))
+			.assertExists()
+		composeRule.onNodeWithText(context.getString(R.string.setup_developer_options_unlock))
+			.assertDoesNotExist()
+	}
+
+	@Test
+	fun developerSettingsShortcutWorksEvenWhenDetectionReportsDisabled() {
+		var openCalls = 0
+		setDeveloperScreen(
+			SetupUiState(isDeveloperOptionsEnabled = false, isUsbDebuggingEnabled = false),
+			onOpenDeveloperSettings = { openCalls++ }
+		)
+		composeRule.onNodeWithText(context.getString(R.string.setup_action_open_developer_settings))
+			.performScrollTo()
+			.assertIsEnabled()
+			.performClick()
+		assertEquals(1, openCalls)
+		composeRule.mainClock.advanceTimeBy(4_100)
+		composeRule.onNodeWithText(context.getString(R.string.action_continue)).assertIsEnabled()
 	}
 
 	@Test
@@ -76,6 +107,7 @@ class SetupScreensTest {
 			onNext = { nextCalls++ }
 		)
 
+		composeRule.mainClock.advanceTimeBy(4_100)
 		composeRule.onNodeWithText(context.getString(R.string.action_continue)).performClick()
 
 		assertEquals(1, nextCalls)
@@ -247,7 +279,8 @@ class SetupScreensTest {
 
 	private fun setDeveloperScreen(
 		state: SetupUiState,
-		onNext: () -> Unit = {}
+		onNext: () -> Unit = {},
+		onOpenDeveloperSettings: () -> Unit = {}
 	) {
 		composeRule.setContent {
 			HecateTheme {
@@ -257,7 +290,7 @@ class SetupScreensTest {
 					onNext = onNext,
 					onExit = {},
 					onOpenSettings = {},
-					onOpenDeveloperSettings = {}
+					onOpenDeveloperSettings = onOpenDeveloperSettings
 				)
 			}
 		}

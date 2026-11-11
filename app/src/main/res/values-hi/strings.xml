@@ -116,4 +116,8 @@
 	<string name="background_help_hide">सुझाव छिपाएँ</string>
 	<string name="background_help_open_settings">ऐप्लिकेशन की सेटिंग खोलें</string>
 	<string name="background_help_unavailable">कोई ऐप्लिकेशन यह पेज नहीं खोल सका। आप सिस्टम सेटिंग जाँच सकते हैं या खुद dontkillmyapp.com पर जा सकते हैं।</string>
+	<string name="setup_developer_mode_continue_hint">अगर दोनों सेटिंग पहले से चालू हैं, तो अगले चरण पर जाएँ।</string>
+	<string name="setup_developer_options_title">डेवलपर विकल्प</string>
+	<string name="setup_usb_debugging_title">USB डीबगिंग</string>
+	<string name="setup_dev_options_unconfirmed_toast">अगर डेवलपर विकल्प अभी चालू नहीं हैं, तो बिल्ड नंबर ढूँढें और उस पर 7 बार टैप करें।</string>
 </resources>

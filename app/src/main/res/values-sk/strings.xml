@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Skryť tip</string>
 	<string name="background_help_open_settings">Otvoriť nastavenia aplikácie</string>
 	<string name="background_help_unavailable">Žiadna aplikácia nemohla otvoriť túto stránku. Môžete skontrolovať systémové nastavenia alebo ručne navštíviť dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ak sú obe nastavenia už zapnuté, pokračujte na ďalší krok.</string>
+	<string name="setup_developer_options_title">Možnosti pre vývojárov</string>
+	<string name="setup_usb_debugging_title">Ladenie USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ak možnosti pre vývojárov ešte nie sú zapnuté, nájdite číslo zostavy a 7-krát naň ťuknite.</string>
 </resources>

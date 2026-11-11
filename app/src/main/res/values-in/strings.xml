@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Sembunyikan petunjuk</string>
 	<string name="background_help_open_settings">Buka setelan aplikasi</string>
 	<string name="background_help_unavailable">Tidak ada aplikasi yang dapat membuka halaman ini. Anda dapat memeriksa setelan sistem atau mengunjungi dontkillmyapp.com secara manual.</string>
+	<string name="setup_developer_mode_continue_hint">Jika kedua setelan sudah aktif, lanjutkan ke langkah berikutnya.</string>
+	<string name="setup_developer_options_title">Opsi developer</string>
+	<string name="setup_usb_debugging_title">Debugging USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jika Opsi developer belum aktif, cari Nomor build dan ketuk 7 kali.</string>
 </resources>

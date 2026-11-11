@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Nascondi suggerimento</string>
 	<string name="background_help_open_settings">Apri impostazioni app</string>
 	<string name="background_help_unavailable">Nessuna app ha potuto aprire questa pagina. Puoi controllare le impostazioni di sistema o visitare dontkillmyapp.com manualmente.</string>
+	<string name="setup_developer_mode_continue_hint">Se entrambe le impostazioni sono già attive, continua al passaggio successivo.</string>
+	<string name="setup_developer_options_title">Opzioni sviluppatore</string>
+	<string name="setup_usb_debugging_title">Debug USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Se le Opzioni sviluppatore non sono ancora attive, trova il Numero build e toccalo 7 volte.</string>
 </resources>

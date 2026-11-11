@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Tip verbergen</string>
 	<string name="background_help_open_settings">Appinstellingen openen</string>
 	<string name="background_help_unavailable">Geen enkele app kon deze pagina openen. Je kunt de systeeminstellingen controleren of dontkillmyapp.com handmatig bezoeken.</string>
+	<string name="setup_developer_mode_continue_hint">Als beide instellingen al zijn ingeschakeld, ga je verder naar de volgende stap.</string>
+	<string name="setup_developer_options_title">Ontwikkelaarsopties</string>
+	<string name="setup_usb_debugging_title">USB-foutopsporing</string>
+	<string name="setup_dev_options_unconfirmed_toast">Als de ontwikkelaarsopties nog niet zijn ingeschakeld, zoek je het buildnummer en tik je er 7 keer op.</string>
 </resources>

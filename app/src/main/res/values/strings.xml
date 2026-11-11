@@ -84,6 +84,10 @@
 	<string name="setup_connect_description">To grant the permission, you need a <b>second device</b> (preferably a computer). Connect the two devices via USB. Alternatively, use the Shizuku app linked below.</string>
 	<string name="setup_developer_mode_title">Step 1: Enable Developer Options</string>
 	<string name="setup_developer_mode_body">Turn on USB debugging in Developer options.</string>
+	<string name="setup_developer_mode_continue_hint">If both settings are already enabled, continue to the next step.</string>
+	<string name="setup_developer_options_title">Developer options</string>
+	<string name="setup_usb_debugging_title">USB debugging</string>
+	<string name="setup_dev_options_unconfirmed_toast">If Developer options are not enabled yet, find the Build number and tap it 7 times.</string>
 	<string name="setup_developer_options_unlock">Unlock developer options</string>
 	<string name="setup_developer_options_enabled">Developer options enabled</string>
 	<string name="setup_dev_options_toast_one">Find the Build number and tap it 7 times to enable developer options.</string>

@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Sakrij savjet</string>
 	<string name="background_help_open_settings">Otvori postavke aplikacije</string>
 	<string name="background_help_unavailable">Nijedna aplikacija nije mogla otvoriti ovu stranicu. Možete provjeriti postavke sustava ili ručno posjetiti dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ako su obje postavke već uključene, nastavite na sljedeći korak.</string>
+	<string name="setup_developer_options_title">Opcije za razvojne programere</string>
+	<string name="setup_usb_debugging_title">USB otklanjanje pogrešaka</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ako opcije za razvojne programere još nisu uključene, pronađite broj međuverzije i dodirnite ga 7 puta.</string>
 </resources>

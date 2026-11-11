@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Ukryj wskazówkę</string>
 	<string name="background_help_open_settings">Otwórz ustawienia aplikacji</string>
 	<string name="background_help_unavailable">Żadna aplikacja nie mogła otworzyć tej strony. Możesz sprawdzić ustawienia systemu lub ręcznie wejść na dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Jeśli oba ustawienia są już włączone, przejdź do następnego kroku.</string>
+	<string name="setup_developer_options_title">Opcje programistyczne</string>
+	<string name="setup_usb_debugging_title">Debugowanie USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jeśli opcje programistyczne nie są jeszcze włączone, znajdź numer kompilacji i dotknij go 7 razy.</string>
 </resources>

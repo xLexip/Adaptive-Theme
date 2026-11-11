@@ -116,4 +116,8 @@
 	<string name="background_help_hide">സൂചന മറയ്ക്കുക</string>
 	<string name="background_help_open_settings">ആപ്പ് ക്രമീകരണങ്ങൾ തുറക്കുക</string>
 	<string name="background_help_unavailable">ഒരു ആപ്പിനും ഈ പേജ് തുറക്കാനായില്ല. നിങ്ങൾക്ക് സിസ്റ്റം ക്രമീകരണങ്ങൾ പരിശോധിക്കുകയോ dontkillmyapp.com നേരിട്ട് സന്ദർശിക്കുകയോ ചെയ്യാം.</string>
+	<string name="setup_developer_mode_continue_hint">രണ്ട് ക്രമീകരണങ്ങളും ഇതിനകം ഓണാണെങ്കിൽ, അടുത്ത ഘട്ടത്തിലേക്ക് പോകുക.</string>
+	<string name="setup_developer_options_title">ഡെവലപ്പർ ഓപ്ഷനുകൾ</string>
+	<string name="setup_usb_debugging_title">USB ഡീബഗ്ഗിംഗ്</string>
+	<string name="setup_dev_options_unconfirmed_toast">ഡെവലപ്പർ ഓപ്ഷനുകൾ ഇതുവരെ ഓണാക്കിയിട്ടില്ലെങ്കിൽ, ബിൽഡ് നമ്പർ കണ്ടെത്തി അതിൽ 7 തവണ ടാപ്പ് ചെയ്യുക.</string>
 </resources>

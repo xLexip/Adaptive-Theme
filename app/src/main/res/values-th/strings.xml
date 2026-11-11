@@ -116,4 +116,8 @@
 	<string name="background_help_hide">ซ่อนคำแนะนำ</string>
 	<string name="background_help_open_settings">เปิดการตั้งค่าแอป</string>
 	<string name="background_help_unavailable">ไม่มีแอปที่สามารถเปิดหน้านี้ได้ คุณสามารถตรวจสอบการตั้งค่าระบบหรือเข้า dontkillmyapp.com ด้วยตนเอง</string>
+	<string name="setup_developer_mode_continue_hint">หากเปิดการตั้งค่าทั้งสองไว้แล้ว ให้ไปยังขั้นตอนถัดไป</string>
+	<string name="setup_developer_options_title">ตัวเลือกสำหรับนักพัฒนา</string>
+	<string name="setup_usb_debugging_title">การแก้ไขข้อบกพร่อง USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">หากยังไม่ได้เปิดตัวเลือกสำหรับนักพัฒนา ให้ค้นหาหมายเลขบิลด์แล้วแตะ 7 ครั้ง</string>
 </resources>

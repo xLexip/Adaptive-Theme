@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Sembunyikan petua</string>
 	<string name="background_help_open_settings">Buka tetapan aplikasi</string>
 	<string name="background_help_unavailable">Tiada aplikasi dapat membuka halaman ini. Anda boleh menyemak tetapan sistem atau melawat dontkillmyapp.com secara manual.</string>
+	<string name="setup_developer_mode_continue_hint">Jika kedua-dua tetapan sudah dihidupkan, teruskan ke langkah seterusnya.</string>
+	<string name="setup_developer_options_title">Pilihan pembangun</string>
+	<string name="setup_usb_debugging_title">Penyahpepijatan USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jika Pilihan pembangun belum dihidupkan, cari Nombor binaan dan ketik 7 kali.</string>
 </resources>

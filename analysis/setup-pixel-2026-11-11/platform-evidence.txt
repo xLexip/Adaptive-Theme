@@ -1,0 +1,406 @@
+Selected dexdump output from Pixel CP4A.261105.040.D1 platform artifacts.
+Source line ranges below are 1-based lines of the full temporary disassembly files.
+
+=== NameValueCache.dexdump.txt:336-432 ===
+336:       name          : 'fetchAndCacheString'
+337:       type          : '(Landroid/content/ContentResolver;Ljava/lang/String;Landroid/provider/Settings$SettingsKey;I)Ljava/lang/String;'
+338:       access        : 0x0002 (PRIVATE)
+339:       hiddenapi     : 0x0002 (BLOCKED)
+340:       code          -
+341:       registers     : 15
+342:       ins           : 5
+343:       outs          : 6
+344:       insns size    : 332 16-bit code units
+345: f8cfd0:                                        |[f8cfd0] android.provider.Settings$NameValueCache.fetchAndCacheString:(Landroid/content/ContentResolver;Ljava/lang/String;Landroid/provider/Settings$SettingsKey;I)Ljava/lang/String;
+346: f8cfe0: 54a0 6582                              |0000: iget-object v0, v10, Landroid/provider/Settings$NameValueCache;.mProviderHolder:Landroid/provider/Settings$ContentProviderHolder; // field@8265
+347: f8cfe4: 6e20 13c9 b000                         |0002: invoke-virtual {v0, v11}, Landroid/provider/Settings$ContentProviderHolder;.getProvider:(Landroid/content/ContentResolver;)Landroid/content/IContentProvider; // method@c913
+348: f8cfea: 0c03                                   |0005: move-result-object v3
+349: f8cfec: 1207                                   |0006: const/4 v7, #int 0 // #0
+350: f8cfee: 3903 1c00                              |0007: if-nez v3, 0023 // +001c
+351: f8cff2: 1b0a a192 0200                         |0009: const-string/jumbo v10, "Settings" // string@000292a1
+352: f8cff8: 220b ae24                              |000c: new-instance v11, Ljava/lang/StringBuilder; // type@24ae
+353: f8cffc: 1a0d 08ac                              |000e: const-string v13, "Can't get key " // string@ac08
+354: f8d000: 7020 6cf8 db00                         |0010: invoke-direct {v11, v13}, Ljava/lang/StringBuilder;.<init>:(Ljava/lang/String;)V // method@f86c
+355: f8d006: 6e20 75f8 cb00                         |0013: invoke-virtual {v11, v12}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@f875
+356: f8d00c: 1a0c b705                              |0016: const-string v12, " because cp is null" // string@05b7
+357: f8d010: 6e20 75f8 cb00                         |0018: invoke-virtual {v11, v12}, Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder; // method@f875
+358: f8d016: 6e10 80f8 0b00                         |001b: invoke-virtual {v11}, Ljava/lang/StringBuilder;.toString:()Ljava/lang/String; // method@f880
+359: f8d01c: 0c0b                                   |001e: move-result-object v11
+360: f8d01e: 7120 ffed ba00                         |001f: invoke-static {v10, v11}, Landroid/util/Log;.w:(Ljava/lang/String;Ljava/lang/String;)I // method@edff
+361: f8d024: 1107                                   |0022: return-object v7
+362: f8d026: 1208                                   |0023: const/4 v8, #int 0 // #0
+363: f8d028: 3b0e 0500                              |0024: if-gez v14, 0029 // +0005
+364: f8d02c: 1210                                   |0026: const/4 v0, #int 1 // #1
+365: f8d02e: 0109                                   |0027: move v9, v0
+366: f8d030: 2802                                   |0028: goto 002a // +0002
+367: f8d032: 0189                                   |0029: move v9, v8
+368: f8d034: 54a0 5f82                              |002a: iget-object v0, v10, Landroid/provider/Settings$NameValueCache;.mCallGetCommand:Ljava/lang/String; // field@825f
+369: f8d038: 3800 7e00                              |002c: if-eqz v0, 00aa // +007e
+370: f8d03c: 2206 f213                              |002e: new-instance v6, Landroid/os/Bundle; // type@13f2
+371: f8d040: 7010 e48e 0600                         |0030: invoke-direct {v6}, Landroid/os/Bundle;.<init>:()V // method@8ee4
+372: f8d046: 3809 0800                              |0033: if-eqz v9, 003b // +0008
+373: f8d04a: 1b00 d321 0300                         |0035: const-string/jumbo v0, "_track_generation" // string@000321d3
+374: f8d050: 6e30 4d8f 0607                         |0038: invoke-virtual {v6, v0, v7}, Landroid/os/Bundle;.putString:(Ljava/lang/String;Ljava/lang/String;)V // method@8f4d
+375: f8d056: 54a4 5f82                              |003b: iget-object v4, v10, Landroid/provider/Settings$NameValueCache;.mCallGetCommand:Ljava/lang/String; // field@825f
+376: f8d05a: 07a1                                   |003d: move-object v1, v10
+377: f8d05c: 07b2                                   |003e: move-object v2, v11
+378: f8d05e: 07c5                                   |003f: move-object v5, v12
+379: f8d060: 7606 3ac9 0100                         |0040: invoke-direct/range {v1, v2, v3, v4, v5, v6}, Landroid/provider/Settings$NameValueCache;.callProvider:(Landroid/content/ContentResolver;Landroid/content/IContentProvider;Ljava/lang/String;Ljava/lang/String;Landroid/os/Bundle;)Landroid/os/Bundle; // method@c93a
+380: f8d066: 0c0a                                   |0043: move-result-object v10
+381: f8d068: 075b                                   |0044: move-object v11, v5
+382: f8d06a: 380a 6800                              |0045: if-eqz v10, 00ad // +0068
+383: f8d06e: 1b0c 7a34 0500                         |0047: const-string/jumbo v12, "value" // string@0005347a
+384: f8d074: 6e20 218f ca00                         |004a: invoke-virtual {v10, v12}, Landroid/os/Bundle;.getString:(Ljava/lang/String;)Ljava/lang/String; // method@8f21
+385: f8d07a: 0c0c                                   |004d: move-result-object v12
+386: f8d07c: 3809 4400                              |004e: if-eqz v9, 0092 // +0044
+387: f8d080: 1b00 d321 0300                         |0050: const-string/jumbo v0, "_track_generation" // string@000321d3
+388: f8d086: 1c04 e122                              |0053: const-class v4, Landroid/util/MemoryIntArray; // type@22e1
+389: f8d08a: 6e30 128f 0a04                         |0055: invoke-virtual {v10, v0, v4}, Landroid/os/Bundle;.getParcelable:(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object; // method@8f12
+390: f8d090: 0c00                                   |0058: move-result-object v0
+391: f8d092: 1f00 e122                              |0059: check-cast v0, Landroid/util/MemoryIntArray; // type@22e1
+392: f8d096: 1b04 5721 0300                         |005b: const-string/jumbo v4, "_generation_index" // string@00032157
+393: f8d09c: 12f5                                   |005e: const/4 v5, #int -1 // #ff
+394: f8d09e: 6e30 0b8f 4a05                         |005f: invoke-virtual {v10, v4, v5}, Landroid/os/Bundle;.getInt:(Ljava/lang/String;I)I // method@8f0b
+395: f8d0a4: 0a04                                   |0062: move-result v4
+396: f8d0a6: 3800 2b00                              |0063: if-eqz v0, 008e // +002b
+397: f8d0aa: 3a04 2900                              |0065: if-ltz v4, 008e // +0029
+398: f8d0ae: 1b05 5621 0300                         |0067: const-string/jumbo v5, "_generation" // string@00032156
+399: f8d0b4: 6e30 0b8f 5a08                         |006a: invoke-virtual {v10, v5, v8}, Landroid/os/Bundle;.getInt:(Ljava/lang/String;I)I // method@8f0b
+400: f8d0ba: 0a0a                                   |006d: move-result v10
+401: f8d0bc: 5515 6382                              |006e: iget-boolean v5, v1, Landroid/provider/Settings$NameValueCache;.mConcurrentCacheEnabled:Z // field@8263
+402: f8d0c0: 3805 0d00                              |0070: if-eqz v5, 007d // +000d
+403: f8d0c4: 5415 6a82                              |0072: iget-object v5, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+404: f8d0c8: 6e40 7dc8 d540                         |0074: invoke-virtual {v5, v13, v0, v4}, Landroid/provider/GenerationCache;.registerTracker:(Ljava/lang/Object;Landroid/util/MemoryIntArray;I)V // method@c87d
+405: f8d0ce: 5410 6a82                              |0077: iget-object v0, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+406: f8d0d2: 6e40 7ac8 d0ac                         |0079: invoke-virtual {v0, v13, v12, v10}, Landroid/provider/GenerationCache;.put:(Ljava/lang/Object;Ljava/lang/Object;I)V // method@c87a
+407: f8d0d8: 110c                                   |007c: return-object v12
+408: f8d0da: 1d01                                   |007d: monitor-enter v1
+409: f8d0dc: 5415 6a82                              |007e: iget-object v5, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+410: f8d0e0: 6e40 7dc8 d540                         |0080: invoke-virtual {v5, v13, v0, v4}, Landroid/provider/GenerationCache;.registerTracker:(Ljava/lang/Object;Landroid/util/MemoryIntArray;I)V // method@c87d
+411: f8d0e6: 5410 6a82                              |0083: iget-object v0, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+412: f8d0ea: 6e40 7ac8 d0ac                         |0085: invoke-virtual {v0, v13, v12, v10}, Landroid/provider/GenerationCache;.put:(Ljava/lang/Object;Ljava/lang/Object;I)V // method@c87a
+413: f8d0f0: 1e01                                   |0088: monitor-exit v1
+414: f8d0f2: 110c                                   |0089: return-object v12
+415: f8d0f4: 0d00                                   |008a: move-exception v0
+416: f8d0f6: 070a                                   |008b: move-object v10, v0
+417: f8d0f8: 1e01                                   |008c: monitor-exit v1
+418: f8d0fa: 270a                                   |008d: throw v10
+419: f8d0fc: 7110 adc9 0000                         |008e: invoke-static {v0}, Landroid/provider/Settings;.-$$Nest$smmaybeCloseGenerationArray:(Landroid/util/MemoryIntArray;)V // method@c9ad
+420: f8d102: 110c                                   |0091: return-object v12
+421: f8d104: 551a 6382                              |0092: iget-boolean v10, v1, Landroid/provider/Settings$NameValueCache;.mConcurrentCacheEnabled:Z // field@8263
+422: f8d108: 380a 0800                              |0094: if-eqz v10, 009c // +0008
+423: f8d10c: 541a 6a82                              |0096: iget-object v10, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+424: f8d110: 6e40 7bc8 daec                         |0098: invoke-virtual {v10, v13, v12, v14}, Landroid/provider/GenerationCache;.putIfUnchanged:(Ljava/lang/Object;Ljava/lang/Object;I)Z // method@c87b
+425: f8d116: 110c                                   |009b: return-object v12
+426: f8d118: 1d01                                   |009c: monitor-enter v1
+427: f8d11a: 541a 6a82                              |009d: iget-object v10, v1, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+428: f8d11e: 6e40 7bc8 daec                         |009f: invoke-virtual {v10, v13, v12, v14}, Landroid/provider/GenerationCache;.putIfUnchanged:(Ljava/lang/Object;Ljava/lang/Object;I)Z // method@c87b
+429: f8d124: 1e01                                   |00a2: monitor-exit v1
+430: f8d126: 110c                                   |00a3: return-object v12
+431: f8d128: 0d00                                   |00a4: move-exception v0
+432: f8d12a: 070a                                   |00a5: move-object v10, v0
+
+=== NameValueCache.dexdump.txt:1326-1431 ===
+1326:     #2              : (in Landroid/provider/Settings$NameValueCache;)
+1327:       name          : 'getStringForUser'
+1328:       type          : '(Landroid/content/ContentResolver;Ljava/lang/String;I)Ljava/lang/String;'
+1329:       access        : 0x0001 (PUBLIC)
+1330:       hiddenapi     : 0x0001 (UNSUPPORTED)
+1331:       code          -
+1332:       registers     : 8
+1333:       ins           : 4
+1334:       outs          : 5
+1335:       insns size    : 120 16-bit code units
+1336: f8d4c8:                                        |[f8d4c8] android.provider.Settings$NameValueCache.getStringForUser:(Landroid/content/ContentResolver;Ljava/lang/String;I)Ljava/lang/String;
+1337: f8d4d8: 7100 83ab 0000                         |0000: invoke-static {}, Landroid/os/UserHandle;.myUserId:()I // method@ab83
+1338: f8d4de: 0a00                                   |0003: move-result v0
+1339: f8d4e0: 1201                                   |0004: const/4 v1, #int 0 // #0
+1340: f8d4e2: 3307 0400                              |0005: if-ne v7, v0, 0009 // +0004
+1341: f8d4e6: 1210                                   |0007: const/4 v0, #int 1 // #1
+1342: f8d4e8: 2802                                   |0008: goto 000a // +0002
+1343: f8d4ea: 0110                                   |0009: move v0, v1
+1344: f8d4ec: 6e10 5d02 0500                         |000a: invoke-virtual {v5}, Landroid/content/ContentResolver;.getAttributionSource:()Landroid/content/AttributionSource; // method@025d
+1345: f8d4f2: 0c02                                   |000d: move-result-object v2
+1346: f8d4f4: 7100 d1f1 0000                         |000e: invoke-static {}, Lcom/android/internal/hidden_from_bootclasspath/android/permission/flags/Flags;.deviceAwarePermissionApisEnabled:()Z // method@f1d1
+1347: f8d4fa: 0a03                                   |0011: move-result v3
+1348: f8d4fc: 3803 0800                              |0012: if-eqz v3, 001a // +0008
+1349: f8d500: 3802 0600                              |0014: if-eqz v2, 001a // +0006
+1350: f8d504: 6e10 3102 0200                         |0016: invoke-virtual {v2}, Landroid/content/AttributionSource;.getDeviceId:()I // method@0231
+1351: f8d50a: 0a01                                   |0019: move-result v1
+1352: f8d50c: 2202 4f1c                              |001a: new-instance v2, Landroid/provider/Settings$SettingsKey; // type@1c4f
+1353: f8d510: 7030 75c9 6201                         |001c: invoke-direct {v2, v6, v1}, Landroid/provider/Settings$SettingsKey;.<init>:(Ljava/lang/String;I)V // method@c975
+1354: f8d516: 3800 5400                              |001f: if-eqz v0, 0073 // +0054
+1355: f8d51a: 7100 c0c9 0000                         |0021: invoke-static {}, Landroid/provider/Settings;.isInSystemServer:()Z // method@c9c0
+1356: f8d520: 0a00                                   |0024: move-result v0
+1357: f8d522: 3900 4e00                              |0025: if-nez v0, 0073 // +004e
+1358: f8d526: 5547 6382                              |0027: iget-boolean v7, v4, Landroid/provider/Settings$NameValueCache;.mConcurrentCacheEnabled:Z // field@8263
+1359: f8d52a: 3907 1400                              |0029: if-nez v7, 003d // +0014
+1360: f8d52e: 1d04                                   |002b: monitor-enter v4
+1361: f8d530: 5447 6a82                              |002c: iget-object v7, v4, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+1362: f8d534: 6e20 7cc8 2700                         |002e: invoke-virtual {v7, v2}, Landroid/provider/GenerationCache;.readLiveGeneration:(Ljava/lang/Object;)I // method@c87c
+1363: f8d53a: 0a07                                   |0031: move-result v7
+1364: f8d53c: 5440 6a82                              |0032: iget-object v0, v4, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+1365: f8d540: 6e20 75c8 2000                         |0034: invoke-virtual {v0, v2}, Landroid/provider/GenerationCache;.getCacheEntry:(Ljava/lang/Object;)Landroid/provider/GenerationCache$CacheEntry; // method@c875
+1366: f8d546: 0c00                                   |0037: move-result-object v0
+1367: f8d548: 1e04                                   |0038: monitor-exit v4
+1368: f8d54a: 2810                                   |0039: goto 0049 // +0010
+1369: f8d54c: 0d05                                   |003a: move-exception v5
+1370: f8d54e: 1e04                                   |003b: monitor-exit v4
+1371: f8d550: 2705                                   |003c: throw v5
+1372: f8d552: 5447 6a82                              |003d: iget-object v7, v4, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+1373: f8d556: 6e20 7cc8 2700                         |003f: invoke-virtual {v7, v2}, Landroid/provider/GenerationCache;.readLiveGeneration:(Ljava/lang/Object;)I // method@c87c
+1374: f8d55c: 0a07                                   |0042: move-result v7
+1375: f8d55e: 5440 6a82                              |0043: iget-object v0, v4, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+1376: f8d562: 6e20 75c8 2000                         |0045: invoke-virtual {v0, v2}, Landroid/provider/GenerationCache;.getCacheEntry:(Ljava/lang/Object;)Landroid/provider/GenerationCache$CacheEntry; // method@c875
+1377: f8d568: 0c00                                   |0048: move-result-object v0
+1378: f8d56a: 3a07 1800                              |0049: if-ltz v7, 0061 // +0018
+1379: f8d56e: 3800 1600                              |004b: if-eqz v0, 0061 // +0016
+1380: f8d572: 5201 317e                              |004d: iget v1, v0, Landroid/provider/GenerationCache$CacheEntry;.generation:I // field@7e31
+1381: f8d576: 3271 1200                              |004f: if-eq v1, v7, 0061 // +0012
+1382: f8d57a: 5440 5d82                              |0051: iget-object v0, v4, Landroid/provider/Settings$NameValueCache;.mAllFields:Landroid/util/ArraySet; // field@825d
+1383: f8d57e: 6e20 a2ed 6000                         |0053: invoke-virtual {v0, v6}, Landroid/util/ArraySet;.contains:(Ljava/lang/Object;)Z // method@eda2
+1384: f8d584: 0a00                                   |0056: move-result v0
+1385: f8d586: 1201                                   |0057: const/4 v1, #int 0 // #0
+1386: f8d588: 3900 0800                              |0058: if-nez v0, 0060 // +0008
+1387: f8d58c: 5447 6a82                              |005a: iget-object v7, v4, Landroid/provider/Settings$NameValueCache;.mValues:Landroid/provider/GenerationCache; // field@826a
+1388: f8d590: 6e20 73c8 2700                         |005c: invoke-virtual {v7, v2}, Landroid/provider/GenerationCache;.destroyTracker:(Ljava/lang/Object;)V // method@c873
+1389: f8d596: 12f7                                   |005f: const/4 v7, #int -1 // #ff
+1390: f8d598: 0710                                   |0060: move-object v0, v1
+1391: f8d59a: 3a07 0d00                              |0061: if-ltz v7, 006e // +000d
+1392: f8d59e: 3800 0b00                              |0063: if-eqz v0, 006e // +000b
+1393: f8d5a2: 5201 317e                              |0065: iget v1, v0, Landroid/provider/GenerationCache$CacheEntry;.generation:I // field@7e31
+1394: f8d5a6: 3371 0700                              |0067: if-ne v1, v7, 006e // +0007
+1395: f8d5aa: 5404 327e                              |0069: iget-object v4, v0, Landroid/provider/GenerationCache$CacheEntry;.value:Ljava/lang/Object; // field@7e32
+1396: f8d5ae: 1f04 ac24                              |006b: check-cast v4, Ljava/lang/String; // type@24ac
+1397: f8d5b2: 1104                                   |006d: return-object v4
+1398: f8d5b4: 7057 3dc9 5426                         |006e: invoke-direct {v4, v5, v6, v2, v7}, Landroid/provider/Settings$NameValueCache;.fetchAndCacheString:(Landroid/content/ContentResolver;Ljava/lang/String;Landroid/provider/Settings$SettingsKey;I)Ljava/lang/String; // method@c93d
+1399: f8d5ba: 0c04                                   |0071: move-result-object v4
+1400: f8d5bc: 1104                                   |0072: return-object v4
+1401: f8d5be: 7040 3ec9 5476                         |0073: invoke-direct {v4, v5, v6, v7}, Landroid/provider/Settings$NameValueCache;.fetchWithoutCache:(Landroid/content/ContentResolver;Ljava/lang/String;I)Ljava/lang/String; // method@c93e
+1402: f8d5c4: 0c04                                   |0076: move-result-object v4
+1403: f8d5c6: 1104                                   |0077: return-object v4
+1404:       catches       : 1
+1405:         0x002c - 0x003c
+1406:           <any> -> 0x003a
+1407:       positions     :
+1408:         0x0000 line=3900
+1409:         0x000a line=3901
+1410:         0x000e line=3902
+1411:         0x0016 line=3904
+1412:         0x001a line=3905
+1413:         0x0021 line=3906
+1414:         0x0027 line=3909
+1415:         0x002b line=3913
+1416:         0x002c line=3914
+1417:         0x0032 line=3915
+1418:         0x0038 line=3916
+1419:         0x003d line=3918
+1420:         0x0043 line=3919
+1421:         0x004d line=3922
+1422:         0x0051 line=3927
+1423:         0x005a line=3928
+1424:         0x0065 line=3933
+1425:         0x0069 line=3937
+1426:         0x006e line=3945
+1427:         0x0073 line=3952
+1428:       locals        :
+1429:         0x0000 - 0x0078 reg=4 this Landroid/provider/Settings$NameValueCache;
+1430:         0x0000 - 0x0078 reg=5 (null) Landroid/content/ContentResolver;
+1431:         0x0000 - 0x0078 reg=6 (null) Ljava/lang/String;
+
+=== SettingsProvider.dexdump.txt:46968-47058 ===
+46968:     #54              : (in Lcom/android/providers/settings/SettingsProvider;)
+46969:       name          : 'getEffectiveValue'
+46970:       type          : '(Lcom/android/providers/settings/SettingsState$Setting;Landroid/util/ArrayMap;)Ljava/lang/String;'
+46971:       access        : 0x0002 (PRIVATE)
+46972:       code          -
+46973:       registers     : 5
+46974:       ins           : 3
+46975:       outs          : 2
+46976:       insns size    : 88 16-bit code units
+46977: 02e2b8:                                        |[02e2b8] com.android.providers.settings.SettingsProvider.getEffectiveValue:(Lcom/android/providers/settings/SettingsState$Setting;Landroid/util/ArrayMap;)Ljava/lang/String;
+46978: 02e2c8: 3803 5600                              |0000: if-eqz v3, 0056 // +0056
+46979: 02e2cc: 6e10 fb04 0300                         |0002: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.isNull:()Z // method@04fb
+46980: 02e2d2: 0a00                                   |0005: move-result v0
+46981: 02e2d4: 3800 0300                              |0006: if-eqz v0, 0009 // +0003
+46982: 02e2d8: 284e                                   |0008: goto 0056 // +004e
+46983: 02e2da: 3804 4800                              |0009: if-eqz v4, 0051 // +0048
+46984: 02e2de: 6e10 7102 0400                         |000b: invoke-virtual {v4}, Landroid/util/ArrayMap;.isEmpty:()Z // method@0271
+46985: 02e2e4: 0a00                                   |000e: move-result v0
+46986: 02e2e6: 3800 0300                              |000f: if-eqz v0, 0012 // +0003
+46987: 02e2ea: 2840                                   |0011: goto 0051 // +0040
+46988: 02e2ec: 7100 5801 0000                         |0012: invoke-static {}, Landroid/os/Binder;.getCallingUid:()I // method@0158
+46989: 02e2f2: 0a00                                   |0015: move-result v0
+46990: 02e2f4: 7110 a801 0000                         |0016: invoke-static {v0}, Landroid/os/UserHandle;.getAppId:(I)I // method@01a8
+46991: 02e2fa: 0a00                                   |0019: move-result v0
+46992: 02e2fc: 1301 1027                              |001a: const/16 v1, #int 10000 // #2710
+46993: 02e300: 3510 0700                              |001c: if-ge v0, v1, 0023 // +0007
+46994: 02e304: 6e10 f704 0300                         |001e: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.getValue:()Ljava/lang/String; // method@04f7
+46995: 02e30a: 0c02                                   |0021: move-result-object v2
+46996: 02e30c: 1102                                   |0022: return-object v2
+46997: 02e30e: 7010 6e04 0200                         |0023: invoke-direct {v2}, Lcom/android/providers/settings/SettingsProvider;.getCallingApplicationInfoOrThrow:()Landroid/content/pm/ApplicationInfo; // method@046e
+46998: 02e314: 0c02                                   |0026: move-result-object v2
+46999: 02e316: 6e10 d400 0200                         |0027: invoke-virtual {v2}, Landroid/content/pm/ApplicationInfo;.isSystemApp:()Z // method@00d4
+47000: 02e31c: 0a00                                   |002a: move-result v0
+47001: 02e31e: 3900 2100                              |002b: if-nez v0, 004c // +0021
+47002: 02e322: 6e10 d300 0200                         |002d: invoke-virtual {v2}, Landroid/content/pm/ApplicationInfo;.isSignedWithPlatformKey:()Z // method@00d3
+47003: 02e328: 0a02                                   |0030: move-result v2
+47004: 02e32a: 3802 0300                              |0031: if-eqz v2, 0034 // +0003
+47005: 02e32e: 2819                                   |0033: goto 004c // +0019
+47006: 02e330: 6e10 f404 0300                         |0034: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.getName:()Ljava/lang/String; // method@04f4
+47007: 02e336: 0c02                                   |0037: move-result-object v2
+47008: 02e338: 6e20 6e02 2400                         |0038: invoke-virtual {v4, v2}, Landroid/util/ArrayMap;.get:(Ljava/lang/Object;)Ljava/lang/Object; // method@026e
+47009: 02e33e: 0c02                                   |003b: move-result-object v2
+47010: 02e340: 1f02 db01                              |003c: check-cast v2, Ljava/lang/String; // type@01db
+47011: 02e344: 3802 0900                              |003e: if-eqz v2, 0047 // +0009
+47012: 02e348: 6e10 b808 0200                         |0040: invoke-virtual {v2}, Ljava/lang/String;.isEmpty:()Z // method@08b8
+47013: 02e34e: 0a04                                   |0043: move-result v4
+47014: 02e350: 3904 0300                              |0044: if-nez v4, 0047 // +0003
+47015: 02e354: 1102                                   |0046: return-object v2
+47016: 02e356: 6e10 f704 0300                         |0047: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.getValue:()Ljava/lang/String; // method@04f7
+47017: 02e35c: 0c02                                   |004a: move-result-object v2
+47018: 02e35e: 1102                                   |004b: return-object v2
+47019: 02e360: 6e10 f704 0300                         |004c: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.getValue:()Ljava/lang/String; // method@04f7
+47020: 02e366: 0c02                                   |004f: move-result-object v2
+47021: 02e368: 1102                                   |0050: return-object v2
+47022: 02e36a: 6e10 f704 0300                         |0051: invoke-virtual {v3}, Lcom/android/providers/settings/SettingsState$Setting;.getValue:()Ljava/lang/String; // method@04f7
+47023: 02e370: 0c02                                   |0054: move-result-object v2
+47024: 02e372: 1102                                   |0055: return-object v2
+47025: 02e374: 1202                                   |0056: const/4 v2, #int 0 // #0
+47026: 02e376: 1102                                   |0057: return-object v2
+47027:       catches       : (none)
+47028:       positions     :
+47029:         0x0002 line=2493
+47030:         0x000b line=2501
+47031:         0x0012 line=2505
+47032:         0x001e line=2506
+47033:         0x0023 line=2509
+47034:         0x0027 line=2510
+47035:         0x0034 line=2514
+47036:         0x0040 line=2515
+47037:         0x0047 line=2518
+47038:         0x004c line=2511
+47039:         0x0051 line=2502
+47040:       locals        :
+47041:         0x0000 - 0x0058 reg=2 this Lcom/android/providers/settings/SettingsProvider;
+47042:         0x0000 - 0x0058 reg=3 (null) Lcom/android/providers/settings/SettingsState$Setting;
+47043:         0x0000 - 0x0058 reg=4 (null) Landroid/util/ArrayMap;
+47044:
+47045:     #55              : (in Lcom/android/providers/settings/SettingsProvider;)
+47046:       name          : 'getFlagNamespace'
+47047:       type          : '(Ljava/lang/String;)Ljava/lang/String;'
+47048:       access        : 0x000a (PRIVATE STATIC)
+47049:       code          -
+47050:       registers     : 3
+47051:       ins           : 1
+47052:       outs          : 3
+47053:       insns size    : 15 16-bit code units
+47054: 02e378:                                        |[02e378] com.android.providers.settings.SettingsProvider.getFlagNamespace:(Ljava/lang/String;)Ljava/lang/String;
+47055: 02e388: 1a00 f600                              |0000: const-string v0, "/" // string@00f6
+47056: 02e38c: 6e20 b508 0200                         |0002: invoke-virtual {v2, v0}, Ljava/lang/String;.indexOf:(Ljava/lang/String;)I // method@08b5
+47057: 02e392: 0a00                                   |0005: move-result v0
+47058: 02e394: 12f1                                   |0006: const/4 v1, #int -1 // #ff
+
+=== SettingsProvider.dexdump.txt:49627-49728 ===
+49627:     #107              : (in Lcom/android/providers/settings/SettingsProvider;)
+49628:       name          : 'packageValueForCallResult'
+49629:       type          : '(ILjava/lang/String;IILcom/android/providers/settings/SettingsState$Setting;Z)Landroid/os/Bundle;'
+49630:       access        : 0x0002 (PRIVATE)
+49631:       code          -
+49632:       registers     : 9
+49633:       ins           : 7
+49634:       outs          : 5
+49635:       insns size    : 94 16-bit code units
+49636: 02c28c:                                        |[02c28c] com.android.providers.settings.SettingsProvider.packageValueForCallResult:(ILjava/lang/String;IILcom/android/providers/settings/SettingsState$Setting;Z)Landroid/os/Bundle;
+49637: 02c29c: 3908 1900                              |0000: if-nez v8, 0019 // +0019
+49638: 02c2a0: 3807 1400                              |0002: if-eqz v7, 0016 // +0014
+49639: 02c2a4: 6e10 fb04 0700                         |0004: invoke-virtual {v7}, Lcom/android/providers/settings/SettingsState$Setting;.isNull:()Z // method@04fb
+49640: 02c2aa: 0a02                                   |0007: move-result v2
+49641: 02c2ac: 3802 0300                              |0008: if-eqz v2, 000b // +0003
+49642: 02c2b0: 280c                                   |000a: goto 0016 // +000c
+49643: 02c2b2: 1a02 ee12                              |000b: const-string v2, "value" // string@12ee
+49644: 02c2b6: 6e10 f704 0700                         |000d: invoke-virtual {v7}, Lcom/android/providers/settings/SettingsState$Setting;.getValue:()Ljava/lang/String; // method@04f7
+49645: 02c2bc: 0c03                                   |0010: move-result-object v3
+49646: 02c2be: 7120 5d01 3200                         |0011: invoke-static {v2, v3}, Landroid/os/Bundle;.forPair:(Ljava/lang/String;Ljava/lang/String;)Landroid/os/Bundle; // method@015d
+49647: 02c2c4: 0c02                                   |0014: move-result-object v2
+49648: 02c2c6: 1102                                   |0015: return-object v2
+49649: 02c2c8: 6202 bc01                              |0016: sget-object v2, Lcom/android/providers/settings/SettingsProvider;.NULL_SETTING_BUNDLE:Landroid/os/Bundle; // field@01bc
+49650: 02c2cc: 1102                                   |0018: return-object v2
+49651: 02c2ce: 2208 7400                              |0019: new-instance v8, Landroid/os/Bundle; // type@0074
+49652: 02c2d2: 7010 5b01 0800                         |001b: invoke-direct {v8}, Landroid/os/Bundle;.<init>:()V // method@015b
+49653: 02c2d8: 7110 7a04 0300                         |001e: invoke-static {v3}, Lcom/android/providers/settings/SettingsProvider;.getRedactedSettingsMap:(I)Landroid/util/ArrayMap; // method@047a
+49654: 02c2de: 0c00                                   |0021: move-result-object v0
+49655: 02c2e0: 7030 7404 7200                         |0022: invoke-direct {v2, v7, v0}, Lcom/android/providers/settings/SettingsProvider;.getEffectiveValue:(Lcom/android/providers/settings/SettingsState$Setting;Landroid/util/ArrayMap;)Ljava/lang/String; // method@0474
+49656: 02c2e6: 0c00                                   |0025: move-result-object v0
+49657: 02c2e8: 1a01 ee12                              |0026: const-string v1, "value" // string@12ee
+49658: 02c2ec: 6e30 6b01 1800                         |0028: invoke-virtual {v8, v1, v0}, Landroid/os/Bundle;.putString:(Ljava/lang/String;Ljava/lang/String;)V // method@016b
+49659: 02c2f2: 5420 c401                              |002b: iget-object v0, v2, Lcom/android/providers/settings/SettingsProvider;.mLock:Ljava/lang/Object; // field@01c4
+49660: 02c2f6: 1d00                                   |002d: monitor-enter v0
+49661: 02c2f8: 3807 0b00                              |002e: if-eqz v7, 0039 // +000b
+49662: 02c2fc: 6e10 fb04 0700                         |0030: invoke-virtual {v7}, Lcom/android/providers/settings/SettingsState$Setting;.isNull:()Z // method@04fb
+49663: 02c302: 0a07                                   |0033: move-result v7
+49664: 02c304: 3807 0b00                              |0034: if-eqz v7, 003f // +000b
+49665: 02c308: 2803                                   |0036: goto 0039 // +0003
+49666: 02c30a: 0d02                                   |0037: move-exception v2
+49667: 02c30c: 2824                                   |0038: goto 005c // +0024
+49668: 02c30e: 7030 9b04 4203                         |0039: invoke-direct {v2, v4, v3}, Lcom/android/providers/settings/SettingsProvider;.isSettingPreDefined:(Ljava/lang/String;I)Z // method@049b
+49669: 02c314: 0a07                                   |003c: move-result v7
+49670: 02c316: 3807 1000                              |003d: if-eqz v7, 004d // +0010
+49671: 02c31a: 5422 c701                              |003f: iget-object v2, v2, Lcom/android/providers/settings/SettingsProvider;.mSettingsRegistry:Lcom/android/providers/settings/SettingsProvider$SettingsRegistry; // field@01c7
+49672: 02c31e: 7110 f703 0200                         |0041: invoke-static {v2}, Lcom/android/providers/settings/SettingsProvider$SettingsRegistry;.-$$Nest$fgetmGenerationRegistry:(Lcom/android/providers/settings/SettingsProvider$SettingsRegistry;)Lcom/android/providers/settings/GenerationRegistry; // method@03f7
+49673: 02c324: 0c02                                   |0044: move-result-object v2
+49674: 02c326: 7130 3a05 5306                         |0045: invoke-static {v3, v5, v6}, Lcom/android/providers/settings/SettingsState;.makeKey:(III)J // method@053a
+49675: 02c32c: 0b05                                   |0048: move-result-wide v5
+49676: 02c32e: 6e54 3503 8265                         |0049: invoke-virtual {v2, v8, v5, v6, v4}, Lcom/android/providers/settings/GenerationRegistry;.addGenerationData:(Landroid/os/Bundle;JLjava/lang/String;)V // method@0335
+49677: 02c334: 280e                                   |004c: goto 005a // +000e
+49678: 02c336: 5422 c701                              |004d: iget-object v2, v2, Lcom/android/providers/settings/SettingsProvider;.mSettingsRegistry:Lcom/android/providers/settings/SettingsProvider$SettingsRegistry; // field@01c7
+49679: 02c33a: 7110 f703 0200                         |004f: invoke-static {v2}, Lcom/android/providers/settings/SettingsProvider$SettingsRegistry;.-$$Nest$fgetmGenerationRegistry:(Lcom/android/providers/settings/SettingsProvider$SettingsRegistry;)Lcom/android/providers/settings/GenerationRegistry; // method@03f7
+49680: 02c340: 0c02                                   |0052: move-result-object v2
+49681: 02c342: 7130 3a05 5306                         |0053: invoke-static {v3, v5, v6}, Lcom/android/providers/settings/SettingsState;.makeKey:(III)J // method@053a
+49682: 02c348: 0b03                                   |0056: move-result-wide v3
+49683: 02c34a: 6e40 3603 8243                         |0057: invoke-virtual {v2, v8, v3, v4}, Lcom/android/providers/settings/GenerationRegistry;.addGenerationDataForUnsetSettings:(Landroid/os/Bundle;J)V // method@0336
+49684: 02c350: 1e00                                   |005a: monitor-exit v0
+49685: 02c352: 1108                                   |005b: return-object v8
+49686: 02c354: 1e00                                   |005c: monitor-exit v0
+49687: 02c356: 2702                                   |005d: throw v2
+49688:       catches       : 1
+49689:         0x0030 - 0x005d
+49690:           <any> -> 0x0037
+49691:       positions     :
+49692:         0x0004 line=2915
+49693:         0x000b line=2918
+49694:         0x0016 line=2916
+49695:         0x0019 line=2920
+49696:         0x001e line=2921
+49697:         0x0022 line=2923
+49698:         0x0026 line=2924
+49699:         0x002b line=2926
+49700:         0x0030 line=2927
+49701:         0x003f line=2929
+49702:         0x0045 line=2930
+49703:         0x0049 line=2929
+49704:         0x004d line=2933
+49705:         0x0053 line=2934
+49706:         0x0057 line=2933
+49707:         0x005a line=2936
+49708:       locals        :
+49709:         0x0000 - 0x005e reg=2 this Lcom/android/providers/settings/SettingsProvider;
+49710:         0x0000 - 0x005e reg=3 (null) I
+49711:         0x0000 - 0x005e reg=4 (null) Ljava/lang/String;
+49712:         0x0000 - 0x005e reg=5 (null) I
+49713:         0x0000 - 0x005e reg=6 (null) I
+49714:         0x0000 - 0x005e reg=7 (null) Lcom/android/providers/settings/SettingsState$Setting;
+49715:         0x0000 - 0x005e reg=8 (null) Z
+49716:
+49717:     #108              : (in Lcom/android/providers/settings/SettingsProvider;)
+49718:       name          : 'packageValuesForCallResult'
+49719:       type          : '(Ljava/lang/String;Ljava/util/HashMap;Z)Landroid/os/Bundle;'
+49720:       access        : 0x0002 (PRIVATE)
+49721:       code          -
+49722:       registers     : 7
+49723:       ins           : 4
+49724:       outs          : 5
+49725:       insns size    : 36 16-bit code units
+49726: 02c364:                                        |[02c364] com.android.providers.settings.SettingsProvider.packageValuesForCallResult:(Ljava/lang/String;Ljava/util/HashMap;Z)Landroid/os/Bundle;
+49727: 02c374: 2200 7400                              |0000: new-instance v0, Landroid/os/Bundle; // type@0074
+49728: 02c378: 7010 5b01 0000                         |0002: invoke-direct {v0}, Landroid/os/Bundle;.<init>:()V // method@015b
