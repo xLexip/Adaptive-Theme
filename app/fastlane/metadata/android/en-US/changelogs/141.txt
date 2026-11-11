@@ -1,0 +1,7 @@
+• Added an option to exclude the lock screen wallpaper from Wallpaper Theme Sync (#221).
+• Fixed setup getting stuck when Android 17 hides the USB debugging status (#238).
+• Added device-specific help after repeated background monitoring interruptions (#225).
+• Improved Shizuku setup and permission verification.
+• Improved monitoring startup and added a retry action.
+• Added a "What’s new" dialog linking to the changelog.
+• Improved tests, builds, dependencies, and documentation.

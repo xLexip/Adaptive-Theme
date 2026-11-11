@@ -3,7 +3,7 @@
   "app_name": "Adaptive Theme",
   "package_name": "dev.lexip.hecate",
   "min_sdk": 34,
-  "target_sdk": 36,
+  "target_sdk": 37,
   "short_description": "Automatic dark mode based on ambient light.",
   "detailed_description": "Adaptive Theme automatically switches Android's system theme between light and dark mode using the physical ambient light sensor—not a fixed schedule. It can also update your wallpaper to match the active theme. \n\n**Key features:**\n- Sensor-driven theme switching based on real ambient light levels.\n- Custom lux thresholds and an optional night lock.\n- Wallpaper synchronization for light and dark mode.\n- Event-driven sensing only when the screen turns on, with no continuous background monitoring.\n- Material You interface, Quick Settings tile, and 50+ languages.\n\nA one-time setup grants WRITE_SECURE_SETTINGS through the web setup tool, Shizuku, root, or manual ADB. Shizuku is optional and does not need to keep running after the permission is granted. Adaptive Theme is free, open source, and ad-free.",
   "developer_message": "Built to make Android's system theme respond naturally to the light around you. Made with 🥨 in Germany!",
