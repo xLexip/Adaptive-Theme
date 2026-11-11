@@ -145,4 +145,8 @@
 	<string name="background_help_open_settings">Open app settings</string>
 	<string name="background_help_website" translatable="false">Don’t Kill My App ↗</string>
 	<string name="background_help_unavailable">No app could open this page. You can check system Settings or visit dontkillmyapp.com manually.</string>
+	<string name="whats_new_title">What\'s new in v%1$s</string>
+	<string name="whats_new_message">Find out what’s new in this update on GitHub.</string>
+	<string name="whats_new_view_changelog">View changelog</string>
+	<string name="whats_new_unavailable">No app could open the changelog. You can find it in Adaptive Theme’s GitHub releases.</string>
 </resources>

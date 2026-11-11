@@ -101,6 +101,7 @@ import dev.lexip.hecate.ui.components.BackgroundActivityHint
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.SetupRequiredCard
 import dev.lexip.hecate.ui.components.ThreeDotMenu
+import dev.lexip.hecate.ui.components.WhatsNewDialog
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.DetailPreferenceCard
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
@@ -250,6 +251,7 @@ fun MainScreenContent(
 				onShowNightEndPicker = { showNightEndPicker = true }
 			)
 			if (uiState.showGitHubStarPrompt &&
+				uiState.whatsNewRelease == null &&
 				!isBatterySaverActive &&
 				!isDeviceCovered
 			) {
@@ -281,6 +283,9 @@ fun MainScreenContent(
 
 	MainScreenDialogs(
 		uiState = uiState,
+		canShowWhatsNew = uiState.isWhatsNewPreview ||
+			(uiState.hasSetupCompleted && hasWriteSecureSettingsPermission &&
+				!(serviceStartFailed && uiState.adaptiveThemeEnabled)),
 		showCustomDialog = showCustomDialog,
 		showNightStartPicker = showNightStartPicker,
 		showNightEndPicker = showNightEndPicker,
@@ -1042,6 +1047,7 @@ private fun androidx.compose.foundation.layout.RowScope.WallpaperSelectionButton
 @Composable
 private fun MainScreenDialogs(
 	uiState: MainUiState,
+	canShowWhatsNew: Boolean,
 	showCustomDialog: Boolean,
 	showNightStartPicker: Boolean,
 	showNightEndPicker: Boolean,
@@ -1072,6 +1078,19 @@ private fun MainScreenDialogs(
 	)
 	if (uiState.showLiveWallpaperWarningDialog) {
 		LiveWallpaperWarningDialog(callbacks)
+	}
+	if (canShowWhatsNew &&
+		!showCustomDialog && !showNightStartPicker && !showNightEndPicker &&
+		!uiState.showLiveWallpaperWarningDialog
+	) {
+		uiState.whatsNewRelease?.let { release ->
+			WhatsNewDialog(
+				release = release,
+				onDismiss = callbacks.onDismissWhatsNew,
+				onOpenChangelog = callbacks.onOpenWhatsNewChangelog,
+				onImpression = callbacks.onWhatsNewImpression
+			)
+		}
 	}
 }
 

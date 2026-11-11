@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">डेव्हलपर पर्याय</string>
 	<string name="setup_usb_debugging_title">USB डीबगिंग</string>
 	<string name="setup_dev_options_unconfirmed_toast">डेव्हलपर पर्याय अद्याप सुरू नसल्यास, बिल्ड नंबर शोधा आणि त्यावर 7 वेळा टॅप करा.</string>
+	<string name="whats_new_title">v%1$s मध्ये नवीन काय आहे</string>
+	<string name="whats_new_message">या अपडेटमध्ये नवीन काय आहे ते GitHub वर जाणून घ्या.</string>
+	<string name="whats_new_view_changelog">बदलांची यादी पहा</string>
+	<string name="whats_new_unavailable">कोणतेही ॲप बदलांची यादी उघडू शकले नाही. ती GitHub वरील Adaptive Theme च्या रिलीजमध्ये सापडेल.</string>
 </resources>

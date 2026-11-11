@@ -137,4 +137,8 @@
 	<string name="setup_developer_options_title">Ontwikkelaarsopties</string>
 	<string name="setup_usb_debugging_title">USB-foutopsporing</string>
 	<string name="setup_dev_options_unconfirmed_toast">Als de ontwikkelaarsopties nog niet zijn ingeschakeld, zoek je het buildnummer en tik je er 7 keer op.</string>
+	<string name="whats_new_title">Nieuw in v%1$s</string>
+	<string name="whats_new_message">Ontdek wat er nieuw is in deze update op GitHub.</string>
+	<string name="whats_new_view_changelog">Wijzigingen bekijken</string>
+	<string name="whats_new_unavailable">Geen app kon het wijzigingsoverzicht openen. Je vindt het bij de releases van Adaptive Theme op GitHub.</string>
 </resources>

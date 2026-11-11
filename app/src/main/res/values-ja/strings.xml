@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">開発者向けオプション</string>
 	<string name="setup_usb_debugging_title">USB デバッグ</string>
 	<string name="setup_dev_options_unconfirmed_toast">開発者向けオプションがまだ有効でない場合は、ビルド番号を見つけて7回タップしてください。</string>
+	<string name="whats_new_title">v%1$s の新機能</string>
+	<string name="whats_new_message">このアップデートの新機能や変更点を GitHub で確認できます。</string>
+	<string name="whats_new_view_changelog">変更履歴を見る</string>
+	<string name="whats_new_unavailable">変更履歴を開けるアプリがありません。GitHub の Adaptive Theme のリリースから確認できます。</string>
 </resources>

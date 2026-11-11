@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Pilihan pembangun</string>
 	<string name="setup_usb_debugging_title">Penyahpepijatan USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Jika Pilihan pembangun belum dihidupkan, cari Nombor binaan dan ketik 7 kali.</string>
+	<string name="whats_new_title">Yang baharu dalam v%1$s</string>
+	<string name="whats_new_message">Ketahui perkara baharu dalam kemas kini ini di GitHub.</string>
+	<string name="whats_new_view_changelog">Lihat log perubahan</string>
+	<string name="whats_new_unavailable">Tiada aplikasi dapat membuka log perubahan. Anda boleh menemuinya dalam keluaran Adaptive Theme di GitHub.</string>
 </resources>

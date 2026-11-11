@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Kūrėjo parinktys</string>
 	<string name="setup_usb_debugging_title">USB derinimas</string>
 	<string name="setup_dev_options_unconfirmed_toast">Jei kūrėjo parinktys dar neįjungtos, raskite versijos numerį ir palieskite jį 7 kartus.</string>
+	<string name="whats_new_title">Kas naujo v%1$s versijoje</string>
+	<string name="whats_new_message">Sužinokite, kas naujo šiame naujinime, GitHub.</string>
+	<string name="whats_new_view_changelog">Rodyti pakeitimus</string>
+	<string name="whats_new_unavailable">Nė viena programa negalėjo atverti pakeitimų sąrašo. Jį rasite Adaptive Theme leidimuose GitHub.</string>
 </resources>

@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Chaguo za msanidi</string>
 	<string name="setup_usb_debugging_title">Utatuzi wa USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Ikiwa chaguo za msanidi bado hazijawashwa, tafuta nambari ya toleo na uiguse mara 7.</string>
+	<string name="whats_new_title">Mapya katika v%1$s</string>
+	<string name="whats_new_message">Fahamu mapya katika sasisho hili kwenye GitHub.</string>
+	<string name="whats_new_view_changelog">Tazama orodha ya mabadiliko</string>
+	<string name="whats_new_unavailable">Hakuna programu iliyoweza kufungua orodha ya mabadiliko. Unaweza kuipata katika matoleo ya Adaptive Theme kwenye GitHub.</string>
 </resources>

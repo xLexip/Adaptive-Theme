@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">خيارات المطوّر</string>
 	<string name="setup_usb_debugging_title">تصحيح أخطاء USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">إذا لم تكن خيارات المطوّر مفعّلة بعد، فابحث عن رقم الإصدار وانقر عليه 7 مرات.</string>
+	<string name="whats_new_title">الجديد في v%1$s</string>
+	<string name="whats_new_message">تعرّف على الجديد في هذا التحديث على GitHub.</string>
+	<string name="whats_new_view_changelog">عرض سجل التغييرات</string>
+	<string name="whats_new_unavailable">تعذّر على أي تطبيق فتح سجل التغييرات. يمكنك العثور عليه في إصدارات Adaptive Theme على GitHub.</string>
 </resources>

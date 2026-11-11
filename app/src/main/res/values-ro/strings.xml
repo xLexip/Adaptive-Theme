@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Opțiuni pentru dezvoltatori</string>
 	<string name="setup_usb_debugging_title">Depanare USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Dacă opțiunile pentru dezvoltatori nu sunt încă activate, găsește numărul versiunii și atinge-l de 7 ori.</string>
+	<string name="whats_new_title">Noutăți în versiunea v%1$s</string>
+	<string name="whats_new_message">Descoperă noutățile acestei actualizări pe GitHub.</string>
+	<string name="whats_new_view_changelog">Vezi modificările</string>
+	<string name="whats_new_unavailable">Nicio aplicație nu a putut deschide jurnalul de modificări. Îl poți găsi în versiunile Adaptive Theme de pe GitHub.</string>
 </resources>

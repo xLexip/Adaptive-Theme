@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Επιλογές προγραμματιστή</string>
 	<string name="setup_usb_debugging_title">Εντοπισμός σφαλμάτων USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Αν οι επιλογές προγραμματιστή δεν είναι ακόμη ενεργές, βρείτε τον αριθμό έκδοσης και πατήστε τον 7 φορές.</string>
+	<string name="whats_new_title">Τι νέο υπάρχει στην έκδοση v%1$s</string>
+	<string name="whats_new_message">Μάθετε τι νέο υπάρχει σε αυτή την ενημέρωση στο GitHub.</string>
+	<string name="whats_new_view_changelog">Προβολή αλλαγών</string>
+	<string name="whats_new_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει το ιστορικό αλλαγών. Θα το βρείτε στις εκδόσεις του Adaptive Theme στο GitHub.</string>
 </resources>

@@ -129,6 +129,9 @@ Issues, questions, and feature ideas are welcome – please [open an issue](http
 * **Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
 * **Reactive Data:** ViewModels expose data via Kotlin Flows and manage concurrency with Coroutines.
 * **Persistence:** Type-safe settings storage utilizing Jetpack DataStore.
+* **Release announcements:** Existing users see a dismissible “What’s new” dialog once
+  per major/minor release. Fresh installs establish a baseline; patch updates retain
+  any unread announcement without creating another one. See [release announcement maintenance](docs/whats-new.md).
 * **Background Work:** Sensor operations run event-driven – only upon screen-on
   broadcasts – ensuring zero unnecessary battery drain in the background.
 * **WebADB Setup Website:** Simple browser-based setup tool for permission granting using WebADB ([source code](https://github.com/xLexip/Adaptive-Theme-Setup)).

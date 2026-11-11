@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.lexip.hecate.Application
+import dev.lexip.hecate.BuildConfig
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.UserPreferences
 import dev.lexip.hecate.data.UserPreferencesDataSource
@@ -92,6 +93,8 @@ data class MainUiState(
 	val nightWallpaperUri: String? = null,
 	val showLiveWallpaperWarningDialog: Boolean = false,
 	val showGitHubStarPrompt: Boolean = false,
+	val whatsNewRelease: String? = null,
+	val isWhatsNewPreview: Boolean = false,
 	val backgroundGuidanceDismissed: Boolean = false,
 	val hasMonitoringInterruptionEvidence: Boolean = false
 )
@@ -120,11 +123,19 @@ class MainViewModel internal constructor(
 	private val todayEpochDay: () -> Long = { LocalDate.now().toEpochDay() },
 	private val hasRecentMonitoringInterruptions: () -> Boolean = {
 		MonitoringInterruptionTracker.create(application).hasRecentInterruptions()
-	}
+	},
+	appVersionName: String = BuildConfig.VERSION_NAME,
+	private val previewWhatsNew: Boolean = BuildConfig.DEBUG
 ) : ViewModel() {
+	private val currentWhatsNewRelease = WhatsNewRelease.parse(appVersionName)
+	private var whatsNewAcknowledgedInSession = false
+	private var whatsNewImpressionRecordedInSession = false
 
 	private val _uiState = MutableStateFlow(
-		MainUiState(hasMonitoringInterruptionEvidence = hasRecentMonitoringInterruptions())
+		MainUiState(
+			hasMonitoringInterruptionEvidence = hasRecentMonitoringInterruptions(),
+			isWhatsNewPreview = previewWhatsNew
+		)
 	)
 	val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
@@ -328,6 +339,16 @@ class MainViewModel internal constructor(
 		}
 
 		viewModelScope.launch {
+			// Fresh installs establish a baseline before setup can finish. Existing users
+			// without a marker receive the first announcement when this feature ships.
+			val initialPreferences = userPreferencesRepository.fetchInitialPreferences()
+			if (!previewWhatsNew && !initialPreferences.hasSetupCompleted &&
+				initialPreferences.acknowledgedWhatsNewRelease == null
+			) {
+				currentWhatsNewRelease?.let {
+					userPreferencesRepository.updateAcknowledgedWhatsNewRelease(it.id)
+				}
+			}
 			userPreferencesRepository.userPreferencesFlow.collect { userPreferences ->
 				latestUserPreferences = userPreferences
 				if (serviceEnabledAtStart == null) {
@@ -347,6 +368,12 @@ class MainViewModel internal constructor(
 					dayWallpaperUri = userPreferences.dayWallpaperUri,
 					nightWallpaperUri = userPreferences.nightWallpaperUri,
 					showGitHubStarPrompt = shouldShowGitHubStarPrompt(userPreferences),
+					whatsNewRelease = currentWhatsNewRelease?.takeIf {
+						!whatsNewAcknowledgedInSession && (previewWhatsNew || it.shouldAnnounce(
+							userPreferences.acknowledgedWhatsNewRelease,
+							userPreferences.hasSetupCompleted
+						))
+					}?.id,
 					backgroundGuidanceDismissed = userPreferences.backgroundGuidanceDismissed
 				)
 
@@ -358,6 +385,7 @@ class MainViewModel internal constructor(
 	private fun shouldShowGitHubStarPrompt(
 		userPreferences: UserPreferences
 	): Boolean {
+		if (whatsNewImpressionRecordedInSession) return false
 		if (githubStarPromptImpressionRecordedInSession) {
 			return userPreferences.hasSetupCompleted &&
 				userPreferences.adaptiveThemeEnabled &&
@@ -466,6 +494,7 @@ class MainViewModel internal constructor(
 	}
 
 	private fun shouldPromptForReview(): Boolean {
+		if (_uiState.value.whatsNewRelease != null || whatsNewImpressionRecordedInSession) return false
 		val preferences = latestUserPreferences ?: return false
 		return shouldRequestReview(
 			ReviewPromptEligibility(
@@ -495,6 +524,44 @@ class MainViewModel internal constructor(
 	fun recordReviewPromptLaunch() {
 		viewModelScope.launch(ioDispatcher) {
 			userPreferencesRepository.updateReviewPromptLastRequestEpochDay(todayEpochDay())
+		}
+	}
+
+	fun recordWhatsNewImpression() {
+		if (_uiState.value.whatsNewRelease == null || whatsNewImpressionRecordedInSession) return
+		whatsNewImpressionRecordedInSession = true
+		_uiState.value = _uiState.value.copy(showGitHubStarPrompt = false)
+		recordWhatsNewAction("impression", "shown")
+	}
+
+	fun dismissWhatsNew() {
+		if (_uiState.value.whatsNewRelease == null) return
+		recordWhatsNewAction("dismiss", "dismissed")
+		acknowledgeWhatsNew()
+	}
+
+	fun onWhatsNewChangelogOpened(opened: Boolean) {
+		recordWhatsNewAction("open_changelog", if (opened) "opened" else "unavailable")
+		if (opened) acknowledgeWhatsNew()
+	}
+
+	private fun acknowledgeWhatsNew() {
+		val release = _uiState.value.whatsNewRelease ?: return
+		whatsNewAcknowledgedInSession = true
+		_uiState.value = _uiState.value.copy(whatsNewRelease = null)
+		if (previewWhatsNew) return
+		viewModelScope.launch {
+			userPreferencesRepository.updateAcknowledgedWhatsNewRelease(release)
+		}
+	}
+
+	private fun recordWhatsNewAction(action: String, outcome: String) {
+		val release = currentWhatsNewRelease?.id ?: return
+		Log.d("WhatsNew", "action=$action outcome=$outcome release=$release")
+		try {
+			Logger.logWhatsNew(application.applicationContext, action, outcome, release)
+		} catch (cause: Exception) {
+			Log.w("WhatsNew", "Unable to record prompt interaction", cause)
 		}
 	}
 

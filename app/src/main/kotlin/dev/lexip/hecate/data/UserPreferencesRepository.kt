@@ -52,7 +52,8 @@ data class UserPreferences(
 	val githubStarPromptDismissed: Boolean = false,
 	val githubStarPromptImpressionCount: Int = 0,
 	val githubStarPromptLastImpressionEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY,
-	val reviewPromptLastRequestEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY
+	val reviewPromptLastRequestEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY,
+	val acknowledgedWhatsNewRelease: String? = null
 )
 
 interface UserPreferencesDataSource {
@@ -81,6 +82,7 @@ interface UserPreferencesDataSource {
 	suspend fun updateGitHubStarPromptDismissed(dismissed: Boolean)
 	suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean)
 	suspend fun updateReviewPromptLastRequestEpochDay(epochDay: Long)
+	suspend fun updateAcknowledgedWhatsNewRelease(release: String)
 }
 
 class UserPreferencesRepository(
@@ -104,6 +106,7 @@ class UserPreferencesRepository(
 	}
 
 	private object PreferencesKeys {
+		val ACKNOWLEDGED_WHATS_NEW_RELEASE = stringPreferencesKey("acknowledged_whats_new_release")
 		val ADAPTIVE_THEME_ENABLED = booleanPreferencesKey("adaptive_theme_enabled")
 		val ADAPTIVE_THEME_THRESHOLD_LUX = floatPreferencesKey("adaptive_theme_threshold_lux")
 		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
@@ -219,8 +222,15 @@ class UserPreferencesRepository(
 			backgroundGuidanceDismissed = preferences[PreferencesKeys.BACKGROUND_GUIDANCE_DISMISSED] == true,
 			githubStarPromptImpressionCount = githubStarPromptImpressionCount,
 			githubStarPromptLastImpressionEpochDay = githubStarPromptLastImpressionEpochDay,
-			reviewPromptLastRequestEpochDay = reviewPromptLastRequestEpochDay
+			reviewPromptLastRequestEpochDay = reviewPromptLastRequestEpochDay,
+			acknowledgedWhatsNewRelease = preferences[PreferencesKeys.ACKNOWLEDGED_WHATS_NEW_RELEASE]
 		)
+	}
+
+	override suspend fun updateAcknowledgedWhatsNewRelease(release: String) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.ACKNOWLEDGED_WHATS_NEW_RELEASE] = release
+		}
 	}
 
 	override suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {

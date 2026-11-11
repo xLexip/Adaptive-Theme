@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Для разработчиков</string>
 	<string name="setup_usb_debugging_title">Отладка по USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Если режим разработчика ещё не включён, найдите номер сборки и нажмите на него 7 раз.</string>
+	<string name="whats_new_title">Что нового в версии v%1$s</string>
+	<string name="whats_new_message">Узнайте, что нового в этом обновлении, на GitHub.</string>
+	<string name="whats_new_view_changelog">Список изменений</string>
+	<string name="whats_new_unavailable">Ни одно приложение не смогло открыть список изменений. Вы найдёте его в выпусках Adaptive Theme на GitHub.</string>
 </resources>

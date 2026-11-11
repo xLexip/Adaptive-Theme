@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">گزینه‌های برنامه‌نویس</string>
 	<string name="setup_usb_debugging_title">اشکال‌زدایی USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">اگر گزینه‌های برنامه‌نویس هنوز فعال نیستند، شماره ساخت را پیدا کنید و ۷ بار روی آن بزنید.</string>
+	<string name="whats_new_title">تازه‌های نسخهٔ v%1$s</string>
+	<string name="whats_new_message">تازه‌های این به‌روزرسانی را در GitHub ببینید.</string>
+	<string name="whats_new_view_changelog">دیدن فهرست تغییرات</string>
+	<string name="whats_new_unavailable">هیچ برنامه‌ای نتوانست فهرست تغییرات را باز کند. می‌توانید آن را در بخش انتشارهای Adaptive Theme در GitHub پیدا کنید.</string>
 </resources>

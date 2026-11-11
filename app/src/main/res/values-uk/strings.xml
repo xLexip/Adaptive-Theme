@@ -137,4 +137,8 @@
 	<string name="setup_developer_options_title">Параметри розробника</string>
 	<string name="setup_usb_debugging_title">Налагодження USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Якщо параметри розробника ще не ввімкнено, знайдіть номер збірки й натисніть на нього 7 разів.</string>
+	<string name="whats_new_title">Що нового у версії v%1$s</string>
+	<string name="whats_new_message">Дізнайтеся, що нового в цьому оновленні, на GitHub.</string>
+	<string name="whats_new_view_changelog">Список змін</string>
+	<string name="whats_new_unavailable">Жодна програма не змогла відкрити список змін. Ви знайдете його у випусках Adaptive Theme на GitHub.</string>
 </resources>

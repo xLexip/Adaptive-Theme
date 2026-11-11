@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Možnosti za razvijalce</string>
 	<string name="setup_usb_debugging_title">Odpravljanje napak prek USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Če možnosti za razvijalce še niso vklopljene, poiščite številko gradnje in se je dotaknite 7-krat.</string>
+	<string name="whats_new_title">Novosti v različici v%1$s</string>
+	<string name="whats_new_message">Odkrijte novosti te posodobitve na GitHubu.</string>
+	<string name="whats_new_view_changelog">Prikaži spremembe</string>
+	<string name="whats_new_unavailable">Nobena aplikacija ni mogla odpreti seznama sprememb. Najdete ga med izdajami Adaptive Theme na GitHubu.</string>
 </resources>

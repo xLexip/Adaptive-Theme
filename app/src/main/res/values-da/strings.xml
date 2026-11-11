@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Udviklerindstillinger</string>
 	<string name="setup_usb_debugging_title">USB-fejlretning</string>
 	<string name="setup_dev_options_unconfirmed_toast">Hvis udviklerindstillinger ikke er slået til endnu, skal du finde buildnummeret og trykke på det 7 gange.</string>
+	<string name="whats_new_title">Nyt i v%1$s</string>
+	<string name="whats_new_message">Se, hvad der er nyt i denne opdatering, på GitHub.</string>
+	<string name="whats_new_view_changelog">Se ændringsloggen</string>
+	<string name="whats_new_unavailable">Ingen app kunne åbne ændringsloggen. Du kan finde den under Adaptive Themes udgivelser på GitHub.</string>
 </resources>

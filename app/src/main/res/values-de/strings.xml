@@ -137,4 +137,8 @@
 	<string name="background_help_hide">Hinweis ausblenden</string>
 	<string name="background_help_open_settings">App-Einstellungen öffnen</string>
 	<string name="background_help_unavailable">Keine App konnte diese Seite öffnen. Prüfe die Systemeinstellungen oder besuche dontkillmyapp.com manuell.</string>
+	<string name="whats_new_title">Neu in v%1$s</string>
+	<string name="whats_new_message">Erfahre auf GitHub, was sich mit diesem Update geändert hat.</string>
+	<string name="whats_new_view_changelog">Änderungen ansehen</string>
+	<string name="whats_new_unavailable">Keine App konnte das Änderungsprotokoll öffnen. Du findest es in den GitHub-Releases von Adaptive Theme.</string>
 </resources>

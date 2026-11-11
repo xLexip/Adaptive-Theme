@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Arendaja valikud</string>
 	<string name="setup_usb_debugging_title">USB-silumine</string>
 	<string name="setup_dev_options_unconfirmed_toast">Kui arendaja valikud ei ole veel sisse lülitatud, leia järgu number ja puuduta seda 7 korda.</string>
+	<string name="whats_new_title">Uuendused versioonis v%1$s</string>
+	<string name="whats_new_message">Vaata GitHubist, mida uut see värskendus toob.</string>
+	<string name="whats_new_view_changelog">Vaata muudatusi</string>
+	<string name="whats_new_unavailable">Ükski rakendus ei saanud muudatuste loendit avada. Leiad selle Adaptive Theme’i väljalasete juurest GitHubis.</string>
 </resources>
