@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">開發人員選項</string>
 	<string name="setup_usb_debugging_title">USB 偵錯</string>
 	<string name="setup_dev_options_unconfirmed_toast">如果尚未啟用開發人員選項，請找到版本號碼並輕觸 7 次。</string>
+	<string name="whats_new_title">v%1$s 版本的新功能</string>
+	<string name="whats_new_message">前往 GitHub，瞭解此次更新的新內容。</string>
+	<string name="whats_new_view_changelog">查看更新紀錄</string>
+	<string name="whats_new_unavailable">沒有應用程式可以開啟更新紀錄。你可以在 GitHub 的 Adaptive Theme 發行頁面找到它。</string>
 </resources>

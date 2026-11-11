@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Valkostir þróunaraðila</string>
 	<string name="setup_usb_debugging_title">USB-kembiforritun</string>
 	<string name="setup_dev_options_unconfirmed_toast">Ef valkostir þróunaraðila eru ekki enn virkir skaltu finna smíðanúmerið og ýta á það 7 sinnum.</string>
+	<string name="whats_new_title">Nýtt í v%1$s</string>
+	<string name="whats_new_message">Sjáðu hvað er nýtt í þessari uppfærslu á GitHub.</string>
+	<string name="whats_new_view_changelog">Sjá breytingalistann</string>
+	<string name="whats_new_unavailable">Ekkert forrit gat opnað breytingalistann. Þú finnur hann í útgáfum Adaptive Theme á GitHub.</string>
 </resources>

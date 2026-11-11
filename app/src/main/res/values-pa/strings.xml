@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">ਡਿਵੈਲਪਰ ਵਿਕਲਪ</string>
 	<string name="setup_usb_debugging_title">USB ਡੀਬੱਗਿੰਗ</string>
 	<string name="setup_dev_options_unconfirmed_toast">ਜੇ ਡਿਵੈਲਪਰ ਵਿਕਲਪ ਅਜੇ ਚਾਲੂ ਨਹੀਂ ਹਨ, ਤਾਂ ਬਿਲਡ ਨੰਬਰ ਲੱਭੋ ਅਤੇ ਉਸ ਉੱਤੇ 7 ਵਾਰ ਟੈਪ ਕਰੋ।</string>
+	<string name="whats_new_title">v%1$s ਵਿੱਚ ਨਵਾਂ ਕੀ ਹੈ</string>
+	<string name="whats_new_message">ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਨਵਾਂ ਕੀ ਹੈ, GitHub ਉੱਤੇ ਜਾਣੋ।</string>
+	<string name="whats_new_view_changelog">ਤਬਦੀਲੀ ਸੂਚੀ ਵੇਖੋ</string>
+	<string name="whats_new_unavailable">ਕੋਈ ਐਪ ਤਬਦੀਲੀ ਸੂਚੀ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕੀ। ਇਹ GitHub ਉੱਤੇ Adaptive Theme ਦੀਆਂ ਰਿਲੀਜ਼ਾਂ ਵਿੱਚ ਮਿਲੇਗੀ।</string>
 </resources>

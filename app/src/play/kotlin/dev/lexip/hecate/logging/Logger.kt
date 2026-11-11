@@ -140,6 +140,16 @@ object Logger {
 		}
 	}
 
+	fun logWhatsNew(context: Context, action: String, outcome: String, release: String) {
+		ifAllowed {
+			analytics(context).logEvent("whats_new") {
+				param("action", action)
+				param("outcome", outcome)
+				param("release_version", release)
+			}
+		}
+	}
+
 	fun logGitHubStarPromptAction(context: Context, action: String) {
 		ifAllowed {
 			analytics(context).logEvent("github_star_prompt") {

@@ -66,7 +66,10 @@ data class MainScreenCallbacks(
 	val onOpenBackgroundSettings: () -> Unit = {},
 	val onOpenBackgroundGuide: () -> Unit = {},
 	val onDismissBackgroundGuidance: () -> Unit = {},
-	val onBackgroundGuidanceImpression: () -> Unit = {}
+	val onBackgroundGuidanceImpression: () -> Unit = {},
+	val onDismissWhatsNew: () -> Unit = {},
+	val onOpenWhatsNewChangelog: () -> Unit = {},
+	val onWhatsNewImpression: () -> Unit = {}
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -145,6 +148,25 @@ fun MainScreen(
 		serviceStartFailed = serviceStartFailed,
 		backgroundGuidance = backgroundGuidance,
 		callbacks = MainScreenCallbacks(
+			onDismissWhatsNew = mainViewModel::dismissWhatsNew,
+			onWhatsNewImpression = mainViewModel::recordWhatsNewImpression,
+			onOpenWhatsNewChangelog = {
+				val release = uiState.whatsNewRelease?.let(WhatsNewRelease::parse)
+				if (release != null) {
+					val opened = try {
+						context.startActivity(Intent(Intent.ACTION_VIEW, release.releaseNotesUrl.toUri()))
+						true
+					} catch (_: android.content.ActivityNotFoundException) {
+						false
+					} catch (_: SecurityException) {
+						false
+					}
+					mainViewModel.onWhatsNewChangelogOpened(opened)
+					if (!opened) {
+						Toast.makeText(context, R.string.whats_new_unavailable, Toast.LENGTH_LONG).show()
+					}
+				}
+			},
 			onBackgroundGuidanceImpression = {
 				BackgroundGuidanceTelemetry.record(
 					context, BackgroundGuidanceAction.IMPRESSION, BackgroundGuidanceOutcome.SHOWN,

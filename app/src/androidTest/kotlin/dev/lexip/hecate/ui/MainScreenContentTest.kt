@@ -26,6 +26,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.espresso.Espresso
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.theme.HecateTheme
@@ -71,6 +72,115 @@ class MainScreenContentTest {
 		composeRule.onNodeWithText(adaptiveThemeAction()).performClick()
 
 		assertEquals(null, toggleRequest)
+	}
+
+	@Test
+	fun whatsNewShowsChangelogInvitationAndCloseRemovesDialog() {
+		val state = mutableStateOf(MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"))
+		var closeCalls = 0
+		composeRule.setContent {
+			HecateTheme {
+				MainScreenContent(
+					uiState = state.value,
+					currentSensorLux = 0f,
+					isDeviceCovered = false,
+					isBatterySaverActive = false,
+					hasWriteSecureSettingsPermission = true,
+					packageName = context.packageName,
+					callbacks = callbacks().copy(onDismissWhatsNew = {
+						closeCalls++
+						state.value = state.value.copy(whatsNewRelease = null)
+					})
+				)
+			}
+		}
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onNodeWithText(title).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_message)).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.action_close)).performClick()
+		assertEquals(1, closeCalls)
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewChangelogButtonCallsHandler() {
+		var openCalls = 0
+		setMainContent(
+			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "3.0"),
+			hasPermission = true,
+			callbacks = callbacks().copy(onOpenWhatsNewChangelog = { openCalls++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "3.0")).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_message)).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_view_changelog)).performClick()
+		assertEquals(1, openCalls)
+	}
+
+	@Test
+	fun whatsNewWaitsForOtherDialogs() {
+		setMainContent(
+			uiState = MainUiState(
+				hasSetupCompleted = true,
+				whatsNewRelease = "2.6",
+				showLiveWallpaperWarningDialog = true
+			),
+			hasPermission = true,
+			callbacks = callbacks()
+		)
+		composeRule.onNodeWithText(context.getString(R.string.live_wallpaper_warning_title)).assertIsDisplayed()
+		composeRule.onAllNodesWithText(context.getString(R.string.whats_new_title, "2.6")).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewWaitsUntilSetupPermissionIsAvailable() {
+		setMainContent(
+			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"),
+			hasPermission = false,
+			callbacks = callbacks()
+		)
+		composeRule.onAllNodesWithText(context.getString(R.string.whats_new_title, "2.6")).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewPreviewShowsWithoutSetupOrPermissionEvenWithMonitoringError() {
+		setMainContent(
+			uiState = MainUiState(
+				whatsNewRelease = "2.6",
+				isWhatsNewPreview = true,
+				adaptiveThemeEnabled = true
+			),
+			hasPermission = false,
+			serviceStartFailed = true
+		)
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "2.6")).assertIsDisplayed()
+	}
+
+	@Test
+	fun whatsNewBackDismissalCallsCloseHandler() {
+		var dismissCalls = 0
+		setMainContent(
+			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"),
+			hasPermission = true,
+			callbacks = callbacks().copy(onDismissWhatsNew = { dismissCalls++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "2.6")).assertIsDisplayed()
+		Espresso.pressBack()
+		composeRule.waitForIdle()
+		assertEquals(1, dismissCalls)
+	}
+
+	@Test
+	fun whatsNewWaitsForMonitoringErrorUntilMonitoringIsDisabled() {
+		val state = mutableStateOf(MainUiState(
+			hasSetupCompleted = true,
+			adaptiveThemeEnabled = true,
+			whatsNewRelease = "2.6"
+		))
+		setMainContent(uiState = { state.value }, hasPermission = true, serviceStartFailed = true)
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
+		composeRule.runOnIdle { state.value = state.value.copy(adaptiveThemeEnabled = false) }
+		composeRule.onNodeWithText(title).assertIsDisplayed()
 	}
 
 	@Test

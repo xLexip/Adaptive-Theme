@@ -137,4 +137,8 @@
 	<string name="setup_developer_options_title">Opcje programistyczne</string>
 	<string name="setup_usb_debugging_title">Debugowanie USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Jeśli opcje programistyczne nie są jeszcze włączone, znajdź numer kompilacji i dotknij go 7 razy.</string>
+	<string name="whats_new_title">Nowości w wersji v%1$s</string>
+	<string name="whats_new_message">Sprawdź nowości w tej aktualizacji w serwisie GitHub.</string>
+	<string name="whats_new_view_changelog">Zobacz zmiany</string>
+	<string name="whats_new_unavailable">Żadna aplikacja nie mogła otworzyć listy zmian. Znajdziesz ją w wydaniach Adaptive Theme w serwisie GitHub.</string>
 </resources>

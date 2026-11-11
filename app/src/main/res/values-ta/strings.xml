@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">டெவலப்பர் விருப்பங்கள்</string>
 	<string name="setup_usb_debugging_title">USB பிழைத்திருத்தம்</string>
 	<string name="setup_dev_options_unconfirmed_toast">டெவலப்பர் விருப்பங்கள் இன்னும் இயக்கப்படவில்லை என்றால், பில்ட் எண்ணைக் கண்டறிந்து அதை 7 முறை தட்டவும்.</string>
+	<string name="whats_new_title">v%1$s பதிப்பில் புதியவை</string>
+	<string name="whats_new_message">இந்தப் புதுப்பிப்பில் புதியவை என்ன என்பதை GitHub-இல் அறியலாம்.</string>
+	<string name="whats_new_view_changelog">மாற்றப் பட்டியலைப் பார்க்க</string>
+	<string name="whats_new_unavailable">மாற்றப் பட்டியலை எந்த ஆப்ஸாலும் திறக்க முடியவில்லை. GitHub-இல் Adaptive Theme வெளியீடுகளில் அதைக் காணலாம்.</string>
 </resources>

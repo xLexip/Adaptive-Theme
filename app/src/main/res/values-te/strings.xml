@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">డెవలపర్ ఎంపికలు</string>
 	<string name="setup_usb_debugging_title">USB డీబగ్గింగ్</string>
 	<string name="setup_dev_options_unconfirmed_toast">డెవలపర్ ఎంపికలు ఇంకా ఆన్ చేయకపోతే, బిల్డ్ నంబర్‌ను కనుగొని దానిపై 7 సార్లు నొక్కండి.</string>
+	<string name="whats_new_title">v%1$s లో కొత్తవి</string>
+	<string name="whats_new_message">ఈ అప్‌డేట్‌లో కొత్తవి ఏమిటో GitHubలో తెలుసుకోండి.</string>
+	<string name="whats_new_view_changelog">మార్పుల జాబితాను చూడండి</string>
+	<string name="whats_new_unavailable">ఏ యాప్ మార్పుల జాబితాను తెరవలేకపోయింది. GitHubలో Adaptive Theme విడుదలల్లో దాన్ని చూడవచ్చు.</string>
 </resources>

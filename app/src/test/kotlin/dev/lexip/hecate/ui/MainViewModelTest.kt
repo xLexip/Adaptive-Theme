@@ -42,6 +42,7 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.After
@@ -50,6 +51,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 
 private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
 private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
@@ -91,6 +93,134 @@ class MainViewModelTest {
 
 	@After
 	fun resetMonitoringStatus() = MonitoringServiceStatus.ready()
+
+	@Test
+	fun previewIgnoresSavedAcknowledgementAndReappearsAfterRestartWithoutSaving() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, acknowledgedWhatsNewRelease = "2.6"))
+		val viewModel = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		viewModel.dismissWhatsNew()
+		preferences.updateStayDarkAtNightEnabled(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		val reopened = createViewModel(appVersionName = "2.7.0", previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.7", reopened.uiState.value.whatsNewRelease)
+		reopened.onWhatsNewChangelogOpened(true)
+		advanceUntilIdle()
+		assertNull(reopened.uiState.value.whatsNewRelease)
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		val nextLaunch = createViewModel(appVersionName = "2.7.0", previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.7", nextLaunch.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun previewShowsOnDirectDebugInstallWithoutSetupOrPreviousVersion() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		assertFalse(viewModel.uiState.value.hasSetupCompleted)
+		assertTrue(viewModel.uiState.value.isWhatsNewPreview)
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		viewModel.dismissWhatsNew()
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		val nextLaunch = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.6", nextLaunch.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun freshInstallBaselinesReleaseAndDoesNotAnnounceAfterSetup() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		preferences.updateSetupCompleted(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun existingUserSeesAnnouncementUntilDismissalAndNotAgainOnPatches() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		val reopened = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", reopened.uiState.value.whatsNewRelease)
+		reopened.dismissWhatsNew()
+		// Other preference emissions must not resurrect a dismissed dialog while saving.
+		preferences.emit(preferences.current.copy(stayDarkAtNightEnabled = true))
+		advanceUntilIdle()
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		assertNull(reopened.uiState.value.whatsNewRelease)
+		val patched = createViewModel(appVersionName = "2.6.1")
+		advanceUntilIdle()
+		assertNull(patched.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun unreadAnnouncementSurvivesPatchAndSkippedVersionsAnnounceOnlyTheCurrentRelease() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, acknowledgedWhatsNewRelease = "2.5"))
+		val patched = createViewModel(appVersionName = "2.6.2")
+		advanceUntilIdle()
+		assertEquals("2.6", patched.uiState.value.whatsNewRelease)
+		val skipped = createViewModel(appVersionName = "3.2.1")
+		advanceUntilIdle()
+		assertEquals("3.2", skipped.uiState.value.whatsNewRelease)
+		skipped.dismissWhatsNew()
+		advanceUntilIdle()
+		val downgraded = createViewModel(appVersionName = "2.6.2")
+		advanceUntilIdle()
+		assertNull(downgraded.uiState.value.whatsNewRelease)
+		assertEquals("3.2", preferences.current.acknowledgedWhatsNewRelease)
+	}
+
+	@Test
+	fun changelogAcknowledgesOnlyWhenOpeningSucceeds() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		viewModel.onWhatsNewChangelogOpened(false)
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		viewModel.onWhatsNewChangelogOpened(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		val reopened = createViewModel()
+		advanceUntilIdle()
+		assertNull(reopened.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun announcementBlocksReviewAndGitHubPromptForTheSession() = runTest(mainDispatcherRule.dispatcher) {
+		ShadowLog.clear()
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, adaptiveThemeEnabled = true))
+		installMetadata.fromPlayStore = true
+		installMetadata.installedDaysAgo = GITHUB_STAR_PROMPT_MIN_INSTALL_DAYS
+		val viewModel = createViewModel()
+		val events = mutableListOf<UiEvent>()
+		backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiEvents.toList(events) }
+		advanceUntilIdle()
+		viewModel.checkReviewPrompt()
+		viewModel.recordWhatsNewImpression()
+		viewModel.recordWhatsNewImpression()
+		viewModel.dismissWhatsNew()
+		advanceUntilIdle()
+		viewModel.checkReviewPrompt()
+		advanceUntilIdle()
+		assertTrue(events.isEmpty())
+		assertFalse(viewModel.uiState.value.showGitHubStarPrompt)
+		assertEquals(1, ShadowLog.getLogsForTag("WhatsNew").count { "action=impression" in it.msg })
+	}
 
 	@Test
 	fun interruptionEligibilityRefreshesOnResumeAndDoesNotResetDismissal() = runTest(mainDispatcherRule.dispatcher) {
@@ -813,6 +943,8 @@ class MainViewModelTest {
 		}
 
 	private fun createViewModel(
+		appVersionName: String = "2.6.0",
+		previewWhatsNew: Boolean = false,
 		openWallpaperInputStream: (Uri) -> InputStream? = {
 			ByteArrayInputStream(byteArrayOf(1))
 		}
@@ -830,6 +962,8 @@ class MainViewModelTest {
 		ioDispatcher = mainDispatcherRule.dispatcher,
 		mainDispatcher = mainDispatcherRule.dispatcher,
 		todayEpochDay = { TODAY_EPOCH_DAY },
-		hasRecentMonitoringInterruptions = { interruptionEvidence }
+		hasRecentMonitoringInterruptions = { interruptionEvidence },
+		appVersionName = appVersionName,
+		previewWhatsNew = previewWhatsNew
 	)
 }

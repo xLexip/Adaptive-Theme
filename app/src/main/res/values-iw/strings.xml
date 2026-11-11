@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">אפשרויות למפתחים</string>
 	<string name="setup_usb_debugging_title">ניפוי באגים ב-USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">אם אפשרויות למפתחים עדיין לא מופעלות, יש למצוא את מספר ה-Build ולהקיש עליו 7 פעמים.</string>
+	<string name="whats_new_title">מה חדש בגרסה v%1$s</string>
+	<string name="whats_new_message">אפשר לגלות מה חדש בעדכון הזה ב־GitHub.</string>
+	<string name="whats_new_view_changelog">הצגת יומן השינויים</string>
+	<string name="whats_new_unavailable">אף אפליקציה לא הצליחה לפתוח את יומן השינויים. אפשר למצוא אותו במהדורות של Adaptive Theme ב־GitHub.</string>
 </resources>

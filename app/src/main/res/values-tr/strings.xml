@@ -137,4 +137,8 @@
 	<string name="setup_developer_options_title">Geliştirici seçenekleri</string>
 	<string name="setup_usb_debugging_title">USB hata ayıklama</string>
 	<string name="setup_dev_options_unconfirmed_toast">Geliştirici seçenekleri henüz açık değilse Derleme numarasını bulun ve 7 kez dokunun.</string>
+	<string name="whats_new_title">v%1$s sürümündeki yenilikler</string>
+	<string name="whats_new_message">Bu güncellemedeki yenilikleri GitHub üzerinde keşfedin.</string>
+	<string name="whats_new_view_changelog">Değişiklik günlüğünü görüntüle</string>
+	<string name="whats_new_unavailable">Hiçbir uygulama değişiklik günlüğünü açamadı. GitHub üzerindeki Adaptive Theme sürümlerinde bulabilirsiniz.</string>
 </resources>

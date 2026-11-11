@@ -57,6 +57,10 @@ class FakeUserPreferencesDataSource(
 
 	override suspend fun fetchInitialPreferences(): UserPreferences = current
 
+	override suspend fun updateAcknowledgedWhatsNewRelease(release: String) {
+		state.value = current.copy(acknowledgedWhatsNewRelease = release)
+	}
+
 	override suspend fun ensureAdaptiveThemeThresholdDefault(default: Float) {
 		thresholdDefaultCalls++
 	}

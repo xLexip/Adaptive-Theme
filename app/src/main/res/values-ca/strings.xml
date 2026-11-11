@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Opcions de desenvolupador</string>
 	<string name="setup_usb_debugging_title">Depuració USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Si les opcions de desenvolupador encara no estan activades, busca el número de compilació i toca-hi 7 vegades.</string>
+	<string name="whats_new_title">Novetats de v%1$s</string>
+	<string name="whats_new_message">Descobreix les novetats d’aquesta actualització a GitHub.</string>
+	<string name="whats_new_view_changelog">Mostra els canvis</string>
+	<string name="whats_new_unavailable">Cap aplicació ha pogut obrir el registre de canvis. El trobaràs a les versions d’Adaptive Theme a GitHub.</string>
 </resources>

@@ -76,6 +76,10 @@ object Logger {
 		// No-op for FOSS build
 	}
 
+	fun logWhatsNew(context: Context, action: String, outcome: String, release: String) {
+		// No-op for FOSS build
+	}
+
 	fun logGitHubStarPromptAction(context: Context, action: String) {
 		// No-op for FOSS build
 	}

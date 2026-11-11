@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">개발자 옵션</string>
 	<string name="setup_usb_debugging_title">USB 디버깅</string>
 	<string name="setup_dev_options_unconfirmed_toast">개발자 옵션이 아직 켜져 있지 않다면 빌드 번호를 찾아 7번 탭하세요.</string>
+	<string name="whats_new_title">v%1$s의 새로운 기능</string>
+	<string name="whats_new_message">GitHub에서 이번 업데이트의 새로운 내용을 확인하세요.</string>
+	<string name="whats_new_view_changelog">변경 기록 보기</string>
+	<string name="whats_new_unavailable">변경 기록을 열 수 있는 앱이 없습니다. GitHub의 Adaptive Theme 릴리스에서 확인할 수 있습니다.</string>
 </resources>

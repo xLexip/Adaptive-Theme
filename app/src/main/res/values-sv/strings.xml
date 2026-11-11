@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Utvecklaralternativ</string>
 	<string name="setup_usb_debugging_title">USB-felsökning</string>
 	<string name="setup_dev_options_unconfirmed_toast">Om utvecklaralternativen inte är aktiverade ännu hittar du versionsnumret och trycker på det 7 gånger.</string>
+	<string name="whats_new_title">Nytt i v%1$s</string>
+	<string name="whats_new_message">Se vad som är nytt i den här uppdateringen på GitHub.</string>
+	<string name="whats_new_view_changelog">Visa ändringsloggen</string>
+	<string name="whats_new_unavailable">Ingen app kunde öppna ändringsloggen. Du hittar den bland Adaptive Themes versioner på GitHub.</string>
 </resources>

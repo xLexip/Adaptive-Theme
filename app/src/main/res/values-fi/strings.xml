@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Kehittäjäasetukset</string>
 	<string name="setup_usb_debugging_title">USB-virheenkorjaus</string>
 	<string name="setup_dev_options_unconfirmed_toast">Jos kehittäjäasetukset eivät ole vielä käytössä, etsi koontiversion numero ja napauta sitä 7 kertaa.</string>
+	<string name="whats_new_title">Uutta versiossa v%1$s</string>
+	<string name="whats_new_message">Tutustu tämän päivityksen uutuuksiin GitHubissa.</string>
+	<string name="whats_new_view_changelog">Näytä muutosluettelo</string>
+	<string name="whats_new_unavailable">Mikään sovellus ei voinut avata muutosluetteloa. Löydät sen Adaptive Themen julkaisuista GitHubissa.</string>
 </resources>

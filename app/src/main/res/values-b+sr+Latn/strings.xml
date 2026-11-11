@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Opcije za programere</string>
 	<string name="setup_usb_debugging_title">USB otklanjanje grešaka</string>
 	<string name="setup_dev_options_unconfirmed_toast">Ako opcije za programere još nisu uključene, pronađite broj verzije i dodirnite ga 7 puta.</string>
+	<string name="whats_new_title">Novo u verziji v%1$s</string>
+	<string name="whats_new_message">Saznajte šta je novo u ovom ažuriranju na GitHub-u.</string>
+	<string name="whats_new_view_changelog">Pogledaj izmene</string>
+	<string name="whats_new_unavailable">Nijedna aplikacija nije mogla da otvori spisak izmena. Možete ga pronaći u izdanjima Adaptive Theme na GitHub-u.</string>
 </resources>

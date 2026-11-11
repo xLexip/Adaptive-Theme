@@ -137,4 +137,8 @@
 	<string name="setup_developer_options_title">Opzioni sviluppatore</string>
 	<string name="setup_usb_debugging_title">Debug USB</string>
 	<string name="setup_dev_options_unconfirmed_toast">Se le Opzioni sviluppatore non sono ancora attive, trova il Numero build e toccalo 7 volte.</string>
+	<string name="whats_new_title">Novità della versione v%1$s</string>
+	<string name="whats_new_message">Scopri le novità di questo aggiornamento su GitHub.</string>
+	<string name="whats_new_view_changelog">Visualizza le modifiche</string>
+	<string name="whats_new_unavailable">Nessuna app ha potuto aprire il registro delle modifiche. Puoi trovarlo nelle versioni di Adaptive Theme su GitHub.</string>
 </resources>

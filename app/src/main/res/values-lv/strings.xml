@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Izstrādātāja opcijas</string>
 	<string name="setup_usb_debugging_title">USB atkļūdošana</string>
 	<string name="setup_dev_options_unconfirmed_toast">Ja izstrādātāja opcijas vēl nav ieslēgtas, atrodiet būvējuma numuru un pieskarieties tam 7 reizes.</string>
+	<string name="whats_new_title">Jaunumi versijā v%1$s</string>
+	<string name="whats_new_message">Uzziniet par šī atjauninājuma jaunumiem GitHub.</string>
+	<string name="whats_new_view_changelog">Skatīt izmaiņas</string>
+	<string name="whats_new_unavailable">Neviena lietotne nevarēja atvērt izmaiņu sarakstu. To varat atrast Adaptive Theme laidienos GitHub.</string>
 </resources>

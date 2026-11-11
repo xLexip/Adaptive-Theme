@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">ڈویلپر کے اختیارات</string>
 	<string name="setup_usb_debugging_title">USB ڈیبگنگ</string>
 	<string name="setup_dev_options_unconfirmed_toast">اگر ڈویلپر کے اختیارات ابھی فعال نہیں ہیں تو بلڈ نمبر تلاش کریں اور اس پر 7 بار ٹیپ کریں۔</string>
+	<string name="whats_new_title">v%1$s میں نیا کیا ہے</string>
+	<string name="whats_new_message">GitHub پر جانیں کہ اس اپ ڈیٹ میں نیا کیا ہے۔</string>
+	<string name="whats_new_view_changelog">تبدیلیوں کی فہرست دیکھیں</string>
+	<string name="whats_new_unavailable">کوئی ایپ تبدیلیوں کی فہرست نہیں کھول سکی۔ آپ اسے GitHub پر Adaptive Theme کی ریلیز میں دیکھ سکتے ہیں۔</string>
 </resources>

@@ -278,6 +278,17 @@ class UserPreferencesRepositoryTest {
 	}
 
 	@Test
+	fun whatsNewAcknowledgementSurvivesReopeningTheStore() = runTest {
+		assertNull(repository.fetchInitialPreferences().acknowledgedWhatsNewRelease)
+		repository.updateAcknowledgedWhatsNewRelease("2.6")
+		reopenRepository()
+		assertEquals("2.6", repository.fetchInitialPreferences().acknowledgedWhatsNewRelease)
+		repository.updateAcknowledgedWhatsNewRelease("3.0")
+		reopenRepository()
+		assertEquals("3.0", repository.fetchInitialPreferences().acknowledgedWhatsNewRelease)
+	}
+
+	@Test
 	fun readIOExceptionFallsBackToDefaults() = runTest {
 		val failingDataStore = object : DataStore<Preferences> {
 			override val data: Flow<Preferences> = flow {

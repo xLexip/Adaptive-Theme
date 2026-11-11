@@ -120,4 +120,8 @@
 	<string name="setup_developer_options_title">Mga opsyon ng developer</string>
 	<string name="setup_usb_debugging_title">USB debugging</string>
 	<string name="setup_dev_options_unconfirmed_toast">Kung hindi pa naka-on ang Mga opsyon ng developer, hanapin ang Build number at i-tap ito nang 7 beses.</string>
+	<string name="whats_new_title">Ano ang bago sa v%1$s</string>
+	<string name="whats_new_message">Alamin sa GitHub kung ano ang bago sa update na ito.</string>
+	<string name="whats_new_view_changelog">Tingnan ang mga pagbabago</string>
+	<string name="whats_new_unavailable">Walang app na makapagbukas ng tala ng mga pagbabago. Makikita ito sa mga release ng Adaptive Theme sa GitHub.</string>
 </resources>
