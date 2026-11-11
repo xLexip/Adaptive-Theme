@@ -10,7 +10,8 @@ import android.os.Parcel
 import android.util.Log
 import dev.lexip.hecate.logging.Logger
 import rikka.shizuku.Shizuku
-import java.util.concurrent.CountDownLatch
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeoutException
 import java.util.concurrent.TimeUnit
 
 object ShizukuManager {
@@ -26,6 +27,7 @@ object ShizukuManager {
 		object ServiceNotRunning : GrantResult()
 		object NotAuthorized : GrantResult()
 		object Unexpected : GrantResult()
+		object TimedOut : GrantResult()
 		data class ShellCommandFailed(
 			val commandIndex: Int,
 			val command: String,
@@ -74,22 +76,12 @@ object ShizukuManager {
 		}
 	}
 
-	fun requestPermission() {
-		if (Shizuku.isPreV11()) {
-			Log.w(TAG, "Ignoring Shizuku.requestPermission on pre-v11")
-			return
-		}
-
-		if (!binderReady) {
-			Log.w(TAG, "Binder not ready, skipping Shizuku.requestPermission")
-			return
-		}
-
-		if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-			return
-		}
-
+	/** Returns false if authorization was already granted. */
+	fun requestPermissionIfNeeded(): Boolean {
+		check(binderReady && !Shizuku.isPreV11()) { "Shizuku permission service unavailable" }
+		if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) return false
 		Shizuku.requestPermission(REQUEST_CODE)
+		return true
 	}
 
 	fun buildGrantWriteSecureSettingsCommand(packageName: String): String =
@@ -106,24 +98,26 @@ object ShizukuManager {
 		val commands = buildAllGrantCommands(packageName)
 
 		return try {
-			val monitor = CountDownLatch(1)
-			var result: GrantResult = GrantResult.Unexpected
-
+			val result = CompletableFuture<GrantResult>()
 			val args = createGrantServiceArgs()
-			val connection = createGrantServiceConnection(
-				context,
-				args,
-				commands,
-				monitor,
-				packageName
-			) { grantResult ->
-				result = grantResult
-			}
-
+			val connection = createGrantServiceConnection(context, commands, packageName, result)
 			Shizuku.bindUserService(args, connection)
-			waitForGrantResult(monitor)
-
-			result
+			try {
+				result.get(5, TimeUnit.SECONDS)
+			} catch (timeout: TimeoutException) {
+				Log.w(TAG, "Timed out waiting for Shizuku grant", timeout)
+				GrantResult.TimedOut
+			} catch (interrupted: InterruptedException) {
+				Thread.currentThread().interrupt()
+				GrantResult.Unexpected
+			} finally {
+				result.cancel(false)
+				try {
+					Shizuku.unbindUserService(args, connection, true)
+				} catch (failure: Exception) {
+					Log.w(TAG, "Could not unbind Shizuku user service", failure)
+				}
+			}
 		} catch (t: Throwable) {
 			Log.e(TAG, "Grant via Shizuku failed", t)
 			Logger.logUnexpectedShizukuError(
@@ -149,17 +143,16 @@ object ShizukuManager {
 
 	private fun createGrantServiceConnection(
 		context: Context,
-		args: Shizuku.UserServiceArgs,
 		commands: List<String>,
-		monitor: CountDownLatch,
 		packageName: String,
-		onResult: (GrantResult) -> Unit
+		completion: CompletableFuture<GrantResult>
 	): ServiceConnection {
 		return object : ServiceConnection {
 			override fun onServiceConnected(
 				name: ComponentName?,
 				binder: IBinder?
 			) {
+				if (completion.isDone) return
 				val result = try {
 					if (binder == null) {
 						GrantResult.ServiceNotRunning
@@ -181,28 +174,12 @@ object ShizukuManager {
 							GrantResult.Unexpected
 						}
 					}
-				} finally {
-					try {
-						Shizuku.unbindUserService(args, this, true)
-					} catch (t: Throwable) {
-						Log.w(TAG, "Error while unbinding Shizuku user service", t)
-						Logger.logUnexpectedShizukuError(
-							context = context,
-							operation = "grant_write_secure_settings",
-							stage = "unbind_user_service",
-							throwable = t,
-							binderReady = binderReady,
-							packageName = packageName
-						)
-					}
-					monitor.countDown()
 				}
-
-				onResult(result)
+				completion.complete(result)
 			}
 
 			override fun onServiceDisconnected(name: ComponentName?) {
-				Log.d(TAG, "GrantService disconnected: $name")
+				completion.complete(GrantResult.ServiceNotRunning)
 			}
 		}
 	}
@@ -243,14 +220,6 @@ object ShizukuManager {
 		} finally {
 			data.recycle()
 			reply.recycle()
-		}
-	}
-
-	private fun waitForGrantResult(monitor: CountDownLatch) {
-		try {
-			monitor.await(5, TimeUnit.SECONDS)
-		} catch (t: InterruptedException) {
-			Log.w(TAG, "Interrupted while waiting for Shizuku user service", t)
 		}
 	}
 }

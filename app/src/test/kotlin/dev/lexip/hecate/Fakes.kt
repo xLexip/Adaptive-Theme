@@ -304,8 +304,12 @@ class FakeSetupPermissionGrantController : SetupPermissionGrantController {
 	override fun hasShizukuPermission(context: android.content.Context): Boolean =
 		shizukuPermission
 
-	override fun requestShizukuPermission() {
+	var requestFailure: Exception? = null
+
+	override fun requestShizukuPermissionIfNeeded(): Boolean {
 		permissionRequestCalls++
+		requestFailure?.let { throw it }
+		return true
 	}
 
 	override suspend fun grantViaShizuku(

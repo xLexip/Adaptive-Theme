@@ -38,7 +38,7 @@ interface SetupPermissionGrantController {
 
 	fun isShizukuBinderReady(): Boolean
 	fun hasShizukuPermission(context: Context): Boolean
-	fun requestShizukuPermission()
+	fun requestShizukuPermissionIfNeeded(): Boolean
 	suspend fun grantViaShizuku(context: Context, packageName: String): SetupGrantResult
 	suspend fun grantViaRoot(packageName: String): SetupGrantResult
 }
@@ -62,8 +62,8 @@ class AndroidSetupPermissionGrantController : SetupPermissionGrantController {
 	override fun hasShizukuPermission(context: Context): Boolean =
 		ShizukuManager.hasPermission(context)
 
-	override fun requestShizukuPermission() {
-		ShizukuManager.requestPermission()
+	override fun requestShizukuPermissionIfNeeded(): Boolean {
+		return ShizukuManager.requestPermissionIfNeeded()
 	}
 
 	override suspend fun grantViaShizuku(
@@ -79,6 +79,7 @@ class AndroidSetupPermissionGrantController : SetupPermissionGrantController {
 			is ShizukuManager.GrantResult.ShellCommandFailed ->
 				SetupGrantResult.Failed(result.toString())
 
+			ShizukuManager.GrantResult.TimedOut -> SetupGrantResult.ServiceNotRunning
 			is ShizukuManager.GrantResult.Unexpected ->
 				SetupGrantResult.Unexpected(result.toString())
 		}

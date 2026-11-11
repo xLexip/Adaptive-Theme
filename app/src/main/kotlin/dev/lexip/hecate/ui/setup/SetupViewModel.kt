@@ -104,6 +104,7 @@ class SetupViewModel(
 	private var step2AutoAdvanceTriggered = false
 	private var step3AutoAdvanceTriggered = false
 
+	private var shizukuGrantJob: kotlinx.coroutines.Job? = null
 	private var autoAdvanceJob: kotlinx.coroutines.Job? = null
 
 	init {
@@ -505,24 +506,30 @@ class SetupViewModel(
 			return
 		}
 
-		if (!permissionGrantController.hasShizukuPermission(context)) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.shizuku_request_permission),
-				Toast.LENGTH_SHORT
-			).show()
-			permissionGrantController.requestShizukuPermission()
+		if (shizukuGrantJob?.isActive == true) return
+		try {
+			if (!permissionGrantController.hasShizukuPermission(context) &&
+				permissionGrantController.requestShizukuPermissionIfNeeded()
+			) {
+				Toast.makeText(context, R.string.shizuku_request_permission, Toast.LENGTH_SHORT).show()
+				return
+			}
+		} catch (failure: Exception) {
+			Log.w(TAG, "Could not request Shizuku authorization", failure)
+			Toast.makeText(context, R.string.shizuku_not_running, Toast.LENGTH_LONG).show()
 			return
 		}
 
-		viewModelScope.launch(ioDispatcher) {
+		shizukuGrantJob = viewModelScope.launch(ioDispatcher) {
 			val result = permissionGrantController.grantViaShizuku(context, packageName)
 			withContext(mainDispatcher) {
+				val granted = environmentProvider.snapshot().hasWriteSecureSettings
+				_uiState.update { it.copy(hasWriteSecureSettings = granted) }
+				if (granted) {
+					completeSetup(source = "shizuku")
+					return@withContext
+				}
 				when (result) {
-					SetupGrantResult.Success -> {
-						completeSetup(source = "shizuku")
-					}
-
 					SetupGrantResult.ServiceNotRunning -> {
 						Toast.makeText(
 							context,
@@ -548,7 +555,7 @@ class SetupViewModel(
 						).show()
 					}
 
-					is SetupGrantResult.Unexpected -> {
+					SetupGrantResult.Success, is SetupGrantResult.Unexpected -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_grant_unexpected),

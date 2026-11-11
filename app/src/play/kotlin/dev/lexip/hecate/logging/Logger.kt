@@ -214,6 +214,7 @@ object Logger {
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ServiceNotRunning -> "service_not_running" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.NotAuthorized -> "not_authorized" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ShellCommandFailed -> "shell_command_failed" to result.exitCode
+					dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.TimedOut -> "timeout" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.Unexpected -> "unexpected" to null
 				}
 				param("result_type", resultType)
