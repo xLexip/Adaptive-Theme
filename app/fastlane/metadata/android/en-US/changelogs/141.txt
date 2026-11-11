@@ -1,0 +1,4 @@
+• Choose whether matching wallpapers also update your lock screen.
+• Continue setup on Pixel devices even when Android hides the USB debugging status.
+• Improved Shizuku setup and handling of monitoring startup failures.
+• Added device-specific guidance after repeated background monitoring interruptions.
