@@ -3,7 +3,6 @@
 Il peut également changer le fond d'écran pour l'adapter au thème actif.
 
 <b>Fonctionnalités</b>
-
 <ul>
 <li>Utilise le capteur de luminosité physique de l'appareil</li>
 <li>Seuil en lux personnalisable et préréglages pour l'intérieur, l'extérieur et la lumière du jour</li>
@@ -13,7 +12,6 @@ Il peut également changer le fond d'écran pour l'adapter au thème actif.
 <li>Tuile de réglages rapides pour un contrôle pratique</li>
 <li>Interface Material You et plus de 50 langues</li>
 </ul>
-
 <b>Une conception économe</b>
 
 Le capteur est consulté brièvement après l'allumage de l'écran au lieu d'être surveillé en permanence. Avant de changer le thème, Adaptive Theme vérifie que le capteur n'est pas masqué par une main ou une poche. Le changement intervient ainsi à l'allumage de l'écran, sans vous interrompre lorsque vous utilisez une autre application.
@@ -23,14 +21,12 @@ Le capteur est consulté brièvement après l'allumage de l'écran au lieu d'êt
 Android n'autorise normalement pas les applications ordinaires à modifier des réglages système protégés tels que le thème. Adaptive Theme nécessite donc l'octroi unique de l'autorisation <b>WRITE_SECURE_SETTINGS</b>. Celle-ci ne donne pas d'accès root et ne permet pas de lire vos données personnelles. Adaptive Theme l'utilise uniquement pour basculer le système entre les modes clair et sombre. Elle est révoquée lorsque l'application est désinstallée.
 
 L'assistant de configuration propose plusieurs méthodes :
-
 <ul>
 <li>WebADB depuis un site web simple ouvert sur un ordinateur ou un second appareil Android, sans installer ADB</li>
 <li>Shizuku et ses variantes compatibles, nécessaires une seule fois pour accorder l'autorisation</li>
 <li>Root sur les appareils compatibles</li>
 <li>Une commande ADB manuelle : adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS</li>
 </ul>
-
 <b>Informations complémentaires</b>
 
 Adaptive Theme nécessite Android 14 ou une version ultérieure. Les tablettes ne sont pas prises en charge pour le moment.

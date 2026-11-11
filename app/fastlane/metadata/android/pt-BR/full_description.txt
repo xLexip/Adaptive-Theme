@@ -3,7 +3,6 @@ O <b>Adaptive Theme</b> alterna todo o sistema Android entre os modos claro e es
 Ele também pode trocar o papel de parede para acompanhar o tema ativo.
 
 <b>Recursos</b>
-
 <ul>
 <li>Usa o sensor físico de luz ambiente do aparelho</li>
 <li>Limite de lux personalizável e opções predefinidas para ambientes internos, externos e luz do dia intensa</li>
@@ -13,7 +12,6 @@ Ele também pode trocar o papel de parede para acompanhar o tema ativo.
 <li>Bloco nas Configurações rápidas para facilitar o controle</li>
 <li>Interface Material You e suporte a mais de 50 idiomas</li>
 </ul>
-
 <b>Eficiente por natureza</b>
 
 O sensor é consultado rapidamente depois que a tela é ligada, em vez de ficar ativo o tempo todo. Antes de alterar o tema, o Adaptive Theme verifica se o sensor não está coberto por uma mão ou dentro de um bolso. Assim, a mudança acontece ao ligar a tela e não interrompe você enquanto usa outro aplicativo.
@@ -23,14 +21,12 @@ O sensor é consultado rapidamente depois que a tela é ligada, em vez de ficar 
 Normalmente, o Android não permite que aplicativos comuns alterem configurações protegidas do sistema, como o tema. Por isso, o Adaptive Theme precisa receber uma única vez a permissão <b>WRITE_SECURE_SETTINGS</b>. Essa permissão não concede acesso root nem permite ler dados pessoais. O Adaptive Theme a utiliza exclusivamente para alternar o sistema entre os modos claro e escuro, e ela é revogada quando o aplicativo é desinstalado.
 
 O assistente de configuração oferece várias opções:
-
 <ul>
 <li>WebADB por meio de um site simples em um computador ou segundo dispositivo Android, sem instalar o ADB</li>
 <li>Shizuku e forks compatíveis, necessários apenas uma vez para conceder a permissão</li>
 <li>Root em dispositivos compatíveis</li>
 <li>Um comando ADB manual: adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS</li>
 </ul>
-
 <b>Mais informações</b>
 
 O Adaptive Theme requer Android 14 ou mais recente. No momento, tablets não são compatíveis.
