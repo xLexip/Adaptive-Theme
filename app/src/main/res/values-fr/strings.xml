@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Masquer le conseil</string>
 	<string name="background_help_open_settings">Ouvrir les paramètres de l’application</string>
 	<string name="background_help_unavailable">Aucune application n’a pu ouvrir cette page. Vous pouvez vérifier les paramètres système ou consulter dontkillmyapp.com manuellement.</string>
+	<string name="setup_developer_mode_continue_hint">Si les deux paramètres sont déjà activés, passez à la prochaine étape.</string>
+	<string name="setup_developer_options_title">Options pour les développeurs</string>
+	<string name="setup_usb_debugging_title">Débogage USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Si les options pour les développeurs ne sont pas encore activées, trouvez le numéro de build et appuyez dessus 7 fois.</string>
 </resources>

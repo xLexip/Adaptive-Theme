@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Скрыть подсказку</string>
 	<string name="background_help_open_settings">Открыть настройки приложения</string>
 	<string name="background_help_unavailable">Ни одно приложение не смогло открыть эту страницу. Вы можете проверить системные настройки или открыть dontkillmyapp.com вручную.</string>
+	<string name="setup_developer_mode_continue_hint">Если обе настройки уже включены, переходите к следующему шагу.</string>
+	<string name="setup_developer_options_title">Для разработчиков</string>
+	<string name="setup_usb_debugging_title">Отладка по USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Если режим разработчика ещё не включён, найдите номер сборки и нажмите на него 7 раз.</string>
 </resources>

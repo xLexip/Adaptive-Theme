@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Ocultar sugestão</string>
 	<string name="background_help_open_settings">Abrir definições da aplicação</string>
 	<string name="background_help_unavailable">Nenhuma aplicação conseguiu abrir esta página. Pode verificar as definições do sistema ou visitar dontkillmyapp.com manualmente.</string>
+	<string name="setup_developer_mode_continue_hint">Se ambas as definições já estiverem ativadas, avance para o passo seguinte.</string>
+	<string name="setup_developer_options_title">Opções de programador</string>
+	<string name="setup_usb_debugging_title">Depuração USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Se as opções de programador ainda não estiverem ativadas, encontre o número de compilação e toque nele 7 vezes.</string>
 </resources>

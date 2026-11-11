@@ -116,4 +116,8 @@
 	<string name="background_help_hide">குறிப்பை மறை</string>
 	<string name="background_help_open_settings">ஆப்ஸ் அமைப்புகளைத் திற</string>
 	<string name="background_help_unavailable">எந்த ஆப்ஸாலும் இந்தப் பக்கத்தைத் திறக்க முடியவில்லை. சிஸ்டம் அமைப்புகளைச் சரிபார்க்கலாம் அல்லது dontkillmyapp.com தளத்திற்கு நேரடியாகச் செல்லலாம்.</string>
+	<string name="setup_developer_mode_continue_hint">இரண்டு அமைப்புகளும் ஏற்கனவே இயக்கப்பட்டிருந்தால், அடுத்த படிக்குச் செல்லவும்.</string>
+	<string name="setup_developer_options_title">டெவலப்பர் விருப்பங்கள்</string>
+	<string name="setup_usb_debugging_title">USB பிழைத்திருத்தம்</string>
+	<string name="setup_dev_options_unconfirmed_toast">டெவலப்பர் விருப்பங்கள் இன்னும் இயக்கப்படவில்லை என்றால், பில்ட் எண்ணைக் கண்டறிந்து அதை 7 முறை தட்டவும்.</string>
 </resources>

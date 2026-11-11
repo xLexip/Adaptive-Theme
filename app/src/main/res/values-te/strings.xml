@@ -116,4 +116,8 @@
 	<string name="background_help_hide">సూచనను దాచండి</string>
 	<string name="background_help_open_settings">యాప్ సెట్టింగ్‌లను తెరవండి</string>
 	<string name="background_help_unavailable">ఏ యాప్ కూడా ఈ పేజీని తెరవలేకపోయింది. మీరు సిస్టమ్ సెట్టింగ్‌లను తనిఖీ చేయవచ్చు లేదా dontkillmyapp.com ను నేరుగా సందర్శించవచ్చు.</string>
+	<string name="setup_developer_mode_continue_hint">రెండు సెట్టింగ్‌లు ఇప్పటికే ఆన్‌లో ఉంటే, తదుపరి దశకు వెళ్లండి.</string>
+	<string name="setup_developer_options_title">డెవలపర్ ఎంపికలు</string>
+	<string name="setup_usb_debugging_title">USB డీబగ్గింగ్</string>
+	<string name="setup_dev_options_unconfirmed_toast">డెవలపర్ ఎంపికలు ఇంకా ఆన్ చేయకపోతే, బిల్డ్ నంబర్‌ను కనుగొని దానిపై 7 సార్లు నొక్కండి.</string>
 </resources>

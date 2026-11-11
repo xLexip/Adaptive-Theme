@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Скриване на съвета</string>
 	<string name="background_help_open_settings">Отваряне на настройките на приложението</string>
 	<string name="background_help_unavailable">Нито едно приложение не можа да отвори тази страница. Можете да проверите системните настройки или да посетите dontkillmyapp.com ръчно.</string>
+	<string name="setup_developer_mode_continue_hint">Ако и двете настройки вече са включени, продължете към следващата стъпка.</string>
+	<string name="setup_developer_options_title">Опции за програмисти</string>
+	<string name="setup_usb_debugging_title">Отстраняване на грешки през USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ако опциите за програмисти още не са включени, намерете номера на компилацията и го докоснете 7 пъти.</string>
 </resources>

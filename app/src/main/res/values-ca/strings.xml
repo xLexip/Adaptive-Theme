@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Amaga el consell</string>
 	<string name="background_help_open_settings">Obre els ajustos de l’aplicació</string>
 	<string name="background_help_unavailable">Cap aplicació no ha pogut obrir aquesta pàgina. Pots comprovar els ajustos del sistema o visitar dontkillmyapp.com manualment.</string>
+	<string name="setup_developer_mode_continue_hint">Si tots dos ajustos ja estan activats, continua al pas següent.</string>
+	<string name="setup_developer_options_title">Opcions de desenvolupador</string>
+	<string name="setup_usb_debugging_title">Depuració USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Si les opcions de desenvolupador encara no estan activades, busca el número de compilació i toca-hi 7 vegades.</string>
 </resources>

@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Skrij namig</string>
 	<string name="background_help_open_settings">Odpri nastavitve aplikacije</string>
 	<string name="background_help_unavailable">Nobena aplikacija ni mogla odpreti te strani. Lahko preverite sistemske nastavitve ali ročno obiščete dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Če sta obe nastavitvi že vklopljeni, nadaljujte na naslednji korak.</string>
+	<string name="setup_developer_options_title">Možnosti za razvijalce</string>
+	<string name="setup_usb_debugging_title">Odpravljanje napak prek USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Če možnosti za razvijalce še niso vklopljene, poiščite številko gradnje in se je dotaknite 7-krat.</string>
 </resources>

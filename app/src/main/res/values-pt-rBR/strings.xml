@@ -133,4 +133,8 @@
 	<string name="background_help_hide">Ocultar dica</string>
 	<string name="background_help_open_settings">Abrir configurações do app</string>
 	<string name="background_help_unavailable">Nenhum app conseguiu abrir esta página. Você pode verificar as configurações do sistema ou acessar dontkillmyapp.com manualmente.</string>
+	<string name="setup_developer_mode_continue_hint">Se as duas configurações já estiverem ativadas, continue para a próxima etapa.</string>
+	<string name="setup_developer_options_title">Opções do desenvolvedor</string>
+	<string name="setup_usb_debugging_title">Depuração USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Se as opções do desenvolvedor ainda não estiverem ativadas, encontre o número da versão e toque nele 7 vezes.</string>
 </resources>

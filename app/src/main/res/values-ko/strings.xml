@@ -116,4 +116,8 @@
 	<string name="background_help_hide">도움말 숨기기</string>
 	<string name="background_help_open_settings">앱 설정 열기</string>
 	<string name="background_help_unavailable">이 페이지를 열 수 있는 앱이 없습니다. 시스템 설정을 확인하거나 dontkillmyapp.com에 직접 방문하세요.</string>
+	<string name="setup_developer_mode_continue_hint">두 설정이 이미 켜져 있다면 다음 단계로 진행하세요.</string>
+	<string name="setup_developer_options_title">개발자 옵션</string>
+	<string name="setup_usb_debugging_title">USB 디버깅</string>
+	<string name="setup_dev_options_unconfirmed_toast">개발자 옵션이 아직 켜져 있지 않다면 빌드 번호를 찾아 7번 탭하세요.</string>
 </resources>

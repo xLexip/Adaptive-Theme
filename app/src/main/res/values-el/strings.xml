@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Απόκρυψη συμβουλής</string>
 	<string name="background_help_open_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
 	<string name="background_help_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει αυτή τη σελίδα. Μπορείτε να ελέγξετε τις ρυθμίσεις συστήματος ή να επισκεφθείτε το dontkillmyapp.com χειροκίνητα.</string>
+	<string name="setup_developer_mode_continue_hint">Αν και οι δύο ρυθμίσεις είναι ήδη ενεργές, συνεχίστε στο επόμενο βήμα.</string>
+	<string name="setup_developer_options_title">Επιλογές προγραμματιστή</string>
+	<string name="setup_usb_debugging_title">Εντοπισμός σφαλμάτων USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Αν οι επιλογές προγραμματιστή δεν είναι ακόμη ενεργές, βρείτε τον αριθμό έκδοσης και πατήστε τον 7 φορές.</string>
 </resources>

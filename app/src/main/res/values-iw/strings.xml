@@ -116,4 +116,8 @@
 	<string name="background_help_hide">הסתרת הטיפ</string>
 	<string name="background_help_open_settings">פתיחת הגדרות האפליקציה</string>
 	<string name="background_help_unavailable">אף אפליקציה לא הצליחה לפתוח את הדף הזה. אפשר לבדוק את הגדרות המערכת או לבקר ב-dontkillmyapp.com באופן ידני.</string>
+	<string name="setup_developer_mode_continue_hint">אם שתי ההגדרות כבר מופעלות, אפשר להמשיך לשלב הבא.</string>
+	<string name="setup_developer_options_title">אפשרויות למפתחים</string>
+	<string name="setup_usb_debugging_title">ניפוי באגים ב-USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">אם אפשרויות למפתחים עדיין לא מופעלות, יש למצוא את מספר ה-Build ולהקיש עליו 7 פעמים.</string>
 </resources>

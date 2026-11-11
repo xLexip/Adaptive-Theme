@@ -35,7 +35,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -48,6 +51,9 @@ import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.setup.SetupUiState
 import dev.lexip.hecate.ui.setup.components.ShizukuOptionCard
 import dev.lexip.hecate.ui.setup.components.StepNavigationRow
+import kotlinx.coroutines.delay
+
+private const val CONTINUE_DELAY_MILLIS = 4_000L
 
 data class DeveloperModeActions(
 	val onOpenSettings: () -> Unit,
@@ -72,14 +78,18 @@ fun A_DeveloperModeScreen(
 	onOpenDeveloperSettings: () -> Unit,
 ) {
 	val haptic = LocalHapticFeedback.current
-	val stepComplete = uiState.isDeveloperOptionsEnabled && uiState.isUsbDebuggingEnabled
+	var canContinue by remember { mutableStateOf(false) }
 
+	LaunchedEffect(Unit) {
+		delay(CONTINUE_DELAY_MILLIS)
+		canContinue = true
+	}
 
 	// Haptic feedback when developer options get enabled
 	val prevDevOptionsEnabled =
 		remember { androidx.compose.runtime.mutableStateOf(uiState.isDeveloperOptionsEnabled) }
 	LaunchedEffect(uiState.isDeveloperOptionsEnabled) {
-		if (uiState.isDeveloperOptionsEnabled && !prevDevOptionsEnabled.value) {
+		if (uiState.isDeveloperOptionsEnabled == true && prevDevOptionsEnabled.value != true) {
 			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
 		prevDevOptionsEnabled.value = uiState.isDeveloperOptionsEnabled
@@ -89,7 +99,7 @@ fun A_DeveloperModeScreen(
 	val prevUsbDebuggingEnabled =
 		remember { androidx.compose.runtime.mutableStateOf(uiState.isUsbDebuggingEnabled) }
 	LaunchedEffect(uiState.isUsbDebuggingEnabled) {
-		if (uiState.isUsbDebuggingEnabled && !prevUsbDebuggingEnabled.value) {
+		if (uiState.isUsbDebuggingEnabled == true && prevUsbDebuggingEnabled.value != true) {
 			haptic.performHapticFeedback(HapticFeedbackType.Confirm)
 		}
 		prevUsbDebuggingEnabled.value = uiState.isUsbDebuggingEnabled
@@ -117,6 +127,11 @@ fun A_DeveloperModeScreen(
 						style = MaterialTheme.typography.bodyLarge,
 						color = MaterialTheme.colorScheme.onSurfaceVariant
 					)
+					Text(
+						text = stringResource(id = R.string.setup_developer_mode_continue_hint),
+						style = MaterialTheme.typography.bodyLarge,
+						color = MaterialTheme.colorScheme.onSurfaceVariant
+					)
 				}
 
 				DeveloperOptionsCard(
@@ -129,20 +144,19 @@ fun A_DeveloperModeScreen(
 
 				UsbDebuggingCard(
 					isEnabled = uiState.isUsbDebuggingEnabled,
-					isDeveloperOptionsEnabled = uiState.isDeveloperOptionsEnabled,
 					onOpenDeveloperSettings = {
 						haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 						onOpenDeveloperSettings()
 					}
 				)
-				if (!uiState.isDeveloperOptionsEnabled || !uiState.isUsbDebuggingEnabled)
+				if (uiState.isDeveloperOptionsEnabled != true || uiState.isUsbDebuggingEnabled != true)
 					ShizukuOptionCard(
 						isVisible = uiState.isShizukuInstalled,
 						onClick = onGrantViaShizuku
 					)
 			}
 
-			// Step 1: Close button (left) + Next button (right, enabled when step complete)
+			// Detection is advisory: redacted settings must not block manual continuation.
 			StepNavigationRow(
 				leftTextRes = R.string.action_close,
 				onLeft = onExit,
@@ -151,7 +165,7 @@ fun A_DeveloperModeScreen(
 					haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
 					onNext()
 				},
-				rightEnabled = stepComplete,
+				rightEnabled = canContinue,
 				rightIsPrimary = true
 			)
 		}
@@ -247,17 +261,19 @@ private fun StatusCardHeader(
 
 @Composable
 private fun DeveloperOptionsCard(
-	isEnabled: Boolean,
+	isEnabled: Boolean?,
 	onOpenSettings: () -> Unit,
 ) {
 	StatusCard(
-		isEnabled = isEnabled,
+		isEnabled = isEnabled == true,
 		titleResIfEnabled = R.string.setup_developer_options_enabled,
-		titleResIfDisabled = R.string.setup_developer_options_unlock,
-		showAction = !isEnabled,
+		titleResIfDisabled = if (isEnabled == null)
+			R.string.setup_developer_options_title else R.string.setup_developer_options_unlock,
+		showAction = isEnabled != true,
 		actionConfig = ActionConfig(
 			labelRes = R.string.setup_action_open_settings,
-			toastResOne = R.string.setup_dev_options_toast_one,
+			toastResOne = if (isEnabled == null)
+				R.string.setup_dev_options_unconfirmed_toast else R.string.setup_dev_options_toast_one,
 			toastResTwo = R.string.setup_dev_options_toast_two,
 			onAction = onOpenSettings,
 			enabled = true
@@ -267,21 +283,21 @@ private fun DeveloperOptionsCard(
 
 @Composable
 private fun UsbDebuggingCard(
-	isEnabled: Boolean,
-	isDeveloperOptionsEnabled: Boolean,
+	isEnabled: Boolean?,
 	onOpenDeveloperSettings: () -> Unit,
 ) {
 	StatusCard(
-		isEnabled = isEnabled,
+		isEnabled = isEnabled == true,
 		titleResIfEnabled = R.string.setup_usb_debugging_enabled,
-		titleResIfDisabled = R.string.setup_usb_debugging_disabled,
-		showAction = !isEnabled,
+		titleResIfDisabled = if (isEnabled == null)
+			R.string.setup_usb_debugging_title else R.string.setup_usb_debugging_disabled,
+		showAction = isEnabled != true,
 		actionConfig = ActionConfig(
 			labelRes = R.string.setup_action_open_developer_settings,
 			toastResOne = R.string.setup_usb_debugging_enable_toast,
 			toastResTwo = null,
 			onAction = onOpenDeveloperSettings,
-			enabled = isDeveloperOptionsEnabled
+			enabled = true
 		)
 	)
 }

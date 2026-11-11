@@ -63,8 +63,8 @@ data class SetupUiState(
 	val currentStep: SetupRoute = SetupRoute.DeveloperMode,
 	val pendingAdbCommand: String = "",
 	val isShizukuInstalled: Boolean = false,
-	val isDeveloperOptionsEnabled: Boolean = false,
-	val isUsbDebuggingEnabled: Boolean = false,
+	val isDeveloperOptionsEnabled: Boolean? = null,
+	val isUsbDebuggingEnabled: Boolean? = null,
 	val isUsbConnected: Boolean = false,
 	val hasWriteSecureSettings: Boolean = false,
 	val isSetupCompleted: Boolean = false,
@@ -136,7 +136,7 @@ class SetupViewModel(
 		val context = application.applicationContext
 		val environment = environmentProvider.snapshot()
 		val step1Done =
-			environment.isDeveloperOptionsEnabled && environment.isUsbDebuggingEnabled
+			environment.isDeveloperOptionsEnabled == true && environment.isUsbDebuggingEnabled == true
 		// We don't skip step 2 based on USB connection alone, as the user might need to see the instructions.
 		val step3Done = environment.hasWriteSecureSettings
 
@@ -235,7 +235,7 @@ class SetupViewModel(
 
 	private fun checkStep1Completion() {
 		val state = _uiState.value
-		val stepComplete = state.isDeveloperOptionsEnabled && state.isUsbDebuggingEnabled
+		val stepComplete = state.isDeveloperOptionsEnabled == true && state.isUsbDebuggingEnabled == true
 		if (stepComplete != state.isStep1Complete) {
 			_uiState.update { it.copy(isStep1Complete = stepComplete) }
 		}
@@ -337,6 +337,11 @@ class SetupViewModel(
 	 */
 	fun navigateToNextStep() {
 		cancelAutoAdvanceCountdown()
+		if (_uiState.value.currentStep == SetupRoute.DeveloperMode && !step1AutoAdvanceTriggered) {
+			// Leaving the instructions does not confirm the device's settings.
+			step1AutoAdvanceTriggered = true
+			Logger.logSetupStepOneCompleted(application.applicationContext)
+		}
 		val nextStep = when (_uiState.value.currentStep) {
 			SetupRoute.DeveloperMode -> SetupRoute.ConnectUsb
 			SetupRoute.ConnectUsb -> SetupRoute.GrantPermission

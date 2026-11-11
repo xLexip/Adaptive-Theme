@@ -116,4 +116,8 @@
 	<string name="background_help_hide">پنهان کردن راهنما</string>
 	<string name="background_help_open_settings">باز کردن تنظیمات برنامه</string>
 	<string name="background_help_unavailable">هیچ برنامه‌ای نتوانست این صفحه را باز کند. می‌توانید تنظیمات سیستم را بررسی کنید یا خودتان به dontkillmyapp.com بروید.</string>
+	<string name="setup_developer_mode_continue_hint">اگر هر دو تنظیم از قبل فعال هستند، به مرحله بعد بروید.</string>
+	<string name="setup_developer_options_title">گزینه‌های برنامه‌نویس</string>
+	<string name="setup_usb_debugging_title">اشکال‌زدایی USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">اگر گزینه‌های برنامه‌نویس هنوز فعال نیستند، شماره ساخت را پیدا کنید و ۷ بار روی آن بزنید.</string>
 </resources>

@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Itago ang tip</string>
 	<string name="background_help_open_settings">Buksan ang mga setting ng app</string>
 	<string name="background_help_unavailable">Walang app na makapagbukas ng pahinang ito. Maaari mong tingnan ang mga setting ng system o mano-manong bisitahin ang dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Kung naka-on na ang dalawang setting, magpatuloy sa susunod na hakbang.</string>
+	<string name="setup_developer_options_title">Mga opsyon ng developer</string>
+	<string name="setup_usb_debugging_title">USB debugging</string>
+	<string name="setup_dev_options_unconfirmed_toast">Kung hindi pa naka-on ang Mga opsyon ng developer, hanapin ang Build number at i-tap ito nang 7 beses.</string>
 </resources>

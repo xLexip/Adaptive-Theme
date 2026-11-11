@@ -116,4 +116,8 @@
 	<string name="background_help_hide">隱藏提示</string>
 	<string name="background_help_open_settings">開啟應用程式設定</string>
 	<string name="background_help_unavailable">沒有應用程式能開啟此頁面。您可以檢查系統設定，或手動前往 dontkillmyapp.com。</string>
+	<string name="setup_developer_mode_continue_hint">如果這兩項設定已啟用，請繼續下一步。</string>
+	<string name="setup_developer_options_title">開發人員選項</string>
+	<string name="setup_usb_debugging_title">USB 偵錯</string>
+	<string name="setup_dev_options_unconfirmed_toast">如果尚未啟用開發人員選項，請找到版本號碼並輕觸 7 次。</string>
 </resources>

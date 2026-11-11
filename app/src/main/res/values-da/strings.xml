@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Skjul tip</string>
 	<string name="background_help_open_settings">Åbn appindstillinger</string>
 	<string name="background_help_unavailable">Ingen app kunne åbne denne side. Du kan kontrollere systemindstillingerne eller besøge dontkillmyapp.com manuelt.</string>
+	<string name="setup_developer_mode_continue_hint">Hvis begge indstillinger allerede er slået til, skal du fortsætte til næste trin.</string>
+	<string name="setup_developer_options_title">Udviklerindstillinger</string>
+	<string name="setup_usb_debugging_title">USB-fejlretning</string>
+	<string name="setup_dev_options_unconfirmed_toast">Hvis udviklerindstillinger ikke er slået til endnu, skal du finde buildnummeret og trykke på det 7 gange.</string>
 </resources>

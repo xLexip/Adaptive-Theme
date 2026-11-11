@@ -116,4 +116,8 @@
 	<string name="background_help_hide">Tipp elrejtése</string>
 	<string name="background_help_open_settings">Alkalmazásbeállítások megnyitása</string>
 	<string name="background_help_unavailable">Egyetlen alkalmazás sem tudta megnyitni ezt az oldalt. Ellenőrizheti a rendszerbeállításokat, vagy kézzel megnyithatja a dontkillmyapp.com oldalt.</string>
+	<string name="setup_developer_mode_continue_hint">Ha mindkét beállítás már be van kapcsolva, folytasd a következő lépéssel.</string>
+	<string name="setup_developer_options_title">Fejlesztői beállítások</string>
+	<string name="setup_usb_debugging_title">USB-hibakeresés</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ha a fejlesztői beállítások még nincsenek bekapcsolva, keresd meg a buildszámot, és koppints rá 7-szer.</string>
 </resources>

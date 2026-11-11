@@ -116,4 +116,8 @@
 	<string name="background_help_hide">ಸುಳಿವನ್ನು ಮರೆಮಾಡಿ</string>
 	<string name="background_help_open_settings">ಆ್ಯಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
 	<string name="background_help_unavailable">ಯಾವ ಆ್ಯಪ್‌ಗೂ ಈ ಪುಟವನ್ನು ತೆರೆಯಲಾಗಲಿಲ್ಲ. ನೀವು ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಅಥವಾ dontkillmyapp.com ಗೆ ಸ್ವತಃ ಭೇಟಿ ನೀಡಬಹುದು.</string>
+	<string name="setup_developer_mode_continue_hint">ಎರಡೂ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಈಗಾಗಲೇ ಆನ್ ಆಗಿದ್ದರೆ, ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗಿ.</string>
+	<string name="setup_developer_options_title">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು</string>
+	<string name="setup_usb_debugging_title">USB ಡೀಬಗ್ ಮಾಡುವಿಕೆ</string>
+	<string name="setup_dev_options_unconfirmed_toast">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು ಇನ್ನೂ ಆನ್ ಆಗಿಲ್ಲದಿದ್ದರೆ, ಬಿಲ್ಡ್ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ ಅದನ್ನು 7 ಬಾರಿ ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
 </resources>

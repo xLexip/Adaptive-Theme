@@ -133,4 +133,8 @@
 	<string name="background_help_hide">İpucunu gizle</string>
 	<string name="background_help_open_settings">Uygulama ayarlarını aç</string>
 	<string name="background_help_unavailable">Hiçbir uygulama bu sayfayı açamadı. Sistem ayarlarını kontrol edebilir veya dontkillmyapp.com adresini kendiniz ziyaret edebilirsiniz.</string>
+	<string name="setup_developer_mode_continue_hint">Her iki ayar da zaten açıksa sonraki adıma geçin.</string>
+	<string name="setup_developer_options_title">Geliştirici seçenekleri</string>
+	<string name="setup_usb_debugging_title">USB hata ayıklama</string>
+	<string name="setup_dev_options_unconfirmed_toast">Geliştirici seçenekleri henüz açık değilse Derleme numarasını bulun ve 7 kez dokunun.</string>
 </resources>
