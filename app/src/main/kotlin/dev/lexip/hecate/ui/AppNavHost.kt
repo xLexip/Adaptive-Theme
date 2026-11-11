@@ -19,7 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -260,25 +260,23 @@ private fun NavGraphBuilder.setupNavGraph(
  * Shared across all setup steps in the graph and manages environment monitoring (USB, etc.).
  */
 @Composable
-private fun rememberSetupViewModel(
+internal fun rememberSetupViewModel(
 	backStackEntry: NavBackStackEntry,
 	context: android.content.Context,
 	navigationManager: NavigationManager
 ): SetupViewModel {
 	val application = context.applicationContext as Application
-	val dataStore = application.userPreferencesDataStore
-
-	// Use the backStackEntry as ViewModelStoreOwner to scope VM to the setup graph
-	val viewModel: SetupViewModel = viewModel(
-		viewModelStoreOwner = backStackEntry,
-		factory = SetupViewModelFactory(
-			application = application,
-			userPreferencesRepository = UserPreferencesRepository(dataStore),
-			navigationManager = navigationManager
-		)
-	)
-
-
-	return viewModel
+	// An outgoing screen can recompose after its graph has been popped. Retain the
+	// graph-scoped instance instead of accessing the destroyed entry's store again.
+	return remember(backStackEntry) {
+		ViewModelProvider(
+			backStackEntry,
+			SetupViewModelFactory(
+				application = application,
+				userPreferencesRepository = UserPreferencesRepository(application.userPreferencesDataStore),
+				navigationManager = navigationManager
+			)
+		)[SetupViewModel::class.java]
+	}
 }
 
