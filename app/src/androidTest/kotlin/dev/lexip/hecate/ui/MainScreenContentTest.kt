@@ -12,6 +12,10 @@
 
 package dev.lexip.hecate.ui
 
+import android.view.WindowManager
+import android.view.inspector.WindowInspector
+import androidx.activity.ComponentDialog
+import androidx.activity.findViewTreeOnBackPressedDispatcherOwner
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
@@ -26,11 +30,11 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.espresso.Espresso
 import androidx.test.platform.app.InstrumentationRegistry
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.theme.HecateTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -157,15 +161,32 @@ class MainScreenContentTest {
 
 	@Test
 	fun whatsNewBackDismissalCallsCloseHandler() {
+		val state = mutableStateOf(MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"))
 		var dismissCalls = 0
 		setMainContent(
-			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"),
+			uiState = { state.value },
 			hasPermission = true,
-			callbacks = callbacks().copy(onDismissWhatsNew = { dismissCalls++ })
+			callbacks = callbacks().copy(onDismissWhatsNew = {
+				dismissCalls++
+				state.value = state.value.copy(whatsNewRelease = null)
+			})
 		)
-		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "2.6")).assertIsDisplayed()
-		Espresso.pressBack()
-		composeRule.waitForIdle()
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onNodeWithText(title).assertIsDisplayed()
+		composeRule.runOnIdle {
+			// Exercise the real dialog Back callback without depending on system window focus.
+			val dialogView = WindowInspector.getGlobalWindowViews().single {
+				(it.layoutParams as? WindowManager.LayoutParams)?.type ==
+					WindowManager.LayoutParams.TYPE_APPLICATION
+			}
+			val dialog = dialogView.findViewTreeOnBackPressedDispatcherOwner() as ComponentDialog
+			assertTrue(
+				"Dialog must have an enabled Back callback",
+				dialog.onBackPressedDispatcher.hasEnabledCallbacks()
+			)
+			dialog.onBackPressedDispatcher.onBackPressed()
+		}
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
 		assertEquals(1, dismissCalls)
 	}
 
