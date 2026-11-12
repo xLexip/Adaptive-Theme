@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Izmantojot Shizuku, radās neparedzēta kļūda.</string>
 	<string name="title_device_wallpaper_sync">Fona attēls</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Mainīt bloķēšanas ekrānu</string>
 	<string name="title_lock_screen_wallpaper_blur">Aizmiglot bloķēšanas ekrānu</string>
-	<string name="description_lock_screen_wallpaper_blur">Bloķēšanas ekrānā izmantojiet aizmiglotu fona attēla versiju.</string>
 	<string name="description_device_wallpaper_sync">Izmantojiet atsevišķus fona attēlus gaišajam un tumšajam režīmam. Pārslēgšana var aizņemt brīdi un ietekmēt veiktspēju.</string>
 	<string name="action_select_day_wallpaper">Gaišais režīms:</string>
 	<string name="action_select_night_wallpaper">Tumšais režīms:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Piešķirt zvaigznīti GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Paslēpt uz visiem laikiem</string>
 	<string name="github_star_prompt_thank_you">Paldies!</string>
+	<string name="monitoring_start_failed_title">Neizdevās sākt uzraudzību</string>
+	<string name="monitoring_start_failed_message">Pieskarieties Mēģināt vēlreiz, lai sāktu uzraudzību fonā. Ja problēma atkārtojas, pārbaudiet tālruņa fona lietotņu ierobežojumus.</string>
+	<string name="monitoring_action_retry">Mēģināt vēlreiz</string>
+	<string name="background_help_title">Atļaut darbību fonā</string>
+	<string name="background_help_generic">Uzraudzība fonā ir vairākkārt pārtraukta. Sekojiet savam tālrunim paredzētajiem norādījumiem vietnē Don’t Kill My App.</string>
+	<string name="background_help_hide">Paslēpt padomu</string>
+	<string name="background_help_open_settings">Atvērt lietotnes iestatījumus</string>
+	<string name="background_help_unavailable">Neviena lietotne nevarēja atvērt šo lapu. Varat pārbaudīt sistēmas iestatījumus vai manuāli apmeklēt dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ja abi iestatījumi jau ir ieslēgti, pārejiet uz nākamo darbību.</string>
+	<string name="setup_developer_options_title">Izstrādātāja opcijas</string>
+	<string name="setup_usb_debugging_title">USB atkļūdošana</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ja izstrādātāja opcijas vēl nav ieslēgtas, atrodiet būvējuma numuru un pieskarieties tam 7 reizes.</string>
+	<string name="whats_new_title">Jaunumi versijā v%1$s</string>
+	<string name="whats_new_message">Uzziniet par šī atjauninājuma jaunumiem GitHub.</string>
+	<string name="whats_new_view_changelog">Skatīt izmaiņas</string>
+	<string name="whats_new_unavailable">Neviena lietotne nevarēja atvērt izmaiņu sarakstu. To varat atrast Adaptive Theme laidienos GitHub.</string>
 </resources>

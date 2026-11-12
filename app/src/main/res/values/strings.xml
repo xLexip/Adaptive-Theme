@@ -84,6 +84,10 @@
 	<string name="setup_connect_description">To grant the permission, you need a <b>second device</b> (preferably a computer). Connect the two devices via USB. Alternatively, use the Shizuku app linked below.</string>
 	<string name="setup_developer_mode_title">Step 1: Enable Developer Options</string>
 	<string name="setup_developer_mode_body">Turn on USB debugging in Developer options.</string>
+	<string name="setup_developer_mode_continue_hint">If both settings are already enabled, continue to the next step.</string>
+	<string name="setup_developer_options_title">Developer options</string>
+	<string name="setup_usb_debugging_title">USB debugging</string>
+	<string name="setup_dev_options_unconfirmed_toast">If Developer options are not enabled yet, find the Build number and tap it 7 times.</string>
 	<string name="setup_developer_options_unlock">Unlock developer options</string>
 	<string name="setup_developer_options_enabled">Developer options enabled</string>
 	<string name="setup_dev_options_toast_one">Find the Build number and tap it 7 times to enable developer options.</string>
@@ -124,12 +128,25 @@
 	<string name="title_device_wallpaper_sync">Wallpaper</string>
 	<string name="label_beta">Beta</string>
 	<string name="description_device_wallpaper_sync">Use separate light and dark mode wallpapers. Switching may take a moment and affect performance.</string>
+	<string name="title_lock_screen_wallpaper_sync">Change Lock Screen</string>
 	<string name="title_lock_screen_wallpaper_blur">Blur Lock Screen</string>
-	<string name="description_lock_screen_wallpaper_blur">Use a blurred version of the wallpaper on the lock screen.</string>
 	<string name="action_select_day_wallpaper">Light mode:</string>
 	<string name="action_select_night_wallpaper">Dark mode:</string>
 	<string name="wallpaper_status_set">Set</string>
 	<string name="wallpaper_status_not_set">Not set</string>
 	<string name="live_wallpaper_warning_title">Live Wallpaper Active</string>
 	<string name="live_wallpaper_warning_message">Enabling wallpaper sync will replace your current live wallpaper with static wallpapers for light and dark mode. Do you want to continue?</string>
+	<string name="monitoring_start_failed_title">Monitoring could not start</string>
+	<string name="monitoring_start_failed_message">Tap Retry to start background monitoring. If this keeps happening, check your phone’s background app restrictions.</string>
+	<string name="monitoring_action_retry">Retry</string>
+	<string name="background_help_title">Allow background activity</string>
+	<string name="background_help_generic">Background monitoring has been interrupted repeatedly. Follow the guide for your phone on Don’t Kill My App.</string>
+	<string name="background_help_hide">Hide hint</string>
+	<string name="background_help_open_settings">Open app settings</string>
+	<string name="background_help_website" translatable="false">Don’t Kill My App ↗</string>
+	<string name="background_help_unavailable">No app could open this page. You can check system Settings or visit dontkillmyapp.com manually.</string>
+	<string name="whats_new_title">What\'s new in v%1$s</string>
+	<string name="whats_new_message">Find out what’s new in this update on GitHub.</string>
+	<string name="whats_new_view_changelog">View changelog</string>
+	<string name="whats_new_unavailable">No app could open the changelog. You can find it in Adaptive Theme’s GitHub releases.</string>
 </resources>

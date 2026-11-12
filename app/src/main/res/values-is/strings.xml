@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Óvænt villa kom upp við notkun Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Veggfóður</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Breyta læsiskjá</string>
 	<string name="title_lock_screen_wallpaper_blur">Gera læsiskjá óskýran</string>
-	<string name="description_lock_screen_wallpaper_blur">Notaðu óskýra útgáfu af bakgrunnsmyndinni á læsiskjánum.</string>
 	<string name="description_device_wallpaper_sync">Notaðu aðskildar veggfóðursmyndir fyrir ljósa og dökka stillingu. Skipting getur tekið smástund og haft áhrif á afköst.</string>
 	<string name="action_select_day_wallpaper">Ljós stilling:</string>
 	<string name="action_select_night_wallpaper">Dökk stilling:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Gefa stjörnu á GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Fela varanlega</string>
 	<string name="github_star_prompt_thank_you">Takk!</string>
+	<string name="monitoring_start_failed_title">Ekki tókst að hefja vöktun</string>
+	<string name="monitoring_start_failed_message">Pikkaðu á Reyna aftur til að hefja vöktun í bakgrunni. Ef vandamálið heldur áfram skaltu athuga takmarkanir símans á forritum í bakgrunni.</string>
+	<string name="monitoring_action_retry">Reyna aftur</string>
+	<string name="background_help_title">Leyfa virkni í bakgrunni</string>
+	<string name="background_help_generic">Vöktun í bakgrunni hefur ítrekað rofnað. Fylgdu leiðbeiningunum fyrir símann þinn á Don’t Kill My App.</string>
+	<string name="background_help_hide">Fela ábendingu</string>
+	<string name="background_help_open_settings">Opna forritsstillingar</string>
+	<string name="background_help_unavailable">Ekkert forrit gat opnað þessa síðu. Þú getur athugað kerfisstillingar eða farið handvirkt á dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ef báðar stillingarnar eru þegar virkar skaltu halda áfram í næsta skref.</string>
+	<string name="setup_developer_options_title">Valkostir þróunaraðila</string>
+	<string name="setup_usb_debugging_title">USB-kembiforritun</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ef valkostir þróunaraðila eru ekki enn virkir skaltu finna smíðanúmerið og ýta á það 7 sinnum.</string>
+	<string name="whats_new_title">Nýtt í v%1$s</string>
+	<string name="whats_new_message">Sjáðu hvað er nýtt í þessari uppfærslu á GitHub.</string>
+	<string name="whats_new_view_changelog">Sjá breytingalistann</string>
+	<string name="whats_new_unavailable">Ekkert forrit gat opnað breytingalistann. Þú finnur hann í útgáfum Adaptive Theme á GitHub.</string>
 </resources>

@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku ಬಳಸುವಾಗ ಅನಿರೀಕ್ಷಿತ ದೋಷ ಸಂಭವಿಸಿದೆ.</string>
 	<string name="title_device_wallpaper_sync">ವಾಲ್‌ಪೇಪರ್</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">ಲಾಕ್ ಪರದೆಯನ್ನು ಬದಲಾಯಿಸಿ</string>
 	<string name="title_lock_screen_wallpaper_blur">ಲಾಕ್ ಪರದೆಯನ್ನು ಮಸುಕುಗೊಳಿಸಿ</string>
-	<string name="description_lock_screen_wallpaper_blur">ಲಾಕ್ ಪರದೆಯಲ್ಲಿ ವಾಲ್‌ಪೇಪರ್‌ನ ಮಸುಕಾದ ಆವೃತ್ತಿಯನ್ನು ಬಳಸಿ.</string>
 	<string name="description_device_wallpaper_sync">ಲೈಟ್ ಮತ್ತು ಡಾರ್ಕ್ ಮೋಡ್‌ಗಳಿಗೆ ಪ್ರತ್ಯೇಕ ವಾಲ್‌ಪೇಪರ್‌ಗಳನ್ನು ಬಳಸಿ. ಬದಲಾಯಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು ಮತ್ತು ಕಾರ್ಯಕ್ಷಮತೆಯ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರಬಹುದು.</string>
 	<string name="action_select_day_wallpaper">ಲೈಟ್ ಮೋಡ್:</string>
 	<string name="action_select_night_wallpaper">ಡಾರ್ಕ್ ಮೋಡ್:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub ನಲ್ಲಿ ಸ್ಟಾರ್ ನೀಡಿ ↗</string>
 	<string name="github_star_prompt_dismiss_description">ಶಾಶ್ವತವಾಗಿ ಮರೆಮಾಡಿ</string>
 	<string name="github_star_prompt_thank_you">ಧನ್ಯವಾದಗಳು!</string>
+	<string name="monitoring_start_failed_title">ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲಾಗಲಿಲ್ಲ</string>
+	<string name="monitoring_start_failed_message">ಹಿನ್ನೆಲೆ ಮೇಲ್ವಿಚಾರಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ. ಸಮಸ್ಯೆ ಮುಂದುವರಿದರೆ, ಫೋನ್‌ನ ಹಿನ್ನೆಲೆ ಆ್ಯಪ್ ನಿರ್ಬಂಧಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.</string>
+	<string name="monitoring_action_retry">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</string>
+	<string name="background_help_title">ಹಿನ್ನೆಲೆ ಚಟುವಟಿಕೆಗೆ ಅನುಮತಿಸಿ</string>
+	<string name="background_help_generic">ಹಿನ್ನೆಲೆ ಮೇಲ್ವಿಚಾರಣೆ ಪದೇಪದೇ ಅಡಚಣೆಗೊಳಗಾಗಿದೆ. Don’t Kill My App ನಲ್ಲಿ ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಮಾರ್ಗದರ್ಶಿಯನ್ನು ಅನುಸರಿಸಿ.</string>
+	<string name="background_help_hide">ಸುಳಿವನ್ನು ಮರೆಮಾಡಿ</string>
+	<string name="background_help_open_settings">ಆ್ಯಪ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
+	<string name="background_help_unavailable">ಯಾವ ಆ್ಯಪ್‌ಗೂ ಈ ಪುಟವನ್ನು ತೆರೆಯಲಾಗಲಿಲ್ಲ. ನೀವು ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಬಹುದು ಅಥವಾ dontkillmyapp.com ಗೆ ಸ್ವತಃ ಭೇಟಿ ನೀಡಬಹುದು.</string>
+	<string name="setup_developer_mode_continue_hint">ಎರಡೂ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಈಗಾಗಲೇ ಆನ್ ಆಗಿದ್ದರೆ, ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗಿ.</string>
+	<string name="setup_developer_options_title">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು</string>
+	<string name="setup_usb_debugging_title">USB ಡೀಬಗ್ ಮಾಡುವಿಕೆ</string>
+	<string name="setup_dev_options_unconfirmed_toast">ಡೆವಲಪರ್ ಆಯ್ಕೆಗಳು ಇನ್ನೂ ಆನ್ ಆಗಿಲ್ಲದಿದ್ದರೆ, ಬಿಲ್ಡ್ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ ಅದನ್ನು 7 ಬಾರಿ ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
+	<string name="whats_new_title">v%1$s ನಲ್ಲಿ ಹೊಸದೇನಿದೆ</string>
+	<string name="whats_new_message">ಈ ನವೀಕರಣದಲ್ಲಿ ಹೊಸದೇನಿದೆ ಎಂದು GitHub ನಲ್ಲಿ ತಿಳಿಯಿರಿ.</string>
+	<string name="whats_new_view_changelog">ಬದಲಾವಣೆಗಳ ಪಟ್ಟಿಯನ್ನು ನೋಡಿ</string>
+	<string name="whats_new_unavailable">ಯಾವುದೇ ಆ್ಯಪ್ ಬದಲಾವಣೆಗಳ ಪಟ್ಟಿಯನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. GitHub ನಲ್ಲಿ Adaptive Theme ಬಿಡುಗಡೆಗಳಲ್ಲಿ ಅದನ್ನು ನೋಡಬಹುದು.</string>
 </resources>

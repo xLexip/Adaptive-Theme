@@ -24,6 +24,7 @@ import dev.lexip.hecate.FakeWallpaperPlatform
 import dev.lexip.hecate.FakeWallpaperImagePreparer
 import dev.lexip.hecate.FakeWallpaperStorageMigrator
 import dev.lexip.hecate.MainDispatcherRule
+import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.data.NO_SUPPORT_PROMPT_EPOCH_DAY
 import dev.lexip.hecate.data.UserPreferences
@@ -41,13 +42,16 @@ import java.io.ByteArrayInputStream
 import java.io.InputStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowLog
 
 private const val DAY_WALLPAPER_URI = "content://wallpaper/day"
 private const val NIGHT_WALLPAPER_URI = "content://wallpaper/night"
@@ -70,9 +74,12 @@ class MainViewModelTest {
 	private lateinit var wallpaperPlatform: FakeWallpaperPlatform
 	private lateinit var wallpaperImagePreparer: FakeWallpaperImagePreparer
 	private lateinit var wallpaperStorageMigrator: FakeWallpaperStorageMigrator
+	private var interruptionEvidence = false
 
 	@Before
 	fun setUp() {
+		interruptionEvidence = false
+		MonitoringServiceStatus.ready()
 		application = ApplicationProvider.getApplicationContext()
 		preferences = FakeUserPreferencesDataSource()
 		lightSensor = FakeSensorReader()
@@ -82,6 +89,196 @@ class MainViewModelTest {
 		wallpaperPlatform = FakeWallpaperPlatform()
 		wallpaperImagePreparer = FakeWallpaperImagePreparer()
 		wallpaperStorageMigrator = FakeWallpaperStorageMigrator()
+	}
+
+	@After
+	fun resetMonitoringStatus() = MonitoringServiceStatus.ready()
+
+	@Test
+	fun previewIgnoresSavedAcknowledgementAndReappearsAfterRestartWithoutSaving() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, acknowledgedWhatsNewRelease = "2.6"))
+		val viewModel = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		viewModel.dismissWhatsNew()
+		preferences.updateStayDarkAtNightEnabled(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		val reopened = createViewModel(appVersionName = "2.7.0", previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.7", reopened.uiState.value.whatsNewRelease)
+		reopened.onWhatsNewChangelogOpened(true)
+		advanceUntilIdle()
+		assertNull(reopened.uiState.value.whatsNewRelease)
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		val nextLaunch = createViewModel(appVersionName = "2.7.0", previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.7", nextLaunch.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun previewShowsOnDirectDebugInstallWithoutSetupOrPreviousVersion() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		assertFalse(viewModel.uiState.value.hasSetupCompleted)
+		assertTrue(viewModel.uiState.value.isWhatsNewPreview)
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		viewModel.dismissWhatsNew()
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		val nextLaunch = createViewModel(previewWhatsNew = true)
+		advanceUntilIdle()
+		assertEquals("2.6", nextLaunch.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun freshInstallBaselinesReleaseAndDoesNotAnnounceAfterSetup() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		preferences.updateSetupCompleted(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun existingUserSeesAnnouncementUntilDismissalAndNotAgainOnPatches() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		val reopened = createViewModel()
+		advanceUntilIdle()
+		assertEquals("2.6", reopened.uiState.value.whatsNewRelease)
+		reopened.dismissWhatsNew()
+		// Other preference emissions must not resurrect a dismissed dialog while saving.
+		preferences.emit(preferences.current.copy(stayDarkAtNightEnabled = true))
+		advanceUntilIdle()
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		assertNull(reopened.uiState.value.whatsNewRelease)
+		val patched = createViewModel(appVersionName = "2.6.1")
+		advanceUntilIdle()
+		assertNull(patched.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun unreadAnnouncementSurvivesPatchAndSkippedVersionsAnnounceOnlyTheCurrentRelease() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, acknowledgedWhatsNewRelease = "2.5"))
+		val patched = createViewModel(appVersionName = "2.6.2")
+		advanceUntilIdle()
+		assertEquals("2.6", patched.uiState.value.whatsNewRelease)
+		val skipped = createViewModel(appVersionName = "3.2.1")
+		advanceUntilIdle()
+		assertEquals("3.2", skipped.uiState.value.whatsNewRelease)
+		skipped.dismissWhatsNew()
+		advanceUntilIdle()
+		val downgraded = createViewModel(appVersionName = "2.6.2")
+		advanceUntilIdle()
+		assertNull(downgraded.uiState.value.whatsNewRelease)
+		assertEquals("3.2", preferences.current.acknowledgedWhatsNewRelease)
+	}
+
+	@Test
+	fun changelogAcknowledgesOnlyWhenOpeningSucceeds() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		viewModel.onWhatsNewChangelogOpened(false)
+		advanceUntilIdle()
+		assertEquals("2.6", viewModel.uiState.value.whatsNewRelease)
+		assertNull(preferences.current.acknowledgedWhatsNewRelease)
+		viewModel.onWhatsNewChangelogOpened(true)
+		advanceUntilIdle()
+		assertNull(viewModel.uiState.value.whatsNewRelease)
+		assertEquals("2.6", preferences.current.acknowledgedWhatsNewRelease)
+		val reopened = createViewModel()
+		advanceUntilIdle()
+		assertNull(reopened.uiState.value.whatsNewRelease)
+	}
+
+	@Test
+	fun announcementBlocksReviewAndGitHubPromptForTheSession() = runTest(mainDispatcherRule.dispatcher) {
+		ShadowLog.clear()
+		preferences.emit(preferences.current.copy(hasSetupCompleted = true, adaptiveThemeEnabled = true))
+		installMetadata.fromPlayStore = true
+		installMetadata.installedDaysAgo = GITHUB_STAR_PROMPT_MIN_INSTALL_DAYS
+		val viewModel = createViewModel()
+		val events = mutableListOf<UiEvent>()
+		backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { viewModel.uiEvents.toList(events) }
+		advanceUntilIdle()
+		viewModel.checkReviewPrompt()
+		viewModel.recordWhatsNewImpression()
+		viewModel.recordWhatsNewImpression()
+		viewModel.dismissWhatsNew()
+		advanceUntilIdle()
+		viewModel.checkReviewPrompt()
+		advanceUntilIdle()
+		assertTrue(events.isEmpty())
+		assertFalse(viewModel.uiState.value.showGitHubStarPrompt)
+		assertEquals(1, ShadowLog.getLogsForTag("WhatsNew").count { "action=impression" in it.msg })
+	}
+
+	@Test
+	fun interruptionEligibilityRefreshesOnResumeAndDoesNotResetDismissal() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertFalse(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		interruptionEvidence = true
+		viewModel.onUiResumed()
+		assertTrue(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		viewModel.dismissBackgroundGuidance()
+		advanceUntilIdle()
+		interruptionEvidence = false
+		viewModel.onUiResumed()
+		assertFalse(viewModel.uiState.value.hasMonitoringInterruptionEvidence)
+		assertTrue(viewModel.uiState.value.backgroundGuidanceDismissed)
+		viewModel.onUiPaused()
+	}
+
+	@Test
+	fun backgroundGuidanceDismissalPersistsWithoutChangingMonitoring() = runTest(mainDispatcherRule.dispatcher) {
+		preferences.emit(preferences.current.copy(adaptiveThemeEnabled = true))
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		assertFalse(viewModel.uiState.value.backgroundGuidanceDismissed)
+		viewModel.dismissBackgroundGuidance()
+		advanceUntilIdle()
+		assertTrue(preferences.current.backgroundGuidanceDismissed)
+		assertTrue(viewModel.uiState.value.backgroundGuidanceDismissed)
+		assertTrue(viewModel.uiState.value.adaptiveThemeEnabled)
+		val recreated = createViewModel()
+		advanceUntilIdle()
+		assertTrue(recreated.uiState.value.backgroundGuidanceDismissed)
+	}
+
+	@Test
+	fun failedRetryPreservesEnabledPreferenceAndCanBeRetried() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		preferences.emit(UserPreferences(adaptiveThemeEnabled = true, adaptiveThemeThresholdLux = 100f))
+		advanceUntilIdle()
+		val before = serviceController.startCalls
+		serviceController.startFailure = IllegalStateException("Start not allowed")
+		viewModel.retryMonitoringService()
+		assertTrue(MonitoringServiceStatus.startFailed.value)
+		assertTrue(viewModel.uiState.value.adaptiveThemeEnabled)
+		serviceController.startFailure = null
+		viewModel.retryMonitoringService()
+		assertEquals(before + 2, serviceController.startCalls)
+		assertTrue(serviceController.lastEnableMonitoring)
+		assertTrue(serviceController.lastEvaluateImmediately)
+	}
+
+	@Test
+	fun retryDoesNotEnableDisabledMonitoring() = runTest(mainDispatcherRule.dispatcher) {
+		val viewModel = createViewModel()
+		advanceUntilIdle()
+		val before = serviceController.startCalls
+		viewModel.retryMonitoringService()
+		assertEquals(before, serviceController.startCalls)
 	}
 
 	@Test
@@ -575,6 +772,7 @@ class MainViewModelTest {
 			preferences.emit(
 				preferences.current.copy(
 					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = true,
 					dayWallpaperUri = DAY_WALLPAPER_URI,
 					nightWallpaperUri = NIGHT_WALLPAPER_URI,
 					wallpaperStorageVersion = 1
@@ -590,6 +788,126 @@ class MainViewModelTest {
 			assertTrue(wallpaperImagePreparer.prepared.isEmpty())
 			assertEquals(1, wallpaperPlatform.appliedRequests.size)
 			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenBlurEnabled)
+		}
+
+	@Test
+	fun lockScreenSyncPreservesBlurAndReappliesOnlyWhenReenabled() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = true,
+					lockScreenWallpaperBlurEnabled = true,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(false)
+			advanceUntilIdle()
+			assertFalse(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			assertTrue(preferences.current.lockScreenWallpaperBlurEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+
+			viewModel.onWallpaperSyncToggleRequested(true)
+			advanceUntilIdle()
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+			wallpaperPlatform.appliedRequests.clear()
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertTrue(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.single().lockScreenBlurEnabled)
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertEquals(1, wallpaperPlatform.appliedRequests.size)
+		}
+
+	@Test
+	fun choosingWallpapersKeepsLockScreenUnchangedUntilExplicitOptIn() =
+		runTest(mainDispatcherRule.dispatcher) {
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+
+			viewModel.onDayWallpaperPicked(Uri.parse(DAY_WALLPAPER_URI))
+			advanceUntilIdle()
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+			viewModel.onNightWallpaperPicked(Uri.parse(NIGHT_WALLPAPER_URI))
+			advanceUntilIdle()
+			assertTrue(preferences.current.wallpaperSyncEnabled)
+			assertFalse(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+
+			wallpaperPlatform.appliedRequests.clear()
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			val request = wallpaperPlatform.appliedRequests.single()
+			assertTrue(request.lockScreenSyncEnabled)
+			assertEquals(DAY_WALLPAPER_URI, request.dayUri)
+			assertEquals(NIGHT_WALLPAPER_URI, request.nightUri)
+
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertEquals(1, wallpaperPlatform.appliedRequests.size)
+		}
+
+	@Test
+	fun enablingWallpaperSyncRespectsPersistedLockScreenExclusion() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					lockScreenWallpaperSyncEnabled = false,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			assertFalse(viewModel.uiState.value.lockScreenWallpaperSyncEnabled)
+			viewModel.onWallpaperSyncToggleRequested(true)
+			advanceUntilIdle()
+			assertFalse(wallpaperPlatform.appliedRequests.single().lockScreenSyncEnabled)
+		}
+
+	@Test
+	fun lockScreenBlurCannotBeEnabledWhenLockScreenSyncIsOff() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(
+				preferences.current.copy(
+					wallpaperSyncEnabled = true,
+					lockScreenWallpaperSyncEnabled = false,
+					dayWallpaperUri = DAY_WALLPAPER_URI,
+					nightWallpaperUri = NIGHT_WALLPAPER_URI,
+					wallpaperStorageVersion = 1
+				)
+			)
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			viewModel.updateLockScreenWallpaperBlurEnabled(true)
+			advanceUntilIdle()
+			assertFalse(preferences.current.lockScreenWallpaperBlurEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
+		}
+
+	@Test
+	fun reEnablingLockScreenSyncDoesNotApplyWallpaperWhileWallpaperSyncIsOff() =
+		runTest(mainDispatcherRule.dispatcher) {
+			preferences.emit(preferences.current.copy(lockScreenWallpaperSyncEnabled = false))
+			val viewModel = createViewModel()
+			advanceUntilIdle()
+			viewModel.updateLockScreenWallpaperSyncEnabled(true)
+			advanceUntilIdle()
+			assertTrue(preferences.current.lockScreenWallpaperSyncEnabled)
+			assertTrue(wallpaperPlatform.appliedRequests.isEmpty())
 		}
 
 	@Test
@@ -625,6 +943,8 @@ class MainViewModelTest {
 		}
 
 	private fun createViewModel(
+		appVersionName: String = "2.6.0",
+		previewWhatsNew: Boolean = false,
 		openWallpaperInputStream: (Uri) -> InputStream? = {
 			ByteArrayInputStream(byteArrayOf(1))
 		}
@@ -641,6 +961,9 @@ class MainViewModelTest {
 		openWallpaperInputStream = openWallpaperInputStream,
 		ioDispatcher = mainDispatcherRule.dispatcher,
 		mainDispatcher = mainDispatcherRule.dispatcher,
-		todayEpochDay = { TODAY_EPOCH_DAY }
+		todayEpochDay = { TODAY_EPOCH_DAY },
+		hasRecentMonitoringInterruptions = { interruptionEvidence },
+		appVersionName = appVersionName,
+		previewWhatsNew = previewWhatsNew
 	)
 }

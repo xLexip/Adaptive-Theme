@@ -63,8 +63,8 @@ data class SetupUiState(
 	val currentStep: SetupRoute = SetupRoute.DeveloperMode,
 	val pendingAdbCommand: String = "",
 	val isShizukuInstalled: Boolean = false,
-	val isDeveloperOptionsEnabled: Boolean = false,
-	val isUsbDebuggingEnabled: Boolean = false,
+	val isDeveloperOptionsEnabled: Boolean? = null,
+	val isUsbDebuggingEnabled: Boolean? = null,
 	val isUsbConnected: Boolean = false,
 	val hasWriteSecureSettings: Boolean = false,
 	val isSetupCompleted: Boolean = false,
@@ -104,6 +104,7 @@ class SetupViewModel(
 	private var step2AutoAdvanceTriggered = false
 	private var step3AutoAdvanceTriggered = false
 
+	private var shizukuGrantJob: kotlinx.coroutines.Job? = null
 	private var autoAdvanceJob: kotlinx.coroutines.Job? = null
 
 	init {
@@ -136,7 +137,7 @@ class SetupViewModel(
 		val context = application.applicationContext
 		val environment = environmentProvider.snapshot()
 		val step1Done =
-			environment.isDeveloperOptionsEnabled && environment.isUsbDebuggingEnabled
+			environment.isDeveloperOptionsEnabled == true && environment.isUsbDebuggingEnabled == true
 		// We don't skip step 2 based on USB connection alone, as the user might need to see the instructions.
 		val step3Done = environment.hasWriteSecureSettings
 
@@ -235,7 +236,7 @@ class SetupViewModel(
 
 	private fun checkStep1Completion() {
 		val state = _uiState.value
-		val stepComplete = state.isDeveloperOptionsEnabled && state.isUsbDebuggingEnabled
+		val stepComplete = state.isDeveloperOptionsEnabled == true && state.isUsbDebuggingEnabled == true
 		if (stepComplete != state.isStep1Complete) {
 			_uiState.update { it.copy(isStep1Complete = stepComplete) }
 		}
@@ -337,6 +338,11 @@ class SetupViewModel(
 	 */
 	fun navigateToNextStep() {
 		cancelAutoAdvanceCountdown()
+		if (_uiState.value.currentStep == SetupRoute.DeveloperMode && !step1AutoAdvanceTriggered) {
+			// Leaving the instructions does not confirm the device's settings.
+			step1AutoAdvanceTriggered = true
+			Logger.logSetupStepOneCompleted(application.applicationContext)
+		}
 		val nextStep = when (_uiState.value.currentStep) {
 			SetupRoute.DeveloperMode -> SetupRoute.ConnectUsb
 			SetupRoute.ConnectUsb -> SetupRoute.GrantPermission
@@ -500,24 +506,30 @@ class SetupViewModel(
 			return
 		}
 
-		if (!permissionGrantController.hasShizukuPermission(context)) {
-			Toast.makeText(
-				context,
-				context.getString(R.string.shizuku_request_permission),
-				Toast.LENGTH_SHORT
-			).show()
-			permissionGrantController.requestShizukuPermission()
+		if (shizukuGrantJob?.isActive == true) return
+		try {
+			if (!permissionGrantController.hasShizukuPermission(context) &&
+				permissionGrantController.requestShizukuPermissionIfNeeded()
+			) {
+				Toast.makeText(context, R.string.shizuku_request_permission, Toast.LENGTH_SHORT).show()
+				return
+			}
+		} catch (failure: Exception) {
+			Log.w(TAG, "Could not request Shizuku authorization", failure)
+			Toast.makeText(context, R.string.shizuku_not_running, Toast.LENGTH_LONG).show()
 			return
 		}
 
-		viewModelScope.launch(ioDispatcher) {
+		shizukuGrantJob = viewModelScope.launch(ioDispatcher) {
 			val result = permissionGrantController.grantViaShizuku(context, packageName)
 			withContext(mainDispatcher) {
+				val granted = environmentProvider.snapshot().hasWriteSecureSettings
+				_uiState.update { it.copy(hasWriteSecureSettings = granted) }
+				if (granted) {
+					completeSetup(source = "shizuku")
+					return@withContext
+				}
 				when (result) {
-					SetupGrantResult.Success -> {
-						completeSetup(source = "shizuku")
-					}
-
 					SetupGrantResult.ServiceNotRunning -> {
 						Toast.makeText(
 							context,
@@ -543,7 +555,7 @@ class SetupViewModel(
 						).show()
 					}
 
-					is SetupGrantResult.Unexpected -> {
+					SetupGrantResult.Success, is SetupGrantResult.Unexpected -> {
 						Toast.makeText(
 							context,
 							context.getString(R.string.shizuku_grant_unexpected),

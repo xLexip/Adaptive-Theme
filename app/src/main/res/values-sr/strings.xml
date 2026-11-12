@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Дошло је до неочекиване грешке при коришћењу Shizuku-а.</string>
 	<string name="title_device_wallpaper_sync">Позадина</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Промени закључани екран</string>
 	<string name="title_lock_screen_wallpaper_blur">Замутите закључани екран</string>
-	<string name="description_lock_screen_wallpaper_blur">Користите замућену верзију позадине на закључаном екрану.</string>
 	<string name="description_device_wallpaper_sync">Користите засебне позадине за светли и тамни режим. Пребацивање може потрајати тренутак и утицати на перформансе.</string>
 	<string name="action_select_day_wallpaper">Светли режим:</string>
 	<string name="action_select_night_wallpaper">Тамни режим:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Додај звездицу на GitHub-у ↗</string>
 	<string name="github_star_prompt_dismiss_description">Сакриј заувек</string>
 	<string name="github_star_prompt_thank_you">Хвала!</string>
+	<string name="monitoring_start_failed_title">Није могуће покренути праћење</string>
+	<string name="monitoring_start_failed_message">Додирните Покушај поново да бисте покренули праћење у позадини. Ако се проблем настави, проверите ограничења позадинских апликација на телефону.</string>
+	<string name="monitoring_action_retry">Покушај поново</string>
+	<string name="background_help_title">Дозволи активност у позадини</string>
+	<string name="background_help_generic">Праћење у позадини је више пута прекинуто. Пратите упутство за свој телефон на сајту Don’t Kill My App.</string>
+	<string name="background_help_hide">Сакриј савет</string>
+	<string name="background_help_open_settings">Отвори подешавања апликације</string>
+	<string name="background_help_unavailable">Ниједна апликација није могла да отвори ову страницу. Можете да проверите системска подешавања или ручно посетите dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ако су оба подешавања већ укључена, пређите на следећи корак.</string>
+	<string name="setup_developer_options_title">Опције за програмере</string>
+	<string name="setup_usb_debugging_title">USB отклањање грешака</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ако опције за програмере још нису укључене, пронађите број верзије и додирните га 7 пута.</string>
+	<string name="whats_new_title">Ново у верзији v%1$s</string>
+	<string name="whats_new_message">Сазнајте шта је ново у овом ажурирању на GitHub-у.</string>
+	<string name="whats_new_view_changelog">Погледај измене</string>
+	<string name="whats_new_unavailable">Ниједна апликација није могла да отвори списак измена. Можете га пронаћи у издањима Adaptive Theme на GitHub-у.</string>
 </resources>

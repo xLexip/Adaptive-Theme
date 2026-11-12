@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">A apărut o eroare neașteptată la folosirea Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Imagine de fundal</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Schimbă ecranul de blocare</string>
 	<string name="title_lock_screen_wallpaper_blur">Estompează ecranul de blocare</string>
-	<string name="description_lock_screen_wallpaper_blur">Utilizați o versiune estompată a fundalului pe ecranul de blocare.</string>
 	<string name="description_device_wallpaper_sync">Folosește imagini de fundal separate pentru modul luminos și cel întunecat. Comutarea poate dura puțin și poate afecta performanța.</string>
 	<string name="action_select_day_wallpaper">Mod luminos:</string>
 	<string name="action_select_night_wallpaper">Mod întunecat:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Adaugă o stea pe GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Ascunde pentru totdeauna</string>
 	<string name="github_star_prompt_thank_you">Mulțumim!</string>
+	<string name="monitoring_start_failed_title">Monitorizarea nu a putut porni</string>
+	<string name="monitoring_start_failed_message">Atinge Încearcă din nou pentru a porni monitorizarea în fundal. Dacă problema persistă, verifică restricțiile telefonului pentru aplicațiile din fundal.</string>
+	<string name="monitoring_action_retry">Încearcă din nou</string>
+	<string name="background_help_title">Permite activitatea în fundal</string>
+	<string name="background_help_generic">Monitorizarea în fundal a fost întreruptă în mod repetat. Urmează ghidul pentru telefonul tău de pe Don’t Kill My App.</string>
+	<string name="background_help_hide">Ascunde sugestia</string>
+	<string name="background_help_open_settings">Deschide setările aplicației</string>
+	<string name="background_help_unavailable">Nicio aplicație nu a putut deschide această pagină. Poți verifica setările sistemului sau accesa manual dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Dacă ambele setări sunt deja activate, continuă la pasul următor.</string>
+	<string name="setup_developer_options_title">Opțiuni pentru dezvoltatori</string>
+	<string name="setup_usb_debugging_title">Depanare USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Dacă opțiunile pentru dezvoltatori nu sunt încă activate, găsește numărul versiunii și atinge-l de 7 ori.</string>
+	<string name="whats_new_title">Noutăți în versiunea v%1$s</string>
+	<string name="whats_new_message">Descoperă noutățile acestei actualizări pe GitHub.</string>
+	<string name="whats_new_view_changelog">Vezi modificările</string>
+	<string name="whats_new_unavailable">Nicio aplicație nu a putut deschide jurnalul de modificări. Îl poți găsi în versiunile Adaptive Theme de pe GitHub.</string>
 </resources>

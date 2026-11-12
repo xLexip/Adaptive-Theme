@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">使用 Shizuku 时发生意外错误。</string>
 	<string name="title_device_wallpaper_sync">壁纸</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">更改锁屏</string>
 	<string name="title_lock_screen_wallpaper_blur">模糊锁屏</string>
-	<string name="description_lock_screen_wallpaper_blur">在锁屏上使用壁纸的模糊版本。</string>
 	<string name="description_device_wallpaper_sync">为浅色和深色模式使用不同的壁纸。切换可能需要一点时间并影响性能。</string>
 	<string name="action_select_day_wallpaper">浅色模式：</string>
 	<string name="action_select_night_wallpaper">深色模式：</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">在 GitHub 上加星 ↗</string>
 	<string name="github_star_prompt_dismiss_description">永久隐藏</string>
 	<string name="github_star_prompt_thank_you">谢谢！</string>
+	<string name="monitoring_start_failed_title">无法启动监测</string>
+	<string name="monitoring_start_failed_message">点按“重试”以启动后台监测。如果问题持续出现，请检查手机对后台应用的限制。</string>
+	<string name="monitoring_action_retry">重试</string>
+	<string name="background_help_title">允许后台活动</string>
+	<string name="background_help_generic">后台监测已多次中断。请按照 Don’t Kill My App 上适用于您手机的指南操作。</string>
+	<string name="background_help_hide">隐藏提示</string>
+	<string name="background_help_open_settings">打开应用设置</string>
+	<string name="background_help_unavailable">没有应用能够打开此页面。您可以检查系统设置，或手动访问 dontkillmyapp.com。</string>
+	<string name="setup_developer_mode_continue_hint">如果这两项设置已启用，请继续下一步。</string>
+	<string name="setup_developer_options_title">开发者选项</string>
+	<string name="setup_usb_debugging_title">USB 调试</string>
+	<string name="setup_dev_options_unconfirmed_toast">如果尚未启用开发者选项，请找到版本号并点按 7 次。</string>
+	<string name="whats_new_title">v%1$s 版本的新功能</string>
+	<string name="whats_new_message">前往 GitHub，了解此次更新的新内容。</string>
+	<string name="whats_new_view_changelog">查看更新日志</string>
+	<string name="whats_new_unavailable">没有应用可以打开更新日志。你可以在 GitHub 的 Adaptive Theme 发布页面找到它。</string>
 </resources>

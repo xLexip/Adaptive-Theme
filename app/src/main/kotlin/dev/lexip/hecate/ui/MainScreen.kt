@@ -18,6 +18,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -32,6 +33,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dev.lexip.hecate.R
+import dev.lexip.hecate.logging.BackgroundGuidanceAction
+import dev.lexip.hecate.logging.BackgroundGuidanceOutcome
+import dev.lexip.hecate.logging.BackgroundGuidanceTelemetry
+import dev.lexip.hecate.services.MonitoringServiceStatus
 import dev.lexip.hecate.util.InAppReviewHandler
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
@@ -41,6 +46,7 @@ data class MainScreenCallbacks(
 	val onCheckReviewPrompt: () -> Unit,
 	val onStayDarkAtNightChanged: (Boolean) -> Unit,
 	val onWallpaperSyncToggleRequested: (Boolean) -> Unit = {},
+	val onLockScreenWallpaperSyncChanged: (Boolean) -> Unit = {},
 	val onLockScreenWallpaperBlurChanged: (Boolean) -> Unit = {},
 	val onSelectDayWallpaper: () -> Unit = {},
 	val onSelectNightWallpaper: () -> Unit = {},
@@ -55,7 +61,15 @@ data class MainScreenCallbacks(
 	val onGitHubStarPromptImpression: () -> Unit = {},
 	val onDismissGitHubStarPrompt: () -> Unit = {},
 	val onUndoGitHubStarPromptDismissal: () -> Unit = {},
-	val onOpenGitHubRepository: () -> Unit = {}
+	val onOpenGitHubRepository: () -> Unit = {},
+	val onRetryMonitoringService: () -> Unit = {},
+	val onOpenBackgroundSettings: () -> Unit = {},
+	val onOpenBackgroundGuide: () -> Unit = {},
+	val onDismissBackgroundGuidance: () -> Unit = {},
+	val onBackgroundGuidanceImpression: () -> Unit = {},
+	val onDismissWhatsNew: () -> Unit = {},
+	val onOpenWhatsNewChangelog: () -> Unit = {},
+	val onWhatsNewImpression: () -> Unit = {}
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,8 +79,10 @@ fun MainScreen(
 	mainViewModel: MainViewModel
 ) {
 	val context = LocalContext.current
+	val backgroundGuidance = BackgroundActivityGuidance.forManufacturer(Build.MANUFACTURER)
 	val adbCommandLabel = stringResource(R.string.setup_action_adb_command)
 	val internalUiState by mainViewModel.uiState.collectAsState()
+	val serviceStartFailed by MonitoringServiceStatus.startFailed.collectAsState()
 	val currentLux by mainViewModel.currentSensorLuxFlow.collectAsState(
 		initial = mainViewModel.currentSensorLux
 	)
@@ -129,7 +145,54 @@ fun MainScreen(
 		isBatterySaverActive = internalUiState.isBatterySaverActive,
 		hasWriteSecureSettingsPermission = hasWriteSecureSettingsPermission,
 		packageName = context.packageName,
+		serviceStartFailed = serviceStartFailed,
+		backgroundGuidance = backgroundGuidance,
 		callbacks = MainScreenCallbacks(
+			onDismissWhatsNew = mainViewModel::dismissWhatsNew,
+			onWhatsNewImpression = mainViewModel::recordWhatsNewImpression,
+			onOpenWhatsNewChangelog = {
+				val release = uiState.whatsNewRelease?.let(WhatsNewRelease::parse)
+				if (release != null) {
+					val opened = try {
+						context.startActivity(Intent(Intent.ACTION_VIEW, release.releaseNotesUrl.toUri()))
+						true
+					} catch (_: android.content.ActivityNotFoundException) {
+						false
+					} catch (_: SecurityException) {
+						false
+					}
+					mainViewModel.onWhatsNewChangelogOpened(opened)
+					if (!opened) {
+						Toast.makeText(context, R.string.whats_new_unavailable, Toast.LENGTH_LONG).show()
+					}
+				}
+			},
+			onBackgroundGuidanceImpression = {
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.IMPRESSION, BackgroundGuidanceOutcome.SHOWN,
+					backgroundGuidance.analyticsVendor
+				)
+			},
+			onOpenBackgroundSettings = {
+				val outcome = openBackgroundActivitySettings(context)
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.OPEN_SETTINGS, outcome, backgroundGuidance.analyticsVendor
+				)
+			},
+			onOpenBackgroundGuide = {
+				val outcome = openBackgroundActivityGuide(context, backgroundGuidance)
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.OPEN_GUIDE, outcome, backgroundGuidance.analyticsVendor
+				)
+			},
+			onDismissBackgroundGuidance = {
+				BackgroundGuidanceTelemetry.record(
+					context, BackgroundGuidanceAction.DISMISS, BackgroundGuidanceOutcome.DISMISSED,
+					backgroundGuidance.analyticsVendor
+				)
+				mainViewModel.dismissBackgroundGuidance()
+			},
+			onRetryMonitoringService = mainViewModel::retryMonitoringService,
 			onServiceToggleRequested = mainViewModel::onServiceToggleRequested,
 			onThresholdSelected = { index, lux ->
 				mainViewModel.setPendingCustomSliderLux(lux)
@@ -138,6 +201,7 @@ fun MainScreen(
 			onCheckReviewPrompt = mainViewModel::checkReviewPrompt,
 			onStayDarkAtNightChanged = mainViewModel::updateStayDarkAtNightEnabled,
 			onWallpaperSyncToggleRequested = mainViewModel::onWallpaperSyncToggleRequested,
+			onLockScreenWallpaperSyncChanged = mainViewModel::updateLockScreenWallpaperSyncEnabled,
 			onLockScreenWallpaperBlurChanged = mainViewModel::updateLockScreenWallpaperBlurEnabled,
 			onSelectDayWallpaper = {
 				dayWallpaperPicker.launch(

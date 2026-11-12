@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">هنگام استفاده از Shizuku خطای غیرمنتظره‌ای رخ داد.</string>
 	<string name="title_device_wallpaper_sync">کاغذدیواری</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">تغییر صفحه قفل</string>
 	<string name="title_lock_screen_wallpaper_blur">تار کردن صفحه قفل</string>
-	<string name="description_lock_screen_wallpaper_blur">از نسخه محوشده کاغذدیواری در صفحه قفل استفاده کنید.</string>
 	<string name="description_device_wallpaper_sync">برای حالت روشن و تیره از پس‌زمینه‌های جداگانه استفاده کنید. جابه‌جایی ممکن است لحظه‌ای طول بکشد و بر عملکرد تأثیر بگذارد.</string>
 	<string name="action_select_day_wallpaper">حالت روشن:</string>
 	<string name="action_select_night_wallpaper">حالت تیره:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">ستاره‌دادن در GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">برای همیشه پنهان شود</string>
 	<string name="github_star_prompt_thank_you">متشکرم!</string>
+	<string name="monitoring_start_failed_title">پایش شروع نشد</string>
+	<string name="monitoring_start_failed_message">برای شروع پایش در پس‌زمینه، روی تلاش دوباره بزنید. اگر مشکل ادامه داشت، محدودیت‌های برنامه‌های پس‌زمینه را در تلفن بررسی کنید.</string>
+	<string name="monitoring_action_retry">تلاش دوباره</string>
+	<string name="background_help_title">اجازه دادن به فعالیت در پس‌زمینه</string>
+	<string name="background_help_generic">پایش در پس‌زمینه چندین بار قطع شده است. راهنمای مربوط به تلفن خود را در Don’t Kill My App دنبال کنید.</string>
+	<string name="background_help_hide">پنهان کردن راهنما</string>
+	<string name="background_help_open_settings">باز کردن تنظیمات برنامه</string>
+	<string name="background_help_unavailable">هیچ برنامه‌ای نتوانست این صفحه را باز کند. می‌توانید تنظیمات سیستم را بررسی کنید یا خودتان به dontkillmyapp.com بروید.</string>
+	<string name="setup_developer_mode_continue_hint">اگر هر دو تنظیم از قبل فعال هستند، به مرحله بعد بروید.</string>
+	<string name="setup_developer_options_title">گزینه‌های برنامه‌نویس</string>
+	<string name="setup_usb_debugging_title">اشکال‌زدایی USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">اگر گزینه‌های برنامه‌نویس هنوز فعال نیستند، شماره ساخت را پیدا کنید و ۷ بار روی آن بزنید.</string>
+	<string name="whats_new_title">تازه‌های نسخهٔ v%1$s</string>
+	<string name="whats_new_message">تازه‌های این به‌روزرسانی را در GitHub ببینید.</string>
+	<string name="whats_new_view_changelog">دیدن فهرست تغییرات</string>
+	<string name="whats_new_unavailable">هیچ برنامه‌ای نتوانست فهرست تغییرات را باز کند. می‌توانید آن را در بخش انتشارهای Adaptive Theme در GitHub پیدا کنید.</string>
 </resources>

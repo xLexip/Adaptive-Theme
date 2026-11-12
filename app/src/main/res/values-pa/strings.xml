@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku ਵਰਤਦਿਆਂ ਅਚਾਨਕ ਗਲਤੀ ਆਈ।</string>
 	<string name="title_device_wallpaper_sync">ਵਾਲਪੇਪਰ</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">ਲੌਕ ਸਕ੍ਰੀਨ ਬਦਲੋ</string>
 	<string name="title_lock_screen_wallpaper_blur">ਲੌਕ ਸਕ੍ਰੀਨ ਨੂੰ ਧੁੰਦਲਾ ਕਰੋ</string>
-	<string name="description_lock_screen_wallpaper_blur">ਲੌਕ ਸਕ੍ਰੀਨ \'ਤੇ ਵਾਲਪੇਪਰ ਦਾ ਧੁੰਦਲਾ ਵਰਜਨ ਵਰਤੋ।</string>
 	<string name="description_device_wallpaper_sync">ਹਲਕੇ ਅਤੇ ਗੂੜ੍ਹੇ ਮੋਡ ਲਈ ਵੱਖਰੇ ਵਾਲਪੇਪਰ ਵਰਤੋ। ਬਦਲਣ ਵਿੱਚ ਕੁਝ ਸਮਾਂ ਲੱਗ ਸਕਦਾ ਹੈ ਅਤੇ ਕਾਰਗੁਜ਼ਾਰੀ ਪ੍ਰਭਾਵਿਤ ਹੋ ਸਕਦੀ ਹੈ।</string>
 	<string name="action_select_day_wallpaper">ਹਲਕਾ ਮੋਡ:</string>
 	<string name="action_select_night_wallpaper">ਗੂੜ੍ਹਾ ਮੋਡ:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub ਉੱਤੇ ਸਟਾਰ ਦਿਓ ↗</string>
 	<string name="github_star_prompt_dismiss_description">ਹਮੇਸ਼ਾ ਲਈ ਲੁਕਾਓ</string>
 	<string name="github_star_prompt_thank_you">ਧੰਨਵਾਦ!</string>
+	<string name="monitoring_start_failed_title">ਨਿਗਰਾਨੀ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋ ਸਕੀ</string>
+	<string name="monitoring_start_failed_message">ਬੈਕਗ੍ਰਾਊਂਡ ਨਿਗਰਾਨੀ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਉੱਤੇ ਟੈਪ ਕਰੋ। ਜੇ ਸਮੱਸਿਆ ਜਾਰੀ ਰਹੇ, ਤਾਂ ਫ਼ੋਨ ਵਿੱਚ ਬੈਕਗ੍ਰਾਊਂਡ ਐਪਾਂ ਉੱਤੇ ਲੱਗੀਆਂ ਪਾਬੰਦੀਆਂ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
+	<string name="monitoring_action_retry">ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+	<string name="background_help_title">ਬੈਕਗ੍ਰਾਊਂਡ ਸਰਗਰਮੀ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
+	<string name="background_help_generic">ਬੈਕਗ੍ਰਾਊਂਡ ਨਿਗਰਾਨੀ ਵਿੱਚ ਵਾਰ-ਵਾਰ ਰੁਕਾਵਟ ਆਈ ਹੈ। Don’t Kill My App ਉੱਤੇ ਆਪਣੇ ਫ਼ੋਨ ਦੀ ਗਾਈਡ ਦੀ ਪਾਲਣਾ ਕਰੋ।</string>
+	<string name="background_help_hide">ਸੁਝਾਅ ਲੁਕਾਓ</string>
+	<string name="background_help_open_settings">ਐਪ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
+	<string name="background_help_unavailable">ਕੋਈ ਵੀ ਐਪ ਇਹ ਪੰਨਾ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕੀ। ਤੁਸੀਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਦੀ ਜਾਂਚ ਕਰ ਸਕਦੇ ਹੋ ਜਾਂ ਖ਼ੁਦ dontkillmyapp.com ਉੱਤੇ ਜਾ ਸਕਦੇ ਹੋ।</string>
+	<string name="setup_developer_mode_continue_hint">ਜੇ ਦੋਵੇਂ ਸੈਟਿੰਗਾਂ ਪਹਿਲਾਂ ਤੋਂ ਚਾਲੂ ਹਨ, ਤਾਂ ਅਗਲੇ ਪੜਾਅ ਉੱਤੇ ਜਾਓ।</string>
+	<string name="setup_developer_options_title">ਡਿਵੈਲਪਰ ਵਿਕਲਪ</string>
+	<string name="setup_usb_debugging_title">USB ਡੀਬੱਗਿੰਗ</string>
+	<string name="setup_dev_options_unconfirmed_toast">ਜੇ ਡਿਵੈਲਪਰ ਵਿਕਲਪ ਅਜੇ ਚਾਲੂ ਨਹੀਂ ਹਨ, ਤਾਂ ਬਿਲਡ ਨੰਬਰ ਲੱਭੋ ਅਤੇ ਉਸ ਉੱਤੇ 7 ਵਾਰ ਟੈਪ ਕਰੋ।</string>
+	<string name="whats_new_title">v%1$s ਵਿੱਚ ਨਵਾਂ ਕੀ ਹੈ</string>
+	<string name="whats_new_message">ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ ਨਵਾਂ ਕੀ ਹੈ, GitHub ਉੱਤੇ ਜਾਣੋ।</string>
+	<string name="whats_new_view_changelog">ਤਬਦੀਲੀ ਸੂਚੀ ਵੇਖੋ</string>
+	<string name="whats_new_unavailable">ਕੋਈ ਐਪ ਤਬਦੀਲੀ ਸੂਚੀ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕੀ। ਇਹ GitHub ਉੱਤੇ Adaptive Theme ਦੀਆਂ ਰਿਲੀਜ਼ਾਂ ਵਿੱਚ ਮਿਲੇਗੀ।</string>
 </resources>

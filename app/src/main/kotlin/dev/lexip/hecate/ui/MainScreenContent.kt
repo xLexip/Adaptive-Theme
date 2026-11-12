@@ -37,11 +37,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -86,6 +88,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -94,9 +97,11 @@ import androidx.compose.ui.unit.sp
 import dev.lexip.hecate.R
 import dev.lexip.hecate.data.AdaptiveThreshold
 import dev.lexip.hecate.ui.components.GitHubStarPromptCard
+import dev.lexip.hecate.ui.components.BackgroundActivityHint
 import dev.lexip.hecate.ui.components.MainSwitchPreferenceCard
 import dev.lexip.hecate.ui.components.SetupRequiredCard
 import dev.lexip.hecate.ui.components.ThreeDotMenu
+import dev.lexip.hecate.ui.components.WhatsNewDialog
 import dev.lexip.hecate.ui.components.preferences.CustomThresholdDialog
 import dev.lexip.hecate.ui.components.preferences.DetailPreferenceCard
 import dev.lexip.hecate.ui.components.preferences.ProgressDetailCard
@@ -118,7 +123,9 @@ fun MainScreenContent(
 	isBatterySaverActive: Boolean,
 	hasWriteSecureSettingsPermission: Boolean,
 	packageName: String,
-	callbacks: MainScreenCallbacks
+	callbacks: MainScreenCallbacks,
+	serviceStartFailed: Boolean = false,
+	backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 ) {
 	val haptic = LocalHapticFeedback.current
 	val scrollState = rememberScrollState()
@@ -190,6 +197,14 @@ fun MainScreenContent(
 				showBatterySaverWarning = isBatterySaverActive && uiState.adaptiveThemeEnabled,
 				showDeviceCoveredWarning = isDeviceCovered && uiState.adaptiveThemeEnabled
 			)
+			if (serviceStartFailed && uiState.adaptiveThemeEnabled) {
+				StatusWarningCard(
+					title = stringResource(R.string.monitoring_start_failed_title),
+					message = stringResource(R.string.monitoring_start_failed_message),
+					isError = true,
+					onRetry = callbacks.onRetryMonitoringService
+				)
+			}
 			ServiceControls(
 				uiState = uiState,
 				hasPermission = hasWriteSecureSettingsPermission,
@@ -202,6 +217,19 @@ fun MainScreenContent(
 					autoScrollAdvancedSettingsTransition = false
 				}
 			)
+			if (backgroundGuidance.shouldShowHint(
+					monitoringEnabled = uiState.adaptiveThemeEnabled,
+					dismissed = uiState.backgroundGuidanceDismissed,
+					hasInterruptionEvidence = uiState.hasMonitoringInterruptionEvidence
+				)
+			) {
+				BackgroundActivityHint(
+					onImpression = callbacks.onBackgroundGuidanceImpression,
+					onOpenSettings = callbacks.onOpenBackgroundSettings,
+					onOpenGuide = callbacks.onOpenBackgroundGuide,
+					onDismiss = callbacks.onDismissBackgroundGuidance
+				)
+			}
 			ThresholdAndAdvancedSettings(
 				uiState = uiState,
 				currentSensorLux = currentSensorLux,
@@ -223,6 +251,7 @@ fun MainScreenContent(
 				onShowNightEndPicker = { showNightEndPicker = true }
 			)
 			if (uiState.showGitHubStarPrompt &&
+				uiState.whatsNewRelease == null &&
 				!isBatterySaverActive &&
 				!isDeviceCovered
 			) {
@@ -254,6 +283,9 @@ fun MainScreenContent(
 
 	MainScreenDialogs(
 		uiState = uiState,
+		canShowWhatsNew = uiState.isWhatsNewPreview ||
+			(uiState.hasSetupCompleted && hasWriteSecureSettingsPermission &&
+				!(serviceStartFailed && uiState.adaptiveThemeEnabled)),
 		showCustomDialog = showCustomDialog,
 		showNightStartPicker = showNightStartPicker,
 		showNightEndPicker = showNightEndPicker,
@@ -417,7 +449,7 @@ private fun StatusWarnings(
 }
 
 @Composable
-private fun StatusWarningCard(title: String, message: String, isError: Boolean) {
+private fun StatusWarningCard(title: String, message: String, isError: Boolean, onRetry: (() -> Unit)? = null) {
 	Card(
 		modifier = Modifier.fillMaxWidth(),
 		colors = CardDefaults.cardColors(
@@ -438,6 +470,11 @@ private fun StatusWarningCard(title: String, message: String, isError: Boolean) 
 			Text(text = title, style = MaterialTheme.typography.titleMedium)
 			Spacer(modifier = Modifier.padding(top = 4.dp))
 			Text(text = message, style = MaterialTheme.typography.bodyMedium)
+			if (onRetry != null) {
+				TextButton(onClick = onRetry) {
+					Text(stringResource(R.string.monitoring_action_retry))
+				}
+			}
 		}
 	}
 }
@@ -700,10 +737,6 @@ private fun ExpandedAdvancedSettings(
 				callbacks = callbacks,
 				onWallpaperButtonsShake = onWallpaperButtonsShake
 			)
-			LockScreenWallpaperBlurPreference(
-				uiState = uiState,
-				onLockScreenWallpaperBlurChanged = callbacks.onLockScreenWallpaperBlurChanged
-			)
 			AssistChip(
 				modifier = Modifier.align(Alignment.CenterHorizontally),
 				onClick = {
@@ -802,7 +835,7 @@ private fun WallpaperSyncPreference(
 		title = stringResource(id = R.string.title_device_wallpaper_sync),
 		enabled = uiState.adaptiveThemeEnabled,
 		firstCard = false,
-		lastCard = false,
+		lastCard = true,
 		toggleableValue = uiState.wallpaperSyncEnabled,
 		onToggle = requestToggle,
 		titleTrailingContent = { BetaLabel() }
@@ -822,34 +855,56 @@ private fun WallpaperSyncPreference(
 			onSelectDayWallpaper = callbacks.onSelectDayWallpaper,
 			onSelectNightWallpaper = callbacks.onSelectNightWallpaper
 		)
+		if (uiState.wallpaperSyncEnabled) {
+			WallpaperOptionSwitch(
+				title = stringResource(id = R.string.title_lock_screen_wallpaper_sync),
+				checked = uiState.lockScreenWallpaperSyncEnabled,
+				enabled = uiState.adaptiveThemeEnabled,
+				onCheckedChange = callbacks.onLockScreenWallpaperSyncChanged
+			)
+			if (uiState.lockScreenWallpaperSyncEnabled) {
+				WallpaperOptionSwitch(
+					title = stringResource(id = R.string.title_lock_screen_wallpaper_blur),
+					checked = uiState.lockScreenWallpaperBlurEnabled,
+					enabled = uiState.adaptiveThemeEnabled,
+					onCheckedChange = callbacks.onLockScreenWallpaperBlurChanged
+				)
+			}
+		}
 	}
 }
 
 @Composable
-private fun LockScreenWallpaperBlurPreference(
-	uiState: MainUiState,
-	onLockScreenWallpaperBlurChanged: (Boolean) -> Unit
+private fun WallpaperOptionSwitch(
+	title: String,
+	checked: Boolean,
+	enabled: Boolean,
+	onCheckedChange: (Boolean) -> Unit
 ) {
-	DetailPreferenceCard(
-		title = stringResource(id = R.string.title_lock_screen_wallpaper_blur),
-		enabled = uiState.adaptiveThemeEnabled && uiState.wallpaperSyncEnabled,
-		firstCard = false,
-		lastCard = true,
-		toggleableValue = uiState.lockScreenWallpaperBlurEnabled,
-		onToggle = onLockScreenWallpaperBlurChanged,
-		cardTrailingContent = {
-			PreferenceSwitch(
-				checked = uiState.lockScreenWallpaperBlurEnabled,
-				enabled = uiState.adaptiveThemeEnabled && uiState.wallpaperSyncEnabled,
-				onCheckedChange = onLockScreenWallpaperBlurChanged,
-				modifier = Modifier.padding(start = 14.dp, end = 4.dp)
-			)
-		}
+	Row(
+		modifier = Modifier
+			.fillMaxWidth()
+			.padding(top = 8.dp)
+			.heightIn(min = 48.dp)
+			.toggleable(
+				value = checked,
+				enabled = enabled,
+				role = Role.Switch,
+				onValueChange = onCheckedChange
+			),
+		verticalAlignment = Alignment.CenterVertically
 	) {
 		Text(
-			modifier = Modifier.padding(top = 4.dp),
-			text = stringResource(id = R.string.description_lock_screen_wallpaper_blur),
-			style = MaterialTheme.typography.bodyMedium
+			text = title,
+			modifier = Modifier.weight(1f),
+			style = MaterialTheme.typography.bodyMedium,
+			color = MaterialTheme.colorScheme.onSurface.copy(alpha = if (enabled) 1f else 0.38f)
+		)
+		PreferenceSwitch(
+			checked = checked,
+			enabled = enabled,
+			onCheckedChange = null,
+			modifier = Modifier.padding(start = 14.dp, end = 4.dp)
 		)
 	}
 }
@@ -992,6 +1047,7 @@ private fun androidx.compose.foundation.layout.RowScope.WallpaperSelectionButton
 @Composable
 private fun MainScreenDialogs(
 	uiState: MainUiState,
+	canShowWhatsNew: Boolean,
 	showCustomDialog: Boolean,
 	showNightStartPicker: Boolean,
 	showNightEndPicker: Boolean,
@@ -1022,6 +1078,19 @@ private fun MainScreenDialogs(
 	)
 	if (uiState.showLiveWallpaperWarningDialog) {
 		LiveWallpaperWarningDialog(callbacks)
+	}
+	if (canShowWhatsNew &&
+		!showCustomDialog && !showNightStartPicker && !showNightEndPicker &&
+		!uiState.showLiveWallpaperWarningDialog
+	) {
+		uiState.whatsNewRelease?.let { release ->
+			WhatsNewDialog(
+				release = release,
+				onDismiss = callbacks.onDismissWhatsNew,
+				onOpenChangelog = callbacks.onOpenWhatsNewChangelog,
+				onImpression = callbacks.onWhatsNewImpression
+			)
+		}
 	}
 }
 

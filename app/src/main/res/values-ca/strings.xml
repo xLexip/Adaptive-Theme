@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">S’ha produït un error inesperat en utilitzar Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Fons de pantalla</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Canvia la pantalla de bloqueig</string>
 	<string name="title_lock_screen_wallpaper_blur">Difumina la pantalla de bloqueig</string>
-	<string name="description_lock_screen_wallpaper_blur">Utilitza una versió difuminada del fons de pantalla a la pantalla de bloqueig.</string>
 	<string name="description_device_wallpaper_sync">Utilitza fons de pantalla separats per als modes clar i fosc. El canvi pot trigar un moment i afectar el rendiment.</string>
 	<string name="action_select_day_wallpaper">Mode clar:</string>
 	<string name="action_select_night_wallpaper">Mode fosc:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Afegeix una estrella a GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Amaga-ho per sempre</string>
 	<string name="github_star_prompt_thank_you">Gràcies!</string>
+	<string name="monitoring_start_failed_title">No s’ha pogut iniciar la supervisió</string>
+	<string name="monitoring_start_failed_message">Toca Torna-ho a provar per iniciar la supervisió en segon pla. Si el problema persisteix, comprova les restriccions d’aplicacions en segon pla del telèfon.</string>
+	<string name="monitoring_action_retry">Torna-ho a provar</string>
+	<string name="background_help_title">Permet l’activitat en segon pla</string>
+	<string name="background_help_generic">La supervisió en segon pla s’ha interromput repetidament. Segueix la guia del teu telèfon a Don’t Kill My App.</string>
+	<string name="background_help_hide">Amaga el consell</string>
+	<string name="background_help_open_settings">Obre els ajustos de l’aplicació</string>
+	<string name="background_help_unavailable">Cap aplicació no ha pogut obrir aquesta pàgina. Pots comprovar els ajustos del sistema o visitar dontkillmyapp.com manualment.</string>
+	<string name="setup_developer_mode_continue_hint">Si tots dos ajustos ja estan activats, continua al pas següent.</string>
+	<string name="setup_developer_options_title">Opcions de desenvolupador</string>
+	<string name="setup_usb_debugging_title">Depuració USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Si les opcions de desenvolupador encara no estan activades, busca el número de compilació i toca-hi 7 vegades.</string>
+	<string name="whats_new_title">Novetats de v%1$s</string>
+	<string name="whats_new_message">Descobreix les novetats d’aquesta actualització a GitHub.</string>
+	<string name="whats_new_view_changelog">Mostra els canvis</string>
+	<string name="whats_new_unavailable">Cap aplicació ha pogut obrir el registre de canvis. El trobaràs a les versions d’Adaptive Theme a GitHub.</string>
 </resources>

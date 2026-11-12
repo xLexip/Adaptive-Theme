@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Váratlan hiba történt a Shizuku használata közben.</string>
 	<string name="title_device_wallpaper_sync">Háttérkép</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Zárolási képernyő módosítása</string>
 	<string name="title_lock_screen_wallpaper_blur">Zárolási képernyő elmosása</string>
-	<string name="description_lock_screen_wallpaper_blur">Használja a háttérkép elmosott változatát a zárolási képernyőn.</string>
 	<string name="description_device_wallpaper_sync">Használjon külön háttérképeket világos és sötét módban. A váltás eltarthat egy pillanatig, és befolyásolhatja a teljesítményt.</string>
 	<string name="action_select_day_wallpaper">Világos mód:</string>
 	<string name="action_select_night_wallpaper">Sötét mód:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Csillag a GitHubon ↗</string>
 	<string name="github_star_prompt_dismiss_description">Elrejtés örökre</string>
 	<string name="github_star_prompt_thank_you">Köszönjük!</string>
+	<string name="monitoring_start_failed_title">A figyelést nem sikerült elindítani</string>
+	<string name="monitoring_start_failed_message">A háttérben történő figyelés elindításához koppintson az Újra elemre. Ha a probléma továbbra is fennáll, ellenőrizze a telefon háttérben futó alkalmazásokra vonatkozó korlátozásait.</string>
+	<string name="monitoring_action_retry">Újra</string>
+	<string name="background_help_title">Háttértevékenység engedélyezése</string>
+	<string name="background_help_generic">A háttérben történő figyelés többször megszakadt. Kövesse a telefonjához tartozó útmutatót a Don’t Kill My App oldalon.</string>
+	<string name="background_help_hide">Tipp elrejtése</string>
+	<string name="background_help_open_settings">Alkalmazásbeállítások megnyitása</string>
+	<string name="background_help_unavailable">Egyetlen alkalmazás sem tudta megnyitni ezt az oldalt. Ellenőrizheti a rendszerbeállításokat, vagy kézzel megnyithatja a dontkillmyapp.com oldalt.</string>
+	<string name="setup_developer_mode_continue_hint">Ha mindkét beállítás már be van kapcsolva, folytasd a következő lépéssel.</string>
+	<string name="setup_developer_options_title">Fejlesztői beállítások</string>
+	<string name="setup_usb_debugging_title">USB-hibakeresés</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ha a fejlesztői beállítások még nincsenek bekapcsolva, keresd meg a buildszámot, és koppints rá 7-szer.</string>
+	<string name="whats_new_title">Újdonságok a(z) v%1$s verzióban</string>
+	<string name="whats_new_message">Ismerd meg a frissítés újdonságait a GitHubon.</string>
+	<string name="whats_new_view_changelog">Változások megtekintése</string>
+	<string name="whats_new_unavailable">Egyetlen alkalmazás sem tudta megnyitni a változásnaplót. Megtalálod az Adaptive Theme GitHub-kiadásainál.</string>
 </resources>

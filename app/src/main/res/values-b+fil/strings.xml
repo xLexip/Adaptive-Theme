@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Nagkaroon ng hindi inaasahang error habang ginagamit ang Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Wallpaper</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Baguhin ang lock screen</string>
 	<string name="title_lock_screen_wallpaper_blur">I-blur ang lock screen</string>
-	<string name="description_lock_screen_wallpaper_blur">Gumamit ng malabong bersyon ng wallpaper sa lock screen.</string>
 	<string name="description_device_wallpaper_sync">Gumamit ng magkahiwalay na wallpaper para sa light at dark mode. Maaaring magtagal nang kaunti ang pagpapalit at maapektuhan ang performance.</string>
 	<string name="action_select_day_wallpaper">Maliwanag na mode:</string>
 	<string name="action_select_night_wallpaper">Madilim na mode:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">I-star sa GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Itago magpakailanman</string>
 	<string name="github_star_prompt_thank_you">Salamat!</string>
+	<string name="monitoring_start_failed_title">Hindi masimulan ang pagsubaybay</string>
+	<string name="monitoring_start_failed_message">I-tap ang Subukan muli para simulan ang pagsubaybay sa background. Kung nagpapatuloy ang problema, tingnan ang mga paghihigpit sa background app ng iyong telepono.</string>
+	<string name="monitoring_action_retry">Subukan muli</string>
+	<string name="background_help_title">Payagan ang aktibidad sa background</string>
+	<string name="background_help_generic">Paulit-ulit na naantala ang pagsubaybay sa background. Sundin ang gabay para sa iyong telepono sa Don’t Kill My App.</string>
+	<string name="background_help_hide">Itago ang tip</string>
+	<string name="background_help_open_settings">Buksan ang mga setting ng app</string>
+	<string name="background_help_unavailable">Walang app na makapagbukas ng pahinang ito. Maaari mong tingnan ang mga setting ng system o mano-manong bisitahin ang dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Kung naka-on na ang dalawang setting, magpatuloy sa susunod na hakbang.</string>
+	<string name="setup_developer_options_title">Mga opsyon ng developer</string>
+	<string name="setup_usb_debugging_title">USB debugging</string>
+	<string name="setup_dev_options_unconfirmed_toast">Kung hindi pa naka-on ang Mga opsyon ng developer, hanapin ang Build number at i-tap ito nang 7 beses.</string>
+	<string name="whats_new_title">Ano ang bago sa v%1$s</string>
+	<string name="whats_new_message">Alamin sa GitHub kung ano ang bago sa update na ito.</string>
+	<string name="whats_new_view_changelog">Tingnan ang mga pagbabago</string>
+	<string name="whats_new_unavailable">Walang app na makapagbukas ng tala ng mga pagbabago. Makikita ito sa mga release ng Adaptive Theme sa GitHub.</string>
 </resources>

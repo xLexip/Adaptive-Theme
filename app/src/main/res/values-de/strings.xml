@@ -72,6 +72,10 @@
 	<string name="setup_connect_description">Um die Berechtigung zu erteilen, benötigst du ein <b>zweites Gerät</b> (am besten einen Computer). Verbinde beide Geräte per USB. Alternativ kannst du die unten verlinkte Shizuku-App verwenden.</string>
 	<string name="setup_developer_mode_title">Schritt 1: Entwickleroptionen aktivieren</string>
 	<string name="setup_developer_mode_body">Aktiviere USB-Debugging in den Entwickleroptionen.</string>
+	<string name="setup_developer_mode_continue_hint">Wenn beide Einstellungen bereits aktiviert sind, fahre mit dem nächsten Schritt fort.</string>
+	<string name="setup_developer_options_title">Entwickleroptionen</string>
+	<string name="setup_usb_debugging_title">USB-Debugging</string>
+	<string name="setup_dev_options_unconfirmed_toast">Falls die Entwickleroptionen noch nicht aktiviert sind, finde die Build-Nummer und tippe 7-mal darauf.</string>
 	<string name="setup_developer_options_unlock">Entwickleroptionen freischalten</string>
 	<string name="setup_developer_options_enabled">Entwickleroptionen aktiviert</string>
 	<string name="setup_dev_options_toast_one">Finde die Build-Nummer und tippe 7-mal darauf, um die Entwickleroptionen zu aktivieren.</string>
@@ -113,8 +117,8 @@
 	<string name="title_device_wallpaper_sync">Hintergrundbild</string>
 	<string name="label_beta">Beta</string>
 	<string name="description_device_wallpaper_sync">Verwende separate Hintergrundbilder für den hellen und dunklen Modus. Der Wechsel kann einen Moment dauern und die Leistung beeinträchtigen.</string>
+	<string name="title_lock_screen_wallpaper_sync">Sperrbildschirm ändern</string>
 	<string name="title_lock_screen_wallpaper_blur">Sperrbildschirm weichzeichnen</string>
-	<string name="description_lock_screen_wallpaper_blur">Verwende auf dem Sperrbildschirm eine weichgezeichnete Version des Hintergrundbilds.</string>
 	<string name="action_select_day_wallpaper">Heller Modus:</string>
 	<string name="action_select_night_wallpaper">Dunkler Modus:</string>
 	<string name="wallpaper_status_set">Festgelegt</string>
@@ -125,4 +129,16 @@
 	<string name="github_star_prompt_action">Stern auf GitHub geben ↗</string>
 	<string name="github_star_prompt_dismiss_description">Für immer ausblenden</string>
 	<string name="github_star_prompt_thank_you">Danke!</string>
+	<string name="monitoring_start_failed_title">Überwachung konnte nicht gestartet werden</string>
+	<string name="monitoring_start_failed_message">Tippe auf „Erneut versuchen“, um die Hintergrundüberwachung zu starten. Prüfe die Hintergrundeinschränkungen deines Telefons, falls das Problem weiterhin auftritt.</string>
+	<string name="monitoring_action_retry">Erneut versuchen</string>
+	<string name="background_help_title">Hintergrundaktivität erlauben</string>
+	<string name="background_help_generic">Die Hintergrundüberwachung wurde wiederholt unterbrochen. Folge der Anleitung für dein Telefon auf Don’t Kill My App.</string>
+	<string name="background_help_hide">Hinweis ausblenden</string>
+	<string name="background_help_open_settings">App-Einstellungen öffnen</string>
+	<string name="background_help_unavailable">Keine App konnte diese Seite öffnen. Prüfe die Systemeinstellungen oder besuche dontkillmyapp.com manuell.</string>
+	<string name="whats_new_title">Neu in v%1$s</string>
+	<string name="whats_new_message">Erfahre auf GitHub, was sich mit diesem Update geändert hat.</string>
+	<string name="whats_new_view_changelog">Änderungen ansehen</string>
+	<string name="whats_new_unavailable">Keine App konnte das Änderungsprotokoll öffnen. Du findest es in den GitHub-Releases von Adaptive Theme.</string>
 </resources>

@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku 사용 중 예기치 않은 오류가 발생했습니다.</string>
 	<string name="title_device_wallpaper_sync">배경화면</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">잠금 화면 변경</string>
 	<string name="title_lock_screen_wallpaper_blur">잠금 화면 흐리게 하기</string>
-	<string name="description_lock_screen_wallpaper_blur">잠금 화면에 배경화면의 흐린 버전을 사용합니다.</string>
 	<string name="description_device_wallpaper_sync">라이트 모드와 다크 모드에 각각 다른 배경화면을 사용합니다. 전환에는 잠시 시간이 걸리고 성능에 영향을 줄 수 있습니다.</string>
 	<string name="action_select_day_wallpaper">라이트 모드:</string>
 	<string name="action_select_night_wallpaper">다크 모드:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub에서 별표 주기 ↗</string>
 	<string name="github_star_prompt_dismiss_description">영구히 숨기기</string>
 	<string name="github_star_prompt_thank_you">감사합니다!</string>
+	<string name="monitoring_start_failed_title">모니터링을 시작할 수 없습니다</string>
+	<string name="monitoring_start_failed_message">다시 시도를 눌러 백그라운드 모니터링을 시작하세요. 문제가 계속되면 휴대전화의 백그라운드 앱 제한을 확인하세요.</string>
+	<string name="monitoring_action_retry">다시 시도</string>
+	<string name="background_help_title">백그라운드 활동 허용</string>
+	<string name="background_help_generic">백그라운드 모니터링이 반복적으로 중단되었습니다. Don’t Kill My App에서 휴대전화에 맞는 가이드를 따르세요.</string>
+	<string name="background_help_hide">도움말 숨기기</string>
+	<string name="background_help_open_settings">앱 설정 열기</string>
+	<string name="background_help_unavailable">이 페이지를 열 수 있는 앱이 없습니다. 시스템 설정을 확인하거나 dontkillmyapp.com에 직접 방문하세요.</string>
+	<string name="setup_developer_mode_continue_hint">두 설정이 이미 켜져 있다면 다음 단계로 진행하세요.</string>
+	<string name="setup_developer_options_title">개발자 옵션</string>
+	<string name="setup_usb_debugging_title">USB 디버깅</string>
+	<string name="setup_dev_options_unconfirmed_toast">개발자 옵션이 아직 켜져 있지 않다면 빌드 번호를 찾아 7번 탭하세요.</string>
+	<string name="whats_new_title">v%1$s의 새로운 기능</string>
+	<string name="whats_new_message">GitHub에서 이번 업데이트의 새로운 내용을 확인하세요.</string>
+	<string name="whats_new_view_changelog">변경 기록 보기</string>
+	<string name="whats_new_unavailable">변경 기록을 열 수 있는 앱이 없습니다. GitHub의 Adaptive Theme 릴리스에서 확인할 수 있습니다.</string>
 </resources>

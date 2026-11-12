@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizukun käytössä tapahtui odottamaton virhe.</string>
 	<string name="title_device_wallpaper_sync">Taustakuva</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Vaihda lukitusnäyttö</string>
 	<string name="title_lock_screen_wallpaper_blur">Sumenna lukitusnäyttö</string>
-	<string name="description_lock_screen_wallpaper_blur">Käytä lukitusnäytössä taustakuvan sumennettua versiota.</string>
 	<string name="description_device_wallpaper_sync">Käytä erillisiä taustakuvia vaaleassa ja tummassa tilassa. Vaihtaminen voi kestää hetken ja vaikuttaa suorituskykyyn.</string>
 	<string name="action_select_day_wallpaper">Vaalea tila:</string>
 	<string name="action_select_night_wallpaper">Tumma tila:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Anna tähti GitHubissa ↗</string>
 	<string name="github_star_prompt_dismiss_description">Piilota pysyvästi</string>
 	<string name="github_star_prompt_thank_you">Kiitos!</string>
+	<string name="monitoring_start_failed_title">Seurantaa ei voitu käynnistää</string>
+	<string name="monitoring_start_failed_message">Käynnistä taustaseuranta napauttamalla Yritä uudelleen. Jos ongelma toistuu, tarkista puhelimen taustasovellusten rajoitukset.</string>
+	<string name="monitoring_action_retry">Yritä uudelleen</string>
+	<string name="background_help_title">Salli taustatoiminta</string>
+	<string name="background_help_generic">Taustaseuranta on keskeytynyt toistuvasti. Noudata Don’t Kill My App -sivuston puhelinkohtaista ohjetta.</string>
+	<string name="background_help_hide">Piilota vinkki</string>
+	<string name="background_help_open_settings">Avaa sovelluksen asetukset</string>
+	<string name="background_help_unavailable">Mikään sovellus ei voinut avata tätä sivua. Voit tarkistaa järjestelmäasetukset tai avata dontkillmyapp.com-sivuston itse.</string>
+	<string name="setup_developer_mode_continue_hint">Jos molemmat asetukset ovat jo käytössä, jatka seuraavaan vaiheeseen.</string>
+	<string name="setup_developer_options_title">Kehittäjäasetukset</string>
+	<string name="setup_usb_debugging_title">USB-virheenkorjaus</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jos kehittäjäasetukset eivät ole vielä käytössä, etsi koontiversion numero ja napauta sitä 7 kertaa.</string>
+	<string name="whats_new_title">Uutta versiossa v%1$s</string>
+	<string name="whats_new_message">Tutustu tämän päivityksen uutuuksiin GitHubissa.</string>
+	<string name="whats_new_view_changelog">Näytä muutosluettelo</string>
+	<string name="whats_new_unavailable">Mikään sovellus ei voinut avata muutosluetteloa. Löydät sen Adaptive Themen julkaisuista GitHubissa.</string>
 </resources>

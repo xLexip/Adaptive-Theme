@@ -16,14 +16,16 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.usb.UsbManager
+import android.os.Build
 import android.provider.Settings
 import androidx.core.content.ContextCompat
 import dev.lexip.hecate.util.shizuku.ShizukuAvailability
 
 data class SetupEnvironmentSnapshot(
 	val isShizukuInstalled: Boolean,
-	val isDeveloperOptionsEnabled: Boolean,
-	val isUsbDebuggingEnabled: Boolean,
+	// null means the setting cannot be confirmed, including platform-redacted values.
+	val isDeveloperOptionsEnabled: Boolean?,
+	val isUsbDebuggingEnabled: Boolean?,
 	val hasWriteSecureSettings: Boolean,
 	val isUsbConnected: Boolean
 )
@@ -48,10 +50,15 @@ class AndroidSetupEnvironmentProvider(
 		isUsbConnected = isUsbConnected()
 	)
 
-	private fun readGlobalSetting(key: String): Boolean = try {
-		Settings.Global.getInt(context.contentResolver, key, 0) == 1
+	private fun readGlobalSetting(key: String): Boolean? = try {
+		when (Settings.Global.getInt(context.contentResolver, key, -1)) {
+			1 -> true
+			// Android 17 can return 0 to third-party apps even when the setting is enabled.
+			0 -> if (Build.VERSION.SDK_INT < 37) false else null
+			else -> null
+		}
 	} catch (_: Exception) {
-		false
+		null
 	}
 
 	private fun isUsbConnected(): Boolean = try {

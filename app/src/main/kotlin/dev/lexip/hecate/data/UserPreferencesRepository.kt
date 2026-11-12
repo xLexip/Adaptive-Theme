@@ -13,6 +13,7 @@
 package dev.lexip.hecate.data
 
 import android.util.Log
+import androidx.datastore.core.DataMigration
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
@@ -42,14 +43,17 @@ data class UserPreferences(
 	val nightStartMinutes: Int = DEFAULT_NIGHT_START_MINUTES,
 	val nightEndMinutes: Int = DEFAULT_NIGHT_END_MINUTES,
 	val wallpaperSyncEnabled: Boolean = false,
+	val lockScreenWallpaperSyncEnabled: Boolean = false,
 	val lockScreenWallpaperBlurEnabled: Boolean = false,
 	val dayWallpaperUri: String? = null,
 	val nightWallpaperUri: String? = null,
 	val wallpaperStorageVersion: Int = 0,
+	val backgroundGuidanceDismissed: Boolean = false,
 	val githubStarPromptDismissed: Boolean = false,
 	val githubStarPromptImpressionCount: Int = 0,
 	val githubStarPromptLastImpressionEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY,
-	val reviewPromptLastRequestEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY
+	val reviewPromptLastRequestEpochDay: Long = NO_SUPPORT_PROMPT_EPOCH_DAY,
+	val acknowledgedWhatsNewRelease: String? = null
 )
 
 interface UserPreferencesDataSource {
@@ -69,20 +73,40 @@ interface UserPreferencesDataSource {
 	suspend fun updateStayDarkAtNightEnabled(enabled: Boolean)
 	suspend fun updateNightWindow(startMinutes: Int, endMinutes: Int): Boolean
 	suspend fun updateWallpaperSyncEnabled(enabled: Boolean)
+	suspend fun updateLockScreenWallpaperSyncEnabled(enabled: Boolean)
 	suspend fun updateLockScreenWallpaperBlurEnabled(enabled: Boolean)
 	suspend fun updateDayWallpaperUri(uri: String?)
 	suspend fun updateNightWallpaperUri(uri: String?)
 	suspend fun updateWallpaperStorageVersion(version: Int)
 	suspend fun recordGitHubStarPromptImpression(epochDay: Long)
 	suspend fun updateGitHubStarPromptDismissed(dismissed: Boolean)
+	suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean)
 	suspend fun updateReviewPromptLastRequestEpochDay(epochDay: Long)
+	suspend fun updateAcknowledgedWhatsNewRelease(release: String)
 }
 
 class UserPreferencesRepository(
 	private val dataStore: DataStore<Preferences>
 ) : UserPreferencesDataSource {
 
+	companion object {
+		internal val lockScreenWallpaperSyncMigration = object : DataMigration<Preferences> {
+			override suspend fun shouldMigrate(currentData: Preferences): Boolean =
+				currentData[PreferencesKeys.LOCK_SCREEN_WALLPAPER_SYNC_ENABLED] == null
+
+			override suspend fun migrate(currentData: Preferences): Preferences =
+				currentData.toMutablePreferences().apply {
+					// Preserve the old destination only for users already syncing wallpapers.
+					this[PreferencesKeys.LOCK_SCREEN_WALLPAPER_SYNC_ENABLED] =
+						currentData[PreferencesKeys.WALLPAPER_SYNC_ENABLED] == true
+				}
+
+			override suspend fun cleanUp() = Unit
+		}
+	}
+
 	private object PreferencesKeys {
+		val ACKNOWLEDGED_WHATS_NEW_RELEASE = stringPreferencesKey("acknowledged_whats_new_release")
 		val ADAPTIVE_THEME_ENABLED = booleanPreferencesKey("adaptive_theme_enabled")
 		val ADAPTIVE_THEME_THRESHOLD_LUX = floatPreferencesKey("adaptive_theme_threshold_lux")
 		val CUSTOM_ADAPTIVE_THEME_THRESHOLD_LUX =
@@ -92,12 +116,15 @@ class UserPreferencesRepository(
 		val NIGHT_START_MINUTES = intPreferencesKey("night_start_minutes")
 		val NIGHT_END_MINUTES = intPreferencesKey("night_end_minutes")
 		val WALLPAPER_SYNC_ENABLED = booleanPreferencesKey("wallpaper_sync_enabled")
+		val LOCK_SCREEN_WALLPAPER_SYNC_ENABLED =
+			booleanPreferencesKey("lock_screen_wallpaper_sync_enabled")
 		val LOCK_SCREEN_WALLPAPER_BLUR_ENABLED =
 			booleanPreferencesKey("lock_screen_wallpaper_blur_enabled")
 		val DAY_WALLPAPER_URI = stringPreferencesKey("day_wallpaper_uri")
 		val NIGHT_WALLPAPER_URI = stringPreferencesKey("night_wallpaper_uri")
 		val WALLPAPER_STORAGE_VERSION = intPreferencesKey("wallpaper_storage_version")
 		val GITHUB_STAR_PROMPT_DISMISSED = booleanPreferencesKey("github_star_prompt_dismissed")
+		val BACKGROUND_GUIDANCE_DISMISSED = booleanPreferencesKey("background_guidance_dismissed")
 		val GITHUB_STAR_PROMPT_IMPRESSION_COUNT =
 			intPreferencesKey("github_star_prompt_impression_count")
 		val GITHUB_STAR_PROMPT_LAST_IMPRESSION_EPOCH_DAY =
@@ -160,6 +187,8 @@ class UserPreferencesRepository(
 		val nightEndMinutes =
 			preferences[PreferencesKeys.NIGHT_END_MINUTES] ?: DEFAULT_NIGHT_END_MINUTES
 		val wallpaperSyncEnabled = preferences[PreferencesKeys.WALLPAPER_SYNC_ENABLED] == true
+		val lockScreenWallpaperSyncEnabled =
+			preferences[PreferencesKeys.LOCK_SCREEN_WALLPAPER_SYNC_ENABLED] == true
 		val lockScreenWallpaperBlurEnabled =
 			preferences[PreferencesKeys.LOCK_SCREEN_WALLPAPER_BLUR_ENABLED] == true
 		val dayWallpaperUri = preferences[PreferencesKeys.DAY_WALLPAPER_URI]
@@ -184,15 +213,24 @@ class UserPreferencesRepository(
 			nightStartMinutes = nightStartMinutes,
 			nightEndMinutes = nightEndMinutes,
 			wallpaperSyncEnabled = wallpaperSyncEnabled,
+			lockScreenWallpaperSyncEnabled = lockScreenWallpaperSyncEnabled,
 			lockScreenWallpaperBlurEnabled = lockScreenWallpaperBlurEnabled,
 			dayWallpaperUri = dayWallpaperUri,
 			nightWallpaperUri = nightWallpaperUri,
 			wallpaperStorageVersion = wallpaperStorageVersion,
 			githubStarPromptDismissed = githubStarPromptDismissed,
+			backgroundGuidanceDismissed = preferences[PreferencesKeys.BACKGROUND_GUIDANCE_DISMISSED] == true,
 			githubStarPromptImpressionCount = githubStarPromptImpressionCount,
 			githubStarPromptLastImpressionEpochDay = githubStarPromptLastImpressionEpochDay,
-			reviewPromptLastRequestEpochDay = reviewPromptLastRequestEpochDay
+			reviewPromptLastRequestEpochDay = reviewPromptLastRequestEpochDay,
+			acknowledgedWhatsNewRelease = preferences[PreferencesKeys.ACKNOWLEDGED_WHATS_NEW_RELEASE]
 		)
+	}
+
+	override suspend fun updateAcknowledgedWhatsNewRelease(release: String) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.ACKNOWLEDGED_WHATS_NEW_RELEASE] = release
+		}
 	}
 
 	override suspend fun updateAdaptiveThemeEnabled(enabled: Boolean) {
@@ -231,6 +269,12 @@ class UserPreferencesRepository(
 	override suspend fun updateWallpaperSyncEnabled(enabled: Boolean) {
 		dataStore.edit { preferences ->
 			preferences[PreferencesKeys.WALLPAPER_SYNC_ENABLED] = enabled
+		}
+	}
+
+	override suspend fun updateLockScreenWallpaperSyncEnabled(enabled: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.LOCK_SCREEN_WALLPAPER_SYNC_ENABLED] = enabled
 		}
 	}
 
@@ -277,6 +321,12 @@ class UserPreferencesRepository(
 					impressionCount + 1
 			}
 			preferences[PreferencesKeys.GITHUB_STAR_PROMPT_LAST_IMPRESSION_EPOCH_DAY] = epochDay
+		}
+	}
+
+	override suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean) {
+		dataStore.edit { preferences ->
+			preferences[PreferencesKeys.BACKGROUND_GUIDANCE_DISMISSED] = dismissed
 		}
 	}
 

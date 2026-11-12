@@ -25,6 +25,18 @@ private const val KEY_LAST_LOGGED_TIMESTAMP = "last_logged_timestamp"
 
 object ProcessExitDetector {
 
+    private val recovery = ProcessExitRecovery()
+
+    fun onMonitoringReady(context: Context) {
+        val (exit, elapsedMs) = recovery.takeWhenReady(System.currentTimeMillis()) ?: return
+        Log.i(TAG, "Monitoring ready ${elapsedMs}ms after historical exit ${exit.timestampMs}")
+        try {
+            Logger.logMonitoringReadyAfterExit(context, exit.timestampMs, elapsedMs, exit.pid)
+        } catch (cause: Exception) {
+            Log.w(TAG, "Unable to report monitoring readiness", cause)
+        }
+    }
+
     fun checkAndLogProcessExitReasons(context: Context) {
         try {
             val activityManager =
@@ -36,6 +48,11 @@ object ProcessExitDetector {
                 0, // 0 gets all recent PIDs
                 10 // max results
             ).toList()
+
+            // Hint eligibility is local and independent of telemetry logging/deduplication.
+            runCatching {
+                MonitoringInterruptionTracker.create(context).inspect(exitReasons.map(MonitoringExitRecord::from))
+            }.onFailure { Log.w(TAG, "Could not inspect monitoring interruptions", it) }
 
             if (exitReasons.isEmpty()) return
 
@@ -76,7 +93,14 @@ object ProcessExitDetector {
                 TAG,
                 "Unexpected process kill detected! Reason: $reasonName, Importance: $importanceName, Desc: $description"
             )
-            Logger.logProcessExit(context, reasonName, description, pssMb, importanceName)
+            recovery.observe(exitInfo.processName, context.applicationInfo.processName, exitInfo.timestamp, exitInfo.pid)
+            Logger.logProcessExit(
+                context, reasonName, description, pssMb, importanceName,
+                exitTimestampMs = exitInfo.timestamp,
+                detectionDelayMs = elapsedSinceExit(exitInfo.timestamp, System.currentTimeMillis()),
+                processName = exitInfo.processName,
+                pid = exitInfo.pid
+            )
         }
     }
 

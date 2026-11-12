@@ -92,7 +92,7 @@ class WallpaperHandlerTest {
 	}
 
 	@Test
-	fun successfulApplicationUsesSystemAndLockFlagsAndClosesStream() {
+	fun successfulApplicationDefaultsToSystemFlagAndClosesStream() {
 		val stream = CloseTrackingInputStream()
 		var appliedFlags = 0
 		val handler = handler(
@@ -108,10 +108,23 @@ class WallpaperHandlerTest {
 
 		assertTrue(succeeded)
 		assertEquals(
-			WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK,
+			WallpaperManager.FLAG_SYSTEM,
 			appliedFlags
 		)
 		assertTrue(stream.closed)
+	}
+
+	@Test
+	fun explicitOptInAppliesSharpWallpaperToBothScreens() {
+		val appliedFlags = mutableListOf<Int>()
+		val handler = handler(setStream = { _, flags -> appliedFlags += flags })
+		assertTrue(
+			handler.applyWallpaperForTheme(
+				false, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI,
+				lockScreenWallpaperSyncEnabled = true
+			)
+		)
+		assertEquals(listOf(WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK), appliedFlags)
 	}
 
 	@Test
@@ -131,7 +144,8 @@ class WallpaperHandlerTest {
 				isDark = false,
 				dayUriStr = DAY_WALLPAPER_URI,
 				nightUriStr = NIGHT_WALLPAPER_URI,
-				lockScreenWallpaperBlurEnabled = true
+				lockScreenWallpaperBlurEnabled = true,
+				lockScreenWallpaperSyncEnabled = true
 			)
 		)
 
@@ -161,7 +175,8 @@ class WallpaperHandlerTest {
 				isDark = false,
 				dayUriStr = DAY_WALLPAPER_URI,
 				nightUriStr = NIGHT_WALLPAPER_URI,
-				lockScreenWallpaperBlurEnabled = true
+				lockScreenWallpaperBlurEnabled = true,
+				lockScreenWallpaperSyncEnabled = true
 			)
 		)
 
@@ -172,6 +187,61 @@ class WallpaperHandlerTest {
 			listOf(WallpaperManager.FLAG_SYSTEM, WallpaperManager.FLAG_LOCK),
 			appliedFlags
 		)
+	}
+
+	@Test
+	fun homeOnlySyncNeverOpensOrWritesLockWallpaperEvenWithBlurEnabled() {
+		for (isDark in listOf(false, true)) {
+			for (blurEnabled in listOf(false, true)) {
+				val openedUris = mutableListOf<String>()
+				val appliedFlags = mutableListOf<Int>()
+				val streams = mutableListOf<CloseTrackingInputStream>()
+				val handler = handler(
+					openInputStream = { uri ->
+						openedUris += uri.toString()
+						CloseTrackingInputStream().also { streams += it }
+					},
+					setStream = { _, flags -> appliedFlags += flags }
+				)
+
+				assertTrue(
+					handler.applyWallpaperForTheme(
+						isDark = isDark,
+						dayUriStr = DAY_WALLPAPER_URI,
+						nightUriStr = NIGHT_WALLPAPER_URI,
+						lockScreenWallpaperBlurEnabled = blurEnabled,
+						lockScreenWallpaperSyncEnabled = false
+					)
+				)
+				assertEquals(listOf(if (isDark) NIGHT_WALLPAPER_URI else DAY_WALLPAPER_URI), openedUris)
+				assertEquals(listOf(WallpaperManager.FLAG_SYSTEM), appliedFlags)
+				assertTrue(streams.single().closed)
+			}
+		}
+	}
+
+	@Test
+	fun homeOnlyFailureDoesNotAttemptLockWallpaperFallback() {
+		val openedUris = mutableListOf<String>()
+		val handler = handler(
+			openInputStream = { uri ->
+				openedUris += uri.toString()
+				ByteArrayInputStream(byteArrayOf(1))
+			},
+			setStream = { _, flags ->
+				assertEquals(WallpaperManager.FLAG_SYSTEM, flags)
+				throw IllegalStateException("set failed")
+			}
+		)
+
+		assertFalse(
+			handler.applyWallpaperForTheme(
+				false, DAY_WALLPAPER_URI, NIGHT_WALLPAPER_URI,
+				lockScreenWallpaperBlurEnabled = true,
+				lockScreenWallpaperSyncEnabled = false
+			)
+		)
+		assertEquals(listOf(DAY_WALLPAPER_URI), openedUris)
 	}
 
 	@Test

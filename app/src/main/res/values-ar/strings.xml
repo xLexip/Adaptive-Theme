@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">حدث خطأ غير متوقع أثناء استخدام Shizuku.</string>
 	<string name="title_device_wallpaper_sync">خلفية</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">تغيير شاشة القفل</string>
 	<string name="title_lock_screen_wallpaper_blur">تمويه شاشة القفل</string>
-	<string name="description_lock_screen_wallpaper_blur">استخدم نسخة مموهة من الخلفية على شاشة القفل.</string>
 	<string name="description_device_wallpaper_sync">استخدم خلفيات منفصلة للوضعين الفاتح والداكن. قد يستغرق التبديل لحظة ويؤثر في الأداء.</string>
 	<string name="action_select_day_wallpaper">الوضع الفاتح:</string>
 	<string name="action_select_night_wallpaper">الوضع الداكن:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">إضافة نجمة على GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">إخفاء نهائيًا</string>
 	<string name="github_star_prompt_thank_you">شكرًا!</string>
+	<string name="monitoring_start_failed_title">تعذّر بدء المراقبة</string>
+	<string name="monitoring_start_failed_message">اضغط على إعادة المحاولة لبدء المراقبة في الخلفية. إذا استمرت المشكلة، فتحقق من قيود التطبيقات في الخلفية على هاتفك.</string>
+	<string name="monitoring_action_retry">إعادة المحاولة</string>
+	<string name="background_help_title">السماح بالنشاط في الخلفية</string>
+	<string name="background_help_generic">توقفت المراقبة في الخلفية عدة مرات. اتبع دليل هاتفك على Don’t Kill My App.</string>
+	<string name="background_help_hide">إخفاء التلميح</string>
+	<string name="background_help_open_settings">فتح إعدادات التطبيق</string>
+	<string name="background_help_unavailable">لم يتمكن أي تطبيق من فتح هذه الصفحة. يمكنك التحقق من إعدادات النظام أو زيارة dontkillmyapp.com يدويًا.</string>
+	<string name="setup_developer_mode_continue_hint">إذا كان الإعدادان مفعّلين بالفعل، فتابع إلى الخطوة التالية.</string>
+	<string name="setup_developer_options_title">خيارات المطوّر</string>
+	<string name="setup_usb_debugging_title">تصحيح أخطاء USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">إذا لم تكن خيارات المطوّر مفعّلة بعد، فابحث عن رقم الإصدار وانقر عليه 7 مرات.</string>
+	<string name="whats_new_title">الجديد في v%1$s</string>
+	<string name="whats_new_message">تعرّف على الجديد في هذا التحديث على GitHub.</string>
+	<string name="whats_new_view_changelog">عرض سجل التغييرات</string>
+	<string name="whats_new_unavailable">تعذّر على أي تطبيق فتح سجل التغييرات. يمكنك العثور عليه في إصدارات Adaptive Theme على GitHub.</string>
 </resources>

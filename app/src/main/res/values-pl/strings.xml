@@ -112,8 +112,8 @@
 	<string name="shizuku_grant_unexpected">Nieoczekiwany błąd podczas używania Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Tapeta</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Zmieniaj ekran blokady</string>
 	<string name="title_lock_screen_wallpaper_blur">Rozmyj ekran blokady</string>
-	<string name="description_lock_screen_wallpaper_blur">Użyj rozmytej wersji tapety na ekranie blokady.</string>
 	<string name="description_device_wallpaper_sync">Używaj osobnych tapet dla trybu jasnego i ciemnego. Przełączanie może chwilę potrwać i wpłynąć na wydajność.</string>
 	<string name="action_select_day_wallpaper">Tryb jasny:</string>
 	<string name="action_select_night_wallpaper">Tryb ciemny:</string>
@@ -125,4 +125,20 @@
 	<string name="github_star_prompt_action">Dodaj gwiazdkę na GitHubie ↗</string>
 	<string name="github_star_prompt_dismiss_description">Ukryj na zawsze</string>
 	<string name="github_star_prompt_thank_you">Dziękujemy!</string>
+	<string name="monitoring_start_failed_title">Nie udało się uruchomić monitorowania</string>
+	<string name="monitoring_start_failed_message">Dotknij Spróbuj ponownie, aby uruchomić monitorowanie w tle. Jeśli problem się powtarza, sprawdź ograniczenia aplikacji działających w tle w telefonie.</string>
+	<string name="monitoring_action_retry">Spróbuj ponownie</string>
+	<string name="background_help_title">Zezwól na działanie w tle</string>
+	<string name="background_help_generic">Monitorowanie w tle zostało wielokrotnie przerwane. Postępuj zgodnie z poradnikiem dla swojego telefonu na Don’t Kill My App.</string>
+	<string name="background_help_hide">Ukryj wskazówkę</string>
+	<string name="background_help_open_settings">Otwórz ustawienia aplikacji</string>
+	<string name="background_help_unavailable">Żadna aplikacja nie mogła otworzyć tej strony. Możesz sprawdzić ustawienia systemu lub ręcznie wejść na dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Jeśli oba ustawienia są już włączone, przejdź do następnego kroku.</string>
+	<string name="setup_developer_options_title">Opcje programistyczne</string>
+	<string name="setup_usb_debugging_title">Debugowanie USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jeśli opcje programistyczne nie są jeszcze włączone, znajdź numer kompilacji i dotknij go 7 razy.</string>
+	<string name="whats_new_title">Nowości w wersji v%1$s</string>
+	<string name="whats_new_message">Sprawdź nowości w tej aktualizacji w serwisie GitHub.</string>
+	<string name="whats_new_view_changelog">Zobacz zmiany</string>
+	<string name="whats_new_unavailable">Żadna aplikacja nie mogła otworzyć listy zmian. Znajdziesz ją w wydaniach Adaptive Theme w serwisie GitHub.</string>
 </resources>

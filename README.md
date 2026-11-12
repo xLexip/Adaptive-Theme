@@ -51,6 +51,8 @@ since the start. Ready for an overdue injection of extra intelligence?"** – JR
 > **[How-To Geek](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/): "With a simple app,
 you can make dark mode (and light mode) switch with the lighting around you."** – Joe Fedewa
 
+> **[heise online](https://www.heise.de/en/news/Android-dark-mode-Open-source-app-adapts-system-design-to-ambient-light-11283059.html): "The setup process via the app and the web interface is quite easy to understand and follow, but you shouldn't be a complete Android beginner."** – Andreas Floemer
+
 ---
 
 ### Setup
@@ -74,7 +76,7 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 
 - **Sensor-driven switching**: Uses the physical ambient light sensor – not a clock or sunset schedule – to intelligently switch the system theme.
 - **Custom lux threshold**: Dial in exactly when the theme flips, or choose a preset (e.g.indoor, outdoor, sunlight).
-- **Wallpaper Theme Sync**: Automatically swap your home and lock screen wallpaper with the system theme changes.
+- **Wallpaper Theme Sync**: Automatically swap your home screen wallpaper with the system theme changes, optionally including the lock screen.
 - **Lock Screen Blur**: Optionally apply a blur effect to your lock screen wallpaper.
 - **Night lock**: Optionally hold dark mode during a fixed time window, e.g. 9 PM – 6 AM.
 - **Battery friendly**: The sensor is only checked once when you turn the screen on. Zero background drain.
@@ -91,10 +93,10 @@ you can make dark mode (and light mode) switch with the lighting around you."** 
 
 To avoid screen flicker and unnecessary background work, Adaptive Theme follows a strict, event-driven model:
 
-- **Screen-on trigger** — The light sensor is only sampled right after the screen turns on, not continuously.
-- **Obstruction check** — Validates that the sensor is not covered (e.g. by a hand or pocket).
-- **Battery Saver check** — The theme may not switch while Battery Saver is active.
-- **Instant apply** — The theme is switched before you start interacting.
+- **Screen-on trigger** – The light sensor is only sampled right after the screen turns on, not continuously.
+- **Obstruction check** – Validates that the sensor is not covered (e.g. by a hand or pocket).
+- **Battery Saver check** – The theme may not switch while Battery Saver is active.
+- **Instant apply** – The theme is switched before you start interacting.
 
 This design ensures mid-session theme changes never interrupt your use, since some apps handle live theme changes poorly.
 
@@ -105,12 +107,12 @@ This design ensures mid-session theme changes never interrupt your use, since so
 Adaptive Theme is completely free, ad-free, and developed in my spare time. If you find it useful, consider to:
 
 - **Star this repository** at the top to help others find it.
-- **Leave a rating on [**Google Play**](https://play.google.com/store/apps/details?id=dev.lexip.hecate)** — it makes a real difference in discoverability.
+- **Leave a rating on [**Google Play**](https://play.google.com/store/apps/details?id=dev.lexip.hecate)** – it makes a real difference in discoverability.
 - **Share the app** with anyone who might benefit.
 - **Follow me** [**@xLexip**](https://github.com/xLexip) if you like.
 - **Buy me a coffee** if you're feeling [generous](https://buymeacoffee.com/lexip).
 
-Issues, questions, and feature ideas are welcome — please [open an issue](https://github.com/xLexip/Adaptive-Theme/issues/new) or use the in-app feedback option.
+Issues, questions, and feature ideas are welcome – please [open an issue](https://github.com/xLexip/Adaptive-Theme/issues/new) or use the in-app feedback option.
 
 ---
 
@@ -127,6 +129,9 @@ Issues, questions, and feature ideas are welcome — please [open an issue](http
 * **Architecture:** Follows the MVVM pattern with a Single-Activity architecture.
 * **Reactive Data:** ViewModels expose data via Kotlin Flows and manage concurrency with Coroutines.
 * **Persistence:** Type-safe settings storage utilizing Jetpack DataStore.
+* **Release announcements:** Existing users see a dismissible “What’s new” dialog once
+  per major/minor release. Fresh installs establish a baseline; patch updates retain
+  any unread announcement without creating another one. See [release announcement maintenance](docs/whats-new.md).
 * **Background Work:** Sensor operations run event-driven – only upon screen-on
   broadcasts – ensuring zero unnecessary battery drain in the background.
 * **WebADB Setup Website:** Simple browser-based setup tool for permission granting using WebADB ([source code](https://github.com/xLexip/Adaptive-Theme-Setup)).
@@ -141,8 +146,18 @@ Adaptive Theme works on Android 14 and above.
 **Why didn't the theme change right away?**
 By design, the theme only switches immediately after the screen turns on and when the proximity sensor is uncovered. This prevents flicker, saves battery, and avoids interrupting an active app session. In addition, the target theme (and wallpaper, if enabled) is applied once when you toggle the service on via the switch in the app or the quick-settings tile.
 
+**Why does switching stop when the app is closed?**
+Some manufacturers apply additional background restrictions even when battery use is set to unrestricted. If switching stops, follow the guide for your phone on Don’t Kill My App to review its background activity and battery settings:
+
+- **Motorola:** Follow the [Motorola guide on Don’t Kill My App](https://dontkillmyapp.com/motorola).
+- **OnePlus:** Follow the [OnePlus guide on Don’t Kill My App](https://dontkillmyapp.com/oneplus).
+- **Xiaomi / Redmi / POCO:** Follow the [Xiaomi guide on Don’t Kill My App](https://dontkillmyapp.com/xiaomi).
+- **realme:** Follow the [realme guide on Don’t Kill My App](https://dontkillmyapp.com/realme).
+- **OPPO:** Follow the [OPPO guide on Don’t Kill My App](https://dontkillmyapp.com/oppo).
+- **Other devices:** Check the manufacturer-specific guidance at [Don’t Kill My App](https://dontkillmyapp.com).
+
 **How does Wallpaper Theme Sync work?**
-Choose a light and a dark wallpaper in the app. When Adaptive Theme changes the system theme, it replaces both the home screen and lock screen wallpapers with the matching image. The change can take a moment and may briefly affect performance, especially with large images. The wallpaper is also switched when you or another app toggle the system theme manually.
+Choose a light and a dark wallpaper in the app. When Adaptive Theme changes the system theme, it replaces the home screen wallpaper with the matching image. **Change Lock Screen** is off by default for new installations, so choosing wallpapers preserves your current lock screen wallpaper. When upgrading, users who already had Wallpaper Theme Sync active keep lock screen changes enabled to preserve their previous behavior. An explicitly saved lock screen choice is always respected. Enable it in the Wallpaper settings to also sync the lock screen. The lock screen options appear only while Wallpaper Theme Sync is on. **Blur Lock Screen** appears below **Change Lock Screen** only while lock screen changes are on; its setting is remembered when hidden. Turning the option on applies the current theme's wallpaper to the lock screen immediately. Turning it off does not restore a wallpaper already replaced. The change can take a moment and may briefly affect performance, especially with large images. The wallpaper is also switched when you or another app toggle the system theme manually.
 
 **Does it work on tablets?**
 No. Due to a technical limitation, Adaptive Theme is currently limited to smartphones.
@@ -172,38 +187,34 @@ No. Shizuku is only required once to grant the permission. Once granted, the per
 
 **International Press**
 
-- androidauthority.com — [**This app gives Android the automatic dark mode feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
-- computerworld.com — [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
-- howtogeek.com — [**I ditched sunrise/sunset dark mode for this Android app (it uses your light sensor)**](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)
-- tech.yahoo.com — [**How to automatically switch Android themes using your ambient light sensor**](https://tech.yahoo.com/apps/articles/automatically-switch-android-themes-using-193016171.html)
-- heise.de – [**Android-Dunkelmodus: Open-Source-App passt Systemdesign an Umgebungslicht an**](https://www.heise.de/news/Android-Dunkelmodus-Open-Source-App-passt-Systemdesign-an-Umgebungslicht-an-11282658.html)
-- tchgdns.de — [**Adaptive Theme für Android: Dunkelmodus automatisch per Umgebungslicht aktivieren**](https://tchgdns.de/adaptive-theme-fuer-android-dunkelmodus-automatisch-per-umgebungslicht-aktivieren/)
-- androidauthority.com — [**5 of the best new Android apps you need to try this April**](https://www.androidauthority.com/best-new-android-apps-games-april-2026-3653008/)
-- androidauthority.com — [**10 awesome Shizuku apps I use to level up my Android experience**](https://www.androidauthority.com/best-shizuku-apps-android-3659353/)
-- computerworld.com — [**The Android dark mode power-pack: 5 secrets for a smarter screen setup**](https://www.computerworld.com/article/4187935/android-dark-mode-power-pack.html)
-- droidwin.com — [**Switch Dark and Light Mode Based on Surrounding Light Level**](https://droidwin.com/switch-dark-and-light-mode-based-on-surrounding-light-level/)
-- androidinsider.ru — [**Автоматическая тёмная тема. Приложение, которого не хватало годами**](https://androidinsider.ru/obzory-prilozhenij/avtomaticheskaya-tyomnaya-tema-na-android-prilozhenie-kotorogo-ne-hvatalo-godami.html)
-- pcguia.pt — [**App do Dia – Adaptive Theme: Modo Escuro**](https://www.pcguia.pt/2026/04/app-do-dia-adaptive-theme-modo-escuro/)
-- android-zone.fr — [**Adaptive Theme Android: mode clair/sombre automatique**](https://www.android-zone.fr/adaptive-theme-android-mode-clair-sombre-automatique/)
-- android-mt.ouest-france.fr — [**Adaptive Theme : l’app qui adapte le mode sombre à la lumière**](https://android-mt.ouest-france.fr/application/adaptive-theme-lapp-qui-adapte-le-mode-sombre-a-la-lumiere/197809/)
-- saudiandroid.net — [**نظرة على تطبيق Adaptive Theme | للتبديل التلقائي بين الوضع الفاتح والداكن حسب شدة الإضاءة المحيطة**](https://www.saudiandroid.net/2026/03/%D8%AA%D8%B7%D8%A8%D9%8A%D9%82-adaptive-theme-%D9%81%D9%8A-%D8%A7%D9%86%D8%AF%D8%B1%D9%88%D9%8A%D8%AF.html)
+- androidauthority.com – [**This app gives Android the automatic dark mode feature it desperately needs**](https://www.androidauthority.com/automatic-dark-mode-android-adaptive-theme-3650081/)
+- computerworld.com – [**The Android dark mode upgrade you deserve**](https://www.computerworld.com/article/4154561/android-dark-mode-upgrade.html)
+- howtogeek.com – [**I ditched sunrise/sunset dark mode for this Android app (it uses your light sensor)**](https://www.howtogeek.com/i-ditched-sunrisesunset-dark-mode-for-this-android-app-it-uses-your-light-sensor/)
+- heise.de – [**Android dark mode: Open-source app adapts system design to ambient light**](https://www.heise.de/en/news/Android-dark-mode-Open-source-app-adapts-system-design-to-ambient-light-11283059.html)
+- tchgdns.de – [**Adaptive Theme für Android: Dunkelmodus automatisch per Umgebungslicht aktivieren**](https://tchgdns.de/adaptive-theme-fuer-android-dunkelmodus-automatisch-per-umgebungslicht-aktivieren/)
+- androidauthority.com – [**5 of the best new Android apps you need to try this April**](https://www.androidauthority.com/best-new-android-apps-games-april-2026-3653008/)
+- androidauthority.com – [**10 awesome Shizuku apps I use to level up my Android experience**](https://www.androidauthority.com/best-shizuku-apps-android-3659353/)
+- computerworld.com – [**The Android dark mode power-pack: 5 secrets for a smarter screen setup**](https://www.computerworld.com/article/4187935/android-dark-mode-power-pack.html)
+- droidwin.com – [**Switch Dark and Light Mode Based on Surrounding Light Level**](https://droidwin.com/switch-dark-and-light-mode-based-on-surrounding-light-level/)
+- androidinsider.ru – [**Автоматическая тёмная тема. Приложение, которого не хватало годами**](https://androidinsider.ru/obzory-prilozhenij/avtomaticheskaya-tyomnaya-tema-na-android-prilozhenie-kotorogo-ne-hvatalo-godami.html)
+- pcguia.pt – [**App do Dia – Adaptive Theme: Modo Escuro**](https://www.pcguia.pt/2026/04/app-do-dia-adaptive-theme-modo-escuro/)
+- saudiandroid.net – [**نظرة على تطبيق Adaptive Theme | للتبديل التلقائي بين الوضع الفاتح والداكن حسب شدة الإضاءة المحيطة**](https://www.saudiandroid.net/2026/03/%D8%AA%D8%B7%D8%A8%D9%8A%D9%82-adaptive-theme-%D9%81%D9%8A-%D8%A7%D9%86%D8%AF%D8%B1%D9%88%D9%8A%D8%AF.html)
+- bug.hr – [**Adaptive Theme: Activate dark mode based on lighting conditions**](https://www.bug.hr/appdana/adaptive-theme-aktivirat-ce-nocnu-temu-ovisno-o-uvjetima-osvjetljenja-57501) (Croatian; title translated)
+- sspai.com – [**App reviews: Recent apps worth checking out – Adaptive Theme: Smarter automatic light/dark mode switching**](https://sspai.com/post/114577) (Chinese; title and section heading translated)
 
 **YouTube Videos**
 
-- HowToMen — [**Top 15 Best Android Apps, February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s)
-- HowToMen — [**Top 15 Best Shizuku Apps to Use in 2026**](https://www.youtube.com/watch?v=mDQ8o4JlXjM&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=735s)
-- Mr. Android FHD — [**8 INCREDIBLE Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
-- TechTab — [**Top 10 Android Apps you need to try, March 2026**](https://www.youtube.com/watch?v=nSFYlenb_-U&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=298s)
-- Gadget Geek — [**Top 10 Best Android Apps, March 2026**](https://www.youtube.com/watch?v=8zQmriP8wSg&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=306s)
-- TechReviewBD — [**5 INSANE Android Apps That Will Change The Way You Use Your Phone**](https://youtu.be/9T895TReCcU?list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&si=HczGvueXQWgIU9aT&t=146)
-- Tech Tricks — [**10 Best New Top Rated Android Apps**](https://www.youtube.com/watch?v=Ti4Pt6hNZzc&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=257s)
-- El Androide Feliz (ES) — [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=152s)
-- Всё про Андроид (RU) — [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh)
+- HowToMen – [**Top 15 Best Android Apps, February 2026**](https://www.youtube.com/watch?v=iY3FBMTA15A&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=98s)
+- HowToMen – [**Top 15 Best Shizuku Apps to Use in 2026**](https://www.youtube.com/watch?v=mDQ8o4JlXjM&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&index=3&t=735s)
+- Mr. Android FHD – [**8 INCREDIBLE Apps That Every Android User Needs in 2026**](https://www.youtube.com/watch?v=CH_4E1LzGcU&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=459s)
+- El Androide Feliz (ES) – [**15 nuevas apps para Shizuku que son bestiales**](https://www.youtube.com/watch?v=eMznsQhldEw&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh&t=152s)
+- Всё про Андроид (RU) – [**Светлая и тёмная тема по датчику освещённости**](https://www.youtube.com/watch?v=Oj-WHpc5vK8&list=PLMrRwQM3vue8Y3WFVgP5UkYPj_41ekXJh)
+- DroidWin – [**Automatically Change Your Device's Theme Based on the Surrounding's Light Level!**](https://www.youtube.com/watch?v=Ya-RgI2kuTE) (video linked from the [DroidWin guide](https://droidwin.com/switch-dark-and-light-mode-based-on-surrounding-light-level/))
 
 **Acknowledgements**
 
-- [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) — Spanish translation strings
-- [Nunito font](https://github.com/googlefonts/nunito) — SIL Open Font License 1.1, Copyright 2014 The Nunito Project Authors
+- [AlbertCaro](https://github.com/xLexip/Adaptive-Theme/pull/107) – Spanish translation strings
+- [Nunito font](https://github.com/googlefonts/nunito) – SIL Open Font License 1.1, Copyright 2014 The Nunito Project Authors
 
 ---
 

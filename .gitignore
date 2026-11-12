@@ -40,3 +40,6 @@ app/beta/
 app/foss/
 app/play/
 .kotlin/
+
+analysis/
+docs/

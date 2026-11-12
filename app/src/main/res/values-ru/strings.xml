@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">При использовании Shizuku произошла непредвиденная ошибка.</string>
 	<string name="title_device_wallpaper_sync">Обои</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Менять экран блокировки</string>
 	<string name="title_lock_screen_wallpaper_blur">Размыть экран блокировки</string>
-	<string name="description_lock_screen_wallpaper_blur">Использовать размытую версию обоев на экране блокировки.</string>
 	<string name="description_device_wallpaper_sync">Используйте разные обои для светлой и тёмной темы. Переключение может занять некоторое время и повлиять на производительность.</string>
 	<string name="action_select_day_wallpaper">Светлая тема:</string>
 	<string name="action_select_night_wallpaper">Тёмная тема:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Поставить звезду на GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Скрыть навсегда</string>
 	<string name="github_star_prompt_thank_you">Спасибо!</string>
+	<string name="monitoring_start_failed_title">Не удалось запустить мониторинг</string>
+	<string name="monitoring_start_failed_message">Нажмите «Повторить», чтобы запустить фоновый мониторинг. Если проблема повторяется, проверьте ограничения фоновой работы приложений на телефоне.</string>
+	<string name="monitoring_action_retry">Повторить</string>
+	<string name="background_help_title">Разрешить работу в фоне</string>
+	<string name="background_help_generic">Фоновый мониторинг неоднократно прерывался. Следуйте руководству для своего телефона на Don’t Kill My App.</string>
+	<string name="background_help_hide">Скрыть подсказку</string>
+	<string name="background_help_open_settings">Открыть настройки приложения</string>
+	<string name="background_help_unavailable">Ни одно приложение не смогло открыть эту страницу. Вы можете проверить системные настройки или открыть dontkillmyapp.com вручную.</string>
+	<string name="setup_developer_mode_continue_hint">Если обе настройки уже включены, переходите к следующему шагу.</string>
+	<string name="setup_developer_options_title">Для разработчиков</string>
+	<string name="setup_usb_debugging_title">Отладка по USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Если режим разработчика ещё не включён, найдите номер сборки и нажмите на него 7 раз.</string>
+	<string name="whats_new_title">Что нового в версии v%1$s</string>
+	<string name="whats_new_message">Узнайте, что нового в этом обновлении, на GitHub.</string>
+	<string name="whats_new_view_changelog">Список изменений</string>
+	<string name="whats_new_unavailable">Ни одно приложение не смогло открыть список изменений. Вы найдёте его в выпусках Adaptive Theme на GitHub.</string>
 </resources>

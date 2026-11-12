@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku استعمال کرتے ہوئے غیر متوقع خرابی پیش آئی۔</string>
 	<string name="title_device_wallpaper_sync">وال پیپر</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">لاک اسکرین تبدیل کریں</string>
 	<string name="title_lock_screen_wallpaper_blur">لاک اسکرین دھندلی کریں</string>
-	<string name="description_lock_screen_wallpaper_blur">لاک اسکرین پر وال پیپر کا دھندلا ورژن استعمال کریں۔</string>
 	<string name="description_device_wallpaper_sync">روشن اور گہرے موڈ کے لیے الگ وال پیپرز استعمال کریں۔ تبدیلی میں ایک لمحہ لگ سکتا ہے اور کارکردگی متاثر ہو سکتی ہے۔</string>
 	<string name="action_select_day_wallpaper">روشن موڈ:</string>
 	<string name="action_select_night_wallpaper">گہرا موڈ:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub پر اسٹار دیں ↗</string>
 	<string name="github_star_prompt_dismiss_description">ہمیشہ کے لیے چھپائیں</string>
 	<string name="github_star_prompt_thank_you">شکریہ!</string>
+	<string name="monitoring_start_failed_title">نگرانی شروع نہیں ہو سکی</string>
+	<string name="monitoring_start_failed_message">پس منظر میں نگرانی شروع کرنے کے لیے دوبارہ کوشش کریں پر ٹیپ کریں۔ اگر مسئلہ برقرار رہے تو فون میں پس منظر کی ایپس پر عائد پابندیاں چیک کریں۔</string>
+	<string name="monitoring_action_retry">دوبارہ کوشش کریں</string>
+	<string name="background_help_title">پس منظر میں سرگرمی کی اجازت دیں</string>
+	<string name="background_help_generic">پس منظر میں نگرانی بار بار رکی ہے۔ Don’t Kill My App پر اپنے فون کی گائیڈ پر عمل کریں۔</string>
+	<string name="background_help_hide">اشارہ چھپائیں</string>
+	<string name="background_help_open_settings">ایپ کی ترتیبات کھولیں</string>
+	<string name="background_help_unavailable">کوئی ایپ یہ صفحہ نہیں کھول سکی۔ آپ سسٹم کی ترتیبات چیک کر سکتے ہیں یا خود dontkillmyapp.com پر جا سکتے ہیں۔</string>
+	<string name="setup_developer_mode_continue_hint">اگر دونوں ترتیبات پہلے سے فعال ہیں تو اگلے مرحلے پر جائیں۔</string>
+	<string name="setup_developer_options_title">ڈویلپر کے اختیارات</string>
+	<string name="setup_usb_debugging_title">USB ڈیبگنگ</string>
+	<string name="setup_dev_options_unconfirmed_toast">اگر ڈویلپر کے اختیارات ابھی فعال نہیں ہیں تو بلڈ نمبر تلاش کریں اور اس پر 7 بار ٹیپ کریں۔</string>
+	<string name="whats_new_title">v%1$s میں نیا کیا ہے</string>
+	<string name="whats_new_message">GitHub پر جانیں کہ اس اپ ڈیٹ میں نیا کیا ہے۔</string>
+	<string name="whats_new_view_changelog">تبدیلیوں کی فہرست دیکھیں</string>
+	<string name="whats_new_unavailable">کوئی ایپ تبدیلیوں کی فہرست نہیں کھول سکی۔ آپ اسے GitHub پر Adaptive Theme کی ریلیز میں دیکھ سکتے ہیں۔</string>
 </resources>

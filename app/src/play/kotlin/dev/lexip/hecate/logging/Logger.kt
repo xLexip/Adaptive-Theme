@@ -77,7 +77,9 @@ object Logger {
 		verificationAttempt: Int,
 		verificationElapsedMs: Long,
 		effectiveUiMode: Int,
-		screenOnProximityResult: ScreenOnProximityResult
+		screenOnProximityResult: ScreenOnProximityResult,
+		configuredMode: Int? = null,
+		failureStage: String? = null
 	) {
 		ifAllowed {
 			analytics(context).logEvent("theme_switched") {
@@ -86,6 +88,8 @@ object Logger {
 				param("verification_attempt", verificationAttempt.toLong())
 				param("verification_elapsed_ms", verificationElapsedMs)
 				param("effective_ui_mode", effectiveUiMode.toLong())
+				configuredMode?.let { param("configured_mode_after", it.toLong()) }
+				failureStage?.let { param("failure_stage", it) }
 				param(
 					"screen_on_proximity_result",
 					screenOnProximityResult.analyticsValue
@@ -122,6 +126,26 @@ object Logger {
 		ifAllowed {
 			analytics(context).logEvent("share_link_clicked") {
 				param("source", source)
+			}
+		}
+	}
+
+	fun logBackgroundGuidance(context: Context, action: String, outcome: String, guideVendor: String) {
+		ifAllowed {
+			analytics(context).logEvent("background_guidance") {
+				param("action", action)
+				param("outcome", outcome)
+				param("guide_vendor", guideVendor)
+			}
+		}
+	}
+
+	fun logWhatsNew(context: Context, action: String, outcome: String, release: String) {
+		ifAllowed {
+			analytics(context).logEvent("whats_new") {
+				param("action", action)
+				param("outcome", outcome)
+				param("release_version", release)
 			}
 		}
 	}
@@ -200,6 +224,7 @@ object Logger {
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ServiceNotRunning -> "service_not_running" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.NotAuthorized -> "not_authorized" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.ShellCommandFailed -> "shell_command_failed" to result.exitCode
+					dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.TimedOut -> "timeout" to null
 					is dev.lexip.hecate.util.shizuku.ShizukuManager.GrantResult.Unexpected -> "unexpected" to null
 				}
 				param("result_type", resultType)
@@ -229,7 +254,11 @@ object Logger {
 		reasonName: String,
 		description: String,
 		pssMb: Long,
-		importanceName: String
+		importanceName: String,
+		exitTimestampMs: Long,
+		detectionDelayMs: Long?,
+		processName: String,
+		pid: Int
 	) {
 		ifAllowed {
 			analytics(context).logEvent("process_killed_by_os") {
@@ -237,6 +266,39 @@ object Logger {
 				param("description", description.take(100))
 				param("pss_mb", pssMb)
 				param("importance", importanceName)
+				param("exit_timestamp_ms", exitTimestampMs)
+				detectionDelayMs?.let { param("detection_delay_ms", it) }
+				param("process_name", processName.take(100))
+				param("exit_pid", pid.toLong())
+			}
+		}
+	}
+
+	fun logMonitoringDiagnostic(
+		context: Context, stage: String, outcome: String, failure: Boolean,
+		sampled: Boolean, detail: String, elapsedMs: Long?, startId: Int?, importance: Int
+	) {
+		ifAllowed {
+			analytics(context).logEvent("monitoring_diagnostic") {
+				param("stage", stage)
+				param("outcome", outcome)
+				param("failure", if (failure) 1L else 0L)
+				param("routine_sample", if (sampled) 1L else 0L)
+				if (detail.isNotEmpty()) param("detail", detail.take(100))
+				elapsedMs?.let { param("elapsed_ms", it) }
+				startId?.let { param("start_id", it.toLong()) }
+				param("process_importance", importance.toLong())
+				param("process_pid", android.os.Process.myPid().toLong())
+			}
+		}
+	}
+
+	fun logMonitoringReadyAfterExit(context: Context, exitTimestampMs: Long, sinceExitMs: Long, pid: Int) {
+		ifAllowed {
+			analytics(context).logEvent("monitoring_ready_after_exit") {
+				param("exit_timestamp_ms", exitTimestampMs)
+				param("since_exit_ms", sinceExitMs)
+				param("exit_pid", pid.toLong())
 			}
 		}
 	}

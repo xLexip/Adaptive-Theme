@@ -204,10 +204,28 @@ class ScreenOnCoordinatorTest {
 		assertNull(requestedTheme)
 	}
 
+	@Test
+	fun diagnosticsDistinguishStartedBusyRequestedAndCancelledCycles() {
+		val stages = mutableListOf<String>()
+		val light = FakeSensor()
+		val coordinator = coordinator(
+			FakeProximitySensor(hasProximitySensor = false), light,
+			onStage = { stages += it }
+		) { _, _, _ -> }
+		coordinator.onScreenOn()
+		coordinator.onScreenOn()
+		light.emit(25f)
+		coordinator.onScreenOn()
+		coordinator.cancelPendingEvaluation()
+		coordinator.cancelPendingEvaluation()
+		assertEquals(listOf("started", "busy", "theme_requested", "started", "cancelled"), stages)
+	}
+
 	private fun coordinator(
 		proximity: FakeProximitySensor,
 		light: FakeSensor,
 		scheduler: FakeDelayedActionScheduler = FakeDelayedActionScheduler(),
+		onStage: (String) -> Unit = {},
 		onThemeRequested: (Boolean, ScreenOnProximityResult, Boolean) -> Unit
 	) = ScreenOnCoordinator(
 		proximitySensor = proximity,
@@ -218,7 +236,8 @@ class ScreenOnCoordinatorTest {
 		adaptiveThemeThresholdLux = 100f,
 		stayDarkAtNightEnabled = false,
 		nightStartMinutes = 21 * 60,
-		nightEndMinutes = 6 * 60
+		nightEndMinutes = 6 * 60,
+		onEvaluationStage = onStage
 	)
 }
 

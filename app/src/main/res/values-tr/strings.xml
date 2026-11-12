@@ -112,8 +112,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku kullanılırken beklenmeyen bir hata oluştu.</string>
 	<string name="title_device_wallpaper_sync">Duvar kâğıdı</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Kilit ekranını değiştir</string>
 	<string name="title_lock_screen_wallpaper_blur">Kilit ekranını bulanıklaştır</string>
-	<string name="description_lock_screen_wallpaper_blur">Kilit ekranında duvar kâğıdının bulanık bir sürümünü kullanın.</string>
 	<string name="description_device_wallpaper_sync">Açık ve koyu mod için ayrı duvar kâğıtları kullanın. Geçiş biraz sürebilir ve performansı etkileyebilir.</string>
 	<string name="action_select_day_wallpaper">Açık mod:</string>
 	<string name="action_select_night_wallpaper">Koyu mod:</string>
@@ -125,4 +125,20 @@
 	<string name="github_star_prompt_action">GitHub’da yıldız ver ↗</string>
 	<string name="github_star_prompt_dismiss_description">Sonsuza dek gizle</string>
 	<string name="github_star_prompt_thank_you">Teşekkürler!</string>
+	<string name="monitoring_start_failed_title">İzleme başlatılamadı</string>
+	<string name="monitoring_start_failed_message">Arka planda izlemeyi başlatmak için Tekrar dene’ye dokunun. Sorun devam ederse telefonunuzun arka plan uygulama kısıtlamalarını kontrol edin.</string>
+	<string name="monitoring_action_retry">Tekrar dene</string>
+	<string name="background_help_title">Arka plan etkinliğine izin ver</string>
+	<string name="background_help_generic">Arka planda izleme birkaç kez kesintiye uğradı. Don’t Kill My App’te telefonunuza yönelik rehberi izleyin.</string>
+	<string name="background_help_hide">İpucunu gizle</string>
+	<string name="background_help_open_settings">Uygulama ayarlarını aç</string>
+	<string name="background_help_unavailable">Hiçbir uygulama bu sayfayı açamadı. Sistem ayarlarını kontrol edebilir veya dontkillmyapp.com adresini kendiniz ziyaret edebilirsiniz.</string>
+	<string name="setup_developer_mode_continue_hint">Her iki ayar da zaten açıksa sonraki adıma geçin.</string>
+	<string name="setup_developer_options_title">Geliştirici seçenekleri</string>
+	<string name="setup_usb_debugging_title">USB hata ayıklama</string>
+	<string name="setup_dev_options_unconfirmed_toast">Geliştirici seçenekleri henüz açık değilse Derleme numarasını bulun ve 7 kez dokunun.</string>
+	<string name="whats_new_title">v%1$s sürümündeki yenilikler</string>
+	<string name="whats_new_message">Bu güncellemedeki yenilikleri GitHub üzerinde keşfedin.</string>
+	<string name="whats_new_view_changelog">Değişiklik günlüğünü görüntüle</string>
+	<string name="whats_new_unavailable">Hiçbir uygulama değişiklik günlüğünü açamadı. GitHub üzerindeki Adaptive Theme sürümlerinde bulabilirsiniz.</string>
 </resources>

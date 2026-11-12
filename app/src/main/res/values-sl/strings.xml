@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Pri uporabi aplikacije Shizuku je prišlo do nepričakovane napake.</string>
 	<string name="title_device_wallpaper_sync">Ozadje</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Spremeni zaklenjeni zaslon</string>
 	<string name="title_lock_screen_wallpaper_blur">Zamegli zaklenjeni zaslon</string>
-	<string name="description_lock_screen_wallpaper_blur">Na zaklenjenem zaslonu uporabite zamegljeno različico ozadja.</string>
 	<string name="description_device_wallpaper_sync">Uporabljajte ločeni ozadji za svetli in temni način. Preklop lahko traja trenutek in vpliva na delovanje.</string>
 	<string name="action_select_day_wallpaper">Svetli način:</string>
 	<string name="action_select_night_wallpaper">Temni način:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Dodaj zvezdico na GitHubu ↗</string>
 	<string name="github_star_prompt_dismiss_description">Skrij za vedno</string>
 	<string name="github_star_prompt_thank_you">Hvala!</string>
+	<string name="monitoring_start_failed_title">Spremljanja ni bilo mogoče zagnati</string>
+	<string name="monitoring_start_failed_message">Tapnite Poskusi znova, da zaženete spremljanje v ozadju. Če se težava ponavlja, preverite omejitve telefona za aplikacije v ozadju.</string>
+	<string name="monitoring_action_retry">Poskusi znova</string>
+	<string name="background_help_title">Dovoli dejavnost v ozadju</string>
+	<string name="background_help_generic">Spremljanje v ozadju je bilo večkrat prekinjeno. Sledite navodilom za svoj telefon na strani Don’t Kill My App.</string>
+	<string name="background_help_hide">Skrij namig</string>
+	<string name="background_help_open_settings">Odpri nastavitve aplikacije</string>
+	<string name="background_help_unavailable">Nobena aplikacija ni mogla odpreti te strani. Lahko preverite sistemske nastavitve ali ročno obiščete dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Če sta obe nastavitvi že vklopljeni, nadaljujte na naslednji korak.</string>
+	<string name="setup_developer_options_title">Možnosti za razvijalce</string>
+	<string name="setup_usb_debugging_title">Odpravljanje napak prek USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Če možnosti za razvijalce še niso vklopljene, poiščite številko gradnje in se je dotaknite 7-krat.</string>
+	<string name="whats_new_title">Novosti v različici v%1$s</string>
+	<string name="whats_new_message">Odkrijte novosti te posodobitve na GitHubu.</string>
+	<string name="whats_new_view_changelog">Prikaži spremembe</string>
+	<string name="whats_new_unavailable">Nobena aplikacija ni mogla odpreti seznama sprememb. Najdete ga med izdajami Adaptive Theme na GitHubu.</string>
 </resources>

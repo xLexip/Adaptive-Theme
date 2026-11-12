@@ -112,8 +112,8 @@
 	<string name="shizuku_grant_unexpected">Error inesperado al usar Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Fondo de pantalla</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Cambiar pantalla de bloqueo</string>
 	<string name="title_lock_screen_wallpaper_blur">Desenfocar pantalla de bloqueo</string>
-	<string name="description_lock_screen_wallpaper_blur">Usa una versión desenfocada del fondo de pantalla en la pantalla de bloqueo.</string>
 	<string name="description_device_wallpaper_sync">Usa fondos de pantalla distintos para los modos claro y oscuro. El cambio puede tardar un momento y afectar al rendimiento.</string>
 	<string name="action_select_day_wallpaper">Modo claro:</string>
 	<string name="action_select_night_wallpaper">Modo oscuro:</string>
@@ -125,4 +125,20 @@
 	<string name="github_star_prompt_action">Dar una estrella en GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Ocultar para siempre</string>
 	<string name="github_star_prompt_thank_you">¡Gracias!</string>
+	<string name="monitoring_start_failed_title">No se pudo iniciar la supervisión</string>
+	<string name="monitoring_start_failed_message">Toca Reintentar para iniciar la supervisión en segundo plano. Si el problema persiste, comprueba las restricciones de aplicaciones en segundo plano del teléfono.</string>
+	<string name="monitoring_action_retry">Reintentar</string>
+	<string name="background_help_title">Permitir actividad en segundo plano</string>
+	<string name="background_help_generic">La supervisión en segundo plano se ha interrumpido varias veces. Sigue la guía para tu teléfono en Don’t Kill My App.</string>
+	<string name="background_help_hide">Ocultar consejo</string>
+	<string name="background_help_open_settings">Abrir ajustes de la aplicación</string>
+	<string name="background_help_unavailable">Ninguna aplicación pudo abrir esta página. Puedes comprobar los ajustes del sistema o visitar dontkillmyapp.com manualmente.</string>
+	<string name="setup_developer_mode_continue_hint">Si ambos ajustes ya están activados, continúa al siguiente paso.</string>
+	<string name="setup_developer_options_title">Opciones de desarrollador</string>
+	<string name="setup_usb_debugging_title">Depuración USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Si las opciones de desarrollador aún no están activadas, busca el número de compilación y tócalo 7 veces.</string>
+	<string name="whats_new_title">Novedades de v%1$s</string>
+	<string name="whats_new_message">Descubre las novedades de esta actualización en GitHub.</string>
+	<string name="whats_new_view_changelog">Ver cambios</string>
+	<string name="whats_new_unavailable">Ninguna aplicación pudo abrir el registro de cambios. Puedes encontrarlo en las versiones de Adaptive Theme en GitHub.</string>
 </resources>

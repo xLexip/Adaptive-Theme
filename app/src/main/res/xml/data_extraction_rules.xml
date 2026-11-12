@@ -5,15 +5,13 @@
 -->
 <data-extraction-rules>
 	<cloud-backup>
+		<exclude domain="sharedpref" path="monitoring_interruption_tracker.xml"/>
 		<!--
 		<include .../>
 		<exclude .../>
 		-->
 	</cloud-backup>
-	<!--
 	<device-transfer>
-		<include .../>
-		<exclude .../>
+		<exclude domain="sharedpref" path="monitoring_interruption_tracker.xml"/>
 	</device-transfer>
-	-->
 </data-extraction-rules>

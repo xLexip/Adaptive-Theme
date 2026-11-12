@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku ഉപയോഗിക്കുമ്പോൾ അപ്രതീക്ഷിത പിശക് സംഭവിച്ചു.</string>
 	<string name="title_device_wallpaper_sync">വാൾപേപ്പർ</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">ലോക്ക് സ്ക്രീൻ മാറ്റുക</string>
 	<string name="title_lock_screen_wallpaper_blur">ലോക്ക് സ്ക്രീൻ മങ്ങിക്കുക</string>
-	<string name="description_lock_screen_wallpaper_blur">ലോക്ക് സ്ക്രീനിൽ വാൾപേപ്പറിന്റെ മങ്ങിയ പതിപ്പ് ഉപയോഗിക്കുക.</string>
 	<string name="description_device_wallpaper_sync">ലൈറ്റ്, ഡാർക്ക് മോഡുകൾക്ക് വെവ്വേറെ വാൾപേപ്പറുകൾ ഉപയോഗിക്കുക. മാറ്റാൻ അൽപസമയം എടുത്തേക്കാം, പ്രകടനത്തെ ബാധിക്കുകയും ചെയ്യാം.</string>
 	<string name="action_select_day_wallpaper">ലൈറ്റ് മോഡ്:</string>
 	<string name="action_select_night_wallpaper">ഡാർക്ക് മോഡ്:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub-ൽ സ്റ്റാർ നൽകുക ↗</string>
 	<string name="github_star_prompt_dismiss_description">എന്നേക്കുമായി മറയ്ക്കുക</string>
 	<string name="github_star_prompt_thank_you">നന്ദി!</string>
+	<string name="monitoring_start_failed_title">നിരീക്ഷണം ആരംഭിക്കാനായില്ല</string>
+	<string name="monitoring_start_failed_message">പശ്ചാത്തല നിരീക്ഷണം ആരംഭിക്കാൻ വീണ്ടും ശ്രമിക്കുക എന്നതിൽ ടാപ്പ് ചെയ്യുക. പ്രശ്നം തുടരുകയാണെങ്കിൽ, ഫോണിലെ പശ്ചാത്തല ആപ്പുകളുടെ നിയന്ത്രണങ്ങൾ പരിശോധിക്കുക.</string>
+	<string name="monitoring_action_retry">വീണ്ടും ശ്രമിക്കുക</string>
+	<string name="background_help_title">പശ്ചാത്തല പ്രവർത്തനം അനുവദിക്കുക</string>
+	<string name="background_help_generic">പശ്ചാത്തല നിരീക്ഷണം ആവർത്തിച്ച് തടസ്സപ്പെട്ടു. Don’t Kill My App-ൽ നിങ്ങളുടെ ഫോണിനുള്ള മാർഗനിർദേശങ്ങൾ പിന്തുടരുക.</string>
+	<string name="background_help_hide">സൂചന മറയ്ക്കുക</string>
+	<string name="background_help_open_settings">ആപ്പ് ക്രമീകരണങ്ങൾ തുറക്കുക</string>
+	<string name="background_help_unavailable">ഒരു ആപ്പിനും ഈ പേജ് തുറക്കാനായില്ല. നിങ്ങൾക്ക് സിസ്റ്റം ക്രമീകരണങ്ങൾ പരിശോധിക്കുകയോ dontkillmyapp.com നേരിട്ട് സന്ദർശിക്കുകയോ ചെയ്യാം.</string>
+	<string name="setup_developer_mode_continue_hint">രണ്ട് ക്രമീകരണങ്ങളും ഇതിനകം ഓണാണെങ്കിൽ, അടുത്ത ഘട്ടത്തിലേക്ക് പോകുക.</string>
+	<string name="setup_developer_options_title">ഡെവലപ്പർ ഓപ്ഷനുകൾ</string>
+	<string name="setup_usb_debugging_title">USB ഡീബഗ്ഗിംഗ്</string>
+	<string name="setup_dev_options_unconfirmed_toast">ഡെവലപ്പർ ഓപ്ഷനുകൾ ഇതുവരെ ഓണാക്കിയിട്ടില്ലെങ്കിൽ, ബിൽഡ് നമ്പർ കണ്ടെത്തി അതിൽ 7 തവണ ടാപ്പ് ചെയ്യുക.</string>
+	<string name="whats_new_title">v%1$s-ലെ പുതിയ കാര്യങ്ങൾ</string>
+	<string name="whats_new_message">ഈ അപ്‌ഡേറ്റിലെ പുതിയ കാര്യങ്ങൾ GitHub-ൽ അറിയൂ.</string>
+	<string name="whats_new_view_changelog">മാറ്റപ്പട്ടിക കാണുക</string>
+	<string name="whats_new_unavailable">മാറ്റപ്പട്ടിക തുറക്കാൻ ഒരു ആപ്പിനും കഴിഞ്ഞില്ല. GitHub-ലെ Adaptive Theme റിലീസുകളിൽ ഇത് കാണാം.</string>
 </resources>

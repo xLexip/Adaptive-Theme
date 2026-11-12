@@ -112,8 +112,8 @@
 	<string name="shizuku_grant_unexpected">Onverwachte fout bij het gebruik van Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Achtergrond</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Vergrendelscherm wijzigen</string>
 	<string name="title_lock_screen_wallpaper_blur">Vervaag vergrendelscherm</string>
-	<string name="description_lock_screen_wallpaper_blur">Gebruik een vervaagde versie van de achtergrond op het vergrendelscherm.</string>
 	<string name="description_device_wallpaper_sync">Gebruik afzonderlijke achtergronden voor de lichte en donkere modus. Wisselen kan even duren en de prestaties beïnvloeden.</string>
 	<string name="action_select_day_wallpaper">Lichte modus:</string>
 	<string name="action_select_night_wallpaper">Donkere modus:</string>
@@ -125,4 +125,20 @@
 	<string name="github_star_prompt_action">Ster geven op GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Voor altijd verbergen</string>
 	<string name="github_star_prompt_thank_you">Bedankt!</string>
+	<string name="monitoring_start_failed_title">Bewaking kon niet worden gestart</string>
+	<string name="monitoring_start_failed_message">Tik op Opnieuw proberen om de achtergrondbewaking te starten. Als het probleem blijft optreden, controleer dan de beperkingen voor achtergrondapps op je telefoon.</string>
+	<string name="monitoring_action_retry">Opnieuw proberen</string>
+	<string name="background_help_title">Achtergrondactiviteit toestaan</string>
+	<string name="background_help_generic">De achtergrondbewaking is herhaaldelijk onderbroken. Volg de handleiding voor je telefoon op Don’t Kill My App.</string>
+	<string name="background_help_hide">Tip verbergen</string>
+	<string name="background_help_open_settings">Appinstellingen openen</string>
+	<string name="background_help_unavailable">Geen enkele app kon deze pagina openen. Je kunt de systeeminstellingen controleren of dontkillmyapp.com handmatig bezoeken.</string>
+	<string name="setup_developer_mode_continue_hint">Als beide instellingen al zijn ingeschakeld, ga je verder naar de volgende stap.</string>
+	<string name="setup_developer_options_title">Ontwikkelaarsopties</string>
+	<string name="setup_usb_debugging_title">USB-foutopsporing</string>
+	<string name="setup_dev_options_unconfirmed_toast">Als de ontwikkelaarsopties nog niet zijn ingeschakeld, zoek je het buildnummer en tik je er 7 keer op.</string>
+	<string name="whats_new_title">Nieuw in v%1$s</string>
+	<string name="whats_new_message">Ontdek wat er nieuw is in deze update op GitHub.</string>
+	<string name="whats_new_view_changelog">Wijzigingen bekijken</string>
+	<string name="whats_new_unavailable">Geen app kon het wijzigingsoverzicht openen. Je vindt het bij de releases van Adaptive Theme op GitHub.</string>
 </resources>

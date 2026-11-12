@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Đã xảy ra lỗi không mong muốn khi dùng Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Hình nền</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Thay đổi màn hình khóa</string>
 	<string name="title_lock_screen_wallpaper_blur">Làm mờ màn hình khóa</string>
-	<string name="description_lock_screen_wallpaper_blur">Sử dụng phiên bản làm mờ của hình nền trên màn hình khóa.</string>
 	<string name="description_device_wallpaper_sync">Sử dụng hình nền riêng cho chế độ sáng và tối. Việc chuyển đổi có thể mất một lúc và ảnh hưởng đến hiệu suất.</string>
 	<string name="action_select_day_wallpaper">Chế độ sáng:</string>
 	<string name="action_select_night_wallpaper">Chế độ tối:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Tặng sao trên GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Ẩn vĩnh viễn</string>
 	<string name="github_star_prompt_thank_you">Cảm ơn!</string>
+	<string name="monitoring_start_failed_title">Không thể bắt đầu giám sát</string>
+	<string name="monitoring_start_failed_message">Nhấn Thử lại để bắt đầu giám sát nền. Nếu sự cố vẫn tiếp diễn, hãy kiểm tra các hạn chế đối với ứng dụng chạy nền trên điện thoại.</string>
+	<string name="monitoring_action_retry">Thử lại</string>
+	<string name="background_help_title">Cho phép hoạt động nền</string>
+	<string name="background_help_generic">Hoạt động giám sát nền đã bị gián đoạn nhiều lần. Hãy làm theo hướng dẫn dành cho điện thoại của bạn trên Don’t Kill My App.</string>
+	<string name="background_help_hide">Ẩn gợi ý</string>
+	<string name="background_help_open_settings">Mở cài đặt ứng dụng</string>
+	<string name="background_help_unavailable">Không ứng dụng nào mở được trang này. Bạn có thể kiểm tra cài đặt hệ thống hoặc tự truy cập dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Nếu cả hai tùy chọn đã bật, hãy chuyển sang bước tiếp theo.</string>
+	<string name="setup_developer_options_title">Tùy chọn nhà phát triển</string>
+	<string name="setup_usb_debugging_title">Gỡ lỗi USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Nếu chưa bật Tùy chọn nhà phát triển, hãy tìm Số bản dựng và nhấn 7 lần.</string>
+	<string name="whats_new_title">Có gì mới trong v%1$s</string>
+	<string name="whats_new_message">Khám phá những điểm mới trong bản cập nhật này trên GitHub.</string>
+	<string name="whats_new_view_changelog">Xem nhật ký thay đổi</string>
+	<string name="whats_new_unavailable">Không có ứng dụng nào mở được nhật ký thay đổi. Bạn có thể tìm thấy trong các bản phát hành Adaptive Theme trên GitHub.</string>
 </resources>

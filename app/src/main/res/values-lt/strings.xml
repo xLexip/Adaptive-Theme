@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Naudojant „Shizuku“ įvyko netikėta klaida.</string>
 	<string name="title_device_wallpaper_sync">Ekrano fonas</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Keisti užrakto ekraną</string>
 	<string name="title_lock_screen_wallpaper_blur">Sulieti užrakto ekraną</string>
-	<string name="description_lock_screen_wallpaper_blur">Užrakto ekrane naudokite sulietą ekrano fono versiją.</string>
 	<string name="description_device_wallpaper_sync">Naudokite atskirus šviesaus ir tamsaus režimo ekrano fonus. Perjungimas gali užtrukti akimirką ir paveikti našumą.</string>
 	<string name="action_select_day_wallpaper">Šviesus režimas:</string>
 	<string name="action_select_night_wallpaper">Tamsus režimas:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Pažymėti žvaigždute „GitHub“ ↗</string>
 	<string name="github_star_prompt_dismiss_description">Slėpti visam laikui</string>
 	<string name="github_star_prompt_thank_you">Ačiū!</string>
+	<string name="monitoring_start_failed_title">Nepavyko pradėti stebėjimo</string>
+	<string name="monitoring_start_failed_message">Bakstelėkite Bandyti dar kartą, kad pradėtumėte stebėjimą fone. Jei problema kartojasi, patikrinkite telefono foninių programų apribojimus.</string>
+	<string name="monitoring_action_retry">Bandyti dar kartą</string>
+	<string name="background_help_title">Leisti veiklą fone</string>
+	<string name="background_help_generic">Stebėjimas fone buvo kelis kartus nutrauktas. Vadovaukitės savo telefonui skirtu Don’t Kill My App vadovu.</string>
+	<string name="background_help_hide">Slėpti patarimą</string>
+	<string name="background_help_open_settings">Atverti programos nustatymus</string>
+	<string name="background_help_unavailable">Jokia programa negalėjo atverti šio puslapio. Galite patikrinti sistemos nustatymus arba patys apsilankyti dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Jei abu nustatymai jau įjungti, pereikite prie kito veiksmo.</string>
+	<string name="setup_developer_options_title">Kūrėjo parinktys</string>
+	<string name="setup_usb_debugging_title">USB derinimas</string>
+	<string name="setup_dev_options_unconfirmed_toast">Jei kūrėjo parinktys dar neįjungtos, raskite versijos numerį ir palieskite jį 7 kartus.</string>
+	<string name="whats_new_title">Kas naujo v%1$s versijoje</string>
+	<string name="whats_new_message">Sužinokite, kas naujo šiame naujinime, GitHub.</string>
+	<string name="whats_new_view_changelog">Rodyti pakeitimus</string>
+	<string name="whats_new_unavailable">Nė viena programa negalėjo atverti pakeitimų sąrašo. Jį rasite Adaptive Theme leidimuose GitHub.</string>
 </resources>

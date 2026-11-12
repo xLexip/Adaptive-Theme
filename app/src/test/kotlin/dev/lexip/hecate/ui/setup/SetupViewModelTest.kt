@@ -105,6 +105,40 @@ class SetupViewModelTest {
 		}
 
 	@Test
+	fun unconfirmedSettingsAllowManualProgressButStillRequirePermission() =
+		runTest(mainDispatcherRule.dispatcher) {
+			environment.current = environment.current.copy(
+				isDeveloperOptionsEnabled = null,
+				isUsbDebuggingEnabled = null
+			)
+			val viewModel = createViewModel()
+			runCurrent()
+
+			advanceTimeBy(3_000)
+			runCurrent()
+			assertEquals(SetupRoute.DeveloperMode, viewModel.uiState.value.currentStep)
+			assertFalse(viewModel.uiState.value.isStep1Complete)
+
+			viewModel.navigateToNextStep()
+			assertEquals(SetupRoute.ConnectUsb, viewModel.uiState.value.currentStep)
+			assertFalse(viewModel.uiState.value.isStep1Complete)
+			viewModel.navigateToNextStep()
+			viewModel.checkPermissionAndComplete()
+			runCurrent()
+			assertEquals(SetupRoute.GrantPermission, viewModel.uiState.value.currentStep)
+			assertFalse(viewModel.uiState.value.isSetupCompleted)
+			assertFalse(preferences.current.hasSetupCompleted)
+			assertEquals(0, serviceController.startCalls)
+
+			environment.current = environment.current.copy(hasWriteSecureSettings = true)
+			viewModel.checkPermissionAndComplete()
+			advanceUntilIdle()
+			assertTrue(viewModel.uiState.value.isSetupCompleted)
+			assertTrue(preferences.current.hasSetupCompleted)
+			assertEquals(1, serviceController.startCalls)
+		}
+
+	@Test
 	fun nextAndBackUpdateStateAndEmitNavigation() =
 		runTest(mainDispatcherRule.dispatcher) {
 			val viewModel = createViewModel()
@@ -161,19 +195,38 @@ class SetupViewModelTest {
 		}
 
 	@Test
-	fun shizukuSuccessCompletesSetupWithoutRealBinder() =
+	fun partialShizukuGrantCompletesSetupWhenRequiredPermissionIsPresent() =
 		runTest(mainDispatcherRule.dispatcher) {
 			permissionController.binderReady = true
 			permissionController.shizukuPermission = true
-			permissionController.shizukuResult = SetupGrantResult.Success
+			permissionController.shizukuResult = SetupGrantResult.Failed("additional command failed")
 			val viewModel = createViewModel()
 			runCurrent()
 
+			environment.current = environment.current.copy(hasWriteSecureSettings = true)
 			viewModel.onGrantViaShizukuRequested()
 			advanceUntilIdle()
 
 			assertTrue(viewModel.uiState.value.isSetupCompleted)
 			assertEquals(1, permissionController.shizukuGrantCalls)
+		}
+
+	@Test
+	fun shizukuRequestFailureAllowsRetryAndUnverifiedSuccessDoesNotFinish() =
+		runTest(mainDispatcherRule.dispatcher) {
+			permissionController.binderReady = true
+			permissionController.requestFailure = IllegalStateException("binder died")
+			val viewModel = createViewModel()
+			runCurrent()
+			viewModel.onGrantViaShizukuRequested()
+			assertEquals(1, permissionController.permissionRequestCalls)
+			permissionController.shizukuPermission = true
+			permissionController.shizukuResult = SetupGrantResult.Success
+			viewModel.onGrantViaShizukuRequested()
+			runCurrent()
+			assertEquals(1, permissionController.shizukuGrantCalls)
+			assertFalse(viewModel.uiState.value.isSetupCompleted)
+			viewModel.exitSetup()
 		}
 
 	@Test

@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Παρουσιάστηκε απροσδόκητο σφάλμα κατά τη χρήση του Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Ταπετσαρία</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Αλλαγή οθόνης κλειδώματος</string>
 	<string name="title_lock_screen_wallpaper_blur">Θόλωση οθόνης κλειδώματος</string>
-	<string name="description_lock_screen_wallpaper_blur">Χρησιμοποιήστε μια θολή έκδοση της ταπετσαρίας στην οθόνη κλειδώματος.</string>
 	<string name="description_device_wallpaper_sync">Χρησιμοποιήστε ξεχωριστές ταπετσαρίες για φωτεινή και σκοτεινή λειτουργία. Η εναλλαγή μπορεί να διαρκέσει λίγο και να επηρεάσει την απόδοση.</string>
 	<string name="action_select_day_wallpaper">Φωτεινή λειτουργία:</string>
 	<string name="action_select_night_wallpaper">Σκοτεινή λειτουργία:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Προσθήκη αστεριού στο GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Μόνιμη απόκρυψη</string>
 	<string name="github_star_prompt_thank_you">Ευχαριστούμε!</string>
+	<string name="monitoring_start_failed_title">Δεν ήταν δυνατή η έναρξη της παρακολούθησης</string>
+	<string name="monitoring_start_failed_message">Πατήστε Δοκιμή ξανά για να ξεκινήσει η παρακολούθηση στο παρασκήνιο. Αν το πρόβλημα επιμένει, ελέγξτε τους περιορισμούς εφαρμογών παρασκηνίου του τηλεφώνου σας.</string>
+	<string name="monitoring_action_retry">Δοκιμή ξανά</string>
+	<string name="background_help_title">Να επιτρέπεται η δραστηριότητα στο παρασκήνιο</string>
+	<string name="background_help_generic">Η παρακολούθηση στο παρασκήνιο έχει διακοπεί επανειλημμένα. Ακολουθήστε τον οδηγό για το τηλέφωνό σας στο Don’t Kill My App.</string>
+	<string name="background_help_hide">Απόκρυψη συμβουλής</string>
+	<string name="background_help_open_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
+	<string name="background_help_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει αυτή τη σελίδα. Μπορείτε να ελέγξετε τις ρυθμίσεις συστήματος ή να επισκεφθείτε το dontkillmyapp.com χειροκίνητα.</string>
+	<string name="setup_developer_mode_continue_hint">Αν και οι δύο ρυθμίσεις είναι ήδη ενεργές, συνεχίστε στο επόμενο βήμα.</string>
+	<string name="setup_developer_options_title">Επιλογές προγραμματιστή</string>
+	<string name="setup_usb_debugging_title">Εντοπισμός σφαλμάτων USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Αν οι επιλογές προγραμματιστή δεν είναι ακόμη ενεργές, βρείτε τον αριθμό έκδοσης και πατήστε τον 7 φορές.</string>
+	<string name="whats_new_title">Τι νέο υπάρχει στην έκδοση v%1$s</string>
+	<string name="whats_new_message">Μάθετε τι νέο υπάρχει σε αυτή την ενημέρωση στο GitHub.</string>
+	<string name="whats_new_view_changelog">Προβολή αλλαγών</string>
+	<string name="whats_new_unavailable">Καμία εφαρμογή δεν μπόρεσε να ανοίξει το ιστορικό αλλαγών. Θα το βρείτε στις εκδόσεις του Adaptive Theme στο GitHub.</string>
 </resources>

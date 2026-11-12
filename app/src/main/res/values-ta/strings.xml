@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku பயன்படுத்தும்போது எதிர்பாராத பிழை ஏற்பட்டது.</string>
 	<string name="title_device_wallpaper_sync">வால்பேப்பர்</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">பூட்டுத் திரையை மாற்று</string>
 	<string name="title_lock_screen_wallpaper_blur">பூட்டுத் திரையை மங்கலாக்கு</string>
-	<string name="description_lock_screen_wallpaper_blur">பூட்டுத் திரையில் வால்பேப்பரின் மங்கலான பதிப்பைப் பயன்படுத்தவும்.</string>
 	<string name="description_device_wallpaper_sync">வெளிர் மற்றும் இருள் பயன்முறைகளுக்குத் தனித்தனி வால்பேப்பர்களைப் பயன்படுத்தவும். மாற்ற சிறிது நேரம் ஆகலாம்; செயல்திறன் பாதிக்கப்படலாம்.</string>
 	<string name="action_select_day_wallpaper">வெளிர் பயன்முறை:</string>
 	<string name="action_select_night_wallpaper">இருள் பயன்முறை:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub-ல் ஸ்டார் வழங்கவும் ↗</string>
 	<string name="github_star_prompt_dismiss_description">என்றென்றும் மறை</string>
 	<string name="github_star_prompt_thank_you">நன்றி!</string>
+	<string name="monitoring_start_failed_title">கண்காணிப்பைத் தொடங்க முடியவில்லை</string>
+	<string name="monitoring_start_failed_message">பின்னணிக் கண்காணிப்பைத் தொடங்க மீண்டும் முயல்க என்பதைத் தட்டவும். சிக்கல் தொடர்ந்தால், உங்கள் மொபைலின் பின்னணி ஆப்ஸ் கட்டுப்பாடுகளைச் சரிபார்க்கவும்.</string>
+	<string name="monitoring_action_retry">மீண்டும் முயல்க</string>
+	<string name="background_help_title">பின்னணிச் செயல்பாட்டை அனுமதி</string>
+	<string name="background_help_generic">பின்னணிக் கண்காணிப்பு மீண்டும் மீண்டும் தடைபட்டுள்ளது. Don’t Kill My App தளத்தில் உங்கள் மொபைலுக்கான வழிகாட்டியைப் பின்பற்றவும்.</string>
+	<string name="background_help_hide">குறிப்பை மறை</string>
+	<string name="background_help_open_settings">ஆப்ஸ் அமைப்புகளைத் திற</string>
+	<string name="background_help_unavailable">எந்த ஆப்ஸாலும் இந்தப் பக்கத்தைத் திறக்க முடியவில்லை. சிஸ்டம் அமைப்புகளைச் சரிபார்க்கலாம் அல்லது dontkillmyapp.com தளத்திற்கு நேரடியாகச் செல்லலாம்.</string>
+	<string name="setup_developer_mode_continue_hint">இரண்டு அமைப்புகளும் ஏற்கனவே இயக்கப்பட்டிருந்தால், அடுத்த படிக்குச் செல்லவும்.</string>
+	<string name="setup_developer_options_title">டெவலப்பர் விருப்பங்கள்</string>
+	<string name="setup_usb_debugging_title">USB பிழைத்திருத்தம்</string>
+	<string name="setup_dev_options_unconfirmed_toast">டெவலப்பர் விருப்பங்கள் இன்னும் இயக்கப்படவில்லை என்றால், பில்ட் எண்ணைக் கண்டறிந்து அதை 7 முறை தட்டவும்.</string>
+	<string name="whats_new_title">v%1$s பதிப்பில் புதியவை</string>
+	<string name="whats_new_message">இந்தப் புதுப்பிப்பில் புதியவை என்ன என்பதை GitHub-இல் அறியலாம்.</string>
+	<string name="whats_new_view_changelog">மாற்றப் பட்டியலைப் பார்க்க</string>
+	<string name="whats_new_unavailable">மாற்றப் பட்டியலை எந்த ஆப்ஸாலும் திறக்க முடியவில்லை. GitHub-இல் Adaptive Theme வெளியீடுகளில் அதைக் காணலாம்.</string>
 </resources>

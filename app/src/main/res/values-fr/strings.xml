@@ -112,8 +112,8 @@
 	<string name="shizuku_grant_unexpected">Erreur inattendue lors de l’utilisation de Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Fond d’écran</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Modifier l’écran de verrouillage</string>
 	<string name="title_lock_screen_wallpaper_blur">Flouter l’écran de verrouillage</string>
-	<string name="description_lock_screen_wallpaper_blur">Utilisez une version floutée du fond d’écran sur l’écran de verrouillage.</string>
 	<string name="description_device_wallpaper_sync">Utilisez des fonds d’écran distincts pour les modes clair et sombre. Le changement peut prendre un instant et affecter les performances.</string>
 	<string name="action_select_day_wallpaper">Mode clair :</string>
 	<string name="action_select_night_wallpaper">Mode sombre :</string>
@@ -125,4 +125,20 @@
 	<string name="github_star_prompt_action">Ajouter une étoile sur GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Masquer définitivement</string>
 	<string name="github_star_prompt_thank_you">Merci !</string>
+	<string name="monitoring_start_failed_title">Impossible de démarrer la surveillance</string>
+	<string name="monitoring_start_failed_message">Appuyez sur Réessayer pour démarrer la surveillance en arrière-plan. Si le problème persiste, vérifiez les restrictions des applications en arrière-plan de votre téléphone.</string>
+	<string name="monitoring_action_retry">Réessayer</string>
+	<string name="background_help_title">Autoriser l’activité en arrière-plan</string>
+	<string name="background_help_generic">La surveillance en arrière-plan a été interrompue à plusieurs reprises. Suivez le guide pour votre téléphone sur Don’t Kill My App.</string>
+	<string name="background_help_hide">Masquer le conseil</string>
+	<string name="background_help_open_settings">Ouvrir les paramètres de l’application</string>
+	<string name="background_help_unavailable">Aucune application n’a pu ouvrir cette page. Vous pouvez vérifier les paramètres système ou consulter dontkillmyapp.com manuellement.</string>
+	<string name="setup_developer_mode_continue_hint">Si les deux paramètres sont déjà activés, passez à la prochaine étape.</string>
+	<string name="setup_developer_options_title">Options pour les développeurs</string>
+	<string name="setup_usb_debugging_title">Débogage USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Si les options pour les développeurs ne sont pas encore activées, trouvez le numéro de build et appuyez dessus 7 fois.</string>
+	<string name="whats_new_title">Nouveautés de v%1$s</string>
+	<string name="whats_new_message">Découvrez les nouveautés de cette mise à jour sur GitHub.</string>
+	<string name="whats_new_view_changelog">Voir les modifications</string>
+	<string name="whats_new_unavailable">Aucune application n’a pu ouvrir le journal des modifications. Il est disponible dans les versions d’Adaptive Theme sur GitHub.</string>
 </resources>

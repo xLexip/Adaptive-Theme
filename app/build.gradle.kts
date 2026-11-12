@@ -48,8 +48,8 @@ android {
         applicationId = "dev.lexip.hecate"
         minSdk = 34
         targetSdk = 37
-        versionCode = 139
-        versionName = "2.5.1"
+        versionCode = 141
+        versionName = "2.6.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -376,5 +376,5 @@ abstract class VerifyFossStoreMetadataTask : DefaultTask() {
 }
 
 jacoco {
-    toolVersion = "0.8.15"
+    toolVersion = "0.8.16"
 }

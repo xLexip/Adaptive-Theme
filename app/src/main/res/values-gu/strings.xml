@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku વાપરતી વખતે અનપેક્ષિત ભૂલ થઈ.</string>
 	<string name="title_device_wallpaper_sync">વૉલપેપર</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">લૉક સ્ક્રીન બદલો</string>
 	<string name="title_lock_screen_wallpaper_blur">લૉક સ્ક્રીન બ્લર કરો</string>
-	<string name="description_lock_screen_wallpaper_blur">લૉક સ્ક્રીન પર વૉલપેપરનું બ્લર કરેલું સંસ્કરણ વાપરો.</string>
 	<string name="description_device_wallpaper_sync">લાઇટ અને ડાર્ક મોડ માટે અલગ વૉલપેપર વાપરો. બદલવામાં થોડો સમય લાગી શકે છે અને પરફોર્મન્સ પર અસર થઈ શકે છે.</string>
 	<string name="action_select_day_wallpaper">લાઇટ મોડ:</string>
 	<string name="action_select_night_wallpaper">ડાર્ક મોડ:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub પર સ્ટાર આપો ↗</string>
 	<string name="github_star_prompt_dismiss_description">હંમેશ માટે છુપાવો</string>
 	<string name="github_star_prompt_thank_you">આભાર!</string>
+	<string name="monitoring_start_failed_title">નિરીક્ષણ શરૂ કરી શકાયું નથી</string>
+	<string name="monitoring_start_failed_message">પૃષ્ઠભૂમિમાં નિરીક્ષણ શરૂ કરવા માટે ફરી પ્રયાસ કરો પર ટૅપ કરો. સમસ્યા ચાલુ રહે તો ફોનમાં પૃષ્ઠભૂમિ ઍપ પરના પ્રતિબંધો તપાસો.</string>
+	<string name="monitoring_action_retry">ફરી પ્રયાસ કરો</string>
+	<string name="background_help_title">પૃષ્ઠભૂમિ પ્રવૃત્તિને મંજૂરી આપો</string>
+	<string name="background_help_generic">પૃષ્ઠભૂમિમાં નિરીક્ષણ વારંવાર અવરોધાયું છે. Don’t Kill My App પર તમારા ફોન માટેની માર્ગદર્શિકા અનુસરો.</string>
+	<string name="background_help_hide">સૂચન છુપાવો</string>
+	<string name="background_help_open_settings">ઍપનાં સેટિંગ ખોલો</string>
+	<string name="background_help_unavailable">કોઈ ઍપ આ પેજ ખોલી શકી નથી. તમે સિસ્ટમ સેટિંગ તપાસી શકો છો અથવા જાતે dontkillmyapp.com ની મુલાકાત લઈ શકો છો.</string>
+	<string name="setup_developer_mode_continue_hint">જો બંને સેટિંગ્સ પહેલેથી ચાલુ હોય, તો આગળના પગલા પર જાઓ.</string>
+	<string name="setup_developer_options_title">ડેવલપર વિકલ્પો</string>
+	<string name="setup_usb_debugging_title">USB ડિબગિંગ</string>
+	<string name="setup_dev_options_unconfirmed_toast">જો ડેવલપર વિકલ્પો હજી ચાલુ ન હોય, તો બિલ્ડ નંબર શોધીને તેના પર 7 વાર ટૅપ કરો.</string>
+	<string name="whats_new_title">v%1$s માં નવું શું છે</string>
+	<string name="whats_new_message">આ અપડેટમાં નવું શું છે તે GitHub પર જાણો.</string>
+	<string name="whats_new_view_changelog">ફેરફાર નોંધ જુઓ</string>
+	<string name="whats_new_unavailable">કોઈ ઍપ ફેરફાર નોંધ ખોલી શકી નથી. તમે તેને GitHub પર Adaptive Theme ના રિલીઝમાં શોધી શકો છો.</string>
 </resources>

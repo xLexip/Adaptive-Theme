@@ -57,6 +57,10 @@ class FakeUserPreferencesDataSource(
 
 	override suspend fun fetchInitialPreferences(): UserPreferences = current
 
+	override suspend fun updateAcknowledgedWhatsNewRelease(release: String) {
+		state.value = current.copy(acknowledgedWhatsNewRelease = release)
+	}
+
 	override suspend fun ensureAdaptiveThemeThresholdDefault(default: Float) {
 		thresholdDefaultCalls++
 	}
@@ -105,6 +109,10 @@ class FakeUserPreferencesDataSource(
 		state.value = current.copy(wallpaperSyncEnabled = enabled)
 	}
 
+	override suspend fun updateLockScreenWallpaperSyncEnabled(enabled: Boolean) {
+		state.value = current.copy(lockScreenWallpaperSyncEnabled = enabled)
+	}
+
 	override suspend fun updateLockScreenWallpaperBlurEnabled(enabled: Boolean) {
 		state.value = current.copy(lockScreenWallpaperBlurEnabled = enabled)
 	}
@@ -128,6 +136,10 @@ class FakeUserPreferencesDataSource(
 					if (isNewDay) 1 else 0,
 			githubStarPromptLastImpressionEpochDay = epochDay
 		)
+	}
+
+	override suspend fun updateBackgroundGuidanceDismissed(dismissed: Boolean) {
+		state.value = current.copy(backgroundGuidanceDismissed = dismissed)
 	}
 
 	override suspend fun updateGitHubStarPromptDismissed(dismissed: Boolean) {
@@ -213,13 +225,15 @@ class FakeWallpaperPlatform : WallpaperPlatform {
 		isDark: Boolean,
 		dayUriStr: String?,
 		nightUriStr: String?,
-		lockScreenWallpaperBlurEnabled: Boolean
+		lockScreenWallpaperBlurEnabled: Boolean,
+		lockScreenWallpaperSyncEnabled: Boolean
 	): Boolean {
 		appliedRequests += WallpaperApplyRequest(
 			isDark,
 			dayUriStr,
 			nightUriStr,
-			lockScreenWallpaperBlurEnabled
+			lockScreenWallpaperBlurEnabled,
+			lockScreenWallpaperSyncEnabled
 		)
 		return true
 	}
@@ -229,7 +243,8 @@ data class WallpaperApplyRequest(
 	val isDark: Boolean,
 	val dayUri: String?,
 	val nightUri: String?,
-	val lockScreenBlurEnabled: Boolean
+	val lockScreenBlurEnabled: Boolean,
+	val lockScreenSyncEnabled: Boolean
 )
 
 internal class FakeWallpaperImagePreparer : WallpaperImagePreparer {
@@ -293,8 +308,12 @@ class FakeSetupPermissionGrantController : SetupPermissionGrantController {
 	override fun hasShizukuPermission(context: android.content.Context): Boolean =
 		shizukuPermission
 
-	override fun requestShizukuPermission() {
+	var requestFailure: Exception? = null
+
+	override fun requestShizukuPermissionIfNeeded(): Boolean {
 		permissionRequestCalls++
+		requestFailure?.let { throw it }
+		return true
 	}
 
 	override suspend fun grantViaShizuku(

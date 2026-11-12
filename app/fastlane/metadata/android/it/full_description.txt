@@ -3,7 +3,6 @@
 Può anche cambiare lo sfondo per adattarlo al tema attivo.
 
 <b>Funzionalità</b>
-
 <ul>
 <li>Utilizza il sensore fisico di luce ambientale del dispositivo</li>
 <li>Soglia in lux personalizzabile e valori preimpostati per interni, esterni e luce diurna intensa</li>
@@ -13,7 +12,6 @@ Può anche cambiare lo sfondo per adattarlo al tema attivo.
 <li>Riquadro nelle Impostazioni rapide per un controllo immediato</li>
 <li>Interfaccia Material You e oltre 50 lingue</li>
 </ul>
-
 <b>Efficiente per scelta</b>
 
 Il sensore viene letto brevemente dopo l'accensione dello schermo, anziché essere monitorato in modo continuo. Prima di cambiare tema, Adaptive Theme verifica che il sensore non sia coperto da una mano o da una tasca. Il cambio avviene quindi all'accensione dello schermo e non ti interrompe mentre stai usando un'altra app.
@@ -23,14 +21,12 @@ Il sensore viene letto brevemente dopo l'accensione dello schermo, anziché esse
 Normalmente Android non consente alle comuni app di modificare impostazioni di sistema protette come il tema. Adaptive Theme richiede quindi di concedere una sola volta l'autorizzazione <b>WRITE_SECURE_SETTINGS</b>. Questa autorizzazione non fornisce accesso root né consente di leggere dati personali. Adaptive Theme la usa esclusivamente per alternare la modalità chiara e scura del sistema; viene revocata quando disinstalli l'app.
 
 La procedura guidata offre varie opzioni:
-
 <ul>
 <li>WebADB tramite un semplice sito web aperto su un computer o un secondo dispositivo Android, senza installare ADB</li>
 <li>Shizuku e fork compatibili, necessari una sola volta per concedere l'autorizzazione</li>
 <li>Root sui dispositivi supportati</li>
 <li>Un comando ADB manuale: adb shell pm grant dev.lexip.hecate android.permission.WRITE_SECURE_SETTINGS</li>
 </ul>
-
 <b>Altre informazioni</b>
 
 Adaptive Theme richiede Android 14 o versioni successive. Al momento i tablet non sono supportati.

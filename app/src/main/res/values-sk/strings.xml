@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Pri používaní Shizuku sa vyskytla neočakávaná chyba.</string>
 	<string name="title_device_wallpaper_sync">Tapeta</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Meniť zamknutú obrazovku</string>
 	<string name="title_lock_screen_wallpaper_blur">Rozmazať zamknutú obrazovku</string>
-	<string name="description_lock_screen_wallpaper_blur">Použite rozmazanú verziu tapety na zamknutej obrazovke.</string>
 	<string name="description_device_wallpaper_sync">Používajte samostatné tapety pre svetlý a tmavý režim. Prepnutie môže chvíľu trvať a ovplyvniť výkon.</string>
 	<string name="action_select_day_wallpaper">Svetlý režim:</string>
 	<string name="action_select_night_wallpaper">Tmavý režim:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Pridať hviezdičku na GitHube ↗</string>
 	<string name="github_star_prompt_dismiss_description">Skryť navždy</string>
 	<string name="github_star_prompt_thank_you">Ďakujeme!</string>
+	<string name="monitoring_start_failed_title">Monitorovanie sa nepodarilo spustiť</string>
+	<string name="monitoring_start_failed_message">Ťuknutím na Skúsiť znova spustíte monitorovanie na pozadí. Ak sa problém opakuje, skontrolujte obmedzenia aplikácií na pozadí v telefóne.</string>
+	<string name="monitoring_action_retry">Skúsiť znova</string>
+	<string name="background_help_title">Povoliť aktivitu na pozadí</string>
+	<string name="background_help_generic">Monitorovanie na pozadí bolo opakovane prerušené. Postupujte podľa návodu pre svoj telefón na Don’t Kill My App.</string>
+	<string name="background_help_hide">Skryť tip</string>
+	<string name="background_help_open_settings">Otvoriť nastavenia aplikácie</string>
+	<string name="background_help_unavailable">Žiadna aplikácia nemohla otvoriť túto stránku. Môžete skontrolovať systémové nastavenia alebo ručne navštíviť dontkillmyapp.com.</string>
+	<string name="setup_developer_mode_continue_hint">Ak sú obe nastavenia už zapnuté, pokračujte na ďalší krok.</string>
+	<string name="setup_developer_options_title">Možnosti pre vývojárov</string>
+	<string name="setup_usb_debugging_title">Ladenie USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ak možnosti pre vývojárov ešte nie sú zapnuté, nájdite číslo zostavy a 7-krát naň ťuknite.</string>
+	<string name="whats_new_title">Novinky vo verzii v%1$s</string>
+	<string name="whats_new_message">Zistite, čo je v tejto aktualizácii nové, na GitHube.</string>
+	<string name="whats_new_view_changelog">Zobraziť zmeny</string>
+	<string name="whats_new_unavailable">Žiadna aplikácia nedokázala otvoriť zoznam zmien. Nájdete ho vo vydaniach Adaptive Theme na GitHube.</string>
 </resources>

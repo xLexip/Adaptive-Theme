@@ -12,13 +12,21 @@
 
 package dev.lexip.hecate.ui
 
+import android.view.WindowManager
+import android.view.inspector.WindowInspector
+import androidx.activity.ComponentDialog
+import androidx.activity.findViewTreeOnBackPressedDispatcherOwner
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.accessibility.enableAccessibilityChecks
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -26,6 +34,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dev.lexip.hecate.R
 import dev.lexip.hecate.ui.theme.HecateTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -67,6 +76,132 @@ class MainScreenContentTest {
 		composeRule.onNodeWithText(adaptiveThemeAction()).performClick()
 
 		assertEquals(null, toggleRequest)
+	}
+
+	@Test
+	fun whatsNewShowsChangelogInvitationAndCloseRemovesDialog() {
+		val state = mutableStateOf(MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"))
+		var closeCalls = 0
+		composeRule.setContent {
+			HecateTheme {
+				MainScreenContent(
+					uiState = state.value,
+					currentSensorLux = 0f,
+					isDeviceCovered = false,
+					isBatterySaverActive = false,
+					hasWriteSecureSettingsPermission = true,
+					packageName = context.packageName,
+					callbacks = callbacks().copy(onDismissWhatsNew = {
+						closeCalls++
+						state.value = state.value.copy(whatsNewRelease = null)
+					})
+				)
+			}
+		}
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onNodeWithText(title).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_message)).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.action_close)).performClick()
+		assertEquals(1, closeCalls)
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewChangelogButtonCallsHandler() {
+		var openCalls = 0
+		setMainContent(
+			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "3.0"),
+			hasPermission = true,
+			callbacks = callbacks().copy(onOpenWhatsNewChangelog = { openCalls++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "3.0")).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_message)).assertIsDisplayed()
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_view_changelog)).performClick()
+		assertEquals(1, openCalls)
+	}
+
+	@Test
+	fun whatsNewWaitsForOtherDialogs() {
+		setMainContent(
+			uiState = MainUiState(
+				hasSetupCompleted = true,
+				whatsNewRelease = "2.6",
+				showLiveWallpaperWarningDialog = true
+			),
+			hasPermission = true,
+			callbacks = callbacks()
+		)
+		composeRule.onNodeWithText(context.getString(R.string.live_wallpaper_warning_title)).assertIsDisplayed()
+		composeRule.onAllNodesWithText(context.getString(R.string.whats_new_title, "2.6")).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewWaitsUntilSetupPermissionIsAvailable() {
+		setMainContent(
+			uiState = MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"),
+			hasPermission = false,
+			callbacks = callbacks()
+		)
+		composeRule.onAllNodesWithText(context.getString(R.string.whats_new_title, "2.6")).assertCountEquals(0)
+	}
+
+	@Test
+	fun whatsNewPreviewShowsWithoutSetupOrPermissionEvenWithMonitoringError() {
+		setMainContent(
+			uiState = MainUiState(
+				whatsNewRelease = "2.6",
+				isWhatsNewPreview = true,
+				adaptiveThemeEnabled = true
+			),
+			hasPermission = false,
+			serviceStartFailed = true
+		)
+		composeRule.onNodeWithText(context.getString(R.string.whats_new_title, "2.6")).assertIsDisplayed()
+	}
+
+	@Test
+	fun whatsNewBackDismissalCallsCloseHandler() {
+		val state = mutableStateOf(MainUiState(hasSetupCompleted = true, whatsNewRelease = "2.6"))
+		var dismissCalls = 0
+		setMainContent(
+			uiState = { state.value },
+			hasPermission = true,
+			callbacks = callbacks().copy(onDismissWhatsNew = {
+				dismissCalls++
+				state.value = state.value.copy(whatsNewRelease = null)
+			})
+		)
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onNodeWithText(title).assertIsDisplayed()
+		composeRule.runOnIdle {
+			// Exercise the real dialog Back callback without depending on system window focus.
+			val dialogView = WindowInspector.getGlobalWindowViews().single {
+				(it.layoutParams as? WindowManager.LayoutParams)?.type ==
+					WindowManager.LayoutParams.TYPE_APPLICATION
+			}
+			val dialog = dialogView.findViewTreeOnBackPressedDispatcherOwner() as ComponentDialog
+			assertTrue(
+				"Dialog must have an enabled Back callback",
+				dialog.onBackPressedDispatcher.hasEnabledCallbacks()
+			)
+			dialog.onBackPressedDispatcher.onBackPressed()
+		}
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
+		assertEquals(1, dismissCalls)
+	}
+
+	@Test
+	fun whatsNewWaitsForMonitoringErrorUntilMonitoringIsDisabled() {
+		val state = mutableStateOf(MainUiState(
+			hasSetupCompleted = true,
+			adaptiveThemeEnabled = true,
+			whatsNewRelease = "2.6"
+		))
+		setMainContent(uiState = { state.value }, hasPermission = true, serviceStartFailed = true)
+		val title = context.getString(R.string.whats_new_title, "2.6")
+		composeRule.onAllNodesWithText(title).assertCountEquals(0)
+		composeRule.runOnIdle { state.value = state.value.copy(adaptiveThemeEnabled = false) }
+		composeRule.onNodeWithText(title).assertIsDisplayed()
 	}
 
 	@Test
@@ -299,7 +434,7 @@ class MainScreenContentTest {
 	}
 
 	@Test
-	fun lockScreenBlurStaysVisibleWithoutWallpaperSyncAndDispatchesWhenEnabled() {
+	fun lockScreenOptionsAreHiddenUntilWallpaperSyncIsEnabled() {
 		val blurRequests = mutableListOf<Boolean>()
 		val uiState = mutableStateOf(MainUiState(adaptiveThemeEnabled = true))
 		setMainContent(
@@ -308,14 +443,75 @@ class MainScreenContentTest {
 			callbacks = callbacks(onLockScreenBlur = blurRequests::add)
 		)
 		expandAdvancedSettings()
-		scrollToText(context.getString(R.string.title_lock_screen_wallpaper_blur))
-		composeRule.onNodeWithText(context.getString(R.string.title_lock_screen_wallpaper_blur))
-			.assertIsDisplayed()
+		val changeTitle = context.getString(R.string.title_lock_screen_wallpaper_sync)
+		val blurTitle = context.getString(R.string.title_lock_screen_wallpaper_blur)
+		composeRule.onNodeWithText(changeTitle).assertDoesNotExist()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
 		assertEquals(emptyList<Boolean>(), blurRequests)
 
 		uiState.value = uiState.value.copy(wallpaperSyncEnabled = true)
-		clickTextAfterScroll(context.getString(R.string.title_lock_screen_wallpaper_blur))
+		scrollToText(changeTitle)
+		composeRule.onNodeWithText(changeTitle).assertIsDisplayed()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
+		uiState.value = uiState.value.copy(lockScreenWallpaperSyncEnabled = true)
+		clickTextAfterScroll(blurTitle)
 		assertEquals(listOf(true), blurRequests)
+
+		uiState.value = uiState.value.copy(wallpaperSyncEnabled = false)
+		composeRule.onNodeWithText(changeTitle).assertDoesNotExist()
+		composeRule.onNodeWithText(blurTitle).assertDoesNotExist()
+	}
+
+	@Test
+	fun lockScreenSyncDefaultsOffAndDispatchesWithoutTogglingWallpaperSync() {
+		val lockSyncRequests = mutableListOf<Boolean>()
+		val wallpaperRequests = mutableListOf<Boolean>()
+		val uiState = mutableStateOf(MainUiState(adaptiveThemeEnabled = true))
+		setMainContent(
+			uiState = { uiState.value },
+			hasPermission = true,
+			callbacks = callbacks(
+				onWallpaperToggle = wallpaperRequests::add,
+				onLockScreenSync = lockSyncRequests::add
+			)
+		)
+		expandAdvancedSettings()
+		val title = context.getString(R.string.title_lock_screen_wallpaper_sync)
+		composeRule.onNodeWithText(title).assertDoesNotExist()
+
+		uiState.value = uiState.value.copy(wallpaperSyncEnabled = true)
+		scrollToText(title)
+		composeRule.onNodeWithText(title).assertIsOff().assertIsEnabled()
+		clickTextAfterScroll(title)
+		assertEquals(listOf(true), lockSyncRequests)
+		assertEquals(emptyList<Boolean>(), wallpaperRequests)
+	}
+
+	@Test
+	fun excludingLockScreenHidesBlurAndRetainsItsCheckedState() {
+		val blurRequests = mutableListOf<Boolean>()
+		val uiState = mutableStateOf(
+			MainUiState(
+				adaptiveThemeEnabled = true,
+				wallpaperSyncEnabled = true,
+				lockScreenWallpaperSyncEnabled = false,
+				lockScreenWallpaperBlurEnabled = true
+			)
+		)
+		setMainContent(
+			uiState = { uiState.value },
+			hasPermission = true,
+			callbacks = callbacks(onLockScreenBlur = blurRequests::add)
+		)
+		val title = context.getString(R.string.title_lock_screen_wallpaper_blur)
+		composeRule.onNodeWithText(title).assertDoesNotExist()
+		assertEquals(emptyList<Boolean>(), blurRequests)
+
+		uiState.value = uiState.value.copy(lockScreenWallpaperSyncEnabled = true)
+		scrollToText(title)
+		composeRule.onNodeWithText(title).assertIsOn().assertIsEnabled()
+		clickTextAfterScroll(title)
+		assertEquals(listOf(false), blurRequests)
 	}
 
 	@Test
@@ -355,20 +551,97 @@ class MainScreenContentTest {
 		assertEquals(1, dismissCalls)
 	}
 
+	@Test
+	fun monitoringStartupFailureOffersRetryWithoutChangingEnabledPreference() {
+		var retries = 0
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true),
+			hasPermission = true,
+			serviceStartFailed = true,
+			callbacks = callbacks(onRetry = { retries++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.monitoring_start_failed_title))
+			.assertExists()
+		clickTextAfterScroll(context.getString(R.string.monitoring_action_retry))
+		assertEquals(1, retries)
+	}
+
+	@Test
+	fun disabledMonitoringDoesNotShowStaleStartupError() {
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = false),
+			hasPermission = true,
+			serviceStartFailed = true
+		)
+		composeRule.onNodeWithText(context.getString(R.string.monitoring_start_failed_title))
+			.assertDoesNotExist()
+	}
+
+	@Test
+	fun manufacturerHintActionsAndDismissal() {
+		val state = mutableStateOf(MainUiState(
+			adaptiveThemeEnabled = true, hasSetupCompleted = true,
+			hasMonitoringInterruptionEvidence = true
+		))
+		var settingsOpened = 0
+		var guidesOpened = 0
+		var impressions = 0
+		setMainContent(
+			uiState = { state.value },
+			hasPermission = true,
+			backgroundGuidance = BackgroundActivityGuidance.MOTOROLA,
+			callbacks = callbacks(
+				onBackgroundImpression = { impressions++ },
+				onBackgroundSettings = { settingsOpened++ },
+				onBackgroundGuide = { guidesOpened++ },
+				onDismissBackground = { state.value = state.value.copy(backgroundGuidanceDismissed = true) }
+			)
+		)
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertExists()
+		clickTextAfterScroll(context.getString(R.string.background_help_open_settings))
+		clickTextAfterScroll(context.getString(R.string.background_help_website))
+		assertEquals(1, settingsOpened)
+		assertEquals(1, guidesOpened)
+		assertEquals(1, impressions)
+		composeRule.onNodeWithContentDescription(context.getString(R.string.background_help_hide))
+			.performScrollTo().performClick()
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
+		assertEquals(1, impressions)
+	}
+
+	@Test
+	fun supportedDeviceDoesNotShowGuidanceWithoutInterruptionEvidence() {
+		var impressions = 0
+		setMainContent(
+			uiState = MainUiState(adaptiveThemeEnabled = true, hasSetupCompleted = true),
+			hasPermission = true,
+			backgroundGuidance = BackgroundActivityGuidance.XIAOMI,
+			callbacks = callbacks(onBackgroundImpression = { impressions++ })
+		)
+		composeRule.onNodeWithText(context.getString(R.string.background_help_generic)).assertDoesNotExist()
+		assertEquals(0, impressions)
+	}
+
 	private fun setMainContent(
 		uiState: MainUiState,
 		hasPermission: Boolean,
-		callbacks: MainScreenCallbacks = callbacks()
+		callbacks: MainScreenCallbacks = callbacks(),
+		serviceStartFailed: Boolean = false,
+		backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 	) = setMainContent(
 		uiState = { uiState },
 		hasPermission = hasPermission,
-		callbacks = callbacks
+		callbacks = callbacks,
+		serviceStartFailed = serviceStartFailed,
+		backgroundGuidance = backgroundGuidance
 	)
 
 	private fun setMainContent(
 		uiState: () -> MainUiState,
 		hasPermission: Boolean,
-		callbacks: MainScreenCallbacks = callbacks()
+		callbacks: MainScreenCallbacks = callbacks(),
+		serviceStartFailed: Boolean = false,
+		backgroundGuidance: BackgroundActivityGuidance = BackgroundActivityGuidance.OTHER
 	) {
 		composeRule.setContent {
 			HecateTheme {
@@ -379,7 +652,9 @@ class MainScreenContentTest {
 					isBatterySaverActive = false,
 					hasWriteSecureSettingsPermission = hasPermission,
 					packageName = context.packageName,
-					callbacks = callbacks
+					callbacks = callbacks,
+					serviceStartFailed = serviceStartFailed,
+					backgroundGuidance = backgroundGuidance
 				)
 			}
 		}
@@ -389,6 +664,7 @@ class MainScreenContentTest {
 		onToggle: (Boolean, Boolean) -> Boolean = { _, _ -> true },
 		onReview: () -> Unit = {},
 		onWallpaperToggle: (Boolean) -> Unit = {},
+		onLockScreenSync: (Boolean) -> Unit = {},
 		onLockScreenBlur: (Boolean) -> Unit = {},
 		onSelectDay: () -> Unit = {},
 		onSelectNight: () -> Unit = {},
@@ -397,13 +673,19 @@ class MainScreenContentTest {
 		onGitHubImpression: () -> Unit = {},
 		onOpenGitHub: () -> Unit = {},
 		onDismissGitHub: () -> Unit = {},
-		onUndoGitHubDismissal: () -> Unit = {}
+		onUndoGitHubDismissal: () -> Unit = {},
+		onRetry: () -> Unit = {},
+		onBackgroundSettings: () -> Unit = {},
+		onBackgroundGuide: () -> Unit = {},
+		onDismissBackground: () -> Unit = {},
+		onBackgroundImpression: () -> Unit = {}
 	): MainScreenCallbacks = MainScreenCallbacks(
 		onServiceToggleRequested = onToggle,
 		onThresholdSelected = { _, _ -> },
 		onCheckReviewPrompt = onReview,
 		onStayDarkAtNightChanged = {},
 		onWallpaperSyncToggleRequested = onWallpaperToggle,
+		onLockScreenWallpaperSyncChanged = onLockScreenSync,
 		onLockScreenWallpaperBlurChanged = onLockScreenBlur,
 		onSelectDayWallpaper = onSelectDay,
 		onSelectNightWallpaper = onSelectNight,
@@ -414,7 +696,12 @@ class MainScreenContentTest {
 		onGitHubStarPromptImpression = onGitHubImpression,
 		onOpenGitHubRepository = onOpenGitHub,
 		onDismissGitHubStarPrompt = onDismissGitHub,
-		onUndoGitHubStarPromptDismissal = onUndoGitHubDismissal
+		onUndoGitHubStarPromptDismissal = onUndoGitHubDismissal,
+		onRetryMonitoringService = onRetry,
+		onOpenBackgroundSettings = onBackgroundSettings,
+		onOpenBackgroundGuide = onBackgroundGuide,
+		onDismissBackgroundGuidance = onDismissBackground,
+		onBackgroundGuidanceImpression = onBackgroundImpression
 	)
 
 	private fun adaptiveThemeAction(): String = context.getString(

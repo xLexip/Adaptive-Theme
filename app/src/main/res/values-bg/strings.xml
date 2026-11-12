@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Възникна неочаквана грешка при използване на Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Тапет</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Променяй заключения екран</string>
 	<string name="title_lock_screen_wallpaper_blur">Замъгляване на заключения екран</string>
-	<string name="description_lock_screen_wallpaper_blur">Използвайте замъглена версия на тапета на заключения екран.</string>
 	<string name="description_device_wallpaper_sync">Използвайте отделни тапети за светъл и тъмен режим. Превключването може да отнеме момент и да повлияе на производителността.</string>
 	<string name="action_select_day_wallpaper">Светъл режим:</string>
 	<string name="action_select_night_wallpaper">Тъмен режим:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Добавяне на звезда в GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Скриване завинаги</string>
 	<string name="github_star_prompt_thank_you">Благодарим!</string>
+	<string name="monitoring_start_failed_title">Наблюдението не можа да стартира</string>
+	<string name="monitoring_start_failed_message">Докоснете „Опитай отново“, за да стартирате наблюдението във фонов режим. Ако проблемът продължава, проверете ограниченията за фонови приложения на телефона.</string>
+	<string name="monitoring_action_retry">Опитай отново</string>
+	<string name="background_help_title">Разрешаване на фонова активност</string>
+	<string name="background_help_generic">Наблюдението във фонов режим е прекъсвано многократно. Следвайте ръководството за вашия телефон в Don’t Kill My App.</string>
+	<string name="background_help_hide">Скриване на съвета</string>
+	<string name="background_help_open_settings">Отваряне на настройките на приложението</string>
+	<string name="background_help_unavailable">Нито едно приложение не можа да отвори тази страница. Можете да проверите системните настройки или да посетите dontkillmyapp.com ръчно.</string>
+	<string name="setup_developer_mode_continue_hint">Ако и двете настройки вече са включени, продължете към следващата стъпка.</string>
+	<string name="setup_developer_options_title">Опции за програмисти</string>
+	<string name="setup_usb_debugging_title">Отстраняване на грешки през USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">Ако опциите за програмисти още не са включени, намерете номера на компилацията и го докоснете 7 пъти.</string>
+	<string name="whats_new_title">Ново във версия v%1$s</string>
+	<string name="whats_new_message">Научете какво е новото в тази актуализация в GitHub.</string>
+	<string name="whats_new_view_changelog">Вижте промените</string>
+	<string name="whats_new_unavailable">Няма приложение, което да отвори списъка с промени. Можете да го намерите в изданията на Adaptive Theme в GitHub.</string>
 </resources>

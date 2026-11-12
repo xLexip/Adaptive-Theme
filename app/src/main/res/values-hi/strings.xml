@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Shizuku का इस्तेमाल करते समय कोई अनचाही गड़बड़ी हुई।</string>
 	<string name="title_device_wallpaper_sync">वॉलपेपर</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">लॉक स्क्रीन बदलें</string>
 	<string name="title_lock_screen_wallpaper_blur">लॉक स्क्रीन धुंधली करें</string>
-	<string name="description_lock_screen_wallpaper_blur">लॉक स्क्रीन पर वॉलपेपर के धुंधले संस्करण का उपयोग करें।</string>
 	<string name="description_device_wallpaper_sync">लाइट और डार्क मोड के लिए अलग-अलग वॉलपेपर इस्तेमाल करें। बदलने में कुछ समय लग सकता है और परफ़ॉर्मेंस प्रभावित हो सकती है।</string>
 	<string name="action_select_day_wallpaper">लाइट मोड:</string>
 	<string name="action_select_night_wallpaper">डार्क मोड:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">GitHub पर स्टार दें ↗</string>
 	<string name="github_star_prompt_dismiss_description">हमेशा के लिए छिपाएँ</string>
 	<string name="github_star_prompt_thank_you">धन्यवाद!</string>
+	<string name="monitoring_start_failed_title">निगरानी शुरू नहीं हो सकी</string>
+	<string name="monitoring_start_failed_message">बैकग्राउंड में निगरानी शुरू करने के लिए फिर से कोशिश करें पर टैप करें। अगर समस्या बनी रहे, तो फ़ोन में बैकग्राउंड ऐप्लिकेशन पर लगी पाबंदियाँ जाँचें।</string>
+	<string name="monitoring_action_retry">फिर से कोशिश करें</string>
+	<string name="background_help_title">बैकग्राउंड गतिविधि की अनुमति दें</string>
+	<string name="background_help_generic">बैकग्राउंड में निगरानी बार-बार बाधित हुई है। Don’t Kill My App पर अपने फ़ोन की गाइड का पालन करें।</string>
+	<string name="background_help_hide">सुझाव छिपाएँ</string>
+	<string name="background_help_open_settings">ऐप्लिकेशन की सेटिंग खोलें</string>
+	<string name="background_help_unavailable">कोई ऐप्लिकेशन यह पेज नहीं खोल सका। आप सिस्टम सेटिंग जाँच सकते हैं या खुद dontkillmyapp.com पर जा सकते हैं।</string>
+	<string name="setup_developer_mode_continue_hint">अगर दोनों सेटिंग पहले से चालू हैं, तो अगले चरण पर जाएँ।</string>
+	<string name="setup_developer_options_title">डेवलपर विकल्प</string>
+	<string name="setup_usb_debugging_title">USB डीबगिंग</string>
+	<string name="setup_dev_options_unconfirmed_toast">अगर डेवलपर विकल्प अभी चालू नहीं हैं, तो बिल्ड नंबर ढूँढें और उस पर 7 बार टैप करें।</string>
+	<string name="whats_new_title">v%1$s में नया क्या है</string>
+	<string name="whats_new_message">GitHub पर जानें कि इस अपडेट में नया क्या है।</string>
+	<string name="whats_new_view_changelog">बदलाव सूची देखें</string>
+	<string name="whats_new_unavailable">कोई ऐप बदलाव सूची नहीं खोल सका। आप इसे GitHub पर Adaptive Theme की रिलीज़ में देख सकते हैं।</string>
 </resources>

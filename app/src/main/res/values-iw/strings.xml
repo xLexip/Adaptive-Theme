@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">אירעה שגיאה לא צפויה במהלך השימוש ב-Shizuku.</string>
 	<string name="title_device_wallpaper_sync">טפט</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">שנה את מסך הנעילה</string>
 	<string name="title_lock_screen_wallpaper_blur">טשטש את מסך הנעילה</string>
-	<string name="description_lock_screen_wallpaper_blur">השתמש בגרסה מטושטשת של הטפט במסך הנעילה.</string>
 	<string name="description_device_wallpaper_sync">יש להשתמש בטפטים נפרדים למצב בהיר ולמצב כהה. ההחלפה עשויה להימשך רגע ולהשפיע על הביצועים.</string>
 	<string name="action_select_day_wallpaper">מצב בהיר:</string>
 	<string name="action_select_night_wallpaper">מצב כהה:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">הוספת כוכב ב-GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">הסתרה לצמיתות</string>
 	<string name="github_star_prompt_thank_you">תודה!</string>
+	<string name="monitoring_start_failed_title">לא ניתן היה להתחיל את הניטור</string>
+	<string name="monitoring_start_failed_message">יש להקיש על ניסיון חוזר כדי להתחיל ניטור ברקע. אם הבעיה נמשכת, יש לבדוק את ההגבלות על אפליקציות ברקע בטלפון.</string>
+	<string name="monitoring_action_retry">ניסיון חוזר</string>
+	<string name="background_help_title">אישור פעילות ברקע</string>
+	<string name="background_help_generic">הניטור ברקע הופסק מספר פעמים. יש לפעול לפי המדריך לטלפון שלכם ב-Don’t Kill My App.</string>
+	<string name="background_help_hide">הסתרת הטיפ</string>
+	<string name="background_help_open_settings">פתיחת הגדרות האפליקציה</string>
+	<string name="background_help_unavailable">אף אפליקציה לא הצליחה לפתוח את הדף הזה. אפשר לבדוק את הגדרות המערכת או לבקר ב-dontkillmyapp.com באופן ידני.</string>
+	<string name="setup_developer_mode_continue_hint">אם שתי ההגדרות כבר מופעלות, אפשר להמשיך לשלב הבא.</string>
+	<string name="setup_developer_options_title">אפשרויות למפתחים</string>
+	<string name="setup_usb_debugging_title">ניפוי באגים ב-USB</string>
+	<string name="setup_dev_options_unconfirmed_toast">אם אפשרויות למפתחים עדיין לא מופעלות, יש למצוא את מספר ה-Build ולהקיש עליו 7 פעמים.</string>
+	<string name="whats_new_title">מה חדש בגרסה v%1$s</string>
+	<string name="whats_new_message">אפשר לגלות מה חדש בעדכון הזה ב־GitHub.</string>
+	<string name="whats_new_view_changelog">הצגת יומן השינויים</string>
+	<string name="whats_new_unavailable">אף אפליקציה לא הצליחה לפתוח את יומן השינויים. אפשר למצוא אותו במהדורות של Adaptive Theme ב־GitHub.</string>
 </resources>

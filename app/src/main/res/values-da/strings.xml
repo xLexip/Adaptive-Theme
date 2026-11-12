@@ -95,8 +95,8 @@
 	<string name="shizuku_grant_unexpected">Der opstod en uventet fejl under brug af Shizuku.</string>
 	<string name="title_device_wallpaper_sync">Baggrund</string>
 	<string name="label_beta">Beta</string>
+	<string name="title_lock_screen_wallpaper_sync">Skift låseskærm</string>
 	<string name="title_lock_screen_wallpaper_blur">Slør låseskærmen</string>
-	<string name="description_lock_screen_wallpaper_blur">Brug en sløret version af baggrundsbilledet på låseskærmen.</string>
 	<string name="description_device_wallpaper_sync">Brug separate baggrunde til lys og mørk tilstand. Skiftet kan tage et øjeblik og påvirke ydeevnen.</string>
 	<string name="action_select_day_wallpaper">Lys tilstand:</string>
 	<string name="action_select_night_wallpaper">Mørk tilstand:</string>
@@ -108,4 +108,20 @@
 	<string name="github_star_prompt_action">Giv en stjerne på GitHub ↗</string>
 	<string name="github_star_prompt_dismiss_description">Skjul permanent</string>
 	<string name="github_star_prompt_thank_you">Tak!</string>
+	<string name="monitoring_start_failed_title">Overvågning kunne ikke starte</string>
+	<string name="monitoring_start_failed_message">Tryk på Prøv igen for at starte overvågning i baggrunden. Hvis problemet fortsætter, skal du kontrollere telefonens begrænsninger for apps i baggrunden.</string>
+	<string name="monitoring_action_retry">Prøv igen</string>
+	<string name="background_help_title">Tillad baggrundsaktivitet</string>
+	<string name="background_help_generic">Overvågningen i baggrunden er blevet afbrudt flere gange. Følg vejledningen til din telefon på Don’t Kill My App.</string>
+	<string name="background_help_hide">Skjul tip</string>
+	<string name="background_help_open_settings">Åbn appindstillinger</string>
+	<string name="background_help_unavailable">Ingen app kunne åbne denne side. Du kan kontrollere systemindstillingerne eller besøge dontkillmyapp.com manuelt.</string>
+	<string name="setup_developer_mode_continue_hint">Hvis begge indstillinger allerede er slået til, skal du fortsætte til næste trin.</string>
+	<string name="setup_developer_options_title">Udviklerindstillinger</string>
+	<string name="setup_usb_debugging_title">USB-fejlretning</string>
+	<string name="setup_dev_options_unconfirmed_toast">Hvis udviklerindstillinger ikke er slået til endnu, skal du finde buildnummeret og trykke på det 7 gange.</string>
+	<string name="whats_new_title">Nyt i v%1$s</string>
+	<string name="whats_new_message">Se, hvad der er nyt i denne opdatering, på GitHub.</string>
+	<string name="whats_new_view_changelog">Se ændringsloggen</string>
+	<string name="whats_new_unavailable">Ingen app kunne åbne ændringsloggen. Du kan finde den under Adaptive Themes udgivelser på GitHub.</string>
 </resources>

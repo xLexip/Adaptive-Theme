@@ -15,6 +15,9 @@ package dev.lexip.hecate.services
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import dev.lexip.hecate.logging.Logger
+import dev.lexip.hecate.logging.MonitoringDiagnostics
+import dev.lexip.hecate.util.MonitoringInterruptionTracker
 
 interface AdaptiveThemeServiceController {
 	fun start(
@@ -36,10 +39,23 @@ class AndroidAdaptiveThemeServiceController(
 		if (evaluateImmediately) {
 			intent.putExtra(EXTRA_EVALUATE_IMMEDIATELY, true)
 		}
-		ContextCompat.startForegroundService(context, intent)
+		try {
+			ContextCompat.startForegroundService(context, intent)
+			MonitoringDiagnostics.record(context, "start_request", "accepted")
+		} catch (cause: Exception) {
+			MonitoringServiceStatus.failed()
+			MonitoringDiagnostics.record(
+				context, "start_request", "failed", failure = true,
+				detail = cause.javaClass.simpleName
+			)
+			Logger.logException(cause)
+			throw cause
+		}
 	}
 
 	override fun stop() {
+		MonitoringInterruptionTracker.create(context).markMonitoringStopped()
 		context.stopService(Intent(context, BroadcastReceiverService::class.java))
+		MonitoringServiceStatus.ready()
 	}
 }
