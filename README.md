@@ -5,7 +5,7 @@
 [![Latest Version](https://img.shields.io/github/v/release/xLexip/Adaptive-Theme?style=flat&logo=github&label=Release)](https://github.com/xLexip/Adaptive-Theme/releases)
 [![Stars](https://img.shields.io/github/stars/xLexip/Adaptive-Theme?style=flat&logo=github&label=Stars)]()
 <a href="https://play.google.com/store/apps/details?id=dev.lexip.hecate">
-<img src="https://img.shields.io/badge/Downloads-20,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 20,000+">
+<img src="https://img.shields.io/badge/Downloads-25,000+-brightgreen?logo=google-play&logoColor=white" alt="Play Store Download Count 25,000+">
 </a>
 <br>
 <a href="https://www.youtube.com/watch?v=8zCZFw_wx-Y">
